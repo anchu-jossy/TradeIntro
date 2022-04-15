@@ -1,7 +1,8 @@
-package com.techxform.tradintro
+package com.techxform.tradintro.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.techxform.tradintro.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
