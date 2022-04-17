@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TradIntro</string>
+    <string name="title_activity_splash_screen">TradIntro</string>
+
+
+    <!--Utility Texts-->
+    <string name="splash_background">Splash Background</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
 </resources>
