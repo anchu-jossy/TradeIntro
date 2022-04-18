@@ -5,7 +5,8 @@
       <map>
         <entry key="..\:/Android/Techxform/TRADINTRO/app/src/main/res/layout/activity_main.xml" value="0.18518518518518517" />
         <entry key="..\:/Android/Techxform/TRADINTRO/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
-        <entry key="..\:/Android/Techxform/TRADINTRO/app/src/main/res/layout/login_fragment.xml" value="0.31302083333333336" />
+        <entry key="..\:/Android/Techxform/TRADINTRO/app/src/main/res/layout/home_fragment.xml" value="0.40804597701149425" />
+        <entry key="..\:/Android/Techxform/TRADINTRO/app/src/main/res/layout/login_fragment.xml" value="0.22" />
       </map>
     </option>
   </component>

@@ -5,6 +5,12 @@
 
     <!--Utility Texts-->
     <string name="splash_background">Splash Background</string>
+
+    <!--Texts-->
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
+    <string name="hint_sign_in">SIGN IN</string>
+    <string name="hint_forgot_password">Forgot Password?</string>
+    <string name="hint_don_t_have_an_account">Don\'t have an account?</string>
+    <string name="hint_sign_up">Sign Up</string>
 </resources>

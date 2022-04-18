@@ -15,8 +15,8 @@
         android:contentDescription="@string/splash_background" />
 
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="@dimen/_60sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,10 +26,11 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/_140sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/trans_logo_half"
+        android:layout_marginBottom="@dimen/_minus1sdp"
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

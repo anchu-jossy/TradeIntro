@@ -61,6 +61,10 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
+    //SDP
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
     //SplashScreen
     implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
