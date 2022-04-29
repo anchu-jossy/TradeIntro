@@ -13,4 +13,14 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+
+
+    <style name="Theme.TradIntro.TextLabel" parent="Theme.TradIntro">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/_14ssp</item>
+
+    </style>
+
 </resources>
+
+

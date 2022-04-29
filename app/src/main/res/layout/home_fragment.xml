@@ -7,22 +7,36 @@
     android:padding="@dimen/_16sdp"
     tools:context=".feature_main.presentation.home.HomeFragment">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/_285sdp"
-        android:layout_height="@dimen/_120sdp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/home_card_bg"
-            android:contentDescription="@string/app_name" />
+            android:background="@drawable/home_card_bg">
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/portfolioLbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_14ssp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:text="@string/portfolio_list_lbl"
+        app:layout_constraintTop_toBottomOf="@+id/cardContainer" />
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

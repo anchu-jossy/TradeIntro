@@ -6,7 +6,7 @@ import android.os.Looper
 import android.view.*
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.techxform.tradintro.R
-import com.techxform.tradintro.base.BaseFragment
+import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.FragmentSplashBinding
 
 

@@ -1,4 +1,4 @@
-package com.techxform.tradintro.base
+package com.techxform.tradintro.core.base
 
 import androidx.fragment.app.Fragment
 

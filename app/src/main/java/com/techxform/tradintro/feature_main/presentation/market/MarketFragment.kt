@@ -2,12 +2,11 @@ package com.techxform.tradintro.feature_main.presentation.market
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.techxform.tradintro.R
-import com.techxform.tradintro.base.BaseFragment
+import com.techxform.tradintro.core.base.BaseFragment
 
 class MarketFragment : BaseFragment() {
 

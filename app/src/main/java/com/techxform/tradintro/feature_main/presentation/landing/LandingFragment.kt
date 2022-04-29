@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.techxform.tradintro.R
-import com.techxform.tradintro.base.BaseFragment
+import com.techxform.tradintro.core.base.BaseFragment
 
 
 class LandingFragment : BaseFragment() {

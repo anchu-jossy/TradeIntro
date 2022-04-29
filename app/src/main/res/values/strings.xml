@@ -17,17 +17,17 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    
-    
-    
-    
-<!--    Nav-->
-<!--    <string name="dot">\u2022</string>-->
+
+
+    <!--    Nav-->
+    <!--    <string name="dot">\u2022</string>-->
     <string name="dot">\u25CF</string>
     <string name="nav_home">Home</string>
     <string name="nav_market">Market</string>
     <string name="nav_watchlist">Watchlist</string>
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_trade">Trade</string>
+    
+    <string name="portfolio_list_lbl">Portfolio List</string>
 
 </resources>
