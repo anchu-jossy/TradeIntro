@@ -1,4 +1,4 @@
-package com.techxform.tradintro.feature_main.presentation.home
+package com.techxform.tradintro.feature_main.presentation.market
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -9,24 +9,24 @@ import android.view.ViewGroup
 import com.techxform.tradintro.R
 import com.techxform.tradintro.base.BaseFragment
 
-class HomeFragment : BaseFragment() {
+class MarketFragment : BaseFragment() {
 
     companion object {
-        fun newInstance() = HomeFragment()
+        fun newInstance() = MarketFragment()
     }
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: MarketViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+        return inflater.inflate(R.layout.market_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MarketViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

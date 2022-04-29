@@ -13,4 +13,21 @@
     <string name="hint_forgot_password">Forgot Password?</string>
     <string name="hint_don_t_have_an_account">Don\'t have an account?</string>
     <string name="hint_sign_up">Sign Up</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    
+    
+    
+<!--    Nav-->
+<!--    <string name="dot">\u2022</string>-->
+    <string name="dot">\u25CF</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_market">Market</string>
+    <string name="nav_watchlist">Watchlist</string>
+    <string name="nav_portfolio">Portfolio</string>
+    <string name="nav_trade">Trade</string>
+
 </resources>

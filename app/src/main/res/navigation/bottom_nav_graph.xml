@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/nav_home">
+
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.techxform.tradintro.feature_main.presentation.home.HomeFragment"
+        android:label="@string/nav_home"
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_market"
+            app:destination="@id/nav_market" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_watchlist"
+            app:destination="@id/nav_watchlist" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_portfolio"
+            app:destination="@id/nav_portfolio" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_trade"
+            app:destination="@id/nav_trade" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/nav_market"
+        android:name="com.techxform.tradintro.feature_main.presentation.market.MarketFragment"
+        android:label="@string/nav_market"
+        tools:layout="@layout/market_fragment" />
+    <fragment
+        android:id="@+id/nav_watchlist"
+        android:name="com.techxform.tradintro.feature_main.presentation.watchlist.WatchlistFragment"
+        android:label="@string/nav_watchlist"
+        tools:layout="@layout/watchlist_fragment" />
+    <fragment
+        android:id="@+id/nav_portfolio"
+        android:name="com.techxform.tradintro.feature_main.presentation.portfolio.PortfolioFragment"
+        android:label="@string/nav_portfolio"
+        tools:layout="@layout/portfolio_fragment" />
+    <fragment
+        android:id="@+id/nav_trade"
+        android:name="com.techxform.tradintro.feature_main.presentation.trade.TradeFragment"
+        android:label="@string/nav_trade"
+        tools:layout="@layout/trade_fragment" />
+
+
+</navigation>

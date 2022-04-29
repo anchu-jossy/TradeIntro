@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="purple_500">#9C27B0</color>
+    <color name="purple_700">#631271</color>
+    <color name="teal_200">#673AB7</color>
+    <color name="teal_700">#5419BC</color>
+    <color name="black_overlay">#E1000000</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
@@ -12,5 +18,10 @@
 
     <color name="light_gray">#A8A8A8</color>
     <color name="dark_gray">#747474</color>
+
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
 
 </resources>
