@@ -1,13 +1,9 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
-import android.R.attr.searchIcon
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment

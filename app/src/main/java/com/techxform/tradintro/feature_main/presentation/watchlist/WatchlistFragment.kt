@@ -1,14 +1,10 @@
 package com.techxform.tradintro.feature_main.presentation.watchlist
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.techxform.tradintro.R
+import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WatchlistFragmentBinding
-import com.techxform.tradintro.feature_main.presentation.market.MarketListAdapter
 
 class WatchlistFragment :
     BaseFragment<WatchlistFragmentBinding>(WatchlistFragmentBinding::inflate) {
