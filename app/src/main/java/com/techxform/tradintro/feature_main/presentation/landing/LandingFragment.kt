@@ -1,9 +1,11 @@
 package com.techxform.tradintro.feature_main.presentation.landing
 
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.techxform.tradintro.R
@@ -43,6 +45,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             it.isChecked = true
             return@setOnItemSelectedListener true
         }
+        manageBottomNavVisiblity()
     }
 
 
@@ -54,5 +57,33 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
                 }
             }
+    }
+
+    private fun manageBottomNavVisiblity()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            view?.setWindowInsetsAnimationCallback(object : WindowInsetsAnimation.Callback(DISPATCH_MODE_STOP) {
+                override fun onProgress(
+                    p0: WindowInsets,
+                    p1: MutableList<WindowInsetsAnimation>
+                ): WindowInsets {
+                    return  p0
+                }
+
+                override fun onEnd(animation: WindowInsetsAnimation) {
+                    super.onEnd(animation)
+                    val showingKeyboard = view!!.rootWindowInsets.isVisible(WindowInsets.Type.ime())
+                    // now use the boolean for something
+                    bottomNav.isVisible = !showingKeyboard
+                }
+            })
+        }else {
+            val view = requireActivity().window.decorView
+            ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+                val showingKeyboard = insets.isVisible(WindowInsetsCompat.Type.ime())
+                bottomNav.isVisible = !showingKeyboard
+                insets
+            }
+        }
     }
 }

@@ -28,7 +28,11 @@
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_trade">Trade</string>
     
+    <string name="my_portfolio_lbl">My Portfolio</string>
     <string name="portfolio_list_lbl">Portfolio List</string>
+    <string name="holding_value_lbl">Holding Value</string>
+    <string name="trade_money_balance_lbl">Trade Money Balance</string>
+    <string name="total_investment_lbl">Total Investment</string>
 
 <!--    Market list Screen-->
     <string name="markets">Markets</string>
