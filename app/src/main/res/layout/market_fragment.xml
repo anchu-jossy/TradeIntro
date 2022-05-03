@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/_16sdp"
     android:orientation="vertical">
 
@@ -38,9 +39,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_baseline_filter_list_24"
-            android:gravity="left"
-            android:text="@string/filter" />
+            android:gravity="start"
+            android:textSize="@dimen/_10ssp"
+            android:textColor="@color/medium_gray"
+            android:text="@string/filter"
+            app:drawableStartCompat="@drawable/ic_baseline_filter_list_24" />
 
         <Spinner
             android:id="@+id/catagory_spinner"
@@ -54,9 +57,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="@dimen/_2sdp"
-            android:drawableEnd="@drawable/ic_baseline_filter_list_24"
             android:gravity="end"
-            android:text="@string/sort_by" />
+            android:textSize="@dimen/_10ssp"
+            android:textColor="@color/medium_gray"
+            android:text="@string/sort_by"
+            app:drawableEndCompat="@drawable/ic_sort" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -71,10 +76,14 @@
             android:layout_height="0dp"
             android:orientation="vertical">
 
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/marketListRv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_item" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

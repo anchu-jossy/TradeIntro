@@ -1,13 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature_main.presentation.watchlist.WatchlistFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/_16sdp"
+    android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_watchlist" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/_3sdp"
+        android:weightSum="2">
+
+       <EditText
+           android:layout_width="0dp"
+           android:layout_weight="1.5"
+           android:gravity="start"
+           android:singleLine="true"
+           android:hint="@string/add"
+           android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:gravity="center_horizontal"
+            android:background="@drawable/editext_frame"
+            android:text="@string/watchlist"
+            android:textColor="@color/medium_gray"
+            android:textSize="@dimen/_10ssp" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:overScrollMode="never">
 
-</FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/watchListRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_item" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

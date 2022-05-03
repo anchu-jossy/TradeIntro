@@ -74,14 +74,14 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                     super.onEnd(animation)
                     val showingKeyboard = view!!.rootWindowInsets.isVisible(WindowInsets.Type.ime())
                     // now use the boolean for something
-                    bottomNav.isVisible = !showingKeyboard
+                    binding.bottomNav.isVisible = !showingKeyboard
                 }
             })
         }else {
             val view = requireActivity().window.decorView
             ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
                 val showingKeyboard = insets.isVisible(WindowInsetsCompat.Type.ime())
-                bottomNav.isVisible = !showingKeyboard
+                binding. bottomNav.isVisible = !showingKeyboard
                 insets
             }
         }

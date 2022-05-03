@@ -40,11 +40,17 @@
     <string name="catagories">Categories</string>
     <string name="sort_by">sort by</string>
     <string name="search">Search</string>
+    <string name="add">Add</string>
 
     <string-array name="marketList">
-        <item>Select One</item>
+        <item>catagories</item>
         <item>Item One</item>
         <item>Item Two</item>
         <item>Item Three</item>
     </string-array>
+
+    <!--    Watch list Screen-->
+    <string name="watchlist" translatable="false">+ watchlist</string>
+
+
 </resources>

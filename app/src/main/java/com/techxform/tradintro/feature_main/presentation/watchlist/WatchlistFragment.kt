@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WatchlistFragmentBinding
+import com.techxform.tradintro.feature_main.presentation.market.MarketListAdapter
 
 class WatchlistFragment :
     BaseFragment<WatchlistFragmentBinding>(WatchlistFragmentBinding::inflate) {
@@ -25,4 +26,9 @@ class WatchlistFragment :
         // TODO: Use the ViewModel
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.watchListRv.adapter = WatchListAdapter(arrayListOf())
+
+    }
 }
