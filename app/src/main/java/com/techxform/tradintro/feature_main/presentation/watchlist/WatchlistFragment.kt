@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.databinding.WatchlistFragmentBinding
 
-class WatchlistFragment : BaseFragment() {
+class WatchlistFragment :
+    BaseFragment<WatchlistFragmentBinding>(WatchlistFragmentBinding::inflate) {
 
     companion object {
         fun newInstance() = WatchlistFragment()
@@ -16,12 +18,6 @@ class WatchlistFragment : BaseFragment() {
 
     private lateinit var viewModel: WatchlistViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.watchlist_fragment, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

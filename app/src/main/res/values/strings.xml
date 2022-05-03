@@ -30,4 +30,17 @@
     
     <string name="portfolio_list_lbl">Portfolio List</string>
 
+<!--    Market list Screen-->
+    <string name="markets">Markets</string>
+    <string name="filter">Filter</string>
+    <string name="catagories">Categories</string>
+    <string name="sort_by">sort by</string>
+    <string name="search">Search</string>
+
+    <string-array name="marketList">
+        <item>Select One</item>
+        <item>Item One</item>
+        <item>Item Two</item>
+        <item>Item Three</item>
+    </string-array>
 </resources>

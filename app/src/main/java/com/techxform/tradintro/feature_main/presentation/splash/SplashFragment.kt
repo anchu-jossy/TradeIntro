@@ -10,27 +10,10 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.FragmentSplashBinding
 
 
-class SplashFragment : BaseFragment() {
-
-    private var _binding: FragmentSplashBinding? = null
-
-    private val binding get() = _binding!!
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        _binding = FragmentSplashBinding.inflate(inflater, container, false)
-        return binding.root
-
-    }
+class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         Handler(Looper.getMainLooper()).postDelayed({
             findNavController(this).navigate(R.id.action_splashFragment_to_landingFragment)
 
@@ -43,8 +26,5 @@ class SplashFragment : BaseFragment() {
         private const val UI_ANIMATION_DELAY = 2000
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 }

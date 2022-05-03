@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.databinding.PortfolioFragmentBinding
 
-class PortfolioFragment : BaseFragment() {
+class PortfolioFragment : BaseFragment<PortfolioFragmentBinding>(PortfolioFragmentBinding::inflate) {
 
     companion object {
         fun newInstance() = PortfolioFragment()
@@ -20,7 +21,7 @@ class PortfolioFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.portfolio_fragment, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

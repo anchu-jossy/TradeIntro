@@ -6,49 +6,45 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.databinding.FragmentLandingBinding
 
 
-class LandingFragment : BaseFragment() {
+class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_landing, container, false)
-
-        val bottomNav = v.findViewById<BottomNavigationView>(R.id.bottom_nav)
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val navHostFragment =
             childFragmentManager.findFragmentById(R.id.container_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        bottomNav.setupWithNavController(navController)
-
-
-        bottomNav.setOnItemSelectedListener {
-            when(it.itemId)
-            {
-                R.id.nav_home -> { navController.navigate(R.id.nav_home) }
-                R.id.nav_market -> { navController.navigate(R.id.nav_market)}
-                R.id.nav_portfolio -> { navController.navigate(R.id.nav_portfolio)}
-                R.id.nav_watchlist -> { navController.navigate(R.id.nav_watchlist)}
-                R.id.nav_trade -> { navController.navigate(R.id.nav_trade)}
-                else -> { navController.navigate(R.id.nav_home) }
+        binding.bottomNav.setupWithNavController(navController)
+        binding.bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    navController.navigate(R.id.nav_home)
+                }
+                R.id.nav_market -> {
+                    navController.navigate(R.id.nav_market)
+                }
+                R.id.nav_portfolio -> {
+                    navController.navigate(R.id.nav_portfolio)
+                }
+                R.id.nav_watchlist -> {
+                    navController.navigate(R.id.nav_watchlist)
+                }
+                R.id.nav_trade -> {
+                    navController.navigate(R.id.nav_trade)
+                }
+                else -> {
+                    navController.navigate(R.id.nav_home)
+                }
             }
             it.isChecked = true
             return@setOnItemSelectedListener true
         }
-
-        return v
     }
+
 
     companion object {
         @JvmStatic
