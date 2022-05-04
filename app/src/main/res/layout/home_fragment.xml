@@ -13,7 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/_16sdp">
+        android:paddingTop="@dimen/_16sdp"
+        android:paddingHorizontal="@dimen/_16sdp">
 
         <include layout="@layout/portfolio_card_view"/>
 
@@ -175,10 +176,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/portfolioRv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/_16sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/searchView"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/row_item" />
 
 

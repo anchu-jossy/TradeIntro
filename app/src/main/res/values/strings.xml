@@ -47,6 +47,7 @@
     <string name="add_stock_lbl">Add Stock</string>
     <string name="exchange_lbl">Exchange: </string>
     <string name="stock_name_lbl">Stock Name </string>
+    <string name="watchlist_price_lbl">Watchlist Price</string>
 
 <!--    Market list Screen-->
     <string name="markets">Markets</string>
