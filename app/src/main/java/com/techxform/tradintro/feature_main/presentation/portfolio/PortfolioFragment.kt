@@ -16,12 +16,7 @@ class PortfolioFragment : BaseFragment<PortfolioFragmentBinding>(PortfolioFragme
 
     private lateinit var viewModel: PortfolioViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return binding.root
-    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.annotation.ColorInt
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.Entry
@@ -22,6 +23,9 @@ class MarketListAdapter(var list: ArrayList<String>, private val listener:onItem
     {
         fun binding()
         {
+            if(adapterPosition %2 == 0 ) {
+                drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(), rowItemBinding)
+            }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(), rowItemBinding)
 
          val cardView=   itemView.findViewById<CardView>(R.id.cardContainer)
             cardView.setOnClickListener {
@@ -47,6 +51,19 @@ class MarketListAdapter(var list: ArrayList<String>, private val listener:onItem
     override fun getItemCount(): Int {
        // return list.size
         return 10
+    }
+
+
+    private fun createData():ArrayList<Entry>
+    {
+        val arrayList = arrayListOf<Entry>()
+        arrayList.add(Entry(1F, 20.45F))
+        arrayList.add(Entry(2F, 40.45F))
+        arrayList.add(Entry(3F, 10.45F))
+        arrayList.add(Entry(4F, 60.45F))
+        arrayList.add(Entry(5F, 20.45F))
+        arrayList.add(Entry(6F, 100.45F))
+        return arrayList
     }
 
     private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemBinding) {

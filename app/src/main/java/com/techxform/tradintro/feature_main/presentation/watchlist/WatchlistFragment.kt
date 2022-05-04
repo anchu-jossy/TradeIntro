@@ -3,6 +3,8 @@ package com.techxform.tradintro.feature_main.presentation.watchlist
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WatchlistFragmentBinding
 
@@ -24,7 +26,14 @@ class WatchlistFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.watchListRv.adapter = WatchListAdapter(arrayListOf())
+        binding.watchListRv.adapter = WatchListAdapter(arrayListOf(),listener)
+
+    }
+
+    private val listener = object:WatchListAdapter.ClickListener{
+        override fun onClick(position: Int) {
+            findNavController().navigate(R.id.action_nav_watchlist_to_watchlistViewFragment)
+        }
 
     }
 }

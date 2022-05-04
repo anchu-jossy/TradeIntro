@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature_main.presentation.watchlistview.WatchlistViewFragment">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_16sdp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back_action" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/backTv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:text="@string/back_lbl"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/backIv"
+            app:layout_constraintStart_toEndOf="@+id/backIv"
+            app:layout_constraintTop_toTopOf="@+id/backIv" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/add_stock_lbl"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/backIv" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/exchangeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/exchange_lbl"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/exchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/exchangeTv"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:background="@color/dark_violate"
+            android:textColor="@color/white"
+            android:text="xNSE"
+            android:paddingHorizontal="@dimen/_8sdp"
+            app:layout_constraintTop_toTopOf="@id/exchangeTv"
+            app:layout_constraintBottom_toBottomOf="@id/exchangeTv"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/stockNameSearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:hint="@string/stock_name_lbl"
+            android:padding="@dimen/_3sdp"
+            android:background="@drawable/editext_frame"
+            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintTop_toBottomOf="@+id/exchange"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/watchlistPlusBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/watchlist"
+            android:gravity="center"
+            android:background="@drawable/editext_frame"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintTop_toTopOf="@+id/stockNameSearch"
+            app:layout_constraintBottom_toBottomOf="@+id/stockNameSearch"/>
+
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/filterSpinner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/frame"
+            app:layout_constraintBottom_toBottomOf="@+id/searchView"
+            app:layout_constraintEnd_toStartOf="@+id/searchView"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/searchView"
+            app:layout_constraintWidth_percent="0.35" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="@drawable/frame"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/filterSpinner"
+            app:layout_constraintTop_toBottomOf="@+id/stockNameSearch"
+            app:layout_constraintWidth_percent="0.6"
+            app:queryHint="@string/search" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/stockTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Hindustan Foods Limited"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filterSpinner"
+            app:layout_constraintWidth_percent="0.7" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="NSE"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stockTitleTv"
+            app:layout_constraintWidth_percent="0.7" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="2022-02-02"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/subTitleTv"
+            app:layout_constraintBottom_toTopOf="@+id/timeTv"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timeTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="09:54:12"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/subTitleTv"
+            app:layout_constraintTop_toBottomOf="@+id/stockTitleTv"
+            app:layout_constraintWidth_percent="0.3" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
