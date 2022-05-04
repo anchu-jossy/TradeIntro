@@ -5,16 +5,17 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketFragmentBinding
 
 
-class MarketFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBinding::inflate),
+class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBinding::inflate),
     AdapterView.OnItemSelectedListener {
 
     companion object {
-        fun newInstance() = MarketFragment()
+        fun newInstance() = MarketListFragment()
     }
 
     private lateinit var viewModel: MarketViewModel
@@ -30,20 +31,25 @@ class MarketFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBinding
         binding.catagorySpinner.adapter = adapter
         binding.catagorySpinner.onItemSelectedListener = this
         binding.marketSearchView.queryHint = getString(R.string.search)
-        binding.marketListRv.adapter = MarketListAdapter(arrayListOf())
+        binding.marketListRv.adapter =
+            MarketListAdapter(arrayListOf(), object : MarketListAdapter.onItemClickListner {
+                override fun onItemClick() {
+                    findNavController().navigate(R.id.action_nav_market_to_marketDetailFragment)
+                }
+            })
         binding.marketSearchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
-                override fun onQueryTextChange(newText: String): Boolean {
-                    return false
-                }
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
 
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    // task HERE
-                    return false
-                }
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // task HERE
+                return false
+            }
 
-            })
+        })
 
     }
 

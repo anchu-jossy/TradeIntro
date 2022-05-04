@@ -52,5 +52,6 @@
     <!--    Watch list Screen-->
     <string name="watchlist" translatable="false">+ watchlist</string>
 
+        <string name="summary"><u><u><b>Summary</b></u></u></string>
 
 </resources>

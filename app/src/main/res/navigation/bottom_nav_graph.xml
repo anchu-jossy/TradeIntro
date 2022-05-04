@@ -27,9 +27,13 @@
     </fragment>
     <fragment
         android:id="@+id/nav_market"
-        android:name="com.techxform.tradintro.feature_main.presentation.market.MarketFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.market.MarketListFragment"
         android:label="@string/nav_market"
-        tools:layout="@layout/market_fragment" />
+        tools:layout="@layout/market_fragment" >
+        <action
+            android:id="@+id/action_nav_market_to_marketDetailFragment"
+            app:destination="@id/marketDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_watchlist"
         android:name="com.techxform.tradintro.feature_main.presentation.watchlist.WatchlistFragment"
@@ -46,5 +50,10 @@
         android:label="@string/nav_trade"
         tools:layout="@layout/trade_fragment" />
 
+    <fragment
+        android:id="@+id/marketDetailFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.market.MarketDetailFragment"
+        android:label="fragment_market_detail"
+        tools:layout="@layout/market_detail_fragment" />
 
 </navigation>

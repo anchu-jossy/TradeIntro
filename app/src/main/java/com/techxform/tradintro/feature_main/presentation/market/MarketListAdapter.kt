@@ -2,7 +2,9 @@ package com.techxform.tradintro.feature_main.presentation.market
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.annotation.ColorInt
+import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.Entry
@@ -13,27 +15,32 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import java.util.ArrayList
 
-class MarketListAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<MarketListAdapter.PortfolioVH>() {
+class MarketListAdapter(var list: ArrayList<String>, private val listener:onItemClickListner) : RecyclerView.Adapter<MarketListAdapter.MarketListVH>() {
 
 
-    inner class PortfolioVH(itemView: RowItemBinding) : RecyclerView.ViewHolder(itemView.root)
+    inner class MarketListVH(itemView: RowItemBinding) : RecyclerView.ViewHolder(itemView.root)
     {
         fun binding()
         {
 
+         val cardView=   itemView.findViewById<CardView>(R.id.cardContainer)
+            cardView.setOnClickListener {
+                listener.onItemClick()
+            }
+
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PortfolioVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarketListVH {
         val binding = DataBindingUtil.inflate<RowItemBinding>(
             LayoutInflater.from(parent.context),
             R.layout.row_item,
             parent,
             false)
-        return PortfolioVH(binding)
+        return MarketListVH(binding)
     }
 
-    override fun onBindViewHolder(holder: PortfolioVH, position: Int) {
+    override fun onBindViewHolder(holder: MarketListVH, position: Int) {
         holder.binding()
     }
 
@@ -73,6 +80,9 @@ class MarketListAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<Mark
         val data = LineData(dataSets)
         binding.lineChart.data = data
 
-    }
 
+    }
+interface  onItemClickListner{
+    fun onItemClick()
+}
 }

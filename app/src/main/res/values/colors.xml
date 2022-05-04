@@ -20,12 +20,21 @@
     <color name="light_gray">#A8A8A8</color>
     <color name="dark_gray">#747474</color>
     <color name="medium_gray">#7B7C7F</color>
-
+    <color name="shade_grey">#606060</color>
 
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
+
+    <color name="black_shade">#212529</color>
+    <color name="magenta">#BE3170</color>
+    <color name="sky_blue">#326190</color>
+
+
+
+    magenta
+
 
 
 
