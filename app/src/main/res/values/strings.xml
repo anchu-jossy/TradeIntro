@@ -66,6 +66,6 @@
     <!--    Watch list Screen-->
     <string name="watchlist" translatable="false">+ watchlist</string>
 
-        <string name="summary"><u><u><b>Summary</b></u></u></string>
+        <string name="summary"><b>Summary</b></string>
     <string name="Rs">\u20B9</string>
 </resources>

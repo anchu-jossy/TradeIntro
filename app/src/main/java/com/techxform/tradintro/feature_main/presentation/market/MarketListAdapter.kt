@@ -2,9 +2,7 @@ package com.techxform.tradintro.feature_main.presentation.market
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.annotation.ColorInt
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,21 +12,26 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
-import java.util.ArrayList
 
-class MarketListAdapter(var list: ArrayList<String>, private val listener:onItemClickListner) : RecyclerView.Adapter<MarketListAdapter.MarketListVH>() {
+class MarketListAdapter(var list: ArrayList<String>, private val listener: onItemClickListner) :
+    RecyclerView.Adapter<MarketListAdapter.MarketListVH>() {
 
 
-    inner class MarketListVH(itemView: RowItemBinding) : RecyclerView.ViewHolder(itemView.root)
-    {
-        fun binding()
-        {
-            if(adapterPosition %2 == 0 ) {
-                drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(), rowItemBinding)
-            }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(), rowItemBinding)
-
-         val cardView=   itemView.findViewById<CardView>(R.id.cardContainer)
-            cardView.setOnClickListener {
+    inner class MarketListVH(private val rowItemBinding: RowItemBinding) :
+        RecyclerView.ViewHolder(rowItemBinding.root) {
+        fun binding() {
+            if (adapterPosition % 2 == 0) {
+                drawChart(
+                    ContextCompat.getColor(itemView.context, R.color.dark_pink),
+                    createData(),
+                    rowItemBinding
+                )
+            } else drawChart(
+                ContextCompat.getColor(itemView.context, R.color.light_blue_900),
+                createData(),
+                rowItemBinding
+            )
+            rowItemBinding.cardContainer.setOnClickListener {
                 listener.onItemClick()
             }
 
@@ -40,7 +43,8 @@ class MarketListAdapter(var list: ArrayList<String>, private val listener:onItem
             LayoutInflater.from(parent.context),
             R.layout.row_item,
             parent,
-            false)
+            false
+        )
         return MarketListVH(binding)
     }
 
@@ -49,13 +53,12 @@ class MarketListAdapter(var list: ArrayList<String>, private val listener:onItem
     }
 
     override fun getItemCount(): Int {
-       // return list.size
+        // return list.size
         return 10
     }
 
 
-    private fun createData():ArrayList<Entry>
-    {
+    private fun createData(): ArrayList<Entry> {
         val arrayList = arrayListOf<Entry>()
         arrayList.add(Entry(1F, 20.45F))
         arrayList.add(Entry(2F, 40.45F))
@@ -99,7 +102,8 @@ class MarketListAdapter(var list: ArrayList<String>, private val listener:onItem
 
 
     }
-interface  onItemClickListner{
-    fun onItemClick()
-}
+
+    interface onItemClickListner {
+        fun onItemClick()
+    }
 }
