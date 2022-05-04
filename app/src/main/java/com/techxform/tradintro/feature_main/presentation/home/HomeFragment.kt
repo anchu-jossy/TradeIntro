@@ -3,6 +3,8 @@ package com.techxform.tradintro.feature_main.presentation.home
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.HomeFragmentBinding
 
@@ -22,7 +24,15 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>(HomeFragmentBinding::infl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.portfolioRv.adapter = PortfolioAdapter(arrayListOf())
+        binding.portfolioRv.adapter = PortfolioAdapter(arrayListOf(),rvListener)
+
+    }
+
+    private val rvListener = object: PortfolioAdapter.ClickListener{
+        override fun onItemClick(position: Int) {
+            findNavController().navigate(R.id.action_nav_home_to_portfolioViewFragment)
+        }
+
     }
 
 

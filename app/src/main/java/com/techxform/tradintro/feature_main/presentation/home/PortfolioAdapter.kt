@@ -3,6 +3,7 @@ package com.techxform.tradintro.feature_main.presentation.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.Entry
@@ -13,14 +14,19 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import java.util.ArrayList
 
-class PortfolioAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
+class PortfolioAdapter(var list: ArrayList<String>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
 
-    inner class PortfolioVH(itemView: RowItemBinding) : RecyclerView.ViewHolder(itemView.root)
+    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root)
     {
         fun binding()
         {
-
+            if(adapterPosition %2 == 0 ) {
+                drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(), rowItemBinding)
+            }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(), rowItemBinding)
+            rowItemBinding.root.setOnClickListener{
+                listener.onItemClick(adapterPosition)
+            }
         }
     }
 
@@ -42,6 +48,17 @@ class PortfolioAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<Portf
         return 10
     }
 
+    private fun createData():ArrayList<Entry>
+    {
+        val arrayList = arrayListOf<Entry>()
+        arrayList.add(Entry(1F, 20.45F))
+        arrayList.add(Entry(2F, 40.45F))
+        arrayList.add(Entry(3F, 10.45F))
+        arrayList.add(Entry(4F, 60.45F))
+        arrayList.add(Entry(5F, 20.45F))
+        arrayList.add(Entry(6F, 100.45F))
+        return arrayList
+    }
     private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemBinding) {
         var set1 = LineDataSet(values, "Sample Data")
         set1.color = color
@@ -74,5 +91,11 @@ class PortfolioAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<Portf
         binding.lineChart.data = data
 
     }
+
+    interface ClickListener{
+        fun onItemClick(position: Int)
+    }
+
+
 
 }

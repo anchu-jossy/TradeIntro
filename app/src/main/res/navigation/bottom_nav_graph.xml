@@ -23,6 +23,14 @@
         <action
             android:id="@+id/action_nav_home_to_nav_trade"
             app:destination="@id/nav_trade" />
+        <action
+            android:id="@+id/action_nav_home_to_portfolioViewFragment"
+            app:destination="@id/portfolioViewFragment" />
+       <!-- <action
+            android:id="@+id/action_nav_home_self"
+            app:destination="@id/nav_home"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true"/>-->
 
     </fragment>
     <fragment
@@ -34,7 +42,11 @@
         android:id="@+id/nav_watchlist"
         android:name="com.techxform.tradintro.feature_main.presentation.watchlist.WatchlistFragment"
         android:label="@string/nav_watchlist"
-        tools:layout="@layout/watchlist_fragment" />
+        tools:layout="@layout/watchlist_fragment" >
+        <action
+            android:id="@+id/action_nav_watchlist_to_watchlistViewFragment"
+            app:destination="@id/watchlistViewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_portfolio"
         android:name="com.techxform.tradintro.feature_main.presentation.portfolio.PortfolioFragment"
@@ -45,6 +57,16 @@
         android:name="com.techxform.tradintro.feature_main.presentation.trade.TradeFragment"
         android:label="@string/nav_trade"
         tools:layout="@layout/trade_fragment" />
+    <fragment
+        android:id="@+id/portfolioViewFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.portfolio_view.PortfolioViewFragment"
+        android:label="portfolio_view_fragment"
+        tools:layout="@layout/portfolio_view_fragment" />
+    <fragment
+        android:id="@+id/watchlistViewFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.watchlistview.WatchlistViewFragment"
+        android:label="watchlist_view_fragment"
+        tools:layout="@layout/watchlist_view_fragment" />
 
 
 </navigation>

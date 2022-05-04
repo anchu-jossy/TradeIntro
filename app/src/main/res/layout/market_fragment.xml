@@ -15,13 +15,14 @@
         <TextView
             android:layout_width="match_parent"
             android:textStyle="bold"
+            android:textSize="@dimen/_16sdp"
             android:layout_height="wrap_content"
             android:text="@string/markets" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/market_search_view"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/frame"
             android:layout_height="wrap_content"

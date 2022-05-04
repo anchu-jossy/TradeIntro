@@ -3,6 +3,7 @@ package com.techxform.tradintro.feature_main.presentation.watchlist
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.Entry
@@ -13,14 +14,18 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import java.util.ArrayList
 
-class WatchListAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<WatchListAdapter.PortfolioVH>() {
+class WatchListAdapter(var list: ArrayList<String>, val listener: ClickListener) :
+    RecyclerView.Adapter<WatchListAdapter.PortfolioVH>() {
 
 
-    inner class PortfolioVH(itemView: RowItemBinding) : RecyclerView.ViewHolder(itemView.root)
-    {
-        fun binding()
-        {
-
+    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root) {
+        fun binding() {
+            if(adapterPosition %2 == 0 ) {
+                drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(), rowItemBinding)
+            }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(), rowItemBinding)
+            rowItemBinding.root.setOnClickListener {
+                listener.onClick(adapterPosition)
+            }
         }
     }
 
@@ -29,7 +34,8 @@ class WatchListAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<Watch
             LayoutInflater.from(parent.context),
             R.layout.row_item,
             parent,
-            false)
+            false
+        )
         return PortfolioVH(binding)
     }
 
@@ -38,8 +44,20 @@ class WatchListAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<Watch
     }
 
     override fun getItemCount(): Int {
-       // return list.size
+        // return list.size
         return 10
+    }
+
+    private fun createData():ArrayList<Entry>
+    {
+        var arrayList = arrayListOf<Entry>()
+        arrayList.add(Entry(1F, 20.45F))
+        arrayList.add(Entry(2F, 40.45F))
+        arrayList.add(Entry(3F, 10.45F))
+        arrayList.add(Entry(4F, 60.45F))
+        arrayList.add(Entry(5F, 20.45F))
+        arrayList.add(Entry(6F, 100.45F))
+        return arrayList
     }
 
     private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemBinding) {
@@ -73,6 +91,10 @@ class WatchListAdapter(var list: ArrayList<String>) : RecyclerView.Adapter<Watch
         val data = LineData(dataSets)
         binding.lineChart.data = data
 
+    }
+
+    interface ClickListener {
+        fun onClick(position: Int)
     }
 
 }
