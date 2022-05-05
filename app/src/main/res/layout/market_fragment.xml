@@ -14,8 +14,8 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:textStyle="bold"
-            android:textSize="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:textSize="@dimen/_16ssp"
             android:layout_height="wrap_content"
             android:text="@string/markets" />
 

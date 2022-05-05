@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/my_portfolio_lbl"
+                android:fontFamily="@font/open_sans_medium"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -44,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/holding_value_lbl"
+                android:fontFamily="@font/open_sans_light"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
                 app:layout_constraintBottom_toTopOf="@+id/holdingAmountTv"/>
@@ -53,8 +55,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="75,405.42"
+                android:fontFamily="@font/open_sans_semibold"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/_18ssp"
                 app:layout_constraintWidth_percent="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/g1"/>
@@ -64,6 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="-3580.30(-40%)"
+                android:fontFamily="@font/open_sans_light"
                 app:layout_constraintWidth_percent="0.3"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
@@ -74,7 +78,7 @@
 
             <View
                 android:id="@+id/divider"
-                android:layout_width="@dimen/_1sdp"
+                android:layout_width="0.5dp"
                 android:layout_height="0dp"
                 android:background="@color/white"
                 app:layout_constraintTop_toTopOf="@+id/tradeMoneyBalanceLbl"
@@ -98,6 +102,7 @@
                 android:text="@string/trade_money_balance_lbl"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
+                android:fontFamily="@font/open_sans_light"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/divider"
                 app:layout_constraintBottom_toTopOf="@+id/g2"/>
@@ -106,6 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="34545645"
+                android:fontFamily="@font/open_sans_medium"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,6 +126,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
                 android:gravity="end"
+                android:fontFamily="@font/open_sans_light"
                 app:layout_constraintStart_toEndOf="@+id/divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/g2"/>
@@ -129,6 +136,7 @@
                 android:layout_height="wrap_content"
                 android:text="34545645"
                 android:gravity="end"
+                android:fontFamily="@font/open_sans_medium"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintStart_toEndOf="@+id/divider"

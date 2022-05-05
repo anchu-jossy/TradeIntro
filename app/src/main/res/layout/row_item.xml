@@ -30,11 +30,12 @@
                 android:text="HDFC Bank"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:fontFamily="@font/open_sans_semibold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.4" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/subTitleTv"
@@ -42,11 +43,12 @@
                 android:layout_height="wrap_content"
                 android:text="NSE"
                 android:maxLines="1"
+                android:fontFamily="@font/open_sans"
                 android:ellipsize="end"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_8ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleTv"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.4" />
 
 
             <com.github.mikephil.charting.charts.LineChart
@@ -67,6 +69,7 @@
                 android:text="$1,085.16"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:fontFamily="@font/open_sans_semibold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,11 +84,12 @@
                 android:text="-21.46%"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/open_sans"
+                android:textSize="@dimen/_8ssp"
                 app:layout_constraintEnd_toEndOf="@+id/amountTv"
                 app:layout_constraintStart_toStartOf="@+id/amountTv"
                 app:layout_constraintTop_toBottomOf="@+id/amountTv"
-                app:layout_constraintWidth_percent="0.25" />
+                app:layout_constraintWidth_percent="0.3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
