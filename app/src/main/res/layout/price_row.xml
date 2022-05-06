@@ -6,6 +6,7 @@
         <variable
             name="price"
             type="com.techxform.tradintro.feature_main.domain.model.PriceType" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
