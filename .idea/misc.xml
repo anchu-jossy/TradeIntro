@@ -29,6 +29,27 @@
         <entry key="..\:/Users/001YG4744/My/tradintro-android/app/src/main/res/layout/watchlist_fragment.xml" value="0.16770833333333332" />
         <entry key="..\:/Users/001YG4744/My/tradintro-android/app/src/main/res/layout/watchlist_view_fragment.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/001YG4744/My/tradintro-android/app/src/main/res/menu/menu_bottom_nav.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/ashbar.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/buyframe.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/editext_frame.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/ic_baseline_filter_list_24.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/pink_circular_bg.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/sellframe.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/violet_circular_bg.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/yellowbar.xml" value="0.185" />
+        <entry key="app/src/main/res/layout/fragment_landing.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/home_fragment.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/market_detail_fragment.xml" value="0.2046875" />
+        <entry key="app/src/main/res/layout/original_home_fragment.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/portfolio_card_view.xml" value="0.28072916666666664" />
+        <entry key="app/src/main/res/layout/portfolio_fragment.xml" value="0.24074074074074073" />
+        <entry key="app/src/main/res/layout/portfolio_view_fragment.xml" value="0.24074074074074073" />
+        <entry key="app/src/main/res/layout/update_profile_fragment.xml" value="0.28072916666666664" />
+        <entry key="app/src/main/res/layout/watchlist_fragment.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.28072916666666664" />
       </map>
     </option>
   </component>

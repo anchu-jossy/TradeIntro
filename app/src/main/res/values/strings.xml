@@ -69,4 +69,9 @@
 
         <string name="summary"><b>Summary</b></string>
     <string name="Rs">\u20B9</string>
+    <string name="welcome_user">Welcome User</string>
+    <string name="current_point">Current Points :</string>
+    <string name="last_login">Last Login</string>
+    <string name="profile">Profile</string>
+    <string name="wallet">Wallet</string>
 </resources>

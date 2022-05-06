@@ -7,16 +7,16 @@
         android:title="@string/dot" />
 
     <item
-        android:id="@+id/nav_market"
+        android:id="@+id/nav_portfolio"
         android:icon="@drawable/market"
         android:title="@string/dot" />
 
     <item
-        android:id="@+id/nav_watchlist"
+        android:id="@+id/nav_market"
         android:icon="@drawable/watchlist"
         android:title="@string/dot" />
     <item
-        android:id="@+id/nav_portfolio"
+        android:id="@+id/nav_profile"
         android:icon="@drawable/portfolio"
         android:title="@string/dot" />
     <item
