@@ -27,7 +27,7 @@
     <string name="nav_watchlist">Watchlist</string>
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_trade">Trade</string>
-    
+
     <string name="my_portfolio_lbl">My Portfolio</string>
     <string name="portfolio_list_lbl">Portfolio List</string>
     <string name="holding_value_lbl">Holding Value</string>
@@ -57,7 +57,7 @@
     <string name="upper_circuit_lbl">Upper Circuit</string>
     <string name="avg_traded_lbl">Avg Traded</string>
 
-<!--    Market list Screen-->
+    <!--    Market list Screen-->
     <string name="markets">Markets</string>
     <string name="filter">Filter</string>
     <string name="catagories">Categories</string>
@@ -75,6 +75,19 @@
     <!--    Watch list Screen-->
     <string name="watchlist" translatable="false">+ Watchlist</string>
 
-        <string name="summary"><b>Summary</b></string>
+    <string name="summary"><b>Summary</b></string>
     <string name="Rs">\u20B9</string>
+
+    <!--    Drawer Menu-->
+    <string name="my_profile_lbl">My Profile</string>
+    <string name="my_referrals_lbl">My Referrals</string>
+    <string name="my_skill_board_lbl">My Skill Board</string>
+    <string name="recharge_summary_lbl">Recharge Summary</string>
+    <string name="recharge_trade_money_lbl">Recharge Trade Money</string>
+    <string name="notification_lbl">Notification</string>
+    <string name="reports_lbl">Reports</string>
+    <string name="alerts_lbl">Alerts</string>
+    <string name="change_password_lbl">Change Password</string>
+    <string name="logout_lbl">Logout</string>
+
 </resources>

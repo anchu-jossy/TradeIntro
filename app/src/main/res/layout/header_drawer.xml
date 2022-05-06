@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/backTv"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/_16sdp"
+    android:drawableStart="@drawable/ic_back_action"
+    android:drawablePadding="@dimen/_8sdp"
+    android:fontFamily="@font/open_sans_medium"
+    android:foreground="?selectableItemBackground"
+    android:maxLines="1"
+    android:drawableTint="@color/white"
+    android:textColor="@color/white"
+    android:text="@string/back_lbl"
+    android:textSize="@dimen/_12ssp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />

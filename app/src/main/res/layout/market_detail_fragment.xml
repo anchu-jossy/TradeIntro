@@ -27,7 +27,6 @@
             android:drawableStart="@drawable/ic_back_action"
             android:drawablePadding="@dimen/_8sdp"
             android:ellipsize="end"
-
             android:fontFamily="@font/open_sans_semibold"
             android:foreground="?selectableItemBackground"
             android:maxLines="1"
