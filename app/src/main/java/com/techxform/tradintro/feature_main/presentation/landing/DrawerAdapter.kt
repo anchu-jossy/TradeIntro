@@ -8,13 +8,16 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.DrawerRowBinding
 import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 
-class DrawerAdapter(val list: ArrayList<DrawerItem>) :
+class DrawerAdapter(val list: ArrayList<DrawerItem>, val listener:ClickListener) :
     RecyclerView.Adapter<DrawerAdapter.DrawerVH>() {
 
     inner class DrawerVH(private val drawerRowBinding: DrawerRowBinding) :
         RecyclerView.ViewHolder(drawerRowBinding.root) {
         fun binding() {
             drawerRowBinding.item = list[adapterPosition]
+            drawerRowBinding.root.setOnClickListener {
+                listener.onClick(adapterPosition)
+            }
         }
 
     }
@@ -35,5 +38,9 @@ class DrawerAdapter(val list: ArrayList<DrawerItem>) :
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    interface ClickListener{
+        fun onClick(position: Int)
     }
 }

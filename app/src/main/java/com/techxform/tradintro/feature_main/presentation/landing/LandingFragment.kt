@@ -6,7 +6,9 @@ import android.view.*
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
@@ -15,6 +17,8 @@ import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 
 
 class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate) {
+
+    private lateinit var navController:NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,7 +30,27 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
     }
 
     private fun drawerSetup() {
-        binding.drawerRv.adapter = DrawerAdapter(createDrawerItems())
+        binding.drawerRv.adapter = DrawerAdapter(createDrawerItems(),listener)
+        //val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+    }
+
+    private val listener = object : DrawerAdapter.ClickListener {
+        override fun onClick(position: Int) {
+
+            when(position)
+            {
+                0 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                1 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                2 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                3 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                4 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                5 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                6 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                else -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+            }
+            binding.drawerLayout.close()
+
+        }
     }
 
     private fun createDrawerItems(): ArrayList<DrawerItem> {
@@ -53,7 +77,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
     private fun bottomNavSetup() {
         val navHostFragment =
             childFragmentManager.findFragmentById(R.id.container_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
