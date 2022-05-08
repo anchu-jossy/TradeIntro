@@ -19,10 +19,16 @@
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardMaxElevation="0dp"
+            app:cardCornerRadius="1dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="false"
+            android:background="@null">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/midGuidelineH"
