@@ -3,9 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_nav_graph"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/nav_home1">
 
-
+    <fragment
+        android:id="@+id/nav_home1"
+        android:name="com.techxform.tradintro.feature_main.presentation.home.OrginalHomeFragment"
+        android:label="@string/nav_home"
+        tools:layout="@layout/original_home_fragment" />
     <fragment
         android:id="@+id/nav_home"
         android:name="com.techxform.tradintro.feature_main.presentation.home.HomeFragment"
@@ -83,5 +87,12 @@
         android:name="com.techxform.tradintro.feature_main.presentation.recharge_trade_money.RechargeTradeMoneyFragment"
         android:label="recharge_trade_money_fragment"
         tools:layout="@layout/recharge_trade_money_fragment" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.techxform.tradintro.feature_main.presentation.profile.UpdateProfileoFragment"
+        android:label="fragment_update_profile"
+        tools:layout="@layout/update_profile_fragment" />
+
 
 </navigation>

@@ -27,7 +27,7 @@
     <string name="nav_watchlist">Watchlist</string>
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_trade">Trade</string>
-
+    
     <string name="my_portfolio_lbl">My Portfolio</string>
     <string name="portfolio_list_lbl">Portfolio List</string>
     <string name="holding_value_lbl">Holding Value</string>
@@ -86,6 +86,11 @@
 
     <string name="summary"><b>Summary</b></string>
     <string name="Rs">\u20B9</string>
+    <string name="welcome_user">Welcome User</string>
+    <string name="current_point">Current Points :</string>
+    <string name="last_login">Last Login</string>
+    <string name="profile">Profile</string>
+    <string name="wallet">Wallet</string>
 
     <!--    Drawer Menu-->
     <string name="my_profile_lbl">My Profile</string>

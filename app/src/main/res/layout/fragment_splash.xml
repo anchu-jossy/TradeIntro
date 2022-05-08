@@ -46,7 +46,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:src="@drawable/app_logo_name"
+            android:src="@drawable/logo"
             android:contentDescription="@string/app_name" />
 
         <ImageView

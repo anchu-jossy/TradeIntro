@@ -42,9 +42,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_marginTop="@dimen/_3sdp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:background="@drawable/editext_frame"
             android:text="@string/watchlist"
             android:fontFamily="@font/open_sans"

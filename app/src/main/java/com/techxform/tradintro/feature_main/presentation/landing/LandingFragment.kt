@@ -82,19 +82,22 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
+                    navController.navigate(R.id.nav_home1)
+                }
+                R.id.nav_portfolio -> {
                     navController.navigate(R.id.nav_home)
                 }
                 R.id.nav_market -> {
                     navController.navigate(R.id.nav_market)
-                }
-                R.id.nav_portfolio -> {
-                    navController.navigate(R.id.nav_portfolio)
                 }
                 R.id.nav_watchlist -> {
                     navController.navigate(R.id.nav_watchlist)
                 }
                 R.id.nav_trade -> {
                     navController.navigate(R.id.nav_trade)
+                }
+                R.id.nav_profile -> {
+                    navController.navigate(R.id.nav_profile)
                 }
                 else -> {
                     navController.navigate(R.id.nav_home)
