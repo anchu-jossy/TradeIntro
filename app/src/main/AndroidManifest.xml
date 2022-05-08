@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo2"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TradIntro.NoActionbar">
+        android:theme="@style/Theme.TradIntro">
         <activity
             android:name=".feature_main.presentation.SplashScreenActivity"
             android:exported="true"

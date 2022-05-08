@@ -56,6 +56,18 @@
     <string name="lower_circuit_lbl">Lower Circuit</string>
     <string name="upper_circuit_lbl">Upper Circuit</string>
     <string name="avg_traded_lbl">Avg Traded</string>
+    <string name="trade_money_lbl">Trade Money</string>
+    <string name="trade_money_hint">1234567890</string>
+    <string name="voucher_code_hint">************</string>
+    <string name="recharge_amount_lbl">Recharge Amount</string>
+    <string name="recharge_amount_hint">\u20B9 00,000.00</string>
+    <string name="recharge_lbl">Recharge</string>
+    <string name="redeem_lbl">Redeem</string>
+    <string name="voucher_code_lbl">Voucher Code</string>
+    <string name="voucher_trade_money_lbl">Voucher Trade Money</string>
+    <string name="current_password_lbl">Current Password</string>
+    <string name="new_password_lbl">New Password</string>
+    <string name="confirm_password_lbl">Confirm Password</string>
 
     <!--    Market list Screen-->
     <string name="markets">Markets</string>
