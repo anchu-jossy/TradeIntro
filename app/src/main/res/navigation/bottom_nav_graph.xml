@@ -93,6 +93,11 @@
         android:name="com.techxform.tradintro.feature_main.presentation.profile.UpdateProfileoFragment"
         android:label="fragment_update_profile"
         tools:layout="@layout/update_profile_fragment" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.change_password.ChangePasswordFragment"
+        android:label="change_password_fragment"
+        tools:layout="@layout/change_password_fragment" />
 
 
 </navigation>

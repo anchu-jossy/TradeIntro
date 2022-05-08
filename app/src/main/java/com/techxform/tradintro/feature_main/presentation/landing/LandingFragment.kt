@@ -3,12 +3,16 @@ package com.techxform.tradintro.feature_main.presentation.landing
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
@@ -16,13 +20,14 @@ import com.techxform.tradintro.databinding.FragmentLandingBinding
 import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 
 
-class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate) {
+class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate),
+    Toolbar.OnMenuItemClickListener {
 
-    private lateinit var navController:NavController
+    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setHasOptionsMenu(true)
         bottomNavSetup()
         drawerSetup()
 
@@ -30,22 +35,50 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
     }
 
     private fun drawerSetup() {
-        binding.drawerRv.adapter = DrawerAdapter(createDrawerItems(),listener)
-        //val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+
+        binding.toolbar.setOnMenuItemClickListener(this)
+        binding.header.backTv.setOnClickListener {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        val mDrawerToggle = object : ActionBarDrawerToggle(
+            requireActivity(),
+            binding.drawerLayout,
+            binding.toolbar,
+            R.string.open_lbl,
+            R.string.close_lbl
+        ) {}
+
+        binding.drawerLayout.addDrawerListener(mDrawerToggle)
+        mDrawerToggle.isDrawerIndicatorEnabled = false
+
+        mDrawerToggle.setHomeAsUpIndicator(R.drawable.logo_small)
+        mDrawerToggle.toolbarNavigationClickListener = View.OnClickListener {
+            if (binding.drawerLayout.isDrawerVisible(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
+        mDrawerToggle.syncState()
+        binding.drawerRv.adapter = DrawerAdapter(createDrawerItems(), listener)
+        val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        navController.navigateUp(appBarConfiguration)
     }
 
     private val listener = object : DrawerAdapter.ClickListener {
         override fun onClick(position: Int) {
 
-            when(position)
-            {
+            when (position) {
                 0 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 1 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 2 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 3 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 4 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
-                5 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                5 -> navController.navigate(R.id.changePasswordFragment)
                 6 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                7 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                8 -> navController.navigate(R.id.changePasswordFragment)
                 else -> navController.navigate(R.id.rechargeTradeMoneyFragment)
             }
             binding.drawerLayout.close()
@@ -147,4 +180,18 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             }
         }
     }
+
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        if (item != null)
+            return when (item.itemId) {
+                R.id.action_search -> true
+                R.id.action_wallet -> true
+                R.id.action_notification -> true
+                else -> super.onOptionsItemSelected(item)
+
+            }
+        return false
+    }
+
 }

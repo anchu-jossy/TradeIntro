@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="vm"
             type="com.techxform.tradintro.feature_main.presentation.home.HomeViewModel" />
@@ -19,16 +20,16 @@
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@null"
+            app:cardCornerRadius="1dp"
             app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardMaxElevation="0dp"
-            app:cardCornerRadius="1dp"
-            app:cardUseCompatPadding="true"
-            app:cardPreventCornerOverlap="false"
-            android:background="@null">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/midGuidelineH"
@@ -148,31 +149,29 @@
                 android:layout_gravity="center"
                 android:background="@drawable/home_card"
                 android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_8sdp">
+                android:paddingVertical="@dimen/_16sdp">
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
-                    android:gravity="center_horizontal"
+                    android:gravity="start"
                     android:text="@string/nav_portfolio"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgPortfolio" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/imgPortfolio"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:src="@drawable/market"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/textView"
                     app:layout_constraintDimensionRatio="H,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5"
                     app:tint="@color/white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -201,31 +200,28 @@
                 android:layout_gravity="center"
                 android:background="@drawable/home_card"
                 android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_8sdp">
+                android:paddingVertical="@dimen/_16sdp">
 
                 <TextView
                     android:id="@+id/textViewMarket"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
-                    android:gravity="center_horizontal"
+                    android:gravity="start"
                     android:text="@string/nav_market"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgMarket" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/imgMarket"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:src="@drawable/watchlist"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewMarket"
                     app:layout_constraintDimensionRatio="H,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5"
                     app:tint="@color/white" />
 
@@ -254,31 +250,28 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/home_card"
                 android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_8sdp">
+                android:paddingVertical="@dimen/_16sdp">
 
                 <TextView
                     android:id="@+id/textViewProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
-                    android:gravity="center_horizontal"
+                    android:gravity="start"
                     android:text="@string/profile"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:src="@drawable/profile"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewProfile"
                     app:layout_constraintDimensionRatio="H,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5"
                     app:tint="@color/white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -306,31 +299,28 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/home_card"
                 android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_8sdp">
+                android:paddingVertical="@dimen/_16sdp">
 
                 <TextView
                     android:id="@+id/textViewWallet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
-                    android:gravity="center_horizontal"
+                    android:gravity="start"
                     android:text="@string/wallet"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgWallet" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/imgWallet"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:src="@drawable/trade"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewWallet"
                     app:layout_constraintDimensionRatio="H,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5"
                     app:tint="@color/white" />
             </androidx.constraintlayout.widget.ConstraintLayout>

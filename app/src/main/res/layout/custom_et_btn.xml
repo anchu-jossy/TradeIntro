@@ -10,24 +10,38 @@
             type="String" />
 
         <variable
-            name="label1"
+            name="labelOne"
             type="String" />
 
         <variable
-            name="label2"
+            name="labelTwo"
             type="String" />
 
         <variable
-            name="label1Hint"
+            name="labelOneHint"
             type="String" />
 
         <variable
-            name="label2Hint"
+            name="labelTwoHint"
+            type="String" />
+
+        <variable
+            name="labelThree"
+            type="String" />
+
+        <variable
+            name="labelThreeHint"
             type="String" />
 
         <variable
             name="buttonLabel"
             type="String" />
+
+        <variable
+            name="isThirdVisible"
+            type="Boolean" />
+
+        <import type="android.view.View"/>
 
 
     </data>
@@ -45,8 +59,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:fontFamily="@font/open_sans_semibold"
             android:text="@{title}"
-            android:textSize="@dimen/_16ssp"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="@dimen/_16ssp" />
 
 
         <androidx.cardview.widget.CardView
@@ -54,7 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
             android:elevation="@dimen/_5sdp"
-            app:cardCornerRadius="@dimen/_5sdp">
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardUseCompatPadding="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -69,7 +83,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/open_sans_medium"
                     android:maxLines="1"
-                    android:text="@{label1}"
+                    android:text="@{labelOne}"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/my_profile_lbl" />
@@ -80,10 +94,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@drawable/editext_frame"
+                    android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/open_sans"
-                    android:hint="@{label1Hint}"
-                    android:padding="@dimen/_3sdp"
+                    android:hint="@{labelOneHint}"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@+id/label1Tv" />
 
@@ -96,7 +109,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/open_sans_medium"
                     android:maxLines="1"
-                    android:text="@{label2}"
+                    android:text="@{labelTwo}"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintTop_toBottomOf="@+id/label1Et"
                     tools:text="@string/my_profile_lbl" />
@@ -107,12 +120,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@drawable/editext_frame"
+                    android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/open_sans"
-                    android:hint="@{label2Hint}"
-                    android:padding="@dimen/_3sdp"
+                    android:hint="@{labelTwoHint}"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@+id/label2Tv" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/label3Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/open_sans_medium"
+                    android:maxLines="1"
+                    android:text="@{labelThree}"
+                    android:visibility="@{isThirdVisible? View.VISIBLE: View.GONE}"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/label2Et"
+                    tools:text="@string/my_profile_lbl" />
+
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/label3Et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:fontFamily="@font/open_sans"
+                    android:hint="@{labelThreeHint}"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="@{isThirdVisible? View.VISIBLE: View.GONE}"
+                    app:layout_constraintTop_toBottomOf="@+id/label3Tv" />
 
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -124,7 +164,7 @@
                     android:text="@{buttonLabel}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/label2Et"
+                    app:layout_constraintTop_toBottomOf="@+id/label3Et"
                     app:layout_constraintWidth_percent="0.7" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

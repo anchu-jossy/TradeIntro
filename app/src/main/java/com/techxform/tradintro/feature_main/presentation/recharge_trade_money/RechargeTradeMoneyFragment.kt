@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.techxform.tradintro.R
+import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.databinding.RechargeTradeMoneyFragmentBinding
 
-class RechargeTradeMoneyFragment : Fragment() {
+class RechargeTradeMoneyFragment :
+    BaseFragment<RechargeTradeMoneyFragmentBinding>(RechargeTradeMoneyFragmentBinding::inflate) {
 
     companion object {
         fun newInstance() = RechargeTradeMoneyFragment()
@@ -16,17 +19,11 @@ class RechargeTradeMoneyFragment : Fragment() {
 
     private lateinit var viewModel: RechargeTradeMoneyViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.recharge_trade_money_fragment, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RechargeTradeMoneyViewModel::class.java)
-        // TODO: Use the ViewModel
+        binding.vm = viewModel
     }
 
 }
