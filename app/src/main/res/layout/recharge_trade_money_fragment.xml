@@ -1,13 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".feature_main.presentation.recharge_trade_money.RechargeTradeMoneyFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingVertical="@dimen/_16sdp">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/backTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_back_action"
+            android:drawablePadding="@dimen/_8sdp"
+            android:fontFamily="@font/open_sans_medium"
+            android:foreground="?selectableItemBackground"
+            android:maxLines="1"
+            android:text="@string/back_lbl"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/rechargeTradeMoneyContainer"
+                    layout="@layout/custom_et_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:buttonLabel="@{@string/recharge_lbl}"
+                    app:label1="@{@string/trade_money_lbl}"
+                    app:label1Hint="@{@string/trade_money_hint}"
+                    app:label2="@{@string/trade_money_lbl}"
+                    app:label2Hint="@{@string/trade_money_hint}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:title="@{@string/recharge_trade_money_lbl}" />
+
+                <include
+                    android:id="@+id/redeemVoucherContainer"
+                    layout="@layout/custom_et_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:buttonLabel="@{@string/recharge_lbl}"
+                    app:label1="@{@string/voucher_code_lbl}"
+                    app:label1Hint="@{@string/voucher_code_hint}"
+                    app:label2="@{@string/voucher_trade_money_lbl}"
+                    app:label2Hint="@{@string/trade_money_hint}"
+                    app:layout_constraintTop_toBottomOf="@+id/rechargeTradeMoneyContainer"
+                    app:title="@{@string/redeem_lbl}" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>
