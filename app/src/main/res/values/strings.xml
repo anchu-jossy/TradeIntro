@@ -48,8 +48,16 @@
     <string name="exchange_lbl">Exchange: </string>
     <string name="stock_name_lbl">Stock Name </string>
     <string name="watchlist_price_lbl">Watchlist Price</string>
+    <string name="high_lbl">High</string>
+    <string name="low_lbl">Low</string>
+    <string name="open_lbl">Open</string>
+    <string name="close_lbl">Close</string>
+    <string name="volume_lbl">Volume</string>
+    <string name="lower_circuit_lbl">Lower Circuit</string>
+    <string name="upper_circuit_lbl">Upper Circuit</string>
+    <string name="avg_traded_lbl">Avg Traded</string>
 
-<!--    Market list Screen-->
+    <!--    Market list Screen-->
     <string name="markets">Markets</string>
     <string name="filter">Filter</string>
     <string name="catagories">Categories</string>
@@ -67,11 +75,24 @@
     <!--    Watch list Screen-->
     <string name="watchlist" translatable="false">+ Watchlist</string>
 
-        <string name="summary"><b>Summary</b></string>
+    <string name="summary"><b>Summary</b></string>
     <string name="Rs">\u20B9</string>
     <string name="welcome_user">Welcome User</string>
     <string name="current_point">Current Points :</string>
     <string name="last_login">Last Login</string>
     <string name="profile">Profile</string>
     <string name="wallet">Wallet</string>
+
+    <!--    Drawer Menu-->
+    <string name="my_profile_lbl">My Profile</string>
+    <string name="my_referrals_lbl">My Referrals</string>
+    <string name="my_skill_board_lbl">My Skill Board</string>
+    <string name="recharge_summary_lbl">Recharge Summary</string>
+    <string name="recharge_trade_money_lbl">Recharge Trade Money</string>
+    <string name="notification_lbl">Notification</string>
+    <string name="reports_lbl">Reports</string>
+    <string name="alerts_lbl">Alerts</string>
+    <string name="change_password_lbl">Change Password</string>
+    <string name="logout_lbl">Logout</string>
+
 </resources>

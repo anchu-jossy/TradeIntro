@@ -1,12 +1,13 @@
 package com.techxform.tradintro.feature_main.presentation.watchlistview
 
-import android.R
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WatchlistViewFragmentBinding
+import com.techxform.tradintro.feature_main.domain.model.PriceType
 
 class WatchlistViewFragment : BaseFragment<WatchlistViewFragmentBinding>(WatchlistViewFragmentBinding::inflate) {
 
@@ -26,9 +27,10 @@ class WatchlistViewFragment : BaseFragment<WatchlistViewFragmentBinding>(Watchli
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.alertPriceType = PriceType(63.2, getString(R.string.alert_price_lbl))
 
         val spinnerArr = arrayOf("1","2","3","4","5","6","7","8","9","10")
-        val arrAdapter = ArrayAdapter(requireContext(),  R.layout.simple_spinner_item,spinnerArr)
+        val arrAdapter = ArrayAdapter(requireContext(),  android.R.layout.simple_spinner_item,spinnerArr)
         arrAdapter.setDropDownViewResource(
             android.R.layout
                 .simple_spinner_dropdown_item)

@@ -6,6 +6,9 @@
 
     <data>
 
+        <variable
+            name="alertPriceType"
+            type="com.techxform.tradintro.feature_main.domain.model.PriceType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,25 +17,20 @@
         android:paddingHorizontal="@dimen/_16sdp"
         android:paddingTop="@dimen/_16sdp">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/backIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back_action" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/backTv"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_medium"
             android:maxLines="1"
-            android:paddingHorizontal="@dimen/_8sdp"
             android:text="@string/back_lbl"
+            android:foreground="?selectableItemBackground"
+            android:drawableStart="@drawable/ic_back_action"
+            android:drawablePadding="@dimen/_8sdp"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/backIv"
-            app:layout_constraintStart_toEndOf="@+id/backIv"
-            app:layout_constraintTop_toTopOf="@+id/backIv" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -40,10 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/open_sans_semibold"
             android:text="@string/add_stock_lbl"
-            android:textSize="@dimen/_14ssp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/backIv" />
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintTop_toBottomOf="@+id/backTv" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -51,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans_medium"
             android:text="@string/exchange_lbl"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:background="@color/dark_violate"
+            android:fontFamily="@font/open_sans_medium"
             android:paddingHorizontal="@dimen/_8sdp"
             android:text="xNSE"
             android:textColor="@color/white"
@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/editext_frame"
+            android:fontFamily="@font/open_sans"
             android:hint="@string/stock_name_lbl"
             android:padding="@dimen/_3sdp"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,9 +87,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/editext_frame"
+            android:fontFamily="@font/open_sans_medium"
+            android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/watchlist"
-            android:foreground="?selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="@+id/stockNameSearch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/stockNameSearch"
@@ -137,6 +139,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:fontFamily="@font/open_sans_semibold"
                     android:maxLines="1"
                     android:text="Hindustan Foods Limited"
                     android:textColor="@color/black"
@@ -151,6 +154,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:fontFamily="@font/open_sans"
                     android:maxLines="1"
                     android:text="NSE"
                     android:textSize="@dimen/_12ssp"
@@ -164,6 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:ellipsize="end"
+                    android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
                     android:text="2022-02-02"
@@ -178,6 +183,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
                     android:text="09:54:12"
@@ -193,6 +199,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/open_sans_semibold"
                     android:text="33.95"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
@@ -204,6 +211,7 @@
                     android:id="@+id/watchlistPriceLbl"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_medium"
                     android:text="@string/watchlist_price_lbl"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -215,10 +223,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:gravity="end"
                     android:text="29.15"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
-                    android:gravity="end"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/subTitleTv"
                     app:layout_constraintWidth_percent="0.45" />
@@ -227,81 +236,104 @@
                     android:id="@+id/currentPriceLbl"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_medium"
+                    android:gravity="end"
                     android:text="@string/watchlist_price_lbl"
                     android:textSize="@dimen/_10ssp"
-                    android:gravity="end"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/currentPriceTV"
                     app:layout_constraintWidth_percent="0.45" />
 
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/watchlistPriceHTV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:text="33.95"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14ssp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/watchlistPriceLbl"
-                    app:layout_constraintWidth_percent="0.45" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/watchlistPriceLTV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:text="29.15"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14ssp"
-                    android:gravity="end"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/watchlistPriceLbl"
-                    app:layout_constraintWidth_percent="0.45" />
-
-                <androidx.appcompat.widget.AppCompatSeekBar
+                <include
+                    android:id="@+id/yellowHighLow"
+                    layout="@layout/high_low_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:progress="100"
-                    android:visibility="gone"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/watchlistPriceHTV"/>
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:highAmount="@{String.valueOf(35.21)}"
+                    app:highLbl="@{@string/high_lbl}"
+                    app:isYellow="@{true}"
+                    app:layout_constraintTop_toBottomOf="@+id/watchlistPriceLbl"
+                    app:lowAmount="@{String.valueOf(25.21)}"
+                    app:lowLbl="@{@string/low_lbl}" />
+
+                <include
+                    android:id="@+id/ashHighLow"
+                    layout="@layout/high_low_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:highAmount="@{String.valueOf(35.21)}"
+                    app:highLbl="@{@string/open_lbl}"
+                    app:isYellow="@{false}"
+                    app:layout_constraintTop_toBottomOf="@+id/yellowHighLow"
+                    app:lowAmount="@{String.valueOf(25.21)}"
+                    app:lowLbl="@{@string/close_lbl}" />
+
+                <include
+                    android:id="@+id/alertPrice"
+                    layout="@layout/price_row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/gainLossPrice"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
+                    app:layout_constraintWidth_percent="0.33"
+                    app:price="@{alertPriceType}" />
+
+                <include
+                    android:id="@+id/gainLossPrice"
+                    layout="@layout/price_row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toEndOf="@+id/alertPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
+                    app:layout_constraintWidth_percent="0.33"
+                    app:price="@{alertPriceType}" />
+
+                <include
+                    android:id="@+id/gainLossPerPrice"
+                    layout="@layout/price_row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toEndOf="@+id/gainLossPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
+                    app:layout_constraintWidth_percent="0.33"
+                    app:price="@{alertPriceType}" />
 
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buyBtn"
+                    style="@style/Theme.TradIntro.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/violet_circular_bg"
+                    android:text="@string/buy_lbl"
+                    app:layout_constraintEnd_toStartOf="@+id/sellBtn"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/alertPrice"
+                    app:layout_constraintWidth_percent="0.45" />
 
-
-                <!--
-
-                                <androidx.appcompat.widget.AppCompatButton
-                                    android:id="@+id/buyBtn"
-                                    style="@style/Theme.TradIntro.Button"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_16sdp"
-                                    android:background="@drawable/violet_circular_bg"
-                                    android:text="@string/buy_lbl"
-                                    app:layout_constraintEnd_toStartOf="@+id/sellBtn"
-                                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/priceRv"
-                                    app:layout_constraintWidth_percent="0.45" />
-
-                                <androidx.appcompat.widget.AppCompatButton
-                                    android:id="@+id/sellBtn"
-                                    style="@style/Theme.TradIntro.Button"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_16sdp"
-                                    android:background="@drawable/pink_circular_bg"
-                                    android:text="@string/sell_lbl"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                                    app:layout_constraintStart_toEndOf="@+id/buyBtn"
-                                    app:layout_constraintTop_toBottomOf="@+id/priceRv"
-                                    app:layout_constraintWidth_percent="0.45" />
-
-                -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/sellBtn"
+                    style="@style/Theme.TradIntro.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/pink_circular_bg"
+                    android:text="@string/sell_lbl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toEndOf="@+id/buyBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/alertPrice"
+                    app:layout_constraintWidth_percent="0.45" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

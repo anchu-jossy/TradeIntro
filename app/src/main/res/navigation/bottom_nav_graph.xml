@@ -14,7 +14,7 @@
         android:id="@+id/nav_home"
         android:name="com.techxform.tradintro.feature_main.presentation.home.HomeFragment"
         android:label="@string/nav_home"
-        tools:layout="@layout/home_fragment" >
+        tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_nav_home_to_nav_market"
             app:destination="@id/nav_market" />
@@ -30,18 +30,18 @@
         <action
             android:id="@+id/action_nav_home_to_portfolioViewFragment"
             app:destination="@id/portfolioViewFragment" />
-       <!-- <action
-            android:id="@+id/action_nav_home_self"
-            app:destination="@id/nav_home"
-            app:popUpTo="@id/nav_home"
-            app:popUpToInclusive="true"/>-->
+        <!-- <action
+             android:id="@+id/action_nav_home_self"
+             app:destination="@id/nav_home"
+             app:popUpTo="@id/nav_home"
+             app:popUpToInclusive="true"/>-->
 
     </fragment>
     <fragment
         android:id="@+id/nav_market"
         android:name="com.techxform.tradintro.feature_main.presentation.market.MarketListFragment"
         android:label="@string/nav_market"
-        tools:layout="@layout/market_fragment" >
+        tools:layout="@layout/market_fragment">
         <action
             android:id="@+id/action_nav_market_to_marketDetailFragment"
             app:destination="@id/marketDetailFragment" />
@@ -50,7 +50,7 @@
         android:id="@+id/nav_watchlist"
         android:name="com.techxform.tradintro.feature_main.presentation.watchlist.WatchlistFragment"
         android:label="@string/nav_watchlist"
-        tools:layout="@layout/watchlist_fragment" >
+        tools:layout="@layout/watchlist_fragment">
         <action
             android:id="@+id/action_nav_watchlist_to_watchlistViewFragment"
             app:destination="@id/watchlistViewFragment" />
@@ -81,6 +81,12 @@
         android:name="com.techxform.tradintro.feature_main.presentation.market.MarketDetailFragment"
         android:label="fragment_market_detail"
         tools:layout="@layout/market_detail_fragment" />
+
+    <fragment
+        android:id="@+id/rechargeTradeMoneyFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.recharge_trade_money.RechargeTradeMoneyFragment"
+        android:label="recharge_trade_money_fragment"
+        tools:layout="@layout/recharge_trade_money_fragment" />
 
     <fragment
         android:id="@+id/nav_profile"

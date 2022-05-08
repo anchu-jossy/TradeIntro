@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WatchlistFragmentBinding
+import java.security.acl.Group
 
 class WatchlistFragment :
     BaseFragment<WatchlistFragmentBinding>(WatchlistFragmentBinding::inflate) {
@@ -27,7 +28,6 @@ class WatchlistFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.watchListRv.adapter = WatchListAdapter(arrayListOf(),listener)
-
     }
 
     private val listener = object:WatchListAdapter.ClickListener{

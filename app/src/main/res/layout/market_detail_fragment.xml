@@ -9,9 +9,209 @@
         <variable
             name="vm"
             type="com.techxform.tradintro.feature_main.presentation.market.MarketViewModel" />
+
     </data>
 
-    <androidx.core.widget.NestedScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/_16sdp">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/toolbarTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:drawableStart="@drawable/ic_back_action"
+            android:drawablePadding="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans_semibold"
+            android:foreground="?selectableItemBackground"
+            android:maxLines="1"
+            android:text="HDFC Bank"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_back_action"
+            android:drawablePadding="@dimen/_8sdp"
+            android:drawableTint="@android:color/transparent"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans"
+            android:maxLines="1"
+            android:text="NSE"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintStart_toStartOf="@+id/toolbarTitleTv"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarTitleTv" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:maxLines="1"
+            android:text="HDFC Bank"
+
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintTop_toBottomOf="@+id/subTitleTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/amountTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="00,000.00"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/open_sans_medium"
+            android:text="2 Feb 2022 09:32:21"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toTopOf="@+id/g1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/g1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.35" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/medium_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/g1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/summaryTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:text="@string/summary"
+            android:textColor="@color/magenta"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toTopOf="@+id/summaryBorder"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/summaryBorder"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@color/magenta"
+            app:layout_constraintEnd_toEndOf="@+id/summaryTv"
+            app:layout_constraintStart_toStartOf="@+id/summaryTv"
+            app:layout_constraintTop_toTopOf="@+id/g1" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/g1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:paddingBottom="@dimen/_8sdp">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/priceRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:spanCount="3"
+                    tools:itemCount="6"
+                    tools:listitem="@layout/price_row" />
+
+
+                <include
+                    android:id="@+id/yellowHighLow"
+                    layout="@layout/high_low_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:highAmount="@{String.valueOf(35.21)}"
+                    app:highLbl="@{@string/high_lbl}"
+                    app:isYellow="@{true}"
+                    app:layout_constraintTop_toBottomOf="@+id/priceRv"
+                    app:lowAmount="@{String.valueOf(25.21)}"
+                    app:lowLbl="@{@string/low_lbl}" />
+
+                <include
+                    android:id="@+id/ashHighLow"
+                    layout="@layout/high_low_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:highAmount="@{String.valueOf(35.21)}"
+                    app:highLbl="@{@string/open_lbl}"
+                    app:isYellow="@{false}"
+                    app:layout_constraintTop_toBottomOf="@+id/yellowHighLow"
+                    app:lowAmount="@{String.valueOf(25.21)}"
+                    app:lowLbl="@{@string/close_lbl}" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buyBtn"
+                    style="@style/Theme.TradIntro.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/violet_circular_bg"
+                    android:text="@string/buy_lbl"
+                    app:layout_constraintEnd_toStartOf="@+id/sellBtn"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
+                    app:layout_constraintWidth_percent="0.45" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/sellBtn"
+                    style="@style/Theme.TradIntro.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/pink_circular_bg"
+                    android:text="@string/sell_lbl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toEndOf="@+id/buyBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
+                    app:layout_constraintWidth_percent="0.45" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--<androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -34,7 +234,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/g1"
+                    android:id="@+id/g12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -245,7 +445,6 @@
                         android:layout_gravity="start"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:text="volume"
-
                         android:textColor="@color/medium_gray"
                         android:textStyle="normal" />
                 </LinearLayout>
@@ -517,7 +716,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>-->
 </layout>
 
 
