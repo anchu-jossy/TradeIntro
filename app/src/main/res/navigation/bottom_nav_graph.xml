@@ -112,6 +112,11 @@
         android:name="com.techxform.tradintro.feature_main.presentation.notification.DetailedNotificationFragment"
         android:label="detailed_notification_fragment"
         tools:layout="@layout/detailed_notification_fragment" />
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.wallet.WalletFragment"
+        android:label="wallet_fragment"
+        tools:layout="@layout/wallet_fragment" />
 
 
 </navigation>

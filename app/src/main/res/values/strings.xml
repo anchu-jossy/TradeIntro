@@ -68,6 +68,9 @@
     <string name="current_password_lbl">Current Password</string>
     <string name="new_password_lbl">New Password</string>
     <string name="confirm_password_lbl">Confirm Password</string>
+    <string name="balance_lbl">Balance</string>
+    <string name="last_allocation_on_lbl">Last Allocation On</string>
+    <string name="last_allocation_amount_lbl">Last Allocation Amount</string>
 
     <!--    Market list Screen-->
     <string name="markets">Markets</string>
