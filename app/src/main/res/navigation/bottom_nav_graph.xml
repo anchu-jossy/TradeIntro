@@ -98,6 +98,20 @@
         android:name="com.techxform.tradintro.feature_main.presentation.change_password.ChangePasswordFragment"
         android:label="change_password_fragment"
         tools:layout="@layout/change_password_fragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment"
+        android:label="notification_fragment"
+        tools:layout="@layout/notification_fragment" >
+        <action
+            android:id="@+id/action_notificationFragment_to_detailedNotificationFragment"
+            app:destination="@id/detailedNotificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailedNotificationFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.notification.DetailedNotificationFragment"
+        android:label="detailed_notification_fragment"
+        tools:layout="@layout/detailed_notification_fragment" />
 
 
 </navigation>
