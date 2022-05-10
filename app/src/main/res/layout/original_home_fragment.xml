@@ -149,29 +149,34 @@
                 android:layout_gravity="center"
                 android:background="@drawable/home_card"
                 android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_16sdp">
+                android:paddingVertical="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="@+id/imgPortfolio"
+                app:layout_constraintStart_toEndOf="@+id/imgPortfolio">
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
                     android:gravity="start"
                     android:text="@string/nav_portfolio"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/imgPortfolio"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/_8sdp"
+
                     android:src="@drawable/market"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/textView"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView"
                     app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.337"
                     app:layout_constraintWidth_percent="0.5"
                     app:tint="@color/white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -204,24 +209,27 @@
 
                 <TextView
                     android:id="@+id/textViewMarket"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
                     android:fontFamily="@font/open_sans_medium"
                     android:gravity="start"
                     android:text="@string/nav_market"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/imgMarket"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/_8sdp"
                     android:src="@drawable/watchlist"
                     app:layout_constraintBottom_toTopOf="@+id/textViewMarket"
                     app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5"
                     app:tint="@color/white" />
 
@@ -254,13 +262,14 @@
 
                 <TextView
                     android:id="@+id/textViewProfile"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
                     android:gravity="start"
                     android:text="@string/profile"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
@@ -271,6 +280,7 @@
                     android:src="@drawable/profile"
                     app:layout_constraintBottom_toTopOf="@+id/textViewProfile"
                     app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintWidth_percent="0.5"
                     app:tint="@color/white" />
@@ -299,17 +309,20 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/home_card"
                 android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_16sdp">
+                android:paddingVertical="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="@+id/imgWallet"
+                app:layout_constraintStart_toEndOf="@+id/imgWallet">
 
                 <TextView
                     android:id="@+id/textViewWallet"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
                     android:gravity="start"
                     android:text="@string/wallet"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
@@ -318,9 +331,11 @@
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:src="@drawable/trade"
-                    app:layout_constraintBottom_toTopOf="@+id/textViewWallet"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5"
                     app:tint="@color/white" />
             </androidx.constraintlayout.widget.ConstraintLayout>

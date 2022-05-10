@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/sign_in_bg"
+        android:background="@drawable/menu_bg"
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent">
 
