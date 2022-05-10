@@ -34,7 +34,7 @@ class OrginalHomeFragment :
                 findNavController().navigate(R.id.nav_profile)
             }
             cardContainerWallet.setOnClickListener {
-                findNavController().navigate(R.id.nav_watchlist)
+                findNavController().navigate(R.id.walletFragment)
             }
 
         }

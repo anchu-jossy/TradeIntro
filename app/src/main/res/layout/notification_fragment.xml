@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".feature_main.presentation.notification.NotificationFragment">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.techxform.tradintro.feature_main.presentation.notification.NotificationViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingTop="@dimen/_16sdp">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/market_search_view"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/frame"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notificationRv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="10"
+            tools:listitem="@layout/notification_row"/>
+
+
+
+
+
+    </LinearLayout>
+
+</layout>

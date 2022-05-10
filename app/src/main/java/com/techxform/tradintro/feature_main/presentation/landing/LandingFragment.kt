@@ -75,7 +75,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 2 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 3 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 4 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
-                5 -> navController.navigate(R.id.changePasswordFragment)
+                5 -> navController.navigate(R.id.notificationFragment)
                 6 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 7 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 8 -> navController.navigate(R.id.changePasswordFragment)
