@@ -72,7 +72,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             when (position) {
                 0 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 1 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
-                2 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                2 -> navController.navigate(R.id.mySkillsFragment)
                 3 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 4 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 5 -> navController.navigate(R.id.notificationFragment)

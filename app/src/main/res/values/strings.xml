@@ -114,5 +114,6 @@
     <string name="mail_id">Mail Id</string>
     <string name="phone_num">Phone Number</string>
     <string name="delete_account">Delete Account</string>
+    <string name="level_desc">You are in the Level2.Unlock next levels to enjoy \n new features and explore more on trading</string>
 
 </resources>

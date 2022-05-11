@@ -1,4 +1,4 @@
-package com.techxform.tradintro.feature_main.presentation.home
+package com.techxform.tradintro.feature_main.presentation.portfolio
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import java.util.ArrayList
 
-class PortfolioAdapter(var list: ArrayList<String>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
+class PortfolioAdapter(var list: ArrayList<String>,val listener: ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
 
     inner class PortfolioVH(private val rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root)
