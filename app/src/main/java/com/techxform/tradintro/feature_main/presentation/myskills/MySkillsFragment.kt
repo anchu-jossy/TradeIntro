@@ -2,6 +2,8 @@ package com.techxform.tradintro.feature_main.presentation.myskills
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
+import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MySkillsBinding
 
@@ -23,6 +25,7 @@ class MySkillsFragment :
 
     private val rvListener = object : MySkillsAdapter.ClickListener {
         override fun onItemClick(position: Int) {
+            findNavController().navigate(R.id.mySkillsViewFragment)
         }
 
     }
