@@ -31,13 +31,11 @@ class LoginViewModel @Inject constructor(private val repository: ApiRepository) 
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.login(request)) {
                 is Result.Success -> {  _loginLiveData.postValue(result.data!!) }
-                is Result.Error -> {}
-                is Result.Loading -> { _loadingLiveData.postValue(false)}
+                is Result.Error -> { _loginErrorLiveData.postValue(result.exception)}
             }
-
+            _loadingLiveData.postValue(false)
         }
 
-        //viewModelScope.coroutineContext.cancelChildren()
     }
 
 }
