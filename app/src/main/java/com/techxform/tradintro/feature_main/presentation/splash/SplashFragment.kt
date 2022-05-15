@@ -12,14 +12,18 @@ import com.techxform.tradintro.databinding.FragmentSplashBinding
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
 
+    private val isLoggedIn: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
-            findNavController(this).navigate(R.id.action_splashFragment_to_landingFragment)
+
+            if (isLoggedIn)
+                findNavController(this).navigate(R.id.action_splashFragment_to_landingFragment)
+            else findNavController(this).navigate(R.id.action_splashFragment_to_loginFragment)
 
         }, UI_ANIMATION_DELAY.toLong())
     }
-
 
 
     companion object {
