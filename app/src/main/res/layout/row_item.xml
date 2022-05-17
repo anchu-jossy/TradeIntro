@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="stock"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.Stock" />
 
     </data>
 
@@ -27,7 +29,7 @@
                 android:id="@+id/titleTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="HDFC Bank"
+                android:text="@{stock.stockName}"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans_semibold"
@@ -41,7 +43,7 @@
                 android:id="@+id/subTitleTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="NSE"
+                android:text="@{stock.stockCode}"
                 android:maxLines="1"
                 android:fontFamily="@font/open_sans"
                 android:ellipsize="end"

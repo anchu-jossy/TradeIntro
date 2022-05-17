@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.LoginFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.LoginRequest
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,11 +53,20 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBar.isVisible = it
+            binding.progressBar.progressOverlay.isVisible = it
         }
 
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.landingFragment)
+        }
+
+        viewModel.loginErrorLiveData.observe(viewLifecycleOwner){
+            when(it)
+            {
+                Failure.NetworkConnection -> {
+                    sequenceOf(Toast.makeText(requireContext(),getString(R.string.no_internet_error) ,Toast.LENGTH_SHORT).show())}
+                else -> {}
+            }
         }
     }
 

@@ -1,10 +1,13 @@
 package com.techxform.tradintro.feature_main.data.repository
 
+import android.util.Log
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
+import com.techxform.tradintro.feature_main.domain.model.MarketSearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.*
 import retrofit2.Response
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class ApiDataRepositoryImpl @Inject constructor(
@@ -18,10 +21,43 @@ class ApiDataRepositoryImpl @Inject constructor(
     override suspend fun login(loginRequest: LoginRequest): Result<BaseResponse<LoginResponse>> {
         return withContext(Dispatchers.Default)
         {
-            val response = apiService.login(loginRequest)
-            if (response.isSuccessful)
-                Result.Success(response.body()!!)
-            else {
+            try {
+                val response = apiService.login(loginRequest)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun marketList(marketSearchModel: MarketSearchModel): Result<BaseResponse<ArrayList<Stock>>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "search" to marketSearchModel.searchText,
+                    "limit" to marketSearchModel.limit.toString(),
+                    "offset" to marketSearchModel.offset.toString(),
+                    "skip" to marketSearchModel.skip.toString()
+                )
+
+                val response = apiService.marketList(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: Exception) {
                 Result.Error(Failure.ServerError)
             }
         }

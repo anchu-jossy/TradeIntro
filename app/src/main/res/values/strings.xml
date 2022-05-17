@@ -72,6 +72,7 @@
     <string name="last_allocation_on_lbl">Last Allocation On</string>
     <string name="last_allocation_amount_lbl">Last Allocation Amount</string>
     <string name="user_name_pass_required_msg">Please fill user name or password</string>
+    <string name="no_internet_error">No internet</string>
 
     <!--    Market list Screen-->
     <string name="markets">Markets</string>

@@ -2,17 +2,20 @@ package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.presentation.portfolio_view.PriceAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MarketDetailFragment :
     BaseFragment<MarketDetailFragmentBinding>(MarketDetailFragmentBinding::inflate) {
 
+    //private val viewModel: MarketViewModel by activityViewModels()
     companion object {
         fun newInstance() = MarketDetailFragment()
     }
@@ -20,18 +23,14 @@ class MarketDetailFragment :
     private lateinit var viewModel: MarketViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel = ViewModelProvider(this)[MarketViewModel::class.java]
+        //binding.vm = viewModel
         binding.priceRv.adapter = PriceAdapter(createPriceType())
 
         // binding.textViewBalance.text = getString(R.string.Rs) + " 00,000.00"
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MarketViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
     private fun createPriceType() : ArrayList<PriceType>
     {
