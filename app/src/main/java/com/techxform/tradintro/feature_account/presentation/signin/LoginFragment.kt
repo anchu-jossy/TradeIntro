@@ -53,7 +53,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBar.isVisible = it
+            binding.progressBar.progressOverlay.isVisible = it
         }
 
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
