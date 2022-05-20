@@ -145,8 +145,8 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:spanCount="3"
-                    tools:itemCount="6"
+                    app:spanCount="2"
+                    tools:itemCount="4"
                     tools:listitem="@layout/price_row" />
 
 
