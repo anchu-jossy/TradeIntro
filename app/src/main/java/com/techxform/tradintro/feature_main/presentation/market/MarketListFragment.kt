@@ -6,7 +6,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
@@ -14,7 +13,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
-import com.techxform.tradintro.feature_main.domain.model.MarketSearchModel
+import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +26,9 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
 
     private lateinit var viewModel: MarketViewModel
     private var marketList: ArrayList<Stock> = arrayListOf()
+    private val limit = 10
+    private var isLoading = false
+    private var noMorePages = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,19 +50,31 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if(newText.isEmpty())
-                    viewModel.marketList(MarketSearchModel("", 10, 0, 0))
+                if(newText.isEmpty()) {
+                    marketList.clear()
+                    viewModel.marketList(SearchModel("", limit, 0, 0))
+                }
                 return false
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                viewModel.marketList(MarketSearchModel(query.trim(), 10, 0, 0))
+                marketList.clear()
+                viewModel.marketList(SearchModel(query.trim(), limit, 0, 0))
                 return false
             }
 
         })
 
-        viewModel.marketList(MarketSearchModel("", 10, 0, 0))
+        binding.nestedScrollView.viewTreeObserver.addOnScrollChangedListener {
+            if (binding.nestedScrollView.getChildAt(0).bottom
+                <= (binding.nestedScrollView.height + binding.nestedScrollView.scrollY)) {
+                    if(!isLoading) {
+                        isLoading = true
+                        viewModel.marketList(SearchModel("", limit, marketList.size, 0))
+                    }
+            }
+        }
+        viewModel.marketList(SearchModel("", limit, marketList.size, 0))
 
     }
 
@@ -78,12 +92,16 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         }
 
         viewModel.marketListLiveData.observe(viewLifecycleOwner) {
-            marketList.clear()
+           // marketList.clear()
+            if(it.data.isEmpty() || it.data.size < limit)
+                noMorePages = true
             marketList.addAll(it.data)
+            isLoading = false
             setAdapter()
         }
 
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
+            isLoading = false
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(

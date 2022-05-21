@@ -7,17 +7,23 @@ import android.view.*
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.PreferenceHelper
+import com.techxform.tradintro.core.utils.PreferenceHelper.token
 import com.techxform.tradintro.databinding.FragmentSplashBinding
 
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
 
-    private val isLoggedIn: Boolean = false
+    private var isLoggedIn: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Handler(Looper.getMainLooper()).postDelayed({
+        val pref = PreferenceHelper.customPreference(requireContext())
+        isLoggedIn = pref.token!!.isNotEmpty()
 
+//TODO: Refresh Token Functionality
+
+        Handler(Looper.getMainLooper()).postDelayed({
             if (isLoggedIn)
                 findNavController(this).navigate(R.id.action_splashFragment_to_landingFragment)
             else findNavController(this).navigate(R.id.action_splashFragment_to_loginFragment)

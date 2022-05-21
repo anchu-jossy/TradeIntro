@@ -3,19 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="stock"
             type="com.techxform.tradintro.feature_main.data.remote.dto.Stock" />
 
+        <variable
+            name="portfolio"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
+
+        <variable
+            name="rowType"
+            type="Integer" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
         app:cardCornerRadius="@dimen/_2sdp"
-        app:cardPreventCornerOverlap="true">
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,10 +37,10 @@
                 android:id="@+id/titleTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{stock.stockName}"
-                android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans_semibold"
+                android:maxLines="1"
+                android:text="@{rowType ==0 ?  stock.stockName : portfolio.market.stockName }"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,10 +51,10 @@
                 android:id="@+id/subTitleTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{stock.stockCode}"
-                android:maxLines="1"
-                android:fontFamily="@font/open_sans"
                 android:ellipsize="end"
+                android:fontFamily="@font/open_sans"
+                android:maxLines="1"
+                android:text="@{rowType ==0 ?  stock.stockName : portfolio.market.stockCode}"
                 android:textSize="@dimen/_8ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleTv"
@@ -67,11 +75,11 @@
                 android:id="@+id/amountTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="$1,085.16"
-                android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans_semibold"
+                android:gravity="end"
+                android:maxLines="1"
+                android:text="@{rowType ==0 ?  stock.stockApiCode : @string/rs_format(portfolio.orderTotal)}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,11 +90,11 @@
                 android:id="@+id/perTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="-21.46%"
-                android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans"
+                android:gravity="end"
+                android:maxLines="1"
+                android:text="-21.46%"
                 android:textSize="@dimen/_8ssp"
                 app:layout_constraintEnd_toEndOf="@+id/amountTv"
                 app:layout_constraintStart_toStartOf="@+id/amountTv"

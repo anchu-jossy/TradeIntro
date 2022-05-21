@@ -64,8 +64,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:ellipsize="end"
-                    android:maxLines="1"
                     android:fontFamily="@font/open_sans_semibold"
+                    android:maxLines="1"
                     android:text="Hindustan Foods Limited"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
@@ -79,9 +79,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:fontFamily="@font/open_sans"
                     android:maxLines="1"
                     android:text="NSE"
-                    android:fontFamily="@font/open_sans"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/titleTv"
@@ -93,10 +93,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:ellipsize="end"
+                    android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
                     android:text="2022-02-02"
-                    android:fontFamily="@font/open_sans"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toTopOf="@+id/timeTv"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -108,10 +108,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
                     android:text="09:54:12"
-                    android:fontFamily="@font/open_sans"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/subTitleTv"
@@ -162,7 +162,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
-
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

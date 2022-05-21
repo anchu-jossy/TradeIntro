@@ -31,7 +31,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     }
 
-    private fun listeners(){
+    private fun listeners() {
         binding.btnSignIn.setOnClickListener {
             if (binding.userNameET.text.isNullOrEmpty() && binding.passwordET.text.isNullOrEmpty()) {
                 Toast.makeText(
@@ -45,7 +45,9 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 LoginRequest(
                     binding.userNameET.text.toString(),
                     binding.passwordET.text.toString()
-                )
+                ),
+                requireContext()
+                //TradSharedPreference.createGetPreference(requireContext())
             )
         }
 
@@ -57,14 +59,21 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         }
 
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
+            //(requireActivity().application as TradIntroApp).token = it.data.token
             findNavController().navigate(R.id.landingFragment)
         }
 
-        viewModel.loginErrorLiveData.observe(viewLifecycleOwner){
-            when(it)
-            {
+        viewModel.loginErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
                 Failure.NetworkConnection -> {
-                    sequenceOf(Toast.makeText(requireContext(),getString(R.string.no_internet_error) ,Toast.LENGTH_SHORT).show())}
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.no_internet_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
                 else -> {}
             }
         }

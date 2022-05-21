@@ -73,8 +73,10 @@
     <string name="last_allocation_amount_lbl">Last Allocation Amount</string>
     <string name="user_name_pass_required_msg">Please fill user name or password</string>
     <string name="no_internet_error">No internet</string>
+    <string name="rs_format">\u20B9 %.2f</string>
+    <string name="holding_value_per_format"> %1$.2f (%2$.2f)</string>
 
-    <!--    Market list Screen-->
+    <!--    Market list Screen &#37;-->
     <string name="markets">Markets</string>
     <string name="filter">Filter</string>
     <string name="catagories">Categories</string>

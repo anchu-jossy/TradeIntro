@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.techxform.tradintro.feature_main.data.remote.dto.*
-import com.techxform.tradintro.feature_main.domain.model.MarketSearchModel
+import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,10 +26,10 @@ class MarketViewModel @Inject constructor(private val repository: ApiRepository)
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
 
-    fun marketList(marketSearchModel: MarketSearchModel) {
+    fun marketList(searchModel: SearchModel) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.marketList(marketSearchModel)) {
+            when (val result = repository.marketList(searchModel)) {
                 is Result.Success -> {
                     _marketListLiveData.postValue(result.data!!)
                 }

@@ -11,8 +11,20 @@ interface ApiService {
     @POST("api/users/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<BaseResponse<LoginResponse>>
 
-    @GET("api/market")
+    @GET("api/market")//TODO: add pagination offset == previous limit
     suspend fun marketList(@QueryMap reqMap:Map<String,String>) : Response<BaseResponse<ArrayList<Stock>>>
+
+    @GET("api/portfolio")
+    suspend fun portfolio(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<PortfolioItem>>>
+
+    @GET("api/portfolio/dashboard")
+    suspend fun portfolioDashboard(): Response<BaseResponse<PortfolioDashboard>>
+
+    @GET("api/users/dashboard")
+    suspend fun usersDashboard(): Response<BaseResponse<UserDashboard>>
+
+    @GET("api/notifications")
+    suspend fun notifications(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<Notifications>>>
 
 
 }

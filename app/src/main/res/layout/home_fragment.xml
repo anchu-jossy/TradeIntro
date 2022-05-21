@@ -9,24 +9,36 @@
         <variable
             name="vm"
             type="com.techxform.tradintro.feature_main.presentation.home.HomeViewModel" />
+
+        <variable
+            name="portfolioDashboard"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/_16sdp"
-        android:paddingTop="@dimen/_16sdp">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/portfolio_card_view" />
+        <include
+            layout="@layout/portfolio_card_view"
+            app:portfolioDashboard = "@{portfolioDashboard}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.3"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
             android:id="@+id/portfolioLbl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
-            android:text="@string/portfolio_list_lbl"
             android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/portfolio_list_lbl"
             android:textSize="@dimen/_16ssp"
             app:layout_constraintTop_toBottomOf="@+id/cardContainer" />
 
@@ -35,6 +47,7 @@
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/frame"
             android:layoutDirection="rtl"
@@ -45,12 +58,22 @@
             android:id="@+id/portfolioRv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchView"
             tools:listitem="@layout/row_item" />
 
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

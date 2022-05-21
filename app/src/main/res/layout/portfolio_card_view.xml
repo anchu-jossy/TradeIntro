@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <variable
+            name="portfolioDashboard"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -54,7 +56,7 @@
                 android:id="@+id/holdingAmountTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="75,405.42"
+                android:text="@{String.valueOf(portfolioDashboard.holdingValue)}"
                 android:fontFamily="@font/open_sans_semibold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_18ssp"
@@ -66,7 +68,7 @@
                 android:id="@+id/tradeValueTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="-3580.30(-40%)"
+                android:text="@{@string/holding_value_per_format(portfolioDashboard.holdingValueDiff, portfolioDashboard.holdingValueDiffPer) }"
                 android:fontFamily="@font/open_sans_light"
                 app:layout_constraintWidth_percent="0.3"
                 android:textColor="@color/white"
@@ -110,7 +112,7 @@
                 android:id="@+id/tradeMoneyBalance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="34545645"
+                android:text="@{String.valueOf(portfolioDashboard.tradeMoneyBalance)}"
                 android:fontFamily="@font/open_sans_medium"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
@@ -134,7 +136,7 @@
                 android:id="@+id/totalInvestment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="34545645"
+                android:text="@{String.valueOf(portfolioDashboard.totalInvestment)}"
                 android:gravity="end"
                 android:fontFamily="@font/open_sans_medium"
                 android:textColor="@color/white"

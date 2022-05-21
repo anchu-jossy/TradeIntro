@@ -4,11 +4,17 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.core.view.isVisible
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.PortfolioViewFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.domain.model.PriceType
+import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PortfolioViewFragment : BaseFragment<PortfolioViewFragmentBinding>(PortfolioViewFragmentBinding::inflate) {
 
     companion object {
@@ -18,15 +24,9 @@ class PortfolioViewFragment : BaseFragment<PortfolioViewFragmentBinding>(Portfol
     private lateinit var viewModel: PortfolioViewViewModel
 
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[PortfolioViewViewModel::class.java]
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[PortfolioViewViewModel::class.java]
 
         val spinnerArr = arrayOf("1","2","3","4","5","6","7","8","9","10")
 
@@ -58,6 +58,7 @@ class PortfolioViewFragment : BaseFragment<PortfolioViewFragmentBinding>(Portfol
         return priceTypes
 
     }
+
 
 
 

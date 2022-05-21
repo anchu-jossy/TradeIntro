@@ -22,6 +22,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: onItem
     inner class MarketListVH(private val rowItemBinding: RowItemBinding) :
         RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
+            rowItemBinding.rowType = 0
             rowItemBinding.stock = list[adapterPosition]
             if (adapterPosition % 2 == 0) {
                 drawChart(
@@ -79,8 +80,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: onItem
             arrayList.add(Entry(index.toFloat(), stockHistory.stockHistoryClose))
 
         }
-        list.forEach {
-        }
+
 
         return arrayList
     }

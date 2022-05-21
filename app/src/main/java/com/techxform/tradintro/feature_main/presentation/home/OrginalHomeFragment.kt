@@ -7,7 +7,9 @@ import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.OriginalHomeFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OrginalHomeFragment :
     BaseFragment<OriginalHomeFragmentBinding>(OriginalHomeFragmentBinding::inflate) {
 
@@ -15,14 +17,10 @@ class OrginalHomeFragment :
     private lateinit var viewModel: HomeViewModel
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        binding.vm = viewModel
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        binding.vm = viewModel
         with(binding) {
             cardContainerPortfolio.setOnClickListener {
                 findNavController().navigate(R.id.nav_home)

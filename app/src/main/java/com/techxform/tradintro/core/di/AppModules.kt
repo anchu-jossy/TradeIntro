@@ -35,6 +35,29 @@ object AppModules {
     @Singleton
     fun provideCoroutineDispatcher() = Dispatchers.IO
 
+    /*@Provides
+    @Singleton
+    fun providePreference(context: Context): SharedPreferences {
+        val masterKey = MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        var pref = context.getSharedPreferences(
+            PREFERENCE,
+            Context.MODE_PRIVATE
+        )
+
+        if (pref == null)
+            pref = EncryptedSharedPreferences.create(
+                context,
+                PREFERENCE,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        return pref
+    }
+*/
     private fun <T> provideServices(
         client: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,

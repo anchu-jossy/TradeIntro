@@ -1,6 +1,6 @@
 package com.techxform.tradintro.feature_main.domain.model
 
-data class MarketSearchModel(
+data class SearchModel(
     var searchText: String = "",
     var limit: Int = 10,
     var offset: Int = 0,
