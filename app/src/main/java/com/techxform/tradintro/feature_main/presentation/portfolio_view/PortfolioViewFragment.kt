@@ -52,8 +52,9 @@ class PortfolioViewFragment : BaseFragment<PortfolioViewFragmentBinding>(Portfol
         priceTypes.add(PriceType(3728.34, getString(R.string.total_price_lbl)))
         priceTypes.add(PriceType(47243.3, getString(R.string.total_value_lbl)))
         priceTypes.add(PriceType(43234.34, getString(R.string.alert_price_lbl)))
-        priceTypes.add(PriceType(2823.45, getString(R.string.gain_loss_lbl)))
-        priceTypes.add(PriceType(474.36, getString(R.string.per_gain_loss_lbl)))
+        val gainLoss=priceTypes[0].amount.minus( priceTypes[1].amount)
+        priceTypes.add(PriceType(gainLoss, getString(R.string.gain_loss_lbl)))
+        priceTypes.add(PriceType(gainLoss*100, getString(R.string.per_gain_loss_lbl)))
 
         return priceTypes
 

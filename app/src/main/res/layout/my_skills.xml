@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingTop="@dimen/_16sdp">
+
+
+        <ImageView
+            android:id="@+id/imageViewMainLevel"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:src="@drawable/level2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="TODO" />
+
+        <TextView
+            android:id="@+id/textViewLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_lock_open_24"
+            android:drawablePadding="@dimen/_15ssp"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="Level 2"
+            android:textColor="@color/dark_most_grey"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintBottom_toTopOf="@+id/textViewLevelDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewMainLevel" />
+
+        <TextView
+            android:id="@+id/textViewLevelDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_medium"
+            android:text="@string/level_desc"
+            android:textColor="@color/dark_most_grey"
+            app:layout_constraintBottom_toTopOf="@+id/g1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="Current Points :118.43 Pts"
+            android:textColor="@color/dark_gray"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewLearn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewLevelDesc"
+             />
+
+        <TextView
+            android:id="@+id/textViewLearn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_medium"
+            android:text="Learn More"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/purple"
+            app:layout_constraintBottom_toTopOf="@+id/g1"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.725" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/g1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".6" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mySkillsRV"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewLearn"
+            tools:layout_editor_absoluteX="34dp"
+            tools:listitem="@layout/myskills_item" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
+
+

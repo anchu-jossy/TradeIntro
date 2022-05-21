@@ -1,11 +1,14 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
@@ -50,7 +53,7 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if(newText.isEmpty()) {
+                if (newText.isEmpty()) {
                     marketList.clear()
                     viewModel.marketList(SearchModel("", limit, 0, 0))
                 }
@@ -65,15 +68,30 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
 
         })
 
+        binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (binding.nestedScrollView.getChildAt(0) != null && (binding.nestedScrollView.getChildAt(
+                    0
+                ).bottom
+                        <= (binding.nestedScrollView.height + binding.nestedScrollView.scrollY))
+            ) {
+                if (!isLoading) {
+                    isLoading = true
+                    viewModel.marketList(SearchModel("", limit, marketList.size, 0))
+                }
+            }
+        })
+/*
         binding.nestedScrollView.viewTreeObserver.addOnScrollChangedListener {
-            if (binding.nestedScrollView.getChildAt(0).bottom
-                <= (binding.nestedScrollView.height + binding.nestedScrollView.scrollY)) {
+            isLoading = true
+            *//*if (binding != null && binding.nestedScrollView.getChildAt(0) != null && binding.nestedScrollView != null  && (binding.nestedScrollView.getChildAt(0).bottom
+                        <= (binding.nestedScrollView.height + binding.nestedScrollView.scrollY))
+            ) {
                     if(!isLoading) {
                         isLoading = true
                         viewModel.marketList(SearchModel("", limit, marketList.size, 0))
                     }
-            }
-        }
+            }*//*
+        }*/
         viewModel.marketList(SearchModel("", limit, marketList.size, 0))
 
     }
@@ -92,8 +110,8 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         }
 
         viewModel.marketListLiveData.observe(viewLifecycleOwner) {
-           // marketList.clear()
-            if(it.data.isEmpty() || it.data.size < limit)
+            // marketList.clear()
+            if (it.data.isEmpty() || it.data.size < limit)
                 noMorePages = true
             marketList.addAll(it.data)
             isLoading = false
@@ -123,5 +141,10 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
                     findNavController().navigate(R.id.action_nav_market_to_marketDetailFragment)
                 }
             })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("ONSTART", "onStart()")
     }
 }

@@ -12,9 +12,9 @@
         tools:layout="@layout/original_home_fragment" />
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.techxform.tradintro.feature_main.presentation.home.HomeFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.portfolio.PortfoliosFragment"
         android:label="@string/nav_home"
-        tools:layout="@layout/home_fragment">
+        tools:layout="@layout/portfolis_fragment">
         <action
             android:id="@+id/action_nav_home_to_nav_market"
             app:destination="@id/nav_market" />
@@ -117,6 +117,14 @@
         android:name="com.techxform.tradintro.feature_main.presentation.wallet.WalletFragment"
         android:label="wallet_fragment"
         tools:layout="@layout/wallet_fragment" />
-
-
+    <fragment
+        android:id="@+id/mySkillsFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.myskills.MySkillsFragment"
+        android:label="myskills_fragment"
+        tools:layout="@layout/my_skills" />
+    <fragment
+        android:id="@+id/mySkillsViewFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.myskills.MySkillsViewFragment"
+        android:label="myskills_view_fragment"
+        tools:layout="@layout/my_skills_view" />
 </navigation>

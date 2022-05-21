@@ -1,4 +1,4 @@
-package com.techxform.tradintro.feature_main.presentation.home
+package com.techxform.tradintro.feature_main.presentation.portfolio
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

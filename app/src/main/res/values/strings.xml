@@ -113,5 +113,13 @@
     <string name="alerts_lbl">Alerts</string>
     <string name="change_password_lbl">Change Password</string>
     <string name="logout_lbl">Logout</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="mail_id">Mail Id</string>
+    <string name="phone_num">Phone Number</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="level_desc">You are in the Level2.Unlock next levels to enjoy \n new features and explore more on trading</string>
+    <string name="string_features_unlocked">Features Unlocked !!!</string>
+    <string name="required_points">Required Points : 250 Pts</string>
 
 </resources>

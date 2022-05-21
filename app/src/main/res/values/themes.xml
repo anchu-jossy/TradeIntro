@@ -18,6 +18,7 @@
         <!--this also changes the color of the hint font and helper text too-->
         <item name="colorOnSurface">#FFFFFF</item>
         <item name="android:textColorHint">@color/white</item>
+        <item name="editTextStyle">@style/App_EditTextStyle</item>
 
 
     </style>

@@ -22,6 +22,7 @@
     <color name="dark_gray">#747474</color>
     <color name="medium_gray">#7B7C7F</color>
     <color name="shade_grey">#606060</color>
+    <color name="modest_grey">#C9C9C9</color>
 
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
@@ -33,7 +34,9 @@
     <color name="sky_blue">#326190</color>
     <color name="yellow">#FDBF2C</color>
     <color name="ash">#6C757D</color>
+    <color name="purple">#554B80</color>
 
+    <color name="dark_most_grey">#666666</color>
 
 
 
