@@ -10,6 +10,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.OriginalHomeFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.presentation.portfolio.PortfolioAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -76,7 +77,8 @@ class OriginalHomeFragment :
     }
 
     private val rvListener = object : PortfolioAdapter.ClickListener {
-        override fun onItemClick(position: Int) {
+
+        override fun onItemClick(portfolioItem: PortfolioItem, position: Int) {
             findNavController().navigate(R.id.action_nav_home_to_portfolioViewFragment)
         }
 

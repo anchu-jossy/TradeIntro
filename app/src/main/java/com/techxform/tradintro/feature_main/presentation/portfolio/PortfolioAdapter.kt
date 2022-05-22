@@ -14,7 +14,6 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
-import java.util.ArrayList
 
 class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
@@ -25,9 +24,18 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
         {
             rowItemBinding.rowType = 1
             rowItemBinding.portfolio = list[adapterPosition]
-            if(adapterPosition %2 == 0 ) {
-                drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(list[adapterPosition].market.history), rowItemBinding)
-            }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(list[adapterPosition].market.history), rowItemBinding)
+            rowItemBinding.amountTv.text = list[adapterPosition].orderTotal.toString()
+            if (adapterPosition % 2 == 0) {
+                drawChart(
+                    ContextCompat.getColor(itemView.context, R.color.dark_pink), createData(
+                        list[adapterPosition].market.history,
+                    ), rowItemBinding
+                )
+            } else drawChart(
+                ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(
+                    list[adapterPosition].market.history
+                ), rowItemBinding
+            )
             rowItemBinding.root.setOnClickListener{
                 listener.onItemClick(list[adapterPosition], adapterPosition)
             }
@@ -54,7 +62,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
 
     private fun createData(list: MutableList<StockHistory>): ArrayList<Entry> {
         val arrayList = arrayListOf<Entry>()
-
+        list.clear()
         //TODO: remove it
         if(list.isNullOrEmpty())
         {
@@ -66,6 +74,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
             arrayList.add(Entry(6F, 100.45F))
             return arrayList
         }
+
 
         list.forEachIndexed { index, stockHistory ->
             arrayList.add(Entry(index.toFloat(), stockHistory.stockHistoryClose))

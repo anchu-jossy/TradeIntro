@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
@@ -26,15 +25,26 @@ class MarketDetailFragment :
 
     private lateinit var viewModel: MarketDetailViewModel
     private var stockId by Delegates.notNull<Int>()
+    private var totalPrice by Delegates.notNull<Int>()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MarketDetailViewModel::class.java]
 
         stockId = requireArguments().getInt("stockId")
+        totalPrice = requireArguments().getInt("totalPrice")
 
+        binding.amountTv.text = "$totalPrice.00"
         observers()
         viewModel.marketDetail(stockId)
+        binding.ediTextAddtoWatchList.setText("$totalPrice.00")
+        binding.watchlistPlusBtn.setOnClickListener {
+            if (binding.stock?.watchList == null) {
+                Toast.makeText(requireContext(), "Already added in watchlist", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
     }
 
 
@@ -49,12 +59,7 @@ class MarketDetailFragment :
         } else {
             priceTypes.add(PriceType(stockHistory.stockHistoryOpen, getString(R.string.open_lbl)))
             priceTypes.add(PriceType(stockHistory.stockHistoryClose, getString(R.string.close_lbl)))
-            priceTypes.add(
-                PriceType(
-                    stockHistory.stockHistoryHigh,
-                    getString(R.string.volume_lbl)
-                )
-            )// TODO: Put volume
+
             priceTypes.add(
                 PriceType(
                     stockHistory.stockHistoryLow,
@@ -87,8 +92,8 @@ class MarketDetailFragment :
 
         viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
             binding.stock = it.data
-            if (it.data.history != null && it.data.history.isNotEmpty())
-                binding.priceRv.adapter = PriceAdapter(createPriceType(it.data.history[0]))
+            binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
+
         }
 
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
