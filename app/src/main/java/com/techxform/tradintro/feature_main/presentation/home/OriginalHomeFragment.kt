@@ -10,6 +10,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.OriginalHomeFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.presentation.portfolio.PortfolioAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,12 +47,9 @@ class OriginalHomeFragment :
                val searchText = binding.searchView as TextView
                searchText.typeface = face*/
 
-//        binding.portfolioRv.adapter = PortfolioAdapter(arrayListOf(),rvListener)
-
     }
 
-    private fun observers()
-    {
+    private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
@@ -73,13 +71,6 @@ class OriginalHomeFragment :
                 else -> {}
             }
         }
-    }
-
-    private val rvListener = object : PortfolioAdapter.ClickListener {
-        override fun onItemClick(position: Int) {
-            findNavController().navigate(R.id.action_nav_home_to_portfolioViewFragment)
-        }
-
     }
 
 

@@ -7,6 +7,10 @@
     <data>
 
         <variable
+            name="watchlist"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.WatchList" />
+
+        <variable
             name="alertPriceType"
             type="com.techxform.tradintro.feature_main.domain.model.PriceType" />
     </data>
@@ -14,20 +18,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/_16sdp"
-        android:paddingTop="@dimen/_16sdp">
+        >
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/backTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans_medium"
-            android:maxLines="1"
-            android:text="@string/back_lbl"
-            android:foreground="?selectableItemBackground"
             android:drawableStart="@drawable/ic_back_action"
             android:drawablePadding="@dimen/_8sdp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans_medium"
+            android:foreground="?selectableItemBackground"
+            android:maxLines="1"
+            android:text="@string/back_lbl"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
             android:fontFamily="@font/open_sans_semibold"
             android:text="@string/add_stock_lbl"
             android:textSize="@dimen/_16ssp"
@@ -49,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginStart="@dimen/_16sdp"
             android:fontFamily="@font/open_sans_medium"
             android:text="@string/exchange_lbl"
             android:textSize="@dimen/_12ssp"
@@ -77,10 +84,11 @@
             android:background="@drawable/editext_frame"
             android:fontFamily="@font/open_sans"
             android:hint="@string/stock_name_lbl"
+            android:layout_marginStart="@dimen/_16sdp"
             android:padding="@dimen/_3sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/exchange"
-            app:layout_constraintWidth_percent="0.65" />
+            app:layout_constraintWidth_percent="0.60" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/watchlistPlusBtn"
@@ -91,10 +99,11 @@
             android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/watchlist"
+            android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="@+id/stockNameSearch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/stockNameSearch"
-            app:layout_constraintWidth_percent="0.3" />
+            app:layout_constraintWidth_percent="0.25" />
 
 
         <androidx.appcompat.widget.AppCompatSpinner
@@ -102,12 +111,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/frame"
+            android:layout_marginStart="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="@+id/searchView"
             app:layout_constraintEnd_toStartOf="@+id/searchView"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/searchView"
-            app:layout_constraintWidth_percent="0.35" />
+            app:layout_constraintWidth_percent="0.30" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
@@ -115,17 +125,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/frame"
+            android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/filterSpinner"
             app:layout_constraintTop_toBottomOf="@+id/stockNameSearch"
-            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintWidth_percent="0.55"
             app:queryHint="@string/search" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchView">
@@ -141,7 +153,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/open_sans_semibold"
                     android:maxLines="1"
-                    android:text="Hindustan Foods Limited"
+                    android:text="@{String.valueOf(watchlist.watchlistId)}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
@@ -171,7 +183,7 @@
                     android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:text="2022-02-02"
+                    android:text="@{watchlist.formatDate()}"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toTopOf="@+id/timeTv"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -200,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/open_sans_semibold"
-                    android:text="33.95"
+                    android:text="@{@string/rs_format(watchlist.watchStockPrice)}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -340,6 +352,15 @@
 
         </androidx.core.widget.NestedScrollView>
 
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,16 +12,19 @@ interface ApiService {
     suspend fun login(@Body loginRequest: LoginRequest): Response<BaseResponse<LoginResponse>>
 
     @GET("api/market")
-    suspend fun marketList(@QueryMap reqMap:Map<String,String>) : Response<BaseResponse<ArrayList<Stock>>>
+    suspend fun marketList(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<Stock>>>
 
     @GET("api/market/{id}")
-    suspend fun marketDetails(@Path("id") marketId:Int) : Response<BaseResponse<Stock>>
+    suspend fun marketDetails(@Path("id") marketId: Int): Response<BaseResponse<Stock>>
 
     @GET("api/portfolio")
     suspend fun portfolio(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<PortfolioItem>>>
 
     @GET("api/portfolio/{id}/")
-    suspend fun portfolioDetails(@Path("id") marketId:Int, @Query("filter") reqString: String): Response<BaseResponse<PortfolioItem>>
+    suspend fun portfolioDetails(
+        @Path("id") marketId: Int,
+        @Query("filter") reqString: String
+    ): Response<BaseResponse<PortfolioItem>>
 
     @GET("api/portfolio/dashboard")
     suspend fun portfolioDashboard(): Response<BaseResponse<PortfolioDashboard>>
@@ -31,6 +34,12 @@ interface ApiService {
 
     @GET("api/notifications")
     suspend fun notifications(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<Notifications>>>
+
+    @GET("api/watch-lists")
+    suspend fun watchlist(@Query("filter") reqString: String): Response<BaseResponse<ArrayList<WatchList>>>
+
+    @GET("api/watch-lists/{id}")
+    suspend fun watchlistDetail(@Path("id") watchlistId: Int): Response<BaseResponse<WatchList>>
 
 
 }

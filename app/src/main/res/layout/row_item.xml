@@ -13,6 +13,10 @@
             type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
 
         <variable
+            name="watchlist"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.WatchList" />
+
+        <variable
             name="rowType"
             type="Integer" />
     </data>
@@ -40,7 +44,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans_semibold"
                 android:maxLines="1"
-                android:text="@{rowType ==0 ?  stock.stockName : portfolio.market.stockName }"
+                android:text="@{rowType ==0 ?  stock.stockName : (rowType == 1 ? portfolio.market.stockName : String.valueOf(watchlist.watchlistStockId) )}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +58,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans"
                 android:maxLines="1"
-                android:text="@{rowType ==0 ?  stock.stockName : portfolio.market.stockCode}"
+                android:text="@{rowType ==0 ?  stock.stockName : (rowType == 1 ? portfolio.market.stockCode : String.valueOf(watchlist.watchlistStockId) ) }"
                 android:textSize="@dimen/_8ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleTv"
@@ -79,7 +83,7 @@
                 android:fontFamily="@font/open_sans_semibold"
                 android:gravity="end"
                 android:maxLines="1"
-                android:text="@{rowType ==0 ?  stock.stockApiCode : @string/rs_format(portfolio.orderTotal)}"
+                android:text="@{rowType ==0 ?  stock.stockApiCode :  (rowType == 1 ? @string/rs_format(portfolio.orderTotal): @string/rs_format(watchlist.watchStockPrice))}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"

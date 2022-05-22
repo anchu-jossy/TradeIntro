@@ -98,7 +98,6 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         }
 
         viewModel.marketListLiveData.observe(viewLifecycleOwner) {
-            // marketList.clear()
             if (it.data.isEmpty() || it.data.size < limit)
                 noMorePages = true
             marketList.addAll(it.data)

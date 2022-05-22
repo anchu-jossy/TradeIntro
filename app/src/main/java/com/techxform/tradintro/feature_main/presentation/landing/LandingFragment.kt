@@ -186,8 +186,14 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         if (item != null)
             return when (item.itemId) {
                 R.id.action_search -> true
-                R.id.action_wallet -> true
-                R.id.action_notification -> true
+                R.id.action_wallet -> {
+                    navController.navigate(R.id.walletFragment)
+                    true
+                }
+                R.id.action_notification -> {
+                    navController.navigate(R.id.notificationFragment)
+                    true
+                }
                 else -> super.onOptionsItemSelected(item)
 
             }

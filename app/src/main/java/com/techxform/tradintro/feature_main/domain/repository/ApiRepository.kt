@@ -4,6 +4,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import retrofit2.Response
+import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
 interface ApiRepository {
@@ -28,4 +29,7 @@ interface ApiRepository {
 
     suspend fun notifications(searchModel: SearchModel): Result<BaseResponse<ArrayList<Notifications>>>
 
+    suspend fun watchlist(filterModel: FilterModel): Result<BaseResponse<ArrayList<WatchList>>>
+
+    suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>>
 }

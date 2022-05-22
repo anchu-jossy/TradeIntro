@@ -8,6 +8,7 @@ import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.*
+import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -197,6 +198,56 @@ class ApiDataRepositoryImpl @Inject constructor(
                 )
 
                 val response = apiService.notifications(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun watchlist(filterModel: FilterModel): Result<BaseResponse<ArrayList<WatchList>>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+
+                /* val reqMap = mapOf(
+                     "search" to searchModel.searchText,
+                     "limit" to searchModel.limit.toString(),
+                     "offset" to searchModel.offset.toString(),
+                     "skip" to searchModel.skip.toString()
+                 )*/
+
+                val response = apiService.watchlist("")
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.watchlistDetail(watchlistId)
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {

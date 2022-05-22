@@ -12,19 +12,22 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import java.util.ArrayList
 
-class WatchListAdapter(var list: ArrayList<String>, val listener: ClickListener) :
+class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListener) :
     RecyclerView.Adapter<WatchListAdapter.PortfolioVH>() {
 
 
     inner class PortfolioVH(private val rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
+            rowItemBinding.rowType = -1
+            rowItemBinding.watchlist = list[adapterPosition]
             if(adapterPosition %2 == 0 ) {
                 drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(), rowItemBinding)
             }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(), rowItemBinding)
             rowItemBinding.root.setOnClickListener {
-                listener.onClick(adapterPosition)
+                listener.onClick(list[adapterPosition],adapterPosition)
             }
         }
     }
@@ -44,8 +47,8 @@ class WatchListAdapter(var list: ArrayList<String>, val listener: ClickListener)
     }
 
     override fun getItemCount(): Int {
-        // return list.size
-        return 10
+         return list.size
+        //return 10
     }
 
     private fun createData():ArrayList<Entry>
@@ -94,7 +97,7 @@ class WatchListAdapter(var list: ArrayList<String>, val listener: ClickListener)
     }
 
     interface ClickListener {
-        fun onClick(position: Int)
+        fun onClick(watchList: WatchList,position: Int)
     }
 
 }

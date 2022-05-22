@@ -56,7 +56,6 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(Notificat
         }
 
         viewModel.notificationLiveData.observe(viewLifecycleOwner) {
-           // binding.userDashboard = it.data
             binding.notificationRv.adapter = NotificationAdapter(it.data,listener)
 
         }

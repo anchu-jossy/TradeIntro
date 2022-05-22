@@ -96,7 +96,7 @@ class PortfoliosFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            //portfolioList.clear()
+
             if(it.data.isEmpty() || it.data.size < limit)
                 noMorePages = true
             portfolioList.addAll(it.data)
