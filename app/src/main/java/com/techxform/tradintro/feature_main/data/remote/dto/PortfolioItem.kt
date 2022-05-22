@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
+import java.text.SimpleDateFormat
 
 data class PortfolioItem(
     @SerializedName("order_id") val orderId: Int,
@@ -20,9 +21,18 @@ data class PortfolioItem(
     @SerializedName("order_status") val orderStatus: Int,
     @SerializedName("market_status") val marketStatus: Int,
     @SerializedName("portfolio_status") val portfolioStatus: Int,
-    @SerializedName("order_validity") val order_validity: Int,
+    @SerializedName("order_validity") val orderValidity: Int,
     @SerializedName("order_validity_date") val orderValidityDate: String,
     @SerializedName("order_email_status") val orderEmailStatus: Int,
     @SerializedName("market") val market: Stock,
 ) {
+
+    fun formatDateTime(): Pair<String, String> {
+
+        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(orderExecutedOn)
+        val date = SimpleDateFormat("yyyy-MM-dd").format(d)
+        val time = SimpleDateFormat("HH:mm:ss").format(d)
+
+        return Pair(date, time)
+    }
 }

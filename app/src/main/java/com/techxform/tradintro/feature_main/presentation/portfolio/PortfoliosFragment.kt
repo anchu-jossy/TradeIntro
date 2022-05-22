@@ -3,6 +3,7 @@ package com.techxform.tradintro.feature_main.presentation.portfolio
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,14 +16,13 @@ import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.techxform.tradintro.databinding.PortfolisFragmentBinding
-import com.techxform.tradintro.feature_main.presentation.home.HomeViewModel
 
 @AndroidEntryPoint
 class PortfoliosFragment :
     BaseFragment<PortfolisFragmentBinding>(PortfolisFragmentBinding::inflate) {
 
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: PortfolisViewModel
     private var portfolioList = ArrayList<PortfolioItem>()
 
     private val limit = 10
@@ -31,7 +31,7 @@ class PortfoliosFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        viewModel = ViewModelProvider(this)[PortfolisViewModel::class.java]
         binding.vm = viewModel
         /*       val face: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.open_sans)
                val searchText = binding.searchView as TextView
@@ -64,8 +64,10 @@ class PortfoliosFragment :
     }
 
     private val rvListener = object: PortfolioAdapter.ClickListener{
-        override fun onItemClick(position: Int) {
-            findNavController().navigate(R.id.action_nav_home_to_portfolioViewFragment)
+        override fun onItemClick(portfolioItem: PortfolioItem, position: Int) {
+            val bundle = bundleOf("orderId" to portfolioItem.orderId,
+            "portfolioDashboard" to binding.portfolioDashboard)
+            findNavController().navigate(R.id.action_nav_home_to_portfolioViewFragment, bundle)
         }
 
     }

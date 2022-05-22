@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="notification"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.Notifications" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -34,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:ellipsize="end"
-                android:text="Message"
                 android:fontFamily="@font/open_sans"
                 android:maxLines="1"
+                android:text="@{notification.notificationHeading}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/closeIv"
                 app:layout_constraintStart_toStartOf="parent"

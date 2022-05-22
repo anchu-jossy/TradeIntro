@@ -1,12 +1,11 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ScrollView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
@@ -80,18 +79,7 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
                 }
             }
         })
-/*
-        binding.nestedScrollView.viewTreeObserver.addOnScrollChangedListener {
-            isLoading = true
-            *//*if (binding != null && binding.nestedScrollView.getChildAt(0) != null && binding.nestedScrollView != null  && (binding.nestedScrollView.getChildAt(0).bottom
-                        <= (binding.nestedScrollView.height + binding.nestedScrollView.scrollY))
-            ) {
-                    if(!isLoading) {
-                        isLoading = true
-                        viewModel.marketList(SearchModel("", limit, marketList.size, 0))
-                    }
-            }*//*
-        }*/
+        marketList.clear()
         viewModel.marketList(SearchModel("", limit, marketList.size, 0))
 
     }
@@ -136,15 +124,13 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
 
     private fun setAdapter() {
         binding.marketListRv.adapter =
-            MarketListAdapter(marketList, object : MarketListAdapter.onItemClickListner {
-                override fun onItemClick() {
-                    findNavController().navigate(R.id.action_nav_market_to_marketDetailFragment)
+            MarketListAdapter(marketList, object : MarketListAdapter.OnItemClickListner {
+                override fun onItemClick(stock: Stock, position: Int) {
+                    val bundle = bundleOf("stockId" to stock.stockId)
+                    findNavController().navigate(R.id.action_nav_market_to_marketDetailFragment, bundle)
                 }
             })
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.e("ONSTART", "onStart()")
-    }
+
 }

@@ -6,23 +6,38 @@
 
     <data>
 
+        <variable
+            name="portfolioDashboard"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard" />
+
+        <variable
+            name="portfolio"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/_16sdp"
-        android:paddingTop="@dimen/_16sdp">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/card"
-            layout="@layout/portfolio_card_view" />
+            layout="@layout/portfolio_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:portfolioDashboard="@{portfolioDashboard}" />
 
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/filterSpinner"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_16sdp"
             android:background="@drawable/frame"
             app:layout_constraintBottom_toBottomOf="@+id/searchView"
             app:layout_constraintEnd_toStartOf="@+id/searchView"
@@ -36,12 +51,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
             android:background="@drawable/frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/filterSpinner"
             app:layout_constraintTop_toBottomOf="@+id/card"
-            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintWidth_percent="0.55"
             app:queryHint="@string/search" />
 
 
@@ -49,6 +65,7 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchView">
 
@@ -66,7 +83,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/open_sans_semibold"
                     android:maxLines="1"
-                    android:text="Hindustan Foods Limited"
+                    android:text="@{portfolio.orderNo}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
@@ -81,7 +98,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/open_sans"
                     android:maxLines="1"
-                    android:text="NSE"
+                    android:text="@{String.valueOf(portfolio.orderStockId)}"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/titleTv"
@@ -96,7 +113,7 @@
                     android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:text="2022-02-02"
+                    android:text="@{portfolio.formatDateTime().first}"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toTopOf="@+id/timeTv"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +128,7 @@
                     android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:text="09:54:12"
+                    android:text="@{portfolio.formatDateTime().second}"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/subTitleTv"

@@ -2,47 +2,108 @@ package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.presentation.portfolio_view.PriceAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MarketDetailFragment :
     BaseFragment<MarketDetailFragmentBinding>(MarketDetailFragmentBinding::inflate) {
 
-    //private val viewModel: MarketViewModel by activityViewModels()
     companion object {
         fun newInstance() = MarketDetailFragment()
     }
 
-    private lateinit var viewModel: MarketViewModel
+    private lateinit var viewModel: MarketDetailViewModel
+    private var stockId by Delegates.notNull<Int>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[MarketViewModel::class.java]
-        //binding.vm = viewModel
-        binding.priceRv.adapter = PriceAdapter(createPriceType())
+        viewModel = ViewModelProvider(this)[MarketDetailViewModel::class.java]
 
-        // binding.textViewBalance.text = getString(R.string.Rs) + " 00,000.00"
+        stockId = requireArguments().getInt("stockId")
+
+        observers()
+        viewModel.marketDetail(stockId)
     }
 
 
-
-    private fun createPriceType() : ArrayList<PriceType>
-    {
+    private fun createPriceType(stockHistory: StockHistory?): ArrayList<PriceType> {
         val priceTypes = arrayListOf<PriceType>()
 
-        priceTypes.add(PriceType(4663.36, getString(R.string.open_lbl)))
-        priceTypes.add(PriceType(4363.36, getString(R.string.close_lbl)))
-        priceTypes.add(PriceType(3728.34, getString(R.string.lower_circuit_lbl)))
-        priceTypes.add(PriceType(47243.3, getString(R.string.upper_circuit_lbl)))
+        if (stockHistory == null) { //TODO: Remove
+            priceTypes.add(PriceType(4663.36f, getString(R.string.open_lbl)))
+            priceTypes.add(PriceType(4363.36f, getString(R.string.close_lbl)))
+            priceTypes.add(PriceType(3728.34f, getString(R.string.lower_circuit_lbl)))
+            priceTypes.add(PriceType(47243.3f, getString(R.string.upper_circuit_lbl)))
+        } else {
+            priceTypes.add(PriceType(stockHistory.stockHistoryOpen, getString(R.string.open_lbl)))
+            priceTypes.add(PriceType(stockHistory.stockHistoryClose, getString(R.string.close_lbl)))
+            priceTypes.add(
+                PriceType(
+                    stockHistory.stockHistoryHigh,
+                    getString(R.string.volume_lbl)
+                )
+            )// TODO: Put volume
+            priceTypes.add(
+                PriceType(
+                    stockHistory.stockHistoryLow,
+                    getString(R.string.lower_circuit_lbl)
+                )
+            )
+            priceTypes.add(
+                PriceType(
+                    stockHistory.stockHistoryHigh,
+                    getString(R.string.upper_circuit_lbl)
+                )
+            )
 
+            val avg = (stockHistory.stockHistoryHigh + stockHistory.stockHistoryLow + stockHistory.stockHistoryClose + stockHistory.stockHistoryOpen)/4
+            priceTypes.add(
+                PriceType(
+                    avg,
+                    getString(R.string.avg_traded_lbl)
+                )
+            )
+        }
         return priceTypes
 
+    }
+
+    private fun observers() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBar.progressOverlay.isVisible = it
+        }
+
+        viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
+            binding.stock = it.data
+            if (it.data.history != null && it.data.history.isNotEmpty())
+                binding.priceRv.adapter = PriceAdapter(createPriceType(it.data.history[0]))
+        }
+
+        viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), getString(R.string.no_internet_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
+                else -> {}
+            }
+        }
     }
 
 }

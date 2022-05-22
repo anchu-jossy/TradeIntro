@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.domain.repository
 
 import com.techxform.tradintro.feature_main.data.remote.dto.*
+import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import retrofit2.Response
 import retrofit2.http.QueryMap
@@ -12,7 +13,14 @@ interface ApiRepository {
 
     suspend fun marketList(searchModel: SearchModel): Result<BaseResponse<ArrayList<Stock>>>
 
+    suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>>
+
     suspend fun portfolio(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>>
+
+    suspend fun portfolioDetails(
+        orderId: Int,
+        filterModel: FilterModel
+    ): Result<BaseResponse<PortfolioItem>>
 
     suspend fun portfolioDashboard(): Result<BaseResponse<PortfolioDashboard>>
 

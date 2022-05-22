@@ -27,7 +27,7 @@ class WatchlistViewFragment : BaseFragment<WatchlistViewFragmentBinding>(Watchli
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.alertPriceType = PriceType(63.2, getString(R.string.alert_price_lbl))
+        binding.alertPriceType = PriceType(63.2f, getString(R.string.alert_price_lbl))
 
         val spinnerArr = arrayOf("1","2","3","4","5","6","7","8","9","10")
         val arrAdapter = ArrayAdapter(requireContext(),  android.R.layout.simple_spinner_item,spinnerArr)

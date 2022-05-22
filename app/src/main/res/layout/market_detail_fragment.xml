@@ -7,30 +7,31 @@
     <data>
 
         <variable
-            name="vm"
-            type="com.techxform.tradintro.feature_main.presentation.market.MarketViewModel" />
+            name="stock"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.Stock" />
 
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/_16sdp">
+        android:layout_height="match_parent">
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toolbarTitleTv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:drawableStart="@drawable/ic_back_action"
             android:drawablePadding="@dimen/_8sdp"
             android:ellipsize="end"
             android:fontFamily="@font/open_sans_semibold"
             android:foreground="?selectableItemBackground"
             android:maxLines="1"
-            android:text="HDFC Bank"
+            app:layout_constraintWidth_percent="0.8"
+            android:text="@{stock.stockName}"
             android:textColor="@color/black"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +47,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/open_sans"
             android:maxLines="1"
-            android:text="NSE"
+            android:text="@{stock.stockCode}"
             android:textSize="@dimen/_8ssp"
             app:layout_constraintStart_toStartOf="@+id/toolbarTitleTv"
             app:layout_constraintTop_toBottomOf="@+id/toolbarTitleTv" />
@@ -60,8 +61,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:fontFamily="@font/open_sans_semibold"
             android:maxLines="1"
-            android:text="HDFC Bank"
-
+            android:text="@{stock.stockName}"
             android:textColor="@color/black"
             android:textSize="@dimen/_16ssp"
             app:layout_constraintTop_toBottomOf="@+id/subTitleTv" />
@@ -84,7 +84,7 @@
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:fontFamily="@font/open_sans_medium"
-            android:text="2 Feb 2022 09:32:21"
+            android:text="@{stock.history.get(0).formatDate()}"
             android:textColor="@color/black"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toTopOf="@+id/g1"
@@ -145,8 +145,8 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:spanCount="2"
-                    tools:itemCount="4"
+                    app:spanCount="3"
+                    tools:itemCount="6"
                     tools:listitem="@layout/price_row" />
 
 
@@ -156,11 +156,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
-                    app:highAmount="@{String.valueOf(35.21)}"
+                    app:highAmount="@{String.valueOf(stock.history.get(0).stockHistoryHigh)}"
                     app:highLbl="@{@string/high_lbl}"
                     app:isYellow="@{true}"
                     app:layout_constraintTop_toBottomOf="@+id/priceRv"
-                    app:lowAmount="@{String.valueOf(25.21)}"
+                    app:lowAmount="@{String.valueOf(stock.history.get(0).stockHistoryLow)}"
                     app:lowLbl="@{@string/low_lbl}" />
 
                 <include
@@ -169,11 +169,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
-                    app:highAmount="@{String.valueOf(35.21)}"
+                    app:highAmount="@{String.valueOf(stock.history.get(0).stockHistoryHigh)}"
                     app:highLbl="@{@string/open_lbl}"
                     app:isYellow="@{false}"
                     app:layout_constraintTop_toBottomOf="@+id/yellowHighLow"
-                    app:lowAmount="@{String.valueOf(25.21)}"
+                    app:lowAmount="@{String.valueOf(stock.history.get(0).stockHistoryLow)}"
                     app:lowLbl="@{@string/close_lbl}" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -183,8 +183,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:background="@drawable/violet_circular_bg"
-                    android:text="@string/buy_lbl"
                     android:shadowRadius="0"
+                    android:text="@string/buy_lbl"
                     app:layout_constraintEnd_toStartOf="@+id/sellBtn"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toStartOf="parent"
@@ -197,8 +197,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
-                    android:shadowRadius="0"
                     android:background="@drawable/pink_circular_bg"
+                    android:shadowRadius="0"
                     android:text="@string/sell_lbl"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -216,7 +216,11 @@
                     android:fontFamily="@font/open_sans"
                     android:hint="@string/stock_name_lbl"
                     android:padding="@dimen/_3sdp"
+                    android:enabled="@{(stock.watchList == null)? true: false }"
+                    android:text="@{@string/watchlist_price_date_format(stock.watchList.watchStockPrice,stock.watchList.formatDate())}"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintTop_toBottomOf="@+id/buyBtn"
                     app:layout_constraintWidth_percent="0.65" />
 
@@ -225,10 +229,11 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@drawable/editext_frame"
+                    android:clickable="true"
+                    android:enabled="@{(stock.watchList == null)? true: false }"
                     android:fontFamily="@font/open_sans_medium"
                     android:foreground="?selectableItemBackground"
                     android:gravity="center"
-                    android:clickable="true"
                     android:text="@string/watchlist"
                     app:layout_constraintBottom_toBottomOf="@+id/stockNameSearch"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -240,6 +245,17 @@
 
 
         </androidx.core.widget.NestedScrollView>
+
+
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

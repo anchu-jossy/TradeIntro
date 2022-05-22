@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home1"
-        android:name="com.techxform.tradintro.feature_main.presentation.home.OrginalHomeFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.home.OriginalHomeFragment"
         android:label="@string/nav_home"
         tools:layout="@layout/original_home_fragment" />
     <fragment
@@ -44,7 +44,13 @@
         tools:layout="@layout/market_fragment">
         <action
             android:id="@+id/action_nav_market_to_marketDetailFragment"
-            app:destination="@id/marketDetailFragment" />
+            app:destination="@id/marketDetailFragment">
+            <argument
+                android:name="stockId"
+                android:defaultValue="1"
+                app:argType="integer"
+                app:nullable="false" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/nav_watchlist"
@@ -102,7 +108,7 @@
         android:id="@+id/notificationFragment"
         android:name="com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment"
         android:label="notification_fragment"
-        tools:layout="@layout/notification_fragment" >
+        tools:layout="@layout/notification_fragment">
         <action
             android:id="@+id/action_notificationFragment_to_detailedNotificationFragment"
             app:destination="@id/detailedNotificationFragment" />

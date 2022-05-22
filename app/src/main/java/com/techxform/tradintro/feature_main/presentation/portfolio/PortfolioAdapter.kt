@@ -29,7 +29,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
                 drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(list[adapterPosition].market.history), rowItemBinding)
             }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(list[adapterPosition].market.history), rowItemBinding)
             rowItemBinding.root.setOnClickListener{
-                listener.onItemClick(adapterPosition)
+                listener.onItemClick(list[adapterPosition], adapterPosition)
             }
         }
     }
@@ -48,8 +48,8 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
     }
 
     override fun getItemCount(): Int {
-       // return list.size
-        return 10
+       return list.size
+        //return 10
     }
 
     private fun createData(list: MutableList<StockHistory>): ArrayList<Entry> {
@@ -109,7 +109,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
     }
 
     interface ClickListener{
-        fun onItemClick(position: Int)
+        fun onItemClick(portfolioItem: PortfolioItem, position: Int)
     }
 
 

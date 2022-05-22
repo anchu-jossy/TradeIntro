@@ -15,7 +15,7 @@ import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 
-class MarketListAdapter(var list: ArrayList<Stock>, private val listener: onItemClickListner) :
+class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItemClickListner) :
     RecyclerView.Adapter<MarketListAdapter.MarketListVH>() {
 
 
@@ -36,7 +36,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: onItem
                 rowItemBinding
             )
             rowItemBinding.cardContainer.setOnClickListener {
-                listener.onItemClick()
+                listener.onItemClick(list[adapterPosition], adapterPosition)
             }
 
         }
@@ -119,7 +119,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: onItem
 
     }
 
-    interface onItemClickListner {
-        fun onItemClick()
+    interface OnItemClickListner {
+        fun onItemClick(stock: Stock,position: Int)
     }
 }

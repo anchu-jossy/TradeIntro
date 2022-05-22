@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.techxform.tradintro.feature_main.presentation.home.HomeViewModel" />
+            type="com.techxform.tradintro.feature_main.presentation.portfolio.PortfolisViewModel" />
 
         <variable
             name="portfolioDashboard"

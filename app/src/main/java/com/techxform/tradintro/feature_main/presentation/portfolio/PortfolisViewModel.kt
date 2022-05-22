@@ -1,4 +1,4 @@
-package com.techxform.tradintro.feature_main.presentation.home
+package com.techxform.tradintro.feature_main.presentation.portfolio
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
+class PortfolisViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
 
     private var _portfolioLiveData = MutableLiveData<BaseResponse<ArrayList<PortfolioItem>>>()
     val portfolioLiveData: LiveData<BaseResponse<ArrayList<PortfolioItem>>> = _portfolioLiveData

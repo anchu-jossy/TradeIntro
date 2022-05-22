@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.NotificationRowBinding
 import com.techxform.tradintro.databinding.RowItemBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
 
-class NotificationAdapter(val list : ArrayList<String>,val listener: OnClickListener) : RecyclerView.Adapter<NotificationAdapter.NotificationVH>() {
+class NotificationAdapter(val list : ArrayList<Notifications>,val listener: OnClickListener) : RecyclerView.Adapter<NotificationAdapter.NotificationVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationVH {
         val binding = DataBindingUtil.inflate<NotificationRowBinding>(
@@ -25,14 +26,15 @@ class NotificationAdapter(val list : ArrayList<String>,val listener: OnClickList
     }
 
     override fun getItemCount(): Int {
-        //return list.size
-        return 10
+        return list.size
+        //return 10
     }
 
 
     inner class NotificationVH(private val notificationRowBinding: NotificationRowBinding): RecyclerView.ViewHolder(notificationRowBinding.root)
     {
         fun binding(){
+
             notificationRowBinding.root.setOnClickListener {
                 listener.onItemClick(adapterPosition)
             }

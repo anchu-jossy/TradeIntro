@@ -6,11 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.NotificationFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NotificationFragment : BaseFragment<NotificationFragmentBinding>(NotificationFragmentBinding::inflate) {
 
     companion object {
@@ -20,15 +26,13 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(Notificat
     private lateinit var viewModel: NotificationViewModel
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
-        // TODO: Use the ViewModel
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.notificationRv.adapter = NotificationAdapter(arrayListOf(),listener)
+        viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
+
+        observers()
+        viewModel.notifications(SearchModel("", 10,0,0))
     }
 
     private val listener = object : NotificationAdapter.OnClickListener{
@@ -42,6 +46,34 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(Notificat
             //TODO:delete
         }
 
+    }
+
+
+    private fun observers()
+    {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBar.progressOverlay.isVisible = it
+        }
+
+        viewModel.notificationLiveData.observe(viewLifecycleOwner) {
+           // binding.userDashboard = it.data
+            binding.notificationRv.adapter = NotificationAdapter(it.data,listener)
+
+        }
+
+        viewModel.notificationErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), getString(R.string.no_internet_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
+                else -> {}
+            }
+        }
     }
 
 }

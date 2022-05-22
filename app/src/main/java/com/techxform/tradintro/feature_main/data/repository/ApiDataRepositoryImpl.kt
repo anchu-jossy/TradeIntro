@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
+import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.*
@@ -63,6 +64,25 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.marketDetails(marketId)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
     override suspend fun portfolio(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
         return withContext(Dispatchers.Default)
         {
@@ -75,6 +95,38 @@ class ApiDataRepositoryImpl @Inject constructor(
                 )
 
                 val response = apiService.portfolio(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun portfolioDetails(
+        orderId: Int,
+        filterModel: FilterModel
+    ): Result<BaseResponse<PortfolioItem>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+
+               /* val reqMap = mapOf(
+                    "search" to searchModel.searchText,
+                    "limit" to searchModel.limit.toString(),
+                    "offset" to searchModel.offset.toString(),
+                    "skip" to searchModel.skip.toString()
+                )*/
+
+                val response = apiService.portfolioDetails(orderId, "")
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {

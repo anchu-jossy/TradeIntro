@@ -5,21 +5,22 @@
     <data>
 
         <variable
-            name="vm"
-            type="com.techxform.tradintro.feature_main.presentation.home.HomeViewModel" />
+            name="userDashboard"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.UserDashboard" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/_16sdp"
-        android:paddingTop="@dimen/_16sdp">
+        android:layout_height="match_parent">
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:background="@null"
             app:cardCornerRadius="1dp"
             app:cardElevation="0dp"
@@ -72,7 +73,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_semibold"
-                    android:text="1500.42 Pts"
+                    android:text="@{@string/points_format(userDashboard.currentPoints)}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_18ssp"
                     app:layout_constraintBottom_toBottomOf="@+id/g1"
@@ -117,7 +118,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
-                    android:text="05-03-2022|3.00PM"
+                    android:text="@{userDashboard.lastLogin}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -132,6 +133,7 @@
             android:id="@+id/cardContainerPortfolio"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_20sdp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/_15ssp"
@@ -140,7 +142,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardContainer"
-            app:layout_constraintWidth_percent="0.45">
+            app:layout_constraintWidth_percent="0.43">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/midGuidelineH1"
@@ -189,6 +191,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/_10ssp"
             app:layout_constraintDimensionRatio="H,1:1"
@@ -196,7 +199,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/cardContainerPortfolio"
             app:layout_constraintTop_toBottomOf="@+id/cardContainer"
-            app:layout_constraintWidth_percent="0.45">
+            app:layout_constraintWidth_percent="0.43">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/midGuidelineH2"
@@ -243,6 +246,7 @@
             android:id="@+id/cardContainerProfile"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_10ssp"
             app:cardCornerRadius="@dimen/_10ssp"
             app:layout_constraintDimensionRatio="H,1:1"
@@ -250,7 +254,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardContainerPortfolio"
-            app:layout_constraintWidth_percent="0.45">
+            app:layout_constraintWidth_percent="0.43">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/midGuidelineH3"
@@ -294,6 +298,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/_10ssp"
+            android:layout_marginEnd="@dimen/_16sdp"
             app:cardCornerRadius="@dimen/_10ssp"
             app:cardPreventCornerOverlap="false"
             app:layout_constraintDimensionRatio="H,1:1"
@@ -301,7 +306,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/cardContainerProfile"
             app:layout_constraintTop_toBottomOf="@id/cardContainerMarket"
-            app:layout_constraintWidth_percent="0.45">
+            app:layout_constraintWidth_percent="0.43">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/midGuidelineH4"
@@ -340,6 +345,17 @@
                     app:tint="@color/white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
+
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

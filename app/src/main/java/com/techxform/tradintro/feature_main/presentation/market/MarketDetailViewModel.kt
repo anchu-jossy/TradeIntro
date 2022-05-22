@@ -1,4 +1,4 @@
-package com.techxform.tradintro.feature_main.presentation.portfolio_view
+package com.techxform.tradintro.feature_main.presentation.market
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.Result
-import com.techxform.tradintro.feature_main.domain.model.FilterModel
-import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,31 +15,33 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PortfolioViewViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
+class MarketDetailViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
 
-    private var _portfolioLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
-    val portfolioLiveData: LiveData<BaseResponse<PortfolioItem>> = _portfolioLiveData
+    private var _marketDetailLiveData = MutableLiveData<BaseResponse<Stock>>()
+    val marketDetailLiveData: LiveData<BaseResponse<Stock>> = _marketDetailLiveData
 
-    private var _portfolioErrorLiveData = MutableLiveData<Failure>()
-    val portfolioErrorLiveData: LiveData<Failure> = _portfolioErrorLiveData
+    private var _marketErrorLiveData = MutableLiveData<Failure>()
+    val marketErrorLiveData: LiveData<Failure> = _marketErrorLiveData
 
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
 
-    fun portfolioDetails(id:Int,filterModel: FilterModel) {
+    fun marketDetail(marketId:Int)
+    {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.portfolioDetails(id, filterModel)) {
+            when (val result = repository.marketDetails(marketId)) {
                 is Result.Success -> {
-                    _portfolioLiveData.postValue(result.data!!)
+                    _marketDetailLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
-                    _portfolioErrorLiveData.postValue(result.exception)
+                    _marketErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)
         }
-
     }
+
+
 }
