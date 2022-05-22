@@ -24,15 +24,22 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
         fun binding() {
             rowItemBinding.rowType = 0
             rowItemBinding.stock = list[adapterPosition]
+
+            val openPrice = list[adapterPosition].history?.first()?.stockHistoryOpen?.toInt() ?: 0
+            val closePrice = list[adapterPosition].history?.first()?.stockHistoryClose?.toInt() ?: 0
+            val totalPrice = openPrice.plus(closePrice)
+            val price = (totalPrice / 2)
+            list[adapterPosition].totalPrice = price
+            rowItemBinding.amountTv.text = price.toString()
             if (adapterPosition % 2 == 0) {
                 drawChart(
                     ContextCompat.getColor(itemView.context, R.color.dark_pink),
-                    createData(list[adapterPosition].history),
+                    createData(list[adapterPosition].history, adapterPosition),
                     rowItemBinding
                 )
             } else drawChart(
                 ContextCompat.getColor(itemView.context, R.color.light_blue_900),
-                createData(list[adapterPosition].history),
+                createData(list[adapterPosition].history, adapterPosition),
                 rowItemBinding
             )
             rowItemBinding.cardContainer.setOnClickListener {
@@ -61,18 +68,58 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
     }
 
 
-    private fun createData(list: MutableList<StockHistory>): ArrayList<Entry> {
+    private fun createData(
+        list: MutableList<StockHistory>,
+        adapterPosition: Int
+    ): ArrayList<Entry> {
         val arrayList = arrayListOf<Entry>()
 
         //TODO: remove it
-        if(list.isNullOrEmpty())
-        {
+        if (list.isNullOrEmpty()) {
             arrayList.add(Entry(1F, 20.45F))
             arrayList.add(Entry(2F, 40.45F))
             arrayList.add(Entry(3F, 10.45F))
             arrayList.add(Entry(4F, 60.45F))
             arrayList.add(Entry(5F, 20.45F))
             arrayList.add(Entry(6F, 100.45F))
+            return arrayList
+        } else {
+            arrayList.add(
+                Entry(
+                    list[adapterPosition ].stockHistoryOpen,
+                    list[adapterPosition ].stockHistoryClose
+                )
+            )
+            arrayList.add(
+                Entry(
+                    list[adapterPosition + 1].stockHistoryOpen,
+                    list[adapterPosition + 1].stockHistoryClose
+                )
+            )
+            arrayList.add(
+                Entry(
+                    list[adapterPosition + 2].stockHistoryOpen,
+                    list[adapterPosition + 2].stockHistoryClose
+                )
+            )
+            arrayList.add(
+                Entry(
+                    list[adapterPosition + 3].stockHistoryOpen,
+                    list[adapterPosition + 3].stockHistoryClose
+                )
+            )
+            arrayList.add(
+                Entry(
+                    list[adapterPosition + 4].stockHistoryOpen,
+                    list[adapterPosition + 4].stockHistoryClose
+                )
+            )
+            arrayList.add(
+                Entry(
+                    list[adapterPosition + 5].stockHistoryOpen,
+                    list[adapterPosition + 5].stockHistoryClose
+                )
+            )
             return arrayList
         }
 

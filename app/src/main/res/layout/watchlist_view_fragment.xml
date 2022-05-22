@@ -17,18 +17,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/backTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_back_action"
-            android:drawablePadding="@dimen/_8sdp"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
+            android:drawableStart="@drawable/ic_back_action"
+            android:drawablePadding="@dimen/_8sdp"
             android:fontFamily="@font/open_sans_medium"
             android:foreground="?selectableItemBackground"
             android:maxLines="1"
@@ -42,8 +41,8 @@
             android:id="@+id/titleTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:fontFamily="@font/open_sans_semibold"
             android:text="@string/add_stock_lbl"
             android:textSize="@dimen/_16ssp"
@@ -54,8 +53,8 @@
             android:id="@+id/exchangeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:fontFamily="@font/open_sans_medium"
             android:text="@string/exchange_lbl"
             android:textSize="@dimen/_12ssp"
@@ -80,11 +79,11 @@
             android:id="@+id/stockNameSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/editext_frame"
             android:fontFamily="@font/open_sans"
             android:hint="@string/stock_name_lbl"
-            android:layout_marginStart="@dimen/_16sdp"
             android:padding="@dimen/_3sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/exchange"
@@ -94,12 +93,12 @@
             android:id="@+id/watchlistPlusBtn"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/_16sdp"
             android:background="@drawable/editext_frame"
             android:fontFamily="@font/open_sans_medium"
             android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/watchlist"
-            android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="@+id/stockNameSearch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/stockNameSearch"
@@ -110,8 +109,8 @@
             android:id="@+id/filterSpinner"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/frame"
             android:layout_marginStart="@dimen/_16sdp"
+            android:background="@drawable/frame"
             app:layout_constraintBottom_toBottomOf="@+id/searchView"
             app:layout_constraintEnd_toStartOf="@+id/searchView"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -124,8 +123,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
-            android:background="@drawable/frame"
             android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@drawable/frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/filterSpinner"
@@ -144,7 +143,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_16sdp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/stockTitleTv"

@@ -1,21 +1,18 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio_view
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.PortfolioViewFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
-import com.techxform.tradintro.feature_main.domain.model.Fields
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PriceType
-import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -78,10 +75,15 @@ class PortfolioViewFragment :
             )
         )
         priceTypes.add(PriceType(portfolioItem.brokerage, getString(R.string.alert_price_lbl)))
-        val gainLoss = priceTypes[0].amount.minus(priceTypes[1].amount)
-        priceTypes.add(PriceType(gainLoss, getString(R.string.gain_loss_lbl)))
-        priceTypes.add(PriceType(gainLoss * 100, getString(R.string.per_gain_loss_lbl)))
-
+        val gainLossdiff = priceTypes[0].amount.minus(priceTypes[1].amount)
+        val gainLossSum = (priceTypes[0].amount.plus(priceTypes[1].amount)) / 2
+        priceTypes.add(PriceType(gainLossdiff, getString(R.string.gain_loss_lbl)))
+        priceTypes.add(
+            PriceType(
+                (gainLossdiff / gainLossSum) * 100,
+                getString(R.string.per_gain_loss_lbl)
+            )
+        )
         return priceTypes
 
     }
@@ -106,7 +108,8 @@ class PortfolioViewFragment :
                         ).show()
                     )
                 }
-                else -> {}
+                else -> {
+                }
             }
         }
     }

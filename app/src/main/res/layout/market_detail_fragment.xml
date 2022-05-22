@@ -145,8 +145,8 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:spanCount="3"
-                    tools:itemCount="6"
+                    app:spanCount="2"
+                    tools:itemCount="4"
                     tools:listitem="@layout/price_row" />
 
 
@@ -208,7 +208,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/stockNameSearch"
+                    android:id="@+id/ediTextAddtoWatchList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
@@ -216,8 +216,6 @@
                     android:fontFamily="@font/open_sans"
                     android:hint="@string/stock_name_lbl"
                     android:padding="@dimen/_3sdp"
-                    android:enabled="@{(stock.watchList == null)? true: false }"
-                    android:text="@{@string/watchlist_price_date_format(stock.watchList.watchStockPrice,stock.watchList.formatDate())}"
                     app:layout_constraintStart_toStartOf="parent"
                     android:maxLines="1"
                     android:ellipsize="end"
@@ -235,9 +233,9 @@
                     android:foreground="?selectableItemBackground"
                     android:gravity="center"
                     android:text="@string/watchlist"
-                    app:layout_constraintBottom_toBottomOf="@+id/stockNameSearch"
+                    app:layout_constraintBottom_toBottomOf="@+id/ediTextAddtoWatchList"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/stockNameSearch"
+                    app:layout_constraintTop_toTopOf="@+id/ediTextAddtoWatchList"
                     app:layout_constraintWidth_percent="0.3" />
 
 

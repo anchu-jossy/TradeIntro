@@ -70,7 +70,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         override fun onClick(position: Int) {
 
             when (position) {
-                0 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                0 ->navController.navigate(R.id.nav_profile)
                 1 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 2 -> navController.navigate(R.id.mySkillsFragment)
                 3 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
@@ -132,8 +132,8 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 R.id.nav_profile -> {
                     navController.navigate(R.id.nav_profile)
                 }
-                else -> {
-                    navController.navigate(R.id.nav_home)
+                R.id.nav_wallet -> {
+                    navController.navigate(R.id.walletFragment)
                 }
             }
             it.isChecked = true

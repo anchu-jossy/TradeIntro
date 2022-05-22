@@ -50,6 +50,11 @@
                 android:defaultValue="1"
                 app:argType="integer"
                 app:nullable="false" />
+            <argument
+                android:name="totalPrice"
+                android:defaultValue="1"
+                app:argType="integer"
+                app:nullable="false" />
         </action>
     </fragment>
     <fragment

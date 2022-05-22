@@ -125,7 +125,8 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         binding.marketListRv.adapter =
             MarketListAdapter(marketList, object : MarketListAdapter.OnItemClickListner {
                 override fun onItemClick(stock: Stock, position: Int) {
-                    val bundle = bundleOf("stockId" to stock.stockId)
+                    val bundle = bundleOf("stockId" to stock.stockId,"totalPrice" to stock.totalPrice)
+
                     findNavController().navigate(R.id.action_nav_market_to_marketDetailFragment, bundle)
                 }
             })

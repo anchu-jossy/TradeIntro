@@ -13,7 +13,8 @@ data class Stock(
     @SerializedName("stock_api_code") val stockApiCode: String,
     @SerializedName("stock_type") val stockType: Int,
     @SerializedName("history") val history: MutableList<StockHistory>,
-    @SerializedName("watchlist") val watchList: WatchList
+    @SerializedName("watchlist") val watchList: WatchList,
+    var totalPrice:Int=0
 
 ) {}
 
