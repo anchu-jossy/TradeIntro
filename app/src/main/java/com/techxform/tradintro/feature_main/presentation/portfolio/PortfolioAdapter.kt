@@ -16,29 +16,30 @@ import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 
-class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
+class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickListener) :
+    RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
 
-    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root)
-    {
-        fun binding()
-        {
+
+    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) :
+        RecyclerView.ViewHolder(rowItemBinding.root) {
+        fun binding() {
             rowItemBinding.rowType = 1
             rowItemBinding.portfolio = list[adapterPosition]
-            val portfolio=list[adapterPosition];
-            var currentValue=0.0f;
-            val size=portfolio.market?.history?.size?:0;
+            val portfolio = list[adapterPosition]
+            var currentValue = 0.0f
+            val size = portfolio.market?.history?.size ?: 0
             if (size > 0) {
                 currentValue = (portfolio.market.history.first().stockHistoryOpen +
-                        portfolio .market.history.first().stockHistoryClose) / 2;
+                        portfolio.market.history.first().stockHistoryClose) / 2;
             }
             rowItemBinding.amountTv.text = currentValue.toString()
-            val diff=(((currentValue - portfolio.orderPrice) /
+            val diff = (((currentValue - portfolio.orderPrice) /
                     ((currentValue + portfolio.orderPrice) / 2)) * 100);
-            rowItemBinding.perTv.text = "% "+diff.toString();
-            if(diff<0){
+            rowItemBinding.perTv.text = "% " + diff.toString();
+            if (diff < 0) {
                 rowItemBinding.perTv.setTextColor(Color.RED);
-            }else if (diff>0){
+            } else if (diff > 0) {
                 rowItemBinding.perTv.setTextColor(Color.GREEN);
             }
 
@@ -53,7 +54,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
                     list[adapterPosition].market.history
                 ), rowItemBinding
             )
-            rowItemBinding.root.setOnClickListener{
+            rowItemBinding.root.setOnClickListener {
                 listener.onItemClick(list[adapterPosition], adapterPosition)
             }
         }
@@ -64,7 +65,8 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
             LayoutInflater.from(parent.context),
             R.layout.row_item,
             parent,
-            false)
+            false
+        )
         return PortfolioVH(binding)
     }
 
@@ -73,31 +75,32 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
     }
 
     override fun getItemCount(): Int {
-       return list.size
+        return list.size
         //return 10
     }
 
     private fun createData(list: MutableList<StockHistory>): ArrayList<Entry> {
         val arrayList = arrayListOf<Entry>()
-        list.clear()
+
+        /*list.clear()
         //TODO: remove it
-        if(list.isNullOrEmpty())
-        {
-           /* arrayList.add(Entry(1F, 20.45F))
-            arrayList.add(Entry(2F, 40.45F))
-            arrayList.add(Entry(3F, 10.45F))
-            arrayList.add(Entry(4F, 60.45F))
-            arrayList.add(Entry(5F, 20.45F))
-            arrayList.add(Entry(6F, 100.45F))*/
+        if (list.isNullOrEmpty()) {
+            *//* arrayList.add(Entry(1F, 20.45F))
+             arrayList.add(Entry(2F, 40.45F))
+             arrayList.add(Entry(3F, 10.45F))
+             arrayList.add(Entry(4F, 60.45F))
+             arrayList.add(Entry(5F, 20.45F))
+             arrayList.add(Entry(6F, 100.45F))*//*
             return arrayList
-        }
+        }*/
         list.forEachIndexed { index, stockHistory ->
-            arrayList.add(Entry(stockHistory.stockHistoryOpen, stockHistory.stockHistoryClose))
+            arrayList.add(Entry(index.toFloat(), (stockHistory.stockHistoryClose + stockHistory.stockHistoryOpen)/2))
         }
         return arrayList
     }
+
     private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemBinding) {
-        var set1 = LineDataSet(values, "Sample Data")
+        val set1 = LineDataSet(values, "Sample Data")
         set1.color = color
         set1.setDrawIcons(false)
         set1.setCircleColor(color)
@@ -129,10 +132,9 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
 
     }
 
-    interface ClickListener{
+    interface ClickListener {
         fun onItemClick(portfolioItem: PortfolioItem, position: Int)
     }
-
 
 
 }

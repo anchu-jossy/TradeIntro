@@ -24,6 +24,7 @@ class PortfoliosFragment :
 
     private lateinit var viewModel: PortfolisViewModel
     private var portfolioList = ArrayList<PortfolioItem>()
+    private lateinit var adapter: PortfolioAdapter
 
     private val limit = 10
     private var isLoading = false
@@ -138,8 +139,13 @@ class PortfoliosFragment :
     }
 
     private fun setAdapter() {
-        binding.portfolioRv.adapter = PortfolioAdapter(portfolioList, rvListener)
-
+        if(!::adapter.isInitialized) {
+            adapter = PortfolioAdapter(portfolioList, rvListener)
+            binding.portfolioRv.adapter = adapter
+        }else {
+            adapter.list = portfolioList
+            adapter.notifyDataSetChanged()
+        }
     }
 
 }
