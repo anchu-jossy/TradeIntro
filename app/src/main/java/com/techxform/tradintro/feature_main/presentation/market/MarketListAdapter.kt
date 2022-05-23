@@ -97,34 +97,34 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
         adapterPosition: Int
     ): ArrayList<Entry> {
         val arrayList = arrayListOf<Entry>()
-
+/*
         //TODO: remove it
         if (list.isNullOrEmpty()) {
-           /* arrayList.add(Entry(1F, 20.45F))
+           *//* arrayList.add(Entry(1F, 20.45F))
             arrayList.add(Entry(2F, 40.45F))
             arrayList.add(Entry(3F, 10.45F))
             arrayList.add(Entry(4F, 60.45F))
             arrayList.add(Entry(5F, 20.45F))
-            arrayList.add(Entry(6F, 100.45F))*/
+            arrayList.add(Entry(6F, 100.45F))*//*
             return arrayList
         } else {
             for (history in list){
                 Entry(
-                    history.stockHistoryOpen,
+                    ,
                     history.stockHistoryClose
                 )
             }
-            /*      arrayList.add(
+            *//*      arrayList.add(
                       Entry(
                           list[adapterPosition ].stockHistoryOpen,
                           list[adapterPosition ].stockHistoryClose
                       )
-                  )*/
+                  )*//*
             return arrayList
-        }
+        }*/
 
         list.forEachIndexed { index, stockHistory ->
-            arrayList.add(Entry(index.toFloat(), stockHistory.stockHistoryClose))
+            arrayList.add(Entry(index.toFloat(), (stockHistory.stockHistoryOpen + stockHistory.stockHistoryClose)/2))
 
         }
 

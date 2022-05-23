@@ -40,8 +40,8 @@ class PortfolioViewFragment :
 
     private fun createPriceType(portfolioItem: PortfolioItem): ArrayList<PriceType> {
         val priceTypes = arrayListOf<PriceType>()
-        var currentPrice = 0.0f;
-        val size=portfolioItem.market?.history?.size?:0;
+        var currentPrice = 0.0f
+        val size= portfolioItem?.market?.history?.size ?:0;
         if (size> 0) {
             currentPrice = (portfolioItem.market.history.first().stockHistoryOpen +
                     portfolioItem.market.history.first().stockHistoryClose) / 2;
