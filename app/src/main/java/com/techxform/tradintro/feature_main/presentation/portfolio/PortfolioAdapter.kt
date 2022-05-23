@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
@@ -24,7 +25,23 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
         {
             rowItemBinding.rowType = 1
             rowItemBinding.portfolio = list[adapterPosition]
-            rowItemBinding.amountTv.text = list[adapterPosition].orderTotal.toString()
+            val portfolio=list[adapterPosition];
+            var currentValue=0.0f;
+            val size=portfolio.market?.history?.size?:0;
+            if (size > 0) {
+                currentValue = (portfolio.market.history.first().stockHistoryOpen +
+                        portfolio .market.history.first().stockHistoryClose) / 2;
+            }
+            rowItemBinding.amountTv.text = currentValue.toString()
+            val diff=(((currentValue - portfolio.orderPrice) /
+                    ((currentValue + portfolio.orderPrice) / 2)) * 100);
+            rowItemBinding.perTv.text = "% "+diff.toString();
+            if(diff<0){
+                rowItemBinding.perTv.setTextColor(Color.RED);
+            }else if (diff>0){
+                rowItemBinding.perTv.setTextColor(Color.GREEN);
+            }
+
             if (adapterPosition % 2 == 0) {
                 drawChart(
                     ContextCompat.getColor(itemView.context, R.color.dark_pink), createData(
@@ -66,22 +83,17 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
         //TODO: remove it
         if(list.isNullOrEmpty())
         {
-            arrayList.add(Entry(1F, 20.45F))
+           /* arrayList.add(Entry(1F, 20.45F))
             arrayList.add(Entry(2F, 40.45F))
             arrayList.add(Entry(3F, 10.45F))
             arrayList.add(Entry(4F, 60.45F))
             arrayList.add(Entry(5F, 20.45F))
-            arrayList.add(Entry(6F, 100.45F))
+            arrayList.add(Entry(6F, 100.45F))*/
             return arrayList
         }
-
-
         list.forEachIndexed { index, stockHistory ->
-            arrayList.add(Entry(index.toFloat(), stockHistory.stockHistoryClose))
-
+            arrayList.add(Entry(stockHistory.stockHistoryOpen, stockHistory.stockHistoryClose))
         }
-
-
         return arrayList
     }
     private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemBinding) {

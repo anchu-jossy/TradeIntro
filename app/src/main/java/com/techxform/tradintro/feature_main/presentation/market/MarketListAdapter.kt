@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
@@ -28,9 +29,29 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
             val openPrice = list[adapterPosition].history?.first()?.stockHistoryOpen?.toInt() ?: 0
             val closePrice = list[adapterPosition].history?.first()?.stockHistoryClose?.toInt() ?: 0
             val totalPrice = openPrice.plus(closePrice)
-            val price = (totalPrice / 2)
-            list[adapterPosition].totalPrice = price
-            rowItemBinding.amountTv.text = price.toString()
+            val todayPrice = (totalPrice / 2)
+            var percentage=0;
+            val size=list[adapterPosition]?.history?.size?:0;
+            if(size >1) {
+                val openPrice2 =
+                    list[adapterPosition].history?.get(1)?.stockHistoryOpen?.toInt() ?: 0
+                val closePrice2 =
+                    list[adapterPosition].history?.get(1)?.stockHistoryClose?.toInt() ?: 0
+                val totalPrice2 = openPrice2.plus(closePrice2)
+                val yesterdayPrice = (totalPrice2 / 2)
+
+                if(todayPrice !=0 && yesterdayPrice != 0 )
+                percentage = ((todayPrice-yesterdayPrice)/((todayPrice+yesterdayPrice)/2))*100;
+            }
+
+            list[adapterPosition].totalPrice = todayPrice
+            rowItemBinding.amountTv.text = todayPrice.toString()
+            rowItemBinding.perTv.text = "% "+percentage.toString()
+            if(percentage<0){
+                rowItemBinding.perTv.setTextColor(Color.RED);
+            }else if (percentage>0){
+                rowItemBinding.perTv.setTextColor(Color.GREEN);
+            }
             if (adapterPosition % 2 == 0) {
                 drawChart(
                     ContextCompat.getColor(itemView.context, R.color.dark_pink),
@@ -76,50 +97,26 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
 
         //TODO: remove it
         if (list.isNullOrEmpty()) {
-            arrayList.add(Entry(1F, 20.45F))
+           /* arrayList.add(Entry(1F, 20.45F))
             arrayList.add(Entry(2F, 40.45F))
             arrayList.add(Entry(3F, 10.45F))
             arrayList.add(Entry(4F, 60.45F))
             arrayList.add(Entry(5F, 20.45F))
-            arrayList.add(Entry(6F, 100.45F))
+            arrayList.add(Entry(6F, 100.45F))*/
             return arrayList
         } else {
-            arrayList.add(
+            for (history in list){
                 Entry(
-                    list[adapterPosition ].stockHistoryOpen,
-                    list[adapterPosition ].stockHistoryClose
+                    history.stockHistoryOpen,
+                    history.stockHistoryClose
                 )
-            )
-            arrayList.add(
-                Entry(
-                    list[adapterPosition + 1].stockHistoryOpen,
-                    list[adapterPosition + 1].stockHistoryClose
-                )
-            )
-            arrayList.add(
-                Entry(
-                    list[adapterPosition + 2].stockHistoryOpen,
-                    list[adapterPosition + 2].stockHistoryClose
-                )
-            )
-            arrayList.add(
-                Entry(
-                    list[adapterPosition + 3].stockHistoryOpen,
-                    list[adapterPosition + 3].stockHistoryClose
-                )
-            )
-            arrayList.add(
-                Entry(
-                    list[adapterPosition + 4].stockHistoryOpen,
-                    list[adapterPosition + 4].stockHistoryClose
-                )
-            )
-            arrayList.add(
-                Entry(
-                    list[adapterPosition + 5].stockHistoryOpen,
-                    list[adapterPosition + 5].stockHistoryClose
-                )
-            )
+            }
+            /*      arrayList.add(
+                      Entry(
+                          list[adapterPosition ].stockHistoryOpen,
+                          list[adapterPosition ].stockHistoryClose
+                      )
+                  )*/
             return arrayList
         }
 
