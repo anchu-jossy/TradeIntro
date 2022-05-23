@@ -33,29 +33,16 @@
             app:portfolioDashboard="@{portfolioDashboard}" />
 
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/filterSpinner"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:background="@drawable/frame"
-            app:layout_constraintBottom_toBottomOf="@+id/searchView"
-            app:layout_constraintEnd_toStartOf="@+id/searchView"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/searchView"
-            app:layout_constraintWidth_percent="0.35" />
+
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_margin="@dimen/_16sdp"
             android:background="@drawable/frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toEndOf="@+id/filterSpinner"
             app:layout_constraintTop_toBottomOf="@+id/card"
             app:layout_constraintWidth_percent="0.55"
             app:queryHint="@string/search" />

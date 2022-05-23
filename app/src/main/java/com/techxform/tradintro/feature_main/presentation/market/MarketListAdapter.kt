@@ -66,6 +66,9 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
             rowItemBinding.cardContainer.setOnClickListener {
                 listener.onItemClick(list[adapterPosition], adapterPosition)
             }
+            rowItemBinding.constraintContainer.setOnClickListener {
+                listener.onItemClick(list[adapterPosition], adapterPosition)
+            }
 
         }
     }

@@ -15,6 +15,8 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
@@ -35,7 +37,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
             rowItemBinding.amountTv.text = currentValue.toString()
             val diff=(((currentValue - portfolio.orderPrice) /
                     ((currentValue + portfolio.orderPrice) / 2)) * 100);
-            rowItemBinding.perTv.text = "% "+diff.toString();
+            rowItemBinding.perTv.text = "% "+diff.roundToInt();
             if(diff<0){
                 rowItemBinding.perTv.setTextColor(Color.RED);
             }else if (diff>0){

@@ -103,7 +103,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/medium_gray"
+            android:background="@color/lighter_gray"
             app:layout_constraintBottom_toBottomOf="@+id/g1" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -149,6 +149,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:spanCount="2"
                     tools:itemCount="4"
+
                     tools:listitem="@layout/price_row" />
 
 
@@ -216,10 +217,11 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:background="@drawable/editext_frame"
                     android:fontFamily="@font/open_sans"
-                    android:hint="@string/stock_name_lbl"
+                    android:hint="@string/alert_price_lbl"
                     android:padding="@dimen/_3sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     android:maxLines="1"
+                    android:inputType="number"
                     android:ellipsize="end"
                     app:layout_constraintTop_toBottomOf="@+id/buyBtn"
                     app:layout_constraintWidth_percent="0.65" />
@@ -228,9 +230,9 @@
                     android:id="@+id/watchlistPlusBtn"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:padding="@dimen/_2sdp"
                     android:background="@drawable/editext_frame"
                     android:clickable="true"
-                    android:enabled="@{(stock.watchList == null)? true: false }"
                     android:fontFamily="@font/open_sans_medium"
                     android:foreground="?selectableItemBackground"
                     android:gravity="center"

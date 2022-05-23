@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
@@ -39,12 +40,11 @@ class MarketDetailFragment :
         observers()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
-        binding.watchlistPlusBtn.setOnClickListener {
-            if (binding.stock?.watchList == null) {
-                Toast.makeText(requireContext(), "Already added in watchlist", Toast.LENGTH_LONG)
-                    .show()
-            }
-        }
+            if (binding.stock?.watchList == null)
+                binding.watchlistPlusBtn.visibility=View.GONE
+
+            else
+                binding.watchlistPlusBtn.visibility=View.VISIBLE
     }
 
 
