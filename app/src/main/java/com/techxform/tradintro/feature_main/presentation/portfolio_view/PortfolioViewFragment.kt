@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio_view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -53,11 +54,16 @@ class PortfolioViewFragment :
 
     private fun createPriceType(portfolioItem: PortfolioItem): ArrayList<PriceType> {
         val priceTypes = arrayListOf<PriceType>()
-
-        priceTypes.add(PriceType(portfolioItem.orderPrice, getString(R.string.current_price_lbl)))
+        var currentPrice = 0.0f;
+        val size=portfolioItem.market?.history?.size?:0;
+        if (size> 0) {
+            currentPrice = (portfolioItem.market.history.first().stockHistoryOpen +
+                    portfolioItem.market.history.first().stockHistoryClose) / 2;
+        }
+        priceTypes.add(PriceType(currentPrice, getString(R.string.current_price_lbl)))
         priceTypes.add(
             PriceType(
-                portfolioItem.orderTotal,
+                portfolioItem.orderPrice,
                 getString(R.string.avg_purchase_price_lbl)
             )
         )
@@ -74,13 +80,17 @@ class PortfolioViewFragment :
                 getString(R.string.total_value_lbl)
             )
         )
-        priceTypes.add(PriceType(portfolioItem.brokerage, getString(R.string.alert_price_lbl)))
-        val gainLossdiff = priceTypes[0].amount.minus(priceTypes[1].amount)
-        val gainLossSum = (priceTypes[0].amount.plus(priceTypes[1].amount)) / 2
-        priceTypes.add(PriceType(gainLossdiff, getString(R.string.gain_loss_lbl)))
+        priceTypes.add(PriceType(portfolioItem.orderPrice, getString(R.string.alert_price_lbl)))
+
         priceTypes.add(
             PriceType(
-                (gainLossdiff / gainLossSum) * 100,
+                currentPrice.minus(portfolioItem.orderPrice),
+                getString(R.string.gain_loss_lbl)
+            )
+        )
+        priceTypes.add(
+            PriceType(
+                ((currentPrice - portfolioItem.orderPrice) / ((currentPrice + portfolioItem.orderPrice) / 2)) * 100,
                 getString(R.string.per_gain_loss_lbl)
             )
         )

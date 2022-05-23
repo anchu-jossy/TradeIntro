@@ -52,10 +52,10 @@ class MarketDetailFragment :
         val priceTypes = arrayListOf<PriceType>()
 
         if (stockHistory == null) { //TODO: Remove
-            priceTypes.add(PriceType(4663.36f, getString(R.string.open_lbl)))
+        /*    priceTypes.add(PriceType(4663.36f, getString(R.string.open_lbl)))
             priceTypes.add(PriceType(4363.36f, getString(R.string.close_lbl)))
             priceTypes.add(PriceType(3728.34f, getString(R.string.lower_circuit_lbl)))
-            priceTypes.add(PriceType(47243.3f, getString(R.string.upper_circuit_lbl)))
+            priceTypes.add(PriceType(47243.3f, getString(R.string.upper_circuit_lbl)))*/
         } else {
             priceTypes.add(PriceType(stockHistory.stockHistoryOpen, getString(R.string.open_lbl)))
             priceTypes.add(PriceType(stockHistory.stockHistoryClose, getString(R.string.close_lbl)))
