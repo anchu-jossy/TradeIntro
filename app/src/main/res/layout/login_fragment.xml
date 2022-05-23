@@ -15,7 +15,7 @@
             android:layout_width="@dimen/_180sdp"
             android:layout_height="@dimen/_60sdp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/app_logo_name"
+            android:src="@drawable/logo"
             app:layout_constraintBottom_toTopOf="@id/cl_layout_sign_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

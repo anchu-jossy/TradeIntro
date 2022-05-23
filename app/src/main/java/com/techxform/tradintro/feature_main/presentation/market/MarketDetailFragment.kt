@@ -93,7 +93,6 @@ class MarketDetailFragment :
         viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
             binding.stock = it.data
             binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
-
         }
 
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
