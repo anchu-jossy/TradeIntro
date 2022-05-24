@@ -53,7 +53,7 @@ class WatchlistViewFragment :
         }
 
         viewModel.watchlistViewLiveData.observe(viewLifecycleOwner) {
-
+            binding.watchlist = it.data
         }
 
         viewModel.watchlistViewErrorLiveData.observe(viewLifecycleOwner) {

@@ -250,7 +250,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
                     android:gravity="end"
-                    android:text="@string/watchlist_price_lbl"
+                    android:text="@string/current_price_lbl"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/currentPriceTV"
