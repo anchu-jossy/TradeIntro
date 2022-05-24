@@ -40,11 +40,7 @@ class MarketDetailFragment :
         observers()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
-            if (binding.stock?.watchList == null)
-                binding.watchlistPlusBtn.visibility=View.GONE
 
-            else
-                binding.watchlistPlusBtn.visibility=View.VISIBLE
     }
 
 
