@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
+import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
@@ -218,15 +219,15 @@ class ApiDataRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.Default)
         {
             try {
+              //  val reqString = Gson().toJson(filterModel)
+                 val reqMap = mapOf(
+                     "search" to filterModel.searchText,
+                     "limit" to filterModel.limit.toString(),
+                     "offset" to filterModel.offset.toString(),
+                     "skip" to filterModel.skip.toString()
+                 )
 
-                /* val reqMap = mapOf(
-                     "search" to searchModel.searchText,
-                     "limit" to searchModel.limit.toString(),
-                     "offset" to searchModel.offset.toString(),
-                     "skip" to searchModel.skip.toString()
-                 )*/
-
-                val response = apiService.watchlist("")
+                val response = apiService.watchlist(reqMap)
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {

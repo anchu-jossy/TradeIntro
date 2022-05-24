@@ -1,6 +1,5 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
@@ -21,10 +20,10 @@ import kotlin.math.roundToLong
 class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
 
-    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root)
-    {
-        fun binding()
-        {
+
+    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) :
+        RecyclerView.ViewHolder(rowItemBinding.root) {
+        fun binding() {
             rowItemBinding.rowType = 1
             rowItemBinding.portfolio = list[adapterPosition]
             val portfolio = list[adapterPosition]

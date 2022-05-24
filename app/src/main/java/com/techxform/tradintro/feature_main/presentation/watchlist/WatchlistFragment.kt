@@ -45,7 +45,7 @@ class WatchlistFragment :
                 ).bottom
                         <= (binding.nestedScrollView.height + binding.nestedScrollView.scrollY))
             ) {
-                if (!isLoading) {
+                if (!isLoading && !noMorePages) {
                     isLoading = true
                     viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
                 }

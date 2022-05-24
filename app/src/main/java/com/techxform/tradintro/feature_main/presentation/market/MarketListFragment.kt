@@ -73,7 +73,7 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
                 ).bottom
                         <= (binding.nestedScrollView.height + binding.nestedScrollView.scrollY))
             ) {
-                if (!isLoading) {
+                if (!isLoading && !noMorePages) {
                     isLoading = true
                     viewModel.marketList(SearchModel("", limit, marketList.size, 0))
                 }

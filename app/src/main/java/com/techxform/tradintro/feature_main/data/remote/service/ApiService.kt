@@ -36,7 +36,7 @@ interface ApiService {
     suspend fun notifications(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<Notifications>>>
 
     @GET("api/watch-lists")
-    suspend fun watchlist(@Query("filter") reqString: String): Response<BaseResponse<ArrayList<WatchList>>>
+    suspend fun watchlist(@QueryMap reqString: Map<String, String>): Response<BaseResponse<ArrayList<WatchList>>>
 
     @GET("api/watch-lists/{id}")
     suspend fun watchlistDetail(@Path("id") watchlistId: Int): Response<BaseResponse<WatchList>>

@@ -35,4 +35,11 @@ data class PortfolioItem(
 
         return Pair(date, time)
     }
+
+    fun perDiff(): Float {
+        val currentValue = market.currentValue()
+        return (((currentValue - orderPrice) /
+                ((currentValue + orderPrice) / 2)) * 100)
+    }
+
 }
