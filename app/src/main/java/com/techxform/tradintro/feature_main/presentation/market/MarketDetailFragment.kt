@@ -36,7 +36,7 @@ class MarketDetailFragment :
         stockId = requireArguments().getInt("stockId")
         totalPrice = requireArguments().getInt("totalPrice")
 
-        binding.amountTv.text = "$totalPrice.00"
+        binding.amountTv.text =getString(R.string.rs_format,totalPrice.toFloat())
         observers()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")

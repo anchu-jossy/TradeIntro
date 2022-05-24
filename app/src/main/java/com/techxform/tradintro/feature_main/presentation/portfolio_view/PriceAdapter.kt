@@ -18,16 +18,16 @@ class PriceAdapter(val list: ArrayList<PriceType>) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
         fun binding() {
             itemViewBinding.price = list[adapterPosition]
-            itemViewBinding.titleTv.text = "${list[adapterPosition].amount.roundToInt()}"
+            itemViewBinding.titleTv.text = "${list[adapterPosition].amount}"
             if (adapterPosition == 6 || adapterPosition == 7) {
-               if(!isPositive(itemViewBinding.titleTv.text as String))
+                itemViewBinding.titleTv.text = "${list[adapterPosition].amount.roundToInt()}"
+                if (!isPositive(itemViewBinding.titleTv.text as String))
                     itemViewBinding.titleTv.setTextColor(
                         ContextCompat.getColor(
                             itemViewBinding.root.context,
                             R.color.red
                         )
                     )
-
                 else itemViewBinding.titleTv.setTextColor(
                     ContextCompat.getColor(
                         itemViewBinding.root.context,

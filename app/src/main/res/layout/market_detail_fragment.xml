@@ -172,11 +172,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
-                    app:highAmount="@{String.valueOf(stock.history.get(0).stockHistoryHigh)}"
+                    app:highAmount="@{String.valueOf(stock.history.get(0).stockHistoryOpen)}"
                     app:highLbl="@{@string/open_lbl}"
                     app:isYellow="@{false}"
                     app:layout_constraintTop_toBottomOf="@+id/yellowHighLow"
-                    app:lowAmount="@{String.valueOf(stock.history.get(0).stockHistoryLow)}"
+                    app:lowAmount="@{String.valueOf(stock.history.get(0).stockHistoryClose)}"
                     app:lowLbl="@{@string/close_lbl}" />
 
                 <androidx.appcompat.widget.AppCompatButton

@@ -77,7 +77,6 @@
     <string name="holding_value_per_format"> %1$.2f (%2$.2f)</string>
     <string name="points_format"> %.2f Pts</string>
     <string name="watchlist_price_date_format">%1$.2f, %2$s</string>
-
     <!--    Market list Screen &#37;-->
     <string name="markets">Markets</string>
     <string name="filter">Filter</string>

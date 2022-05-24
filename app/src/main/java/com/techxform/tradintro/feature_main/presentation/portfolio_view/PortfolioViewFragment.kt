@@ -33,6 +33,7 @@ class PortfolioViewFragment :
 
         orderId = requireArguments().getInt("orderId")
         binding.portfolioDashboard = requireArguments().getParcelable("portfolioDashboard")!!
+
         observers()
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
 
