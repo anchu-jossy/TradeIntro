@@ -26,12 +26,12 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
             rowItemBinding.rowType = 0
             rowItemBinding.stock = list[adapterPosition]
 
-            val openPrice = list[adapterPosition].history?.first()?.stockHistoryOpen?.toInt() ?: 0
+         /*   val openPrice = list[adapterPosition].history?.first()?.stockHistoryOpen?.toInt() ?: 0
             val closePrice = list[adapterPosition].history?.first()?.stockHistoryClose?.toInt() ?: 0
             val totalPrice = openPrice.plus(closePrice)
             val todayPrice = (totalPrice / 2)
             var percentage=0;
-            val size=list[adapterPosition]?.history?.size?:0;
+            val size=list[adapterPosition]?.history?.size?:0
             if(size >1) {
                 val openPrice2 =
                     list[adapterPosition].history?.get(1)?.stockHistoryOpen?.toInt() ?: 0
@@ -51,7 +51,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
                 rowItemBinding.perTv.setTextColor(Color.RED);
             }else if (percentage>0){
                 rowItemBinding.perTv.setTextColor(Color.GREEN);
-            }
+            }*/
             if (adapterPosition % 2 == 0) {
                 drawChart(
                     ContextCompat.getColor(itemView.context, R.color.dark_pink),

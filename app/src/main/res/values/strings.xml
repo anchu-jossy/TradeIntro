@@ -74,7 +74,8 @@
     <string name="user_name_pass_required_msg">Please fill user name or password</string>
     <string name="no_internet_error">No internet</string>
     <string name="rs_format">\u20B9 %.2f</string>
-    <string name="holding_value_per_format"> %1$.2f (%2$.2f)</string>
+    <string name="per_format">%.2f \%%</string>
+    <string name="holding_value_per_format"> %1$.2f (%2$.2f\%%)</string>
     <string name="points_format"> %.2f Pts</string>
     <string name="watchlist_price_date_format">%1$.2f, %2$s</string>
 

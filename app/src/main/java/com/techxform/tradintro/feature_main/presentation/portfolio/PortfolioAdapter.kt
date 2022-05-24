@@ -1,6 +1,5 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
@@ -34,14 +33,14 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickLi
                         portfolio.market.history.first().stockHistoryClose) / 2;
             }
             rowItemBinding.amountTv.text = currentValue.toString()
-            val diff = (((currentValue - portfolio.orderPrice) /
-                    ((currentValue + portfolio.orderPrice) / 2)) * 100);
-            rowItemBinding.perTv.text = "% " + diff.toString();
-            if (diff < 0) {
+          /*  val diff = (((currentValue - portfolio.orderPrice) /
+                    ((currentValue + portfolio.orderPrice) / 2)) * 100)
+            rowItemBinding.perTv.text = "% " + diff.toString();*/
+           /* if (diff < 0) {
                 rowItemBinding.perTv.setTextColor(Color.RED);
             } else if (diff > 0) {
                 rowItemBinding.perTv.setTextColor(Color.GREEN);
-            }
+            }*/
 
             if (adapterPosition % 2 == 0) {
                 drawChart(
