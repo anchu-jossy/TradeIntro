@@ -5,6 +5,9 @@
     tools:context=".feature_main.presentation.portfolio.PortfoliosFragment">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.techxform.tradintro.feature_main.presentation.market.MarketDetailViewModel" />
 
         <variable
             name="stock"

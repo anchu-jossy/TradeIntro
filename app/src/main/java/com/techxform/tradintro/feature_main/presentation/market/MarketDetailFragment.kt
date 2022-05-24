@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.CreateWatchListRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import com.techxform.tradintro.feature_main.domain.model.PriceType
@@ -40,6 +41,9 @@ class MarketDetailFragment :
         observers()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
+        binding.watchlistPlusBtn.setOnClickListener {
+            viewModel.createWatchList(CreateWatchListRequest(stockId,totalPrice))
+        }
 
     }
 
@@ -90,6 +94,9 @@ class MarketDetailFragment :
             binding.stock = it.data
             binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
         }
+       viewModel. createWatchListLiveData.observe(viewLifecycleOwner){
+           Toast.makeText(requireContext(),"Successfully added to watchlist",Toast.LENGTH_LONG).show()
+       }
 
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {

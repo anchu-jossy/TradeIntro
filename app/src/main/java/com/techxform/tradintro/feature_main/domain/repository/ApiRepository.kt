@@ -32,4 +32,6 @@ interface ApiRepository {
     suspend fun watchlist(filterModel: FilterModel): Result<BaseResponse<ArrayList<WatchList>>>
 
     suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>>
+
+    suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<CreateWatchListResponse>>
 }
