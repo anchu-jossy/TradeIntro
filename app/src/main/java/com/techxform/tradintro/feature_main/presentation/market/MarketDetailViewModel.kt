@@ -22,6 +22,9 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
 
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
+    private var _updateWatchListLiveData = MutableLiveData<BaseResponse<UpdateWatchListResponse>>()
+    val updateWatchListLiveData: LiveData<BaseResponse<UpdateWatchListResponse>> = _updateWatchListLiveData
+
     private var _createWatchListLiveData = MutableLiveData<BaseResponse<CreateWatchListResponse>>()
     val createWatchListLiveData: LiveData<BaseResponse<CreateWatchListResponse>> = _createWatchListLiveData
 
@@ -47,6 +50,20 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
             when (val result = repository.createWatchList(watchlistId)) {
                 is Result.Success -> {
                     _createWatchListLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _marketErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+    fun updateWatchList(id: Int) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.updateWatchList(id)) {
+                is Result.Success -> {
+                    _updateWatchListLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _marketErrorLiveData.postValue(result.exception)

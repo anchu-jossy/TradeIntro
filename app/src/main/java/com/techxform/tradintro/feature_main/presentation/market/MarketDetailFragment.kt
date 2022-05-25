@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
@@ -42,8 +41,11 @@ class MarketDetailFragment :
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
         binding.watchlistPlusBtn.setOnClickListener {
-            viewModel.createWatchList(CreateWatchListRequest(stockId,totalPrice))
+            if (binding.stock?.watchList == null)
+                viewModel.createWatchList(CreateWatchListRequest(stockId, totalPrice))
+            else viewModel.updateWatchList(totalPrice)
         }
+
 
     }
 
@@ -94,10 +96,14 @@ class MarketDetailFragment :
             binding.stock = it.data
             binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
         }
-       viewModel. createWatchListLiveData.observe(viewLifecycleOwner){
-           Toast.makeText(requireContext(),"Successfully added to watchlist",Toast.LENGTH_LONG).show()
-       }
-
+        viewModel.createWatchListLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Successfully added to watchlist", Toast.LENGTH_LONG)
+                .show()
+        }
+        viewModel.updateWatchListLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Successfully updated to watchlist", Toast.LENGTH_LONG)
+                .show()
+        }
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 Failure.NetworkConnection -> {
@@ -108,7 +114,13 @@ class MarketDetailFragment :
                         ).show()
                     )
                 }
-                else -> {}
+                Failure.ServerError-> {
+                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+
+                }
+                else -> {
+                    Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

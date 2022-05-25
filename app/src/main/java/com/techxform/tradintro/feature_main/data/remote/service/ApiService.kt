@@ -43,4 +43,8 @@ interface ApiService {
     @POST("api/watch-lists")
     suspend fun createWatchList(@Body createWatchList: CreateWatchListRequest): Response<BaseResponse<CreateWatchListResponse>>
 
+    @PATCH("api/watch-lists{id}")
+    suspend fun updateWatchList(@Path("id") id :Int): Response<BaseResponse<UpdateWatchListResponse>>
+
+
 }

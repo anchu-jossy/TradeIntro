@@ -126,6 +126,6 @@
     <string name="level_desc">You are in the Level2.Unlock next levels to enjoy \n new features and explore more on trading</string>
     <string name="string_features_unlocked">Features Unlocked !!!</string>
     <string name="required_points">Required Points : 250 Pts</string>
-    <string name="wishList"><b>Wishlist</b></string>
+    <string name="watchList"><b>WatchList</b></string>
 
 </resources>

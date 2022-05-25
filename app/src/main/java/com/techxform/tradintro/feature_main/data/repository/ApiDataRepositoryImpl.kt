@@ -285,6 +285,27 @@ class ApiDataRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun updateWatchList(id: Int): Result<BaseResponse<UpdateWatchListResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.updateWatchList(id)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 }
 
 
