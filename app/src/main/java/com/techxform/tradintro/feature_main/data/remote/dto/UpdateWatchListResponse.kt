@@ -15,3 +15,9 @@ data class UpdateData (
   @SerializedName("count" ) var count : Int? = null
 
 )
+
+data class UpdateWatchListRequest (
+
+  @SerializedName("watch_stock_price" ) var watch_stock_price : Number?= null
+
+)

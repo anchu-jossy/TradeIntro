@@ -58,10 +58,10 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
             _loadingLiveData.postValue(false)
         }
     }
-    fun updateWatchList(id: Number) {
+    fun updateWatchList(id: Number, amount: Number) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.updateWatchList(id)) {
+            when (val result = repository.updateWatchList(id,UpdateWatchListRequest(amount))) {
                 is Result.Success -> {
                     _updateWatchListLiveData.postValue(result.data!!)
                 }

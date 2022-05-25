@@ -1,7 +1,6 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
-import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
@@ -9,7 +8,6 @@ import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.*
-import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -286,11 +284,11 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateWatchList(id: Number): Result<BaseResponse<UpdateWatchListResponse>> {
+    override suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateWatchListResponse>> {
         return withContext(Dispatchers.Default)
         {
             try {
-                val response = apiService.updateWatchList(id)
+                val response = apiService.updateWatchList(id,req)
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {

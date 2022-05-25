@@ -3,7 +3,7 @@ package com.techxform.tradintro.feature_main.data.remote.dto
 import com.google.gson.annotations.SerializedName
 
 
-public data class CreateWatchListRequest(
+ data class CreateWatchListRequest(
     @SerializedName("watchlist_stock_id") val watchListStockId: Int,
     @SerializedName("watch_stock_price") val watchListStockPrice: Number,
 ) {

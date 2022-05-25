@@ -43,7 +43,7 @@ class MarketDetailFragment :
         binding.watchlistPlusBtn.setOnClickListener {
             if (binding.stock?.watchList == null)
                 viewModel.createWatchList(CreateWatchListRequest(stockId,  binding.ediTextAddtoWatchList.text.toString().toDouble()))
-            else viewModel.updateWatchList(binding.ediTextAddtoWatchList.text.toString().toDouble())
+            else viewModel.updateWatchList(binding.stock?.watchList?.watchlistId?:0,binding.ediTextAddtoWatchList.text.toString().toDouble())
         }
 
 
