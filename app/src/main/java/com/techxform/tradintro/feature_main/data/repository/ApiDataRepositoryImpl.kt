@@ -286,7 +286,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateWatchList(id: Int): Result<BaseResponse<UpdateWatchListResponse>> {
+    override suspend fun updateWatchList(id: Number): Result<BaseResponse<UpdateWatchListResponse>> {
         return withContext(Dispatchers.Default)
         {
             try {
@@ -306,7 +306,5 @@ class ApiDataRepositoryImpl @Inject constructor(
             }
         }
     }
+
 }
-
-
-

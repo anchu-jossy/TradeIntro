@@ -42,8 +42,8 @@ class MarketDetailFragment :
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
         binding.watchlistPlusBtn.setOnClickListener {
             if (binding.stock?.watchList == null)
-                viewModel.createWatchList(CreateWatchListRequest(stockId, totalPrice))
-            else viewModel.updateWatchList(totalPrice)
+                viewModel.createWatchList(CreateWatchListRequest(stockId,  binding.ediTextAddtoWatchList.text.toString().toDouble()))
+            else viewModel.updateWatchList(binding.ediTextAddtoWatchList.text.toString().toDouble())
         }
 
 
