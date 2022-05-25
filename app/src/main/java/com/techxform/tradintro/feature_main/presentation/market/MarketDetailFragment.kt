@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.CreateWatchListRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import com.techxform.tradintro.feature_main.domain.model.PriceType
@@ -35,16 +36,17 @@ class MarketDetailFragment :
         stockId = requireArguments().getInt("stockId")
         totalPrice = requireArguments().getInt("totalPrice")
 
-        binding.amountTv.text = "$totalPrice.00"
+        binding.amountTv.text =getString(R.string.rs_format,totalPrice.toFloat())
         observers()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
         binding.watchlistPlusBtn.setOnClickListener {
-            if (binding.stock?.watchList == null) {
-                Toast.makeText(requireContext(), "Already added in watchlist", Toast.LENGTH_LONG)
-                    .show()
-            }
+            if (binding.stock?.watchList == null)
+                viewModel.createWatchList(CreateWatchListRequest(stockId, totalPrice))
+            else viewModel.updateWatchList(totalPrice)
         }
+
+
     }
 
 
@@ -94,7 +96,14 @@ class MarketDetailFragment :
             binding.stock = it.data
             binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
         }
-
+        viewModel.createWatchListLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Successfully added to watchlist", Toast.LENGTH_LONG)
+                .show()
+        }
+        viewModel.updateWatchListLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Successfully updated to watchlist", Toast.LENGTH_LONG)
+                .show()
+        }
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 Failure.NetworkConnection -> {
@@ -105,7 +114,13 @@ class MarketDetailFragment :
                         ).show()
                     )
                 }
-                else -> {}
+                Failure.ServerError-> {
+                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+
+                }
+                else -> {
+                    Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

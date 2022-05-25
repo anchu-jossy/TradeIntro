@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
@@ -14,9 +15,10 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
-class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickListener) :
-    RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
+class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
 
 
@@ -30,17 +32,17 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickLi
             val size = portfolio.market?.history?.size ?: 0
             if (size > 0) {
                 currentValue = (portfolio.market.history.first().stockHistoryOpen +
-                        portfolio.market.history.first().stockHistoryClose) / 2;
+                        portfolio .market.history.first().stockHistoryClose) / 2;
             }
             rowItemBinding.amountTv.text = currentValue.toString()
-          /*  val diff = (((currentValue - portfolio.orderPrice) /
-                    ((currentValue + portfolio.orderPrice) / 2)) * 100)
-            rowItemBinding.perTv.text = "% " + diff.toString();*/
-           /* if (diff < 0) {
+            val diff=(((currentValue - portfolio.orderPrice) /
+                    ((currentValue + portfolio.orderPrice) / 2)) * 100);
+            rowItemBinding.perTv.text = "% "+diff.roundToInt();
+            if(diff<0){
                 rowItemBinding.perTv.setTextColor(Color.RED);
-            } else if (diff > 0) {
+            }else if (diff>0){
                 rowItemBinding.perTv.setTextColor(Color.GREEN);
-            }*/
+            }
 
             if (adapterPosition % 2 == 0) {
                 drawChart(
@@ -64,8 +66,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickLi
             LayoutInflater.from(parent.context),
             R.layout.row_item,
             parent,
-            false
-        )
+            false)
         return PortfolioVH(binding)
     }
 
@@ -74,7 +75,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickLi
     }
 
     override fun getItemCount(): Int {
-        return list.size
+       return list.size
         //return 10
     }
 

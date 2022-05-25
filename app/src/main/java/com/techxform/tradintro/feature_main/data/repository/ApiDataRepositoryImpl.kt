@@ -121,7 +121,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         {
             try {
 
-               /* val reqMap = mapOf(
+                /* val reqMap = mapOf(
                     "search" to searchModel.searchText,
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
@@ -219,13 +219,13 @@ class ApiDataRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.Default)
         {
             try {
-              //  val reqString = Gson().toJson(filterModel)
-                 val reqMap = mapOf(
-                     "search" to filterModel.searchText,
-                     "limit" to filterModel.limit.toString(),
-                     "offset" to filterModel.offset.toString(),
-                     "skip" to filterModel.skip.toString()
-                 )
+                //  val reqString = Gson().toJson(filterModel)
+                val reqMap = mapOf(
+                    "search" to filterModel.searchText,
+                    "limit" to filterModel.limit.toString(),
+                    "offset" to filterModel.offset.toString(),
+                    "skip" to filterModel.skip.toString()
+                )
 
                 val response = apiService.watchlist(reqMap)
                 if (response.isSuccessful)
@@ -265,5 +265,48 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<CreateWatchListResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.createWatchList(createWatchListRequest)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 
+    override suspend fun updateWatchList(id: Int): Result<BaseResponse<UpdateWatchListResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.updateWatchList(id)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 }
+
+
+

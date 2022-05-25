@@ -22,7 +22,6 @@
             android:gravity="center_horizontal"
             android:maxLines="1"
             android:fontFamily="@font/open_sans_semibold"
-            android:text="@{String.valueOf(price.amount)}"
             android:textColor="@color/black"
             android:textSize="@dimen/_16ssp"
             app:layout_constraintTop_toTopOf="parent" />

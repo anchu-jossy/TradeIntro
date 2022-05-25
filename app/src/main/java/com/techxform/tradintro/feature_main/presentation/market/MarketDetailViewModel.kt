@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
-import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.Result
-import com.techxform.tradintro.feature_main.data.remote.dto.Stock
+import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +22,11 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
 
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
+    private var _updateWatchListLiveData = MutableLiveData<BaseResponse<UpdateWatchListResponse>>()
+    val updateWatchListLiveData: LiveData<BaseResponse<UpdateWatchListResponse>> = _updateWatchListLiveData
 
+    private var _createWatchListLiveData = MutableLiveData<BaseResponse<CreateWatchListResponse>>()
+    val createWatchListLiveData: LiveData<BaseResponse<CreateWatchListResponse>> = _createWatchListLiveData
 
     fun marketDetail(marketId:Int)
     {
@@ -43,5 +44,33 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
         }
     }
 
+    fun createWatchList(watchlistId: CreateWatchListRequest) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.createWatchList(watchlistId)) {
+                is Result.Success -> {
+                    _createWatchListLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _marketErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+    fun updateWatchList(id: Int) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.updateWatchList(id)) {
+                is Result.Success -> {
+                    _updateWatchListLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _marketErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
 
 }

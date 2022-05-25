@@ -1,9 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio_view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -35,19 +33,8 @@ class PortfolioViewFragment :
 
         orderId = requireArguments().getInt("orderId")
         binding.portfolioDashboard = requireArguments().getParcelable("portfolioDashboard")!!
+
         observers()
-
-        val spinnerArr = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
-
-        val arrAdapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerArr)
-
-        arrAdapter.setDropDownViewResource(
-            android.R.layout
-                .simple_spinner_dropdown_item
-        )
-        binding.filterSpinner.adapter = arrAdapter
-
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
 
     }

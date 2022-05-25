@@ -27,7 +27,7 @@
     <string name="nav_watchlist">Watchlist</string>
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_trade">Trade</string>
-
+    
     <string name="my_portfolio_lbl">My Portfolio</string>
     <string name="portfolio_list_lbl">Portfolio List</string>
     <string name="holding_value_lbl">Holding Value</string>
@@ -98,6 +98,9 @@
     <string name="sort_by">sort by</string>
     <string name="search">Search</string>
     <string name="add">Add</string>
+    <string name="save">Save</string>
+    <string name="update">Update</string>
+
 
     <string-array name="marketList">
         <item>catagories</item>
@@ -136,5 +139,6 @@
     <string name="level_desc">You are in the Level2.Unlock next levels to enjoy \n new features and explore more on trading</string>
     <string name="string_features_unlocked">Features Unlocked !!!</string>
     <string name="required_points">Required Points : 250 Pts</string>
+    <string name="watchList"><b>WatchList</b></string>
 
 </resources>
