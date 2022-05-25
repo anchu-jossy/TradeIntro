@@ -138,4 +138,9 @@
         android:name="com.techxform.tradintro.feature_main.presentation.myskills.MySkillsViewFragment"
         android:label="myskills_view_fragment"
         tools:layout="@layout/my_skills_view" />
+    <fragment
+        android:id="@+id/equalityPlaceOrderFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment"
+        android:label="fragment_equality_place_order"
+        tools:layout="@layout/fragment_equality_place_order" />
 </navigation>

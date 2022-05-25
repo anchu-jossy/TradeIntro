@@ -27,12 +27,13 @@
     <string name="nav_watchlist">Watchlist</string>
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_trade">Trade</string>
-    
+
     <string name="my_portfolio_lbl">My Portfolio</string>
     <string name="portfolio_list_lbl">Portfolio List</string>
     <string name="holding_value_lbl">Holding Value</string>
     <string name="trade_money_balance_lbl">Trade Money Balance</string>
     <string name="total_investment_lbl">Total Investment</string>
+    <string name="plus_buy_lbl">+ Buy</string>
     <string name="buy_lbl">Buy</string>
     <string name="sell_lbl">Sell</string>
     <string name="current_price_lbl">Current Price</string>
@@ -78,6 +79,17 @@
     <string name="holding_value_per_format"> %1$.2f (%2$.2f\%%)</string>
     <string name="points_format"> %.2f Pts</string>
     <string name="watchlist_price_date_format">%1$.2f, %2$s</string>
+    <string name="equality_place_order_lbl">Equality Place Order</string>
+    <string name="order_type_lbl">Order Type</string>
+    <string name="order_validity_lbl">Order Validity</string>
+    <string name="limited_prize_lbl">Limited Prize</string>
+    <string name="charges_lbl">Charges</string>
+    <string name="buy_amount_lbl">Buy Amount</string>
+    <string name="colon_lbl">:</string>
+    <string name="limit_lbl">Limit</string>
+    <string name="day_lbl">Day</string>
+    <string name="gtd_lbl">GTD</string>
+    <string name="gtc_lbl">GTC</string>
 
     <!--    Market list Screen &#37;-->
     <string name="markets">Markets</string>

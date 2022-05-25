@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/backTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:drawableStart="@drawable/ic_back_action"
+            android:drawablePadding="@dimen/_8sdp"
+            android:fontFamily="@font/open_sans_medium"
+            android:foreground="?selectableItemBackground"
+            android:maxLines="1"
+            android:text="@string/back_lbl"
+            android:textSize="@dimen/_12ssp" />
+
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/backTv"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/frame"
+            android:layoutDirection="rtl" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/searchView"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/equality_place_order_lbl"
+            android:textSize="@dimen/_16ssp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleTv">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:elevation="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_16sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/exchangeLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/exchange_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/exchangeTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:background="@color/dark_violate"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:text="NES"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@id/exchangeLbl"
+                            app:layout_constraintStart_toEndOf="@+id/b"
+                            app:layout_constraintTop_toTopOf="@id/exchangeLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/stockNameLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/stock_name_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/exchangeLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toBottomOf="@+id/exchangeLbl" />
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/stockNameEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            android:fontFamily="@font/open_sans"
+                            android:hint=""
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/stockNameLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon2"
+                            app:layout_constraintTop_toTopOf="@id/stockNameLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/quantityLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/quantity_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/stockNameLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toBottomOf="@+id/stockNameLbl" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/quantityEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            android:fontFamily="@font/open_sans"
+                            android:hint=""
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/quantityLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon3"
+                            app:layout_constraintTop_toTopOf="@id/quantityLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/orderTypeLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/order_type_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/quantityLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toBottomOf="@+id/quantityLbl" />
+
+
+                        <RadioGroup
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="@id/orderTypeLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon3"
+                            app:layout_constraintTop_toTopOf="@id/orderTypeLbl">
+
+                            <RadioButton
+                                android:id="@+id/marketRb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nav_market" />
+
+                            <RadioButton
+                                android:id="@+id/limitRb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:text="@string/limit_lbl" />
+
+
+                        </RadioGroup>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/orderValidityLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/exchange_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/orderTypeLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toBottomOf="@+id/orderTypeLbl" />
+
+                        <RadioGroup
+                            android:id="@+id/orderValidityRg"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="@id/orderValidityLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon4"
+                            app:layout_constraintTop_toTopOf="@id/orderValidityLbl">
+
+                            <RadioButton
+                                android:id="@+id/dayRb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/day_lbl" />
+
+                            <RadioButton
+                                android:id="@+id/gtdRb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/gtd_lbl" />
+
+                            <RadioButton
+                                android:id="@+id/gtcRb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/gtc_lbl" />
+                        </RadioGroup>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/limitedPrizeLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/limited_prize_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/limitPrizeEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            android:fontFamily="@font/open_sans"
+                            android:hint=""
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/limitedPrizeLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon6"
+                            app:layout_constraintTop_toTopOf="@id/limitedPrizeLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/chargesLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/charges_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/limitedPrizeLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toBottomOf="@+id/limitedPrizeLbl" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/chargesEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            android:fontFamily="@font/open_sans"
+                            android:hint=""
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/chargesLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon7"
+                            app:layout_constraintTop_toTopOf="@id/chargesLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/buyAmountLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/buy_amount_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/chargesLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toBottomOf="@+id/chargesLbl" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/buyAmountEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            android:fontFamily="@font/open_sans"
+                            android:hint=""
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/buyAmountLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon8"
+                            app:layout_constraintTop_toTopOf="@id/buyAmountLbl" />
+
+                        <androidx.constraintlayout.widget.Barrier
+                            android:id="@+id/b"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:barrierDirection="end"
+                            app:barrierMargin="@dimen/_8sdp"
+                            app:constraint_referenced_ids="exchangeLbl,stockNameLbl,quantityLbl,orderTypeLbl,orderValidityLbl,limitedPrizeLbl,chargesLbl,chargesLbl,buyAmountLbl" />
+
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            style="@style/Theme.TradIntro.Button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_20sdp"
+                            android:background="@color/magenta"
+                            android:text="@string/plus_buy_lbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/buyAmountEt"
+                            app:layout_constraintWidth_percent="0.7" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:elevation="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_16sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/balanceLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/balance_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b1"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/balanceEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            android:fontFamily="@font/open_sans"
+                            android:hint=""
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/balanceLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon9"
+                            app:layout_constraintTop_toTopOf="@id/balanceLbl" />
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/usableBalanceLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/stock_name_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/balanceLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b1"
+                            app:layout_constraintTop_toBottomOf="@+id/balanceLbl" />
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/usableBalanceEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            android:fontFamily="@font/open_sans"
+                            android:hint=""
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/usableBalanceLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon10"
+                            app:layout_constraintTop_toTopOf="@id/usableBalanceLbl" />
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/stockInfoLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/stock_name_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/usableBalanceLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            app:layout_constraintStart_toStartOf="@+id/b1"
+                            app:layout_constraintTop_toBottomOf="@+id/usableBalanceLbl" />
+
+                        <RelativeLayout
+                            android:id="@+id/stockInfoContainer"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_8sdp"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon11"
+                            app:layout_constraintTop_toTopOf="@id/stockInfoLbl">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:fontFamily="@font/open_sans"
+                                android:textSize="@dimen/_10ssp"
+                                android:text="xNSE" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignEnd="@+id/text1"
+                                android:layout_alignParentEnd="true"
+                                android:fontFamily="@font/open_sans"
+                                android:textSize="@dimen/_10ssp"
+                                android:text="xNSE" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text1"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:fontFamily="@font/open_sans_medium"
+                                android:text="N/A"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text3"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:fontFamily="@font/open_sans"
+                                android:text="N/A"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text4"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:fontFamily="@font/open_sans"
+                                android:text="Date : 0000-00-00"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text5"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:fontFamily="@font/open_sans"
+                                android:text="Rs.0.00 (+0.00%)"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text6"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:fontFamily="@font/open_sans"
+                                android:text="H:0.00,L:0.00"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text7"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:fontFamily="@font/open_sans"
+                                android:text="O:0.00,C:0.00"
+                                android:textSize="@dimen/_10ssp" />
+
+
+                        </RelativeLayout>
+
+
+                        <androidx.constraintlayout.widget.Barrier
+                            android:id="@+id/b1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:barrierDirection="end"
+                            app:barrierMargin="@dimen/_8sdp"
+                            app:constraint_referenced_ids="balanceLbl, usableBalanceLbl, stockInfoLbl" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+
+</layout>
