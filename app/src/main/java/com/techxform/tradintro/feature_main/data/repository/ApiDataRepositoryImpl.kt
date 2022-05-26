@@ -27,8 +27,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
@@ -53,8 +53,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
@@ -72,11 +72,35 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun buyStock(
+        marketId: Int,
+        buyStockReq: BuyStockReq
+    ): Result<BaseResponse<PortfolioItem>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.buyStock(marketId, buyStockReq)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
             } catch (e: Exception) {
                 Result.Error(Failure.ServerError)
             }
@@ -98,8 +122,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
@@ -130,8 +154,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
@@ -151,8 +175,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
@@ -172,8 +196,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
@@ -200,8 +224,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
@@ -263,7 +287,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<CreateWatchListResponse>> {
+    override suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<WatchList>> {
         return withContext(Dispatchers.Default)
         {
             try {
@@ -284,7 +308,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateWatchListResponse>> {
+    override suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateData>> {
         return withContext(Dispatchers.Default)
         {
             try {

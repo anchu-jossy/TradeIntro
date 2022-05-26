@@ -16,6 +16,8 @@ interface ApiRepository {
 
     suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>>
 
+    suspend fun buyStock(marketId: Int, buyStockReq: BuyStockReq): Result<BaseResponse<PortfolioItem>>
+
     suspend fun portfolio(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>>
 
     suspend fun portfolioDetails(
@@ -33,8 +35,9 @@ interface ApiRepository {
 
     suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>>
 
-    suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<CreateWatchListResponse>>
-    suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateWatchListResponse>>
+    suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<WatchList>>
+
+    suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateData>>
 
 
 }

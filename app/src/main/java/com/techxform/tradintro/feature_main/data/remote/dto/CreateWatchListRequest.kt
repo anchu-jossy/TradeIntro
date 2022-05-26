@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
     @SerializedName("watch_stock_price") val watchListStockPrice: Number,
 ) {
 }
+/*
 
 data class CreateWatchListResponse
     (
@@ -63,4 +64,4 @@ data class Data(
     @SerializedName("watchlist_date") var watchlistDate: String? = null,
     @SerializedName("market") var market: Market? = Market()
 
-)
+)*/

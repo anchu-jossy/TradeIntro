@@ -17,6 +17,9 @@ interface ApiService {
     @GET("api/market/{id}")
     suspend fun marketDetails(@Path("id") marketId: Int): Response<BaseResponse<Stock>>
 
+    @POST("/api/market/{id}/buy")
+    suspend fun buyStock(@Path("id") marketId: Int, @Body buyStockReq: BuyStockReq) :Response<BaseResponse<PortfolioItem>>
+
     @GET("api/portfolio")
     suspend fun portfolio(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<PortfolioItem>>>
 
@@ -40,11 +43,12 @@ interface ApiService {
 
     @GET("api/watch-lists/{id}")
     suspend fun watchlistDetail(@Path("id") watchlistId: Int): Response<BaseResponse<WatchList>>
+
     @POST("api/watch-lists")
-    suspend fun createWatchList(@Body createWatchList: CreateWatchListRequest): Response<BaseResponse<CreateWatchListResponse>>
+    suspend fun createWatchList(@Body createWatchList: CreateWatchListRequest): Response<BaseResponse<WatchList>>
 
     @PATCH("api/watch-lists/{id}")
-    suspend fun updateWatchList(@Path("id") id: Number, @Body updateWatchlistReq: UpdateWatchListRequest): Response<BaseResponse<UpdateWatchListResponse>>
+    suspend fun updateWatchList(@Path("id") id: Number, @Body updateWatchlistReq: UpdateWatchListRequest): Response<BaseResponse<UpdateData>>
 
 
 }

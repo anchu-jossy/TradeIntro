@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.BuyStockReq
 import com.techxform.tradintro.feature_main.data.remote.dto.CreateWatchListRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
@@ -38,15 +39,25 @@ class MarketDetailFragment :
 
         binding.amountTv.text =getString(R.string.rs_format,totalPrice.toFloat())
         observers()
+        listeners()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
+
+
+
+    }
+
+    private fun listeners()
+    {
+        binding.buyBtn.setOnClickListener {
+            if(binding.stock !=null)
+                viewModel.buyStock(stockId, BuyStockReq(5,0,  binding.stock!!.stockCode, 0, 0f, "2022-05-26T00:00:00.000Z"))
+        }
         binding.watchlistPlusBtn.setOnClickListener {
             if (binding.stock?.watchList == null)
                 viewModel.createWatchList(CreateWatchListRequest(stockId,  binding.ediTextAddtoWatchList.text.toString().toDouble()))
             else viewModel.updateWatchList(binding.stock?.watchList?.watchlistId?:0,binding.ediTextAddtoWatchList.text.toString().toDouble())
         }
-
-
     }
 
 
@@ -119,9 +130,36 @@ class MarketDetailFragment :
 
                 }
                 else -> {
-                    Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+                    val errorMsg = (it as Failure.FeatureFailure).message
+                    Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
                 }
             }
+        }
+        viewModel.buyStockErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), getString(R.string.no_internet_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
+                Failure.ServerError-> {
+                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+
+                }
+                else -> {
+                    val errorMsg = (it as Failure.FeatureFailure).message
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Successfully buy the stocks", Toast.LENGTH_LONG)
+                .show()
         }
     }
 
