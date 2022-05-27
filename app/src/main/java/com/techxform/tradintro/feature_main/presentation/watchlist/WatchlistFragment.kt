@@ -8,6 +8,8 @@ import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WatchlistFragmentBinding
@@ -61,9 +63,11 @@ class WatchlistFragment :
             findNavController().navigate(R.id.action_nav_watchlist_to_watchlistViewFragment, bundle)
         }
 
+
     }
 
     private fun observers() {
+        var position : Int =0
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
@@ -74,6 +78,33 @@ class WatchlistFragment :
             watchList.addAll(it.data)
             isLoading = false
             binding.watchListRv.adapter = WatchListAdapter(watchList, listener)
+            val itemTouchHelperCallback =
+                object :
+                    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder
+                    ): Boolean {
+
+                        return false
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        position = viewHolder.adapterPosition
+                        Toast.makeText(
+                            requireContext(),
+                            "onswiped",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        viewModel.removeWatchlist(watchList[position].watchlistId)
+                    }
+
+                }
+
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            itemTouchHelper.attachToRecyclerView(binding.watchListRv)
+            binding.watchListRv.adapter?.notifyItemRemoved(position)
         }
 
         viewModel.watchlistErrorLiveData.observe(viewLifecycleOwner) {
@@ -87,8 +118,23 @@ class WatchlistFragment :
                         ).show()
                     )
                 }
+                Failure.ServerError -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), "Internal Server Error",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                    viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
+
+                }
                 else -> {}
             }
+        }
+        viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(),"Successfully Deleted",Toast.LENGTH_LONG).show()
+            viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
+
         }
     }
 }

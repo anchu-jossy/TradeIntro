@@ -7,7 +7,8 @@ import com.techxform.tradintro.feature_main.data.remote.service.ApiService
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -305,4 +306,26 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteWatchList(id: Number): Result<BaseResponse<DeleteWatchListResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.deleteWatchList(id)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.errorBody().toString())
+                    Result.Error(Failure.ServerError)
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 }
+
+
