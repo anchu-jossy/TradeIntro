@@ -123,9 +123,9 @@ class EqualityPlaceOrderFragment :
 
     private fun getTotalCharge(orderPrice: Float, quantity: Int): Float {
 
-        val brokagevalue = ((quantity * orderPrice) / 10) / 2
-        val transValue = (brokagevalue / 10) / 2
-        return brokagevalue + transValue
+        val brokageValue = ((quantity * orderPrice) / 10) / 2
+        val transValue = (brokageValue / 10) / 2
+        return brokageValue + transValue
 
     }
 
