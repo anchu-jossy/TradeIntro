@@ -35,8 +35,8 @@ interface ApiRepository {
 
     suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>>
 
-    suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<CreateWatchListResponse>>
-    suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateWatchListResponse>>
+    suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<WatchList>>
+    suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateData>>
     suspend fun deleteWatchList(id: Number): Result<BaseResponse<DeleteWatchListResponse>>
 
 

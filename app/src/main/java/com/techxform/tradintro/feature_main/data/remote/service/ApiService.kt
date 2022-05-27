@@ -48,7 +48,7 @@ interface ApiService {
     suspend fun createWatchList(@Body createWatchList: CreateWatchListRequest): Response<BaseResponse<WatchList>>
 
     @PATCH("api/watch-lists/{id}")
-    suspend fun updateWatchList(@Path("id") id: Number, @Body updateWatchlistReq: UpdateWatchListRequest): Response<BaseResponse<UpdateWatchListResponse>>
+    suspend fun updateWatchList(@Path("id") id: Number, @Body updateWatchlistReq: UpdateWatchListRequest): Response<BaseResponse<UpdateData>>
     @DELETE("api/watch-lists/{id}")
     suspend fun deleteWatchList(@Path("id") id: Number): Response<BaseResponse<DeleteWatchListResponse>>
 
