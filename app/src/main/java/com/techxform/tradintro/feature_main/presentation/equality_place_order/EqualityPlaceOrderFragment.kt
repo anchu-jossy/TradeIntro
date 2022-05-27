@@ -67,11 +67,9 @@ class EqualityPlaceOrderFragment :
                     setLimitRbView()
                 }
                 gtdRb.setOnClickListener {
-                    with(binding) {
-                        binding.orderValidityDateLbl.visibility = View.VISIBLE
-                        binding.colon20.visibility = View.VISIBLE
-                        binding.orderDateEt.visibility = View.VISIBLE
-                    }
+                    this.orderValidityDateLbl.visibility = View.VISIBLE
+                    this.colon20.visibility = View.VISIBLE
+                    this.orderDateEt.visibility = View.VISIBLE
 
                 }
                 dayRb.setOnClickListener {
