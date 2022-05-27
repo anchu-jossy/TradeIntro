@@ -82,6 +82,8 @@
     <string name="equality_place_order_lbl">Equality Place Order</string>
     <string name="order_type_lbl">Order Type</string>
     <string name="order_validity_lbl">Order Validity</string>
+    <string name="order_validity_date_lbl">Validity Date</string>
+
     <string name="limited_prize_lbl">Limited Prize</string>
     <string name="charges_lbl">Charges</string>
     <string name="buy_amount_lbl">Buy Amount</string>
@@ -140,5 +142,7 @@
     <string name="string_features_unlocked">Features Unlocked !!!</string>
     <string name="required_points">Required Points : 250 Pts</string>
     <string name="watchList"><b>WatchList</b></string>
+    <string name="order_stock">Order Stock</string>
+    <string name="sell_stock">Sell Stock</string>
 
 </resources>

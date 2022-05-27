@@ -3,8 +3,10 @@ package com.techxform.tradintro.feature_main.presentation.portfolio_view
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.PortfolioViewFragmentBinding
@@ -12,12 +14,15 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PriceType
+import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
+import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.ORDER_ID
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class PortfolioViewFragment :
-    BaseFragment<PortfolioViewFragmentBinding>(PortfolioViewFragmentBinding::inflate) {
+    BaseFragment<PortfolioViewFragmentBinding>(PortfolioViewFragmentBinding::inflate),
+    View.OnClickListener {
 
     companion object {
         fun newInstance() = PortfolioViewFragment()
@@ -36,6 +41,10 @@ class PortfolioViewFragment :
 
         observers()
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
+
+        binding.sellBtn.setOnClickListener(this)
+        binding.buyBtn.setOnClickListener(this)
+
 
     }
 
@@ -111,5 +120,23 @@ class PortfolioViewFragment :
         }
     }
 
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            R.id.buyBtn -> {
+                val bundle = bundleOf(
+                    ORDER_ID to orderId,
+                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to "BUY"
+                )
+                findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
+            }
+            R.id.sellBtn -> {
+                val bundle = bundleOf(
+                    ORDER_ID to orderId,
+                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to "SELL"
+                )
+                findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
+            }
+        }
+    }
 
 }

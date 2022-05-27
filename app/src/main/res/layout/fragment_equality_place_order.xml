@@ -19,6 +19,7 @@
             android:fontFamily="@font/open_sans_medium"
             android:foreground="?selectableItemBackground"
             android:maxLines="1"
+            android:visibility="gone"
             android:text="@string/back_lbl"
             android:textSize="@dimen/_12ssp" />
 
@@ -39,11 +40,9 @@
             android:id="@+id/titleTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/searchView"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:fontFamily="@font/open_sans_semibold"
-            android:text="@string/equality_place_order_lbl"
             android:textSize="@dimen/_16ssp" />
 
         <androidx.core.widget.NestedScrollView
@@ -168,6 +167,8 @@
                             android:background="@drawable/edittext_bg"
                             android:fontFamily="@font/open_sans"
                             android:hint=""
+                            android:inputType="number"
+                            android:text="1"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintBottom_toBottomOf="@id/quantityLbl"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -200,6 +201,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
                             android:orientation="horizontal"
+
                             app:layout_constraintBottom_toBottomOf="@id/orderTypeLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon3"
@@ -227,7 +229,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
-                            android:text="@string/exchange_lbl"
+                            android:text="@string/order_validity_lbl"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/orderTypeLbl" />
@@ -272,6 +274,50 @@
                         </RadioGroup>
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/orderValidityDateLbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:visibility="gone"
+                            android:text="@string/order_validity_date_lbl"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/colon20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:text="@string/colon_lbl"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="@+id/b"
+                            app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
+
+
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/orderDateEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@drawable/edittext_bg"
+                            android:fontFamily="@font/open_sans"
+                            android:hint="Date"
+                            android:inputType="number"
+                            android:visibility="gone"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/orderValidityDateLbl"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/colon20"
+                            app:layout_constraintTop_toTopOf="@id/orderValidityDateLbl"
+
+                            />
+
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/limitedPrizeLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -280,7 +326,7 @@
                             android:text="@string/limited_prize_lbl"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
+                            app:layout_constraintTop_toBottomOf="@+id/orderValidityDateLbl" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon6"
@@ -389,10 +435,12 @@
                         <androidx.appcompat.widget.AppCompatButton
                             style="@style/Theme.TradIntro.Button"
                             android:layout_width="0dp"
+                            android:id="@+id/buttonBuy"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/_20sdp"
                             android:background="@color/magenta"
                             android:text="@string/plus_buy_lbl"
+                            android:clickable="true"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/buyAmountEt"
