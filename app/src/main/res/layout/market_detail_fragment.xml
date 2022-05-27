@@ -150,7 +150,6 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginEnd="20dp"
                     android:nestedScrollingEnabled="false"
-
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -202,6 +201,7 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:background="@drawable/violet_circular_bg"
                     android:shadowRadius="0"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:text="@string/buy_lbl"
                     app:layout_constraintEnd_toStartOf="@+id/sellBtn"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -215,6 +215,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/pink_circular_bg"
                     android:shadowRadius="0"
                     android:text="@string/sell_lbl"
@@ -224,7 +225,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
                     app:layout_constraintWidth_percent="0.45" />
 
-                <View
+               <!-- <View
                     android:id="@+id/view3"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
@@ -233,7 +234,7 @@
                     android:background="@color/lighter_gray"
                     app:layout_constraintBottom_toBottomOf="@+id/sellBtn"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />-->
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/wishListTV"

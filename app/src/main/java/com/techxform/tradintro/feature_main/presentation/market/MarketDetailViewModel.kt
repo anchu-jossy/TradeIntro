@@ -22,11 +22,18 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
 
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
-    private var _updateWatchListLiveData = MutableLiveData<BaseResponse<UpdateWatchListResponse>>()
-    val updateWatchListLiveData: LiveData<BaseResponse<UpdateWatchListResponse>> = _updateWatchListLiveData
 
-    private var _createWatchListLiveData = MutableLiveData<BaseResponse<CreateWatchListResponse>>()
-    val createWatchListLiveData: LiveData<BaseResponse<CreateWatchListResponse>> = _createWatchListLiveData
+    private var _updateWatchListLiveData = MutableLiveData<BaseResponse<UpdateData>>()
+    val updateWatchListLiveData: LiveData<BaseResponse<UpdateData>> = _updateWatchListLiveData
+
+    private var _createWatchListLiveData = MutableLiveData<BaseResponse<WatchList>>()
+    val createWatchListLiveData: LiveData<BaseResponse<WatchList>> = _createWatchListLiveData
+
+    private var _buyStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
+    val buyStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _buyStockLiveData
+
+    private var _buyStockErrorLiveData = MutableLiveData<Failure>()
+    val buyStockErrorLiveData: LiveData<Failure> = _buyStockErrorLiveData
 
     fun marketDetail(marketId:Int)
     {
@@ -67,6 +74,22 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
                 }
                 is Result.Error -> {
                     _marketErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun buyStock(marketId: Int, buyStockReq: BuyStockReq)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.buyStock(marketId, buyStockReq)) {
+                is Result.Success -> {
+                    _buyStockLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _buyStockErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)
