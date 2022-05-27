@@ -15,7 +15,9 @@ import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
+import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.BUY
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.ORDER_ID
+import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.SELL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -125,14 +127,14 @@ class PortfolioViewFragment :
             R.id.buyBtn -> {
                 val bundle = bundleOf(
                     ORDER_ID to orderId,
-                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to "BUY"
+                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to BUY
                 )
                 findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
             }
             R.id.sellBtn -> {
                 val bundle = bundleOf(
                     ORDER_ID to orderId,
-                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to "SELL"
+                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to SELL
                 )
                 findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
             }

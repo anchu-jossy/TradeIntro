@@ -27,6 +27,8 @@ class EqualityPlaceOrderFragment :
     companion object {
         const val IS_BUY_OR_ORDER = "IsBuyOrOrderButtonClicked"
         const val ORDER_ID = "orderId"
+        const val BUY = "BUY"
+        const val SELL = "SELL"
 
         @JvmStatic
         fun newInstance() =
@@ -42,74 +44,47 @@ class EqualityPlaceOrderFragment :
         orderId = arguments?.get(ORDER_ID) as Int
         isBuyOrSell = arguments?.get(IS_BUY_OR_ORDER) as String
         binding.buttonBuy.setOnClickListener(this)
-        if (isBuyOrSell == "BUY")
+        if (isBuyOrSell == BUY)
             binding.titleTv.text = getString(R.string.order_stock)
         else binding.titleTv.text = getString(R.string.sell_stock)
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
-        with(binding) {
-            binding.radioGrp.check(R.id.marketRb)
-            orderValidityLbl.visibility = View.GONE
-            gtcRb.visibility = View.GONE
-            gtdRb.visibility = View.GONE
-            dayRb.visibility = View.GONE
-            limitedPrizeLbl.visibility = View.GONE
-            colon6.visibility = View.GONE
-            limitPrizeEt.visibility = View.GONE
 
-        }
+        setMarketView()
+        binding.radioGrp.check(R.id.marketRb)
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            binding.exchangeTv.text =
-                it.data.market.history[0].stockHistoryCode.split(".")[1]
-            binding.stockNameEt.setText(it.data.market.stockName)
-            val buyPrice=(it.data.market.history[0].stockHistoryClose+it.data.market.history[0].stockHistoryOpen)/2
-            binding.chargesEt.setText(getTotalCharge(buyPrice, 1).toString())
-        }
-        binding.marketRb.setOnClickListener {
             with(binding) {
-                orderValidityLbl.visibility = View.GONE
-                gtcRb.visibility = View.GONE
-                gtdRb.visibility = View.GONE
-                dayRb.visibility = View.GONE
-                limitedPrizeLbl.visibility = View.GONE
-                colon6.visibility = View.GONE
-                limitPrizeEt.visibility = View.GONE
+                exchangeTv.text =
+                    it.data.market.history[0].stockHistoryCode.split(".")[1]
+                stockNameEt.setText(it.data.market.stockName)
+                val buyPrice =
+                    (it.data.market.history[0].stockHistoryClose + it.data.market.history[0].stockHistoryOpen) / 2
+                buyAmountEt.setText(buyPrice.toString())
+                chargesEt.setText(getTotalCharge(buyPrice, 1).toString())
+                marketRb.setOnClickListener {
+                    setMarketView()
+                }
+                limitRb.setOnClickListener {
+                    setLimitRbView()
+                }
+                gtdRb.setOnClickListener {
+                    with(binding) {
+                        binding.orderValidityDateLbl.visibility = View.VISIBLE
+                        binding.colon20.visibility = View.VISIBLE
+                        binding.orderDateEt.visibility = View.VISIBLE
+                    }
+
+                }
+                dayRb.setOnClickListener {
+                    setDefaultRbView()
+                }
+                gtcRb.setOnClickListener {
+                    setDefaultRbView()
+                }
+
 
             }
         }
-        binding.limitRb.setOnClickListener {
-            with(binding) {
-                orderValidityLbl.visibility = View.VISIBLE
-                gtcRb.visibility = View.VISIBLE
-                gtdRb.visibility = View.VISIBLE
-                dayRb.visibility = View.VISIBLE
-                limitedPrizeLbl.visibility = View.VISIBLE
-                colon6.visibility = View.VISIBLE
-                limitPrizeEt.visibility = View.VISIBLE
-
-
-            }
-        }
-        binding.gtdRb.setOnClickListener {
-            with(binding) {
-                binding.orderValidityDateLbl.visibility = View.VISIBLE
-                binding.colon20.visibility = View.VISIBLE
-                binding.orderDateEt.visibility = View.VISIBLE
-            }
-
-        }
-        binding.dayRb.setOnClickListener {
-            binding.orderValidityDateLbl.visibility = View.GONE
-            binding.colon20.visibility = View.GONE
-            binding.orderDateEt.visibility = View.GONE
-        }
-        binding.gtcRb.setOnClickListener {
-            binding.orderValidityDateLbl.visibility = View.GONE
-            binding.colon20.visibility = View.GONE
-            binding.orderDateEt.visibility = View.GONE
-        }
-
         binding.orderDateEt.setOnClickListener {
-
             val dialog = DatePickerDialog(
                 requireContext(), this,
                 myCalendar[Calendar.YEAR], myCalendar[Calendar.MONTH],
@@ -119,6 +94,37 @@ class EqualityPlaceOrderFragment :
         }
 
 
+    }
+
+    private fun setLimitRbView() {
+        with(binding) {
+            orderValidityLbl.visibility = View.VISIBLE
+            gtcRb.visibility = View.VISIBLE
+            gtdRb.visibility = View.VISIBLE
+            dayRb.visibility = View.VISIBLE
+            limitedPrizeLbl.visibility = View.VISIBLE
+            colon6.visibility = View.VISIBLE
+            limitPrizeEt.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setDefaultRbView() {
+        binding.orderValidityDateLbl.visibility = View.GONE
+        binding.colon20.visibility = View.GONE
+        binding.orderDateEt.visibility = View.GONE
+    }
+
+    private fun setMarketView() {
+        with(binding) {
+            orderValidityLbl.visibility = View.GONE
+            gtcRb.visibility = View.GONE
+            gtdRb.visibility = View.GONE
+            dayRb.visibility = View.GONE
+            limitedPrizeLbl.visibility = View.GONE
+            colon6.visibility = View.GONE
+            limitPrizeEt.visibility = View.GONE
+
+        }
     }
 
     private fun getTotalCharge(orderPrice: Float, quantity: Int): Float {
@@ -132,7 +138,7 @@ class EqualityPlaceOrderFragment :
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.buttonBuy -> {
-                if (binding.quantityEt.text.toString().toInt() <= 1) {
+                if (binding.quantityEt.text.toString().toInt() < 1) {
                     Toast.makeText(requireContext(), "quantity cannot be zero", Toast.LENGTH_LONG)
                         .show()
                 }
