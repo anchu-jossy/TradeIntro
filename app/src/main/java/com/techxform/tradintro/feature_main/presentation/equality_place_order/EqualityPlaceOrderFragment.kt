@@ -46,12 +46,23 @@ class EqualityPlaceOrderFragment :
             binding.titleTv.text = getString(R.string.order_stock)
         else binding.titleTv.text = getString(R.string.sell_stock)
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
+        with(binding) {
+            binding.radioGrp.check(R.id.marketRb)
+            orderValidityLbl.visibility = View.GONE
+            gtcRb.visibility = View.GONE
+            gtdRb.visibility = View.GONE
+            dayRb.visibility = View.GONE
+            limitedPrizeLbl.visibility = View.GONE
+            colon6.visibility = View.GONE
+            limitPrizeEt.visibility = View.GONE
 
+        }
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
             binding.exchangeTv.text =
-                it.data.market.history[0].stockHistoryCode.split(".")[1].drop(1)
+                it.data.market.history[0].stockHistoryCode.split(".")[1]
             binding.stockNameEt.setText(it.data.market.stockName)
-            binding.chargesEt.setText(getTotalCharge(it.data.orderPrice, 1).toString())
+            val buyPrice=(it.data.market.history[0].stockHistoryClose+it.data.market.history[0].stockHistoryOpen)/2
+            binding.chargesEt.setText(getTotalCharge(buyPrice, 1).toString())
         }
         binding.marketRb.setOnClickListener {
             with(binding) {
