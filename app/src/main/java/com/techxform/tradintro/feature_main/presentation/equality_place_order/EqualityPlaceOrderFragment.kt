@@ -45,7 +45,7 @@ class EqualityPlaceOrderFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[EqualityPlaceOrderViewModel::class.java]
         viewModel.walletSummary("voucher")
-        orderId = arguments?.get(ORDER_ID) as Int
+        orderId = requireArguments().getInt(ORDER_ID, 0)
         isBuyOrSell = arguments?.get(IS_BUY_OR_ORDER) as String
         binding.buttonBuy.setOnClickListener(this)
         if (isBuyOrSell == BUY)
@@ -56,9 +56,9 @@ class EqualityPlaceOrderFragment :
         binding.radioGrp.check(R.id.marketRb)
 
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
-            Log.d("testing",it.data.data?.tradeMoneyBalance.toString()+"  "+it.data.data?.balance.toString())
-            binding.balanceEt.setText(it.data.data?.tradeMoneyBalance.toString())
-            binding.usableBalanceEt.setText(it.data.data?.balance.toString())
+            Log.d("testing",it.data?.tradeMoneyBalance.toString()+"  "+it.data?.balance.toString())
+            binding.balanceEt.setText(it.data?.tradeMoneyBalance.toString())
+            binding.usableBalanceEt.setText(it.data?.balance.toString())
         }
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
 
