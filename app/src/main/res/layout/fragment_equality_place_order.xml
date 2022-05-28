@@ -637,7 +637,7 @@
                                 android:id="@+id/texthighLow"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/text6"
+                                android:layout_below="@+id/textRate"
                                 android:layout_centerInParent="true"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:fontFamily="@font/open_sans"
