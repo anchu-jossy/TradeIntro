@@ -145,5 +145,6 @@
     <string name="order_stock">Order Stock</string>
     <string name="sell_stock">Sell Stock</string>
     <string name="usable_balance">Usable Balance</string>
+    <string name="nodata">No data available</string>
 
 </resources>

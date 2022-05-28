@@ -3,8 +3,10 @@ package com.techxform.tradintro.feature_main.presentation.market
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
@@ -13,6 +15,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.CreateWatchListReque
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import com.techxform.tradintro.feature_main.domain.model.PriceType
+import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.presentation.portfolio_view.PriceAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
@@ -158,6 +161,11 @@ class MarketDetailFragment :
         }
 
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
+            val bundle = bundleOf(
+                EqualityPlaceOrderFragment.ORDER_ID to stockId,
+                EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to EqualityPlaceOrderFragment.BUY
+            )
+            findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
             Toast.makeText(requireContext(), "Successfully buy the stocks", Toast.LENGTH_LONG)
                 .show()
         }
