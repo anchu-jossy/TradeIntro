@@ -11,6 +11,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.PortfolioViewFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PriceType
@@ -39,7 +40,9 @@ class PortfolioViewFragment :
         viewModel = ViewModelProvider(this)[PortfolioViewViewModel::class.java]
 
         orderId = requireArguments().getInt("orderId")
-        binding.portfolioDashboard = requireArguments().getParcelable("portfolioDashboard")!!
+        requireArguments().getParcelable<PortfolioDashboard?>("portfolioDashboard")?.let {
+            binding.portfolioDashboard =it
+        }
 
         observers()
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
