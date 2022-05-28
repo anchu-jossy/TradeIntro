@@ -196,11 +196,11 @@
 
 
                         <RadioGroup
+                            android:id="@+id/radioGrp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
                             android:orientation="horizontal"
-                  android:id="@+id/radioGrp"
                             app:layout_constraintBottom_toBottomOf="@id/orderTypeLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon3"
@@ -278,9 +278,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
-                            android:visibility="gone"
                             android:text="@string/order_validity_date_lbl"
                             android:textSize="@dimen/_12ssp"
+                            android:visibility="gone"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
 
@@ -295,8 +295,6 @@
                             app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
 
 
-
-
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/orderDateEt"
                             android:layout_width="0dp"
@@ -307,8 +305,8 @@
                             android:fontFamily="@font/open_sans"
                             android:hint="Date"
                             android:inputType="number"
-                            android:visibility="gone"
                             android:textSize="@dimen/_12ssp"
+                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@id/orderValidityDateLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon20"
@@ -432,14 +430,14 @@
 
 
                         <androidx.appcompat.widget.AppCompatButton
-                            style="@style/Theme.TradIntro.Button"
-                            android:layout_width="0dp"
                             android:id="@+id/buttonBuy"
-                            android:layout_height="wrap_content"
+                            style="@style/Theme.TradIntro.Button"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_24sdp"
                             android:layout_marginVertical="@dimen/_20sdp"
-                            android:background="@color/magenta"
-                            android:text="@string/plus_buy_lbl"
+                            android:background="@drawable/sign_in_bg"
                             android:clickable="true"
+                            android:text="@string/plus_buy_lbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/buyAmountEt"
@@ -562,10 +560,10 @@
                             android:id="@+id/stockInfoContainer"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/_8sdp"
                             android:layout_marginStart="@dimen/_8sdp"
                             android:layout_marginTop="@dimen/_8sdp"
                             android:background="@drawable/edittext_bg"
+                            android:padding="@dimen/_8sdp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon11"
                             app:layout_constraintTop_toTopOf="@id/stockInfoLbl">
@@ -577,8 +575,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:fontFamily="@font/open_sans"
-                                android:textSize="@dimen/_10ssp"
-                                android:text="xNSE" />
+                                android:text="xNSE"
+                                android:textSize="@dimen/_10ssp" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/textCode"
@@ -587,8 +585,8 @@
                                 android:layout_alignEnd="@+id/textCode2"
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="@font/open_sans"
-                                android:textSize="@dimen/_10ssp"
-                                android:text="xNSE" />
+                                android:text="xNSE"
+                                android:textSize="@dimen/_10ssp" />
 
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -625,7 +623,7 @@
                                 android:textSize="@dimen/_10ssp" />
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/text6"
+                                android:id="@+id/textRate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/textdate"

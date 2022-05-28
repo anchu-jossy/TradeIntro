@@ -56,9 +56,10 @@ class EqualityPlaceOrderFragment :
         binding.radioGrp.check(R.id.marketRb)
 
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
-            Log.d("testing",it.data.data?.tradeMoneyBalance.toString()+"  "+it.data.data?.balance.toString())
-            binding.balanceEt.setText(it.data.data?.tradeMoneyBalance.toString())
-            binding.usableBalanceEt.setText(it.data.data?.balance.toString())
+            Log.d("testing",it.data?.tradeMoneyBalance.toString()+"  "+it.data?.balance.toString())
+            binding.balanceEt.setText(it.data?.tradeMoneyBalance.toString())
+            binding.usableBalanceEt.setText(it.data?.balance.toString())
+            binding.texthighLow
         }
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
 
