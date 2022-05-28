@@ -49,8 +49,12 @@ interface ApiService {
 
     @PATCH("api/watch-lists/{id}")
     suspend fun updateWatchList(@Path("id") id: Number, @Body updateWatchlistReq: UpdateWatchListRequest): Response<BaseResponse<UpdateData>>
+
     @DELETE("api/watch-lists/{id}")
     suspend fun deleteWatchList(@Path("id") id: Number): Response<BaseResponse<DeleteWatchListResponse>>
+
+    @GET("api/wallet/summery/")
+    suspend fun getWalletSummary(@Query("voucher") name: String): Response<BaseResponse<WalletSummaryResponse>>
 
 
 }

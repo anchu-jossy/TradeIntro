@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
-import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
-import com.techxform.tradintro.feature_main.data.remote.dto.Result
+import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +23,8 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
 
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
+    private var _walletSummaryLiveData = MutableLiveData<BaseResponse<WalletSummaryResponse>>()
+    val walletSummaryLiveData: LiveData<BaseResponse<WalletSummaryResponse>> = _walletSummaryLiveData
 
 
     fun portfolioDetails(id:Int,filterModel: FilterModel) {
@@ -44,5 +43,21 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
 
     }
 
+    fun walletSummary(name: String)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.walletSummary(name)) {
+                is Result.Success -> {
+
+                    _walletSummaryLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _portfolioErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
 
 }

@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_main.presentation.equality_place_order
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
@@ -38,9 +40,11 @@ class EqualityPlaceOrderFragment :
             }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[EqualityPlaceOrderViewModel::class.java]
+        viewModel.walletSummary("voucher")
         orderId = arguments?.get(ORDER_ID) as Int
         isBuyOrSell = arguments?.get(IS_BUY_OR_ORDER) as String
         binding.buttonBuy.setOnClickListener(this)
@@ -48,13 +52,32 @@ class EqualityPlaceOrderFragment :
             binding.titleTv.text = getString(R.string.order_stock)
         else binding.titleTv.text = getString(R.string.sell_stock)
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
-
         setMarketView()
         binding.radioGrp.check(R.id.marketRb)
+
+        viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
+            Log.d("testing",it.data.data?.tradeMoneyBalance.toString()+"  "+it.data.data?.balance.toString())
+            binding.balanceEt.setText(it.data.data?.tradeMoneyBalance.toString())
+            binding.usableBalanceEt.setText(it.data.data?.balance.toString())
+        }
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
+
+
             with(binding) {
+                textCode2.text = it.data.market.history[0].stockHistoryCode.split(".")[1]
+                   textdate.text=it.data.market.history[0].stockHistoryDate
+                textCode.text = it.data.market.history[0].stockHistoryCode.split(".")[1]
+                textName.text = it.data.market.stockName
+                textName1.text = it.data.market.stockName
+
+                textopenClose.text =
+                    "${it.data.market.history[0].stockHistoryOpen}" + "," + "${it.data.market.history[0].stockHistoryClose}"
+
+                texthighLow.text =
+                    "${it.data.market.history[0].stockHistoryHigh}" + "," + "${it.data.market.history[0].stockHistoryLow}"
                 exchangeTv.text =
                     it.data.market.history[0].stockHistoryCode.split(".")[1]
+
                 stockNameEt.setText(it.data.market.stockName)
                 val buyPrice =
                     (it.data.market.history[0].stockHistoryClose + it.data.market.history[0].stockHistoryOpen) / 2

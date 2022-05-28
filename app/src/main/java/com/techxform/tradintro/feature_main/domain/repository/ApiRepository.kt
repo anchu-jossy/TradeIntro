@@ -39,5 +39,6 @@ interface ApiRepository {
     suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateData>>
     suspend fun deleteWatchList(id: Number): Result<BaseResponse<DeleteWatchListResponse>>
 
+    suspend fun walletSummary(name: String): Result<BaseResponse<WalletSummaryResponse>>
 
 }
