@@ -16,6 +16,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class EqualityPlaceOrderFragment :
@@ -68,12 +69,12 @@ class EqualityPlaceOrderFragment :
             binding.buyAmountEt.setText(buyPrice.toString())
             val diff =
                 market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
-            binding.textDiff.text = diff.toString()
+            binding.textDiff.text = diff.roundToInt().toString()
 
             val sum =
                 market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
             val percent = (diff / sum) * 100
-            binding.textRate.text = getString(R.string.rs_format, buyPrice) + "(" + percent + "%)"
+            binding.textRate.text = getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
             binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
 
         }
@@ -143,6 +144,18 @@ class EqualityPlaceOrderFragment :
                 "${market.history[0].stockHistoryHigh}" + "," + "${market.history[0].stockHistoryLow}"
             exchangeTv.text =
                 market.history[0].stockHistoryCode.split(".")[1]
+            val buyPrice =
+                (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
+            binding.buyAmountEt.setText(buyPrice.toString())
+            val diff =
+                market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
+            binding.textDiff.text = diff.roundToInt().toString()
+
+            val sum =
+                market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
+            val percent = (diff / sum) * 100
+            binding.textRate.text = getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
+            binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
 
             stockNameEt.setText(market.stockName)
 
