@@ -2,7 +2,9 @@ package com.techxform.tradintro.feature_main.presentation.watchlistview
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -26,13 +28,21 @@ class WatchlistViewFragment :
     private lateinit var viewModel: WatchlistViewViewModel
     private var watchlistId by Delegates.notNull<Int>()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[WatchlistViewViewModel::class.java]
+        observers()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[WatchlistViewViewModel::class.java]
         watchlistId = requireArguments().getInt("watchlistId")
 
-        observers()
         binding.alertPriceType = PriceType(63.2f, getString(R.string.alert_price_lbl))
 
         val spinnerArr = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")

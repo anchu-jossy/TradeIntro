@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio_view
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -35,16 +37,25 @@ class PortfolioViewFragment :
 
     private var orderId by Delegates.notNull<Int>()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[PortfolioViewViewModel::class.java]
+        observers()
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[PortfolioViewViewModel::class.java]
 
         orderId = requireArguments().getInt("orderId")
         requireArguments().getParcelable<PortfolioDashboard?>("portfolioDashboard")?.let {
             binding.portfolioDashboard =it
         }
 
-        observers()
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
 
         binding.sellBtn.setOnClickListener(this)

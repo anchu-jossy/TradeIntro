@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -32,12 +34,21 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
     private var isLoading = false
     private var noMorePages = false
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[MarketViewModel::class.java]
+        observers()
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[MarketViewModel::class.java]
 
 
-        observers()
         val adapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.marketList,

@@ -222,6 +222,12 @@
 
                         </RadioGroup>
 
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/limitGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:constraint_referenced_ids="orderValidityLbl,colon5,orderValidityRg, limitedPrizeLbl,colon6 limitPrizeEt"/>
+
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/orderValidityLbl"
                             android:layout_width="wrap_content"

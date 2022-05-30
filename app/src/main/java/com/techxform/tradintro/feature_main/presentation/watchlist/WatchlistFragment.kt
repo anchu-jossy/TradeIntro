@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_main.presentation.watchlist
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -36,11 +38,19 @@ class WatchlistFragment :
     private var noMorePages = false
     private var watchList: ArrayList<WatchList> = arrayListOf()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[WatchlistViewModel::class.java]
+        observers()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[WatchlistViewModel::class.java]
 
-        observers()
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (binding.nestedScrollView.getChildAt(0) != null && (binding.nestedScrollView.getChildAt(
                     0

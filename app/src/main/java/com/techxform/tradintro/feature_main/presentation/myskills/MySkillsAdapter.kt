@@ -6,14 +6,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.MyskillsItemBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Levels
 
-class MySkillsAdapter(var list: ArrayList<String>, val listener: ClickListener) :
+class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener) :
     RecyclerView.Adapter<MySkillsAdapter.MySkillsVH>() {
 
 
     inner class MySkillsVH(private val rowItemBinding: MyskillsItemBinding) :
         RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
+            rowItemBinding.level = list[adapterPosition]
             rowItemBinding.root.setOnClickListener {
                 listener.onItemClick(adapterPosition)
             }
@@ -35,8 +37,8 @@ class MySkillsAdapter(var list: ArrayList<String>, val listener: ClickListener) 
     }
 
     override fun getItemCount(): Int {
-        // return list.size
-        return 10
+         return list.size
+        //return 10
     }
 
 

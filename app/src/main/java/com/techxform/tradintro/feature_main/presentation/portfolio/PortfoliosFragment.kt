@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -23,16 +25,25 @@ class PortfoliosFragment :
 
 
     private lateinit var viewModel: PortfolisViewModel
-    private var portfolioList = ArrayList<PortfolioItem>()
+    private var portfolioList: ArrayList<PortfolioItem> = arrayListOf()
     private lateinit var adapter: PortfolioAdapter
 
     private val limit = 10
     private var isLoading = false
     private var noMorePages = false
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[PortfolisViewModel::class.java]
+        observers()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[PortfolisViewModel::class.java]
         binding.vm = viewModel
         /*       val face: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.open_sans)
                val searchText = binding.searchView as TextView
@@ -58,22 +69,6 @@ class PortfoliosFragment :
 
         })
 
-        observers()
-        viewModel.portfolioDashboard()
-        viewModel.portfolioList(SearchModel("", limit, portfolioList.size, 0))
-
-    }
-
-    private val rvListener = object: PortfolioAdapter.ClickListener{
-        override fun onItemClick(portfolioItem: PortfolioItem, position: Int) {
-            val bundle = bundleOf("orderId" to portfolioItem.orderId,
-            "portfolioDashboard" to binding.portfolioDashboard)
-            findNavController().navigate(R.id.action_nav_home_to_portfolioViewFragment, bundle)
-        }
-
-    }
-
-    private fun observers() {
         binding.portfolioRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -92,13 +87,31 @@ class PortfoliosFragment :
 
         })
 
+        setAdapter()
+        viewModel.portfolioDashboard()
+        viewModel.portfolioList(SearchModel("", limit, portfolioList.size, 0))
+
+    }
+
+    private val rvListener = object : PortfolioAdapter.ClickListener {
+        override fun onItemClick(portfolioItem: PortfolioItem, position: Int) {
+            val bundle = bundleOf(
+                "orderId" to portfolioItem.orderId,
+                "portfolioDashboard" to binding.portfolioDashboard
+            )
+            findNavController().navigate(R.id.action_nav_home_to_portfolioViewFragment, bundle)
+        }
+
+    }
+
+    private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
 
-            if(it.data.isEmpty() || it.data.size < limit)
+            if (it.data.isEmpty() || it.data.size < limit)
                 noMorePages = true
             portfolioList.addAll(it.data)
             isLoading = false

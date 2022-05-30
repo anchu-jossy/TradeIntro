@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_main.presentation.home
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -21,10 +23,18 @@ class OriginalHomeFragment :
 
     private lateinit var viewModel: OriginalHomeViewModel
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[OriginalHomeViewModel::class.java]
+        observers()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[OriginalHomeViewModel::class.java]
         with(binding) {
             cardContainerPortfolio.setOnClickListener {
                 findNavController().navigate(R.id.nav_home)
@@ -40,7 +50,6 @@ class OriginalHomeFragment :
             }
 
         }
-        observers()
         viewModel.userDashboard()
 
         /*       val face: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.open_sans)

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -40,10 +42,19 @@ class EqualityPlaceOrderFragment :
             }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[EqualityPlaceOrderViewModel::class.java]
+        observer()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[EqualityPlaceOrderViewModel::class.java]
         viewModel.walletSummary("voucher")
         orderId = requireArguments().getInt(ORDER_ID, 0)
         isBuyOrSell = arguments?.get(IS_BUY_OR_ORDER) as String
@@ -55,6 +66,22 @@ class EqualityPlaceOrderFragment :
         setMarketView()
         binding.radioGrp.check(R.id.marketRb)
 
+
+
+        binding.orderDateEt.setOnClickListener {
+            val dialog = DatePickerDialog(
+                requireContext(), this,
+                myCalendar[Calendar.YEAR], myCalendar[Calendar.MONTH],
+                myCalendar[Calendar.DAY_OF_MONTH]
+            )
+            dialog.show()
+        }
+
+
+    }
+
+    private fun observer()
+    {
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
             Log.d("testing",it.data?.tradeMoneyBalance.toString()+"  "+it.data?.balance.toString())
             binding.balanceEt.setText(it.data?.tradeMoneyBalance.toString())
@@ -65,7 +92,7 @@ class EqualityPlaceOrderFragment :
 
             with(binding) {
                 textCode2.text = it.data.market.history[0].stockHistoryCode.split(".")[1]
-                   textdate.text=it.data.market.history[0].stockHistoryDate
+                textdate.text=it.data.market.history[0].stockHistoryDate
                 textCode.text = it.data.market.history[0].stockHistoryCode.split(".")[1]
                 textName.text = it.data.market.stockName
                 textName1.text = it.data.market.stockName
@@ -105,16 +132,6 @@ class EqualityPlaceOrderFragment :
 
             }
         }
-        binding.orderDateEt.setOnClickListener {
-            val dialog = DatePickerDialog(
-                requireContext(), this,
-                myCalendar[Calendar.YEAR], myCalendar[Calendar.MONTH],
-                myCalendar[Calendar.DAY_OF_MONTH]
-            )
-            dialog.show()
-        }
-
-
     }
 
     private fun setLimitRbView() {

@@ -25,13 +25,19 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(Notificat
 
     private lateinit var viewModel: NotificationViewModel
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
+        observers()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
-
-        observers()
         viewModel.notifications(SearchModel("", 10,0,0))
     }
 

@@ -56,5 +56,8 @@ interface ApiService {
     @GET("api/wallet/summery/")
     suspend fun getWalletSummary(@Query("voucher") name: String): Response<BaseResponse<WalletSummaryResponse>>
 
+    @GET("api/user-levels")
+    suspend fun userLevels(): Response<BaseResponse<UserLevels>>
+
 
 }

@@ -41,4 +41,6 @@ interface ApiRepository {
 
     suspend fun walletSummary(name: String): Result<BaseResponse<WalletSummaryResponse>>
 
+    suspend fun userLevels(): Result<BaseResponse<UserLevels>>
+
 }
