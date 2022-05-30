@@ -164,6 +164,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/priceRv"
                     app:layout_constraintWidth_percent="0.45" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
 
         <include

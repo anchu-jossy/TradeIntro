@@ -9,13 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class EqualityPlaceOrderFragment :
@@ -25,8 +29,9 @@ class EqualityPlaceOrderFragment :
     private lateinit var viewModel: EqualityPlaceOrderViewModel
     private var orderId: Int = 0
     private lateinit var isBuyOrSell: String
-    val myCalendar = Calendar.getInstance()
-
+    private val myCalendar = Calendar.getInstance()
+    var quantity: Int? = null
+    lateinit var market: Stock
 
     companion object {
         const val IS_BUY_OR_ORDER = "IsBuyOrOrderButtonClicked"
@@ -57,6 +62,8 @@ class EqualityPlaceOrderFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.walletSummary("voucher")
         orderId = requireArguments().getInt(ORDER_ID, 0)
+        viewModel.marketDetail(orderId)
+
         isBuyOrSell = arguments?.get(IS_BUY_OR_ORDER) as String
         binding.buttonBuy.setOnClickListener(this)
         if (isBuyOrSell == BUY)
@@ -65,8 +72,24 @@ class EqualityPlaceOrderFragment :
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
         setMarketView()
         binding.radioGrp.check(R.id.marketRb)
+        binding.quantityEt.addTextChangedListener {
+            quantity = if (it.toString() == "")
+                0
+            else it.toString().toInt()
+            val buyPrice =
+                (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
+            binding.buyAmountEt.setText(buyPrice.toString())
+            val diff =
+                market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
+            binding.textDiff.text = diff.roundToInt().toString()
 
+            val sum =
+                market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
+            val percent = (diff / sum) * 100
+            binding.textRate.text = getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
+            binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
 
+        }
 
         binding.orderDateEt.setOnClickListener {
             val dialog = DatePickerDialog(
@@ -82,55 +105,99 @@ class EqualityPlaceOrderFragment :
 
     private fun observer()
     {
+        viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), getString(R.string.no_internet_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
+                Failure.ServerError -> {
+                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+
+                }
+                else -> {
+                    val errorMsg = (it as Failure.FeatureFailure).message
+                    Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
-            Log.d("testing",it.data?.tradeMoneyBalance.toString()+"  "+it.data?.balance.toString())
+
             binding.balanceEt.setText(it.data?.tradeMoneyBalance.toString())
             binding.usableBalanceEt.setText(it.data?.balance.toString())
         }
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-
-
-            with(binding) {
-                textCode2.text = it.data.market.history[0].stockHistoryCode.split(".")[1]
-                textdate.text=it.data.market.history[0].stockHistoryDate
-                textCode.text = it.data.market.history[0].stockHistoryCode.split(".")[1]
-                textName.text = it.data.market.stockName
-                textName1.text = it.data.market.stockName
-
-                textopenClose.text =
-                    "${it.data.market.history[0].stockHistoryOpen}" + "," + "${it.data.market.history[0].stockHistoryClose}"
-
-                texthighLow.text =
-                    "${it.data.market.history[0].stockHistoryHigh}" + "," + "${it.data.market.history[0].stockHistoryLow}"
-                exchangeTv.text =
-                    it.data.market.history[0].stockHistoryCode.split(".")[1]
-
-                stockNameEt.setText(it.data.market.stockName)
-                val buyPrice =
-                    (it.data.market.history[0].stockHistoryClose + it.data.market.history[0].stockHistoryOpen) / 2
-                buyAmountEt.setText(buyPrice.toString())
-                chargesEt.setText(getTotalCharge(buyPrice, 1).toString())
-                marketRb.setOnClickListener {
-                    setMarketView()
-                }
-                limitRb.setOnClickListener {
-                    setLimitRbView()
-                }
-                gtdRb.setOnClickListener {
-                    this.orderValidityDateLbl.visibility = View.VISIBLE
-                    this.colon20.visibility = View.VISIBLE
-                    this.orderDateEt.visibility = View.VISIBLE
-
-                }
-                dayRb.setOnClickListener {
-                    setDefaultRbView()
-                }
-                gtcRb.setOnClickListener {
-                    setDefaultRbView()
-                }
-
+            it.data?.let { it ->
+                market=it.market
+                setData(it.market)
 
             }
+        }
+        viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
+            it.data?.let { stock ->
+                market=stock
+                setData(stock)
+            }
+
+        }
+    }
+
+    private fun setData(market: Stock) {
+
+        with(binding) {
+            binding.stock = market
+            textdate.text = market.history[0].stockHistoryDate
+            textCode.text = market.history[0].stockHistoryCode.split(".")[1]
+            textName.text = market.stockName
+            textName1.text = market.stockName
+            textopenClose.text =
+                "${market.history[0].stockHistoryOpen}" + "," + "${market.history[0].stockHistoryClose}"
+            texthighLow.text =
+                "${market.history[0].stockHistoryHigh}" + "," + "${market.history[0].stockHistoryLow}"
+            exchangeTv.text =
+                market.history[0].stockHistoryCode.split(".")[1]
+            val buyPrice =
+                (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
+            binding.buyAmountEt.setText(buyPrice.toString())
+            val diff =
+                market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
+            binding.textDiff.text = diff.roundToInt().toString()
+
+            val sum =
+                market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
+            val percent = (diff / sum) * 100
+            binding.textRate.text = getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
+            binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
+
+            stockNameEt.setText(market.stockName)
+
+
+
+            marketRb.setOnClickListener {
+                setMarketView()
+            }
+            limitRb.setOnClickListener {
+                setLimitRbView()
+            }
+            gtdRb.setOnClickListener {
+                this.orderValidityDateLbl.visibility = View.VISIBLE
+                this.colon20.visibility = View.VISIBLE
+                this.orderDateEt.visibility = View.VISIBLE
+
+            }
+            dayRb.setOnClickListener {
+                setDefaultRbView()
+            }
+            gtcRb.setOnClickListener {
+                setDefaultRbView()
+            }
+
+
         }
     }
 
@@ -189,5 +256,6 @@ class EqualityPlaceOrderFragment :
         binding.orderDateEt.setText("$p3/$p2/$p1")
 
     }
+
 
 }

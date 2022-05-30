@@ -116,8 +116,11 @@ class PortfolioViewFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            binding.portfolio = it.data
-            binding.priceRv.adapter = PriceAdapter(createPriceType(it.data))
+            it.data?.let { data->
+                binding.portfolio = data
+                binding.priceRv.adapter = PriceAdapter(createPriceType(data))
+            }
+
         }
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
