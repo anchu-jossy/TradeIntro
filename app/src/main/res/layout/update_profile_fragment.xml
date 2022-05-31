@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/_20sdp"
-    android:orientation="vertical"
-    android:weightSum="1"
-    tools:context=".feature_main.presentation.portfolio.PortfolioFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="userDetail"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.UserDetailsResponse" />
+
+
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".1"
-        android:gravity="end">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:src="@drawable/ic_baseline_edit_24" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".1"
+            android:gravity="end">
 
-    <RelativeLayout
-        android:id="@+id/shape_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".2"
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_baseline_edit_24" />
+        </LinearLayout>
 
-        >
+        <RelativeLayout
+            android:id="@+id/shape_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".2"
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/myCardView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/myCardView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
             app:cardBackgroundColor="@color/light_gray"
             app:cardCornerRadius="50dp">
 
@@ -73,6 +80,8 @@
         <EditText
             style="@style/App_EditTextStyle"
             android:layout_width="match_parent"
+            android:text="@{userDetail.userName}"
+            android:textColor="@color/shade_grey"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -86,6 +95,9 @@
         <EditText
             style="@style/App_EditTextStyle"
             android:layout_width="match_parent"
+            android:text="@{userDetail.userLastName}"
+            android:textColor="@color/shade_grey"
+
             android:layout_height="wrap_content" />
 
         <TextView
@@ -99,6 +111,9 @@
         <EditText
             style="@style/App_EditTextStyle"
             android:layout_width="match_parent"
+            android:text="@{userDetail.userEmail}"
+            android:textColor="@color/shade_grey"
+
             android:layout_height="wrap_content" />
 
         <TextView
@@ -113,16 +128,20 @@
             style="@style/App_EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:text="@{userDetail.userPhone}"
+
+            android:textColor="@color/shade_grey" />
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/sellBtn"
-        style="@style/Theme.TradIntro.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/pink_circular_bg1"
-        android:shadowRadius="0"
-        android:text="@string/delete_account" />
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sellBtn"
+            style="@style/Theme.TradIntro.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/pink_circular_bg1"
+            android:shadowRadius="0"
+            android:text="@string/delete_account" />
+    </LinearLayout>
+</layout>

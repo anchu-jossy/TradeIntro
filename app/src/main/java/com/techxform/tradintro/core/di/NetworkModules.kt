@@ -6,7 +6,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.techxform.tradintro.BuildConfig
 import com.techxform.tradintro.core.di.utils.NetworkConnectionInterceptor
-import com.techxform.tradintro.core.utils.Contants.PREF_TOKEN_KEY
 import com.techxform.tradintro.core.utils.PreferenceHelper
 import com.techxform.tradintro.core.utils.PreferenceHelper.token
 import dagger.Module
@@ -43,6 +42,7 @@ object NetworkModules {
                 val newRequest: Request = it.request().newBuilder()
                     .addHeader("Authorization", "Bearer ${pref.token}")
                     .build()
+                Log.d("token", "${pref.token}")
                 return@addInterceptor it.proceed(newRequest)
             }
             .build()

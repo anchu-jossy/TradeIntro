@@ -3,7 +3,6 @@ package com.techxform.tradintro.feature_main.presentation.equality_place_order
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -164,14 +163,18 @@ class EqualityPlaceOrderFragment :
             val buyPrice =
                 (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
             binding.buyAmountEt.setText(buyPrice.toString())
-            val diff =
-                market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
-            binding.textDiff.text = diff.roundToInt().toString()
+            if (market.history.size>1) {
+                val diff =
+                    market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
+                binding.textDiff.text = diff.roundToInt().toString()
 
-            val sum =
-                market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
-            val percent = (diff / sum) * 100
-            binding.textRate.text = getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
+                val sum =
+                    market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
+                val percent = (diff / sum) * 100
+                binding.textRate.text =
+                    getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
+            }
+
             binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
 
             stockNameEt.setText(market.stockName)
@@ -253,7 +256,7 @@ class EqualityPlaceOrderFragment :
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
 
-        binding.orderDateEt.setText("$p3/$p2/$p1")
+        binding.orderDateEt.text = ("$p3/$p2/$p1")
 
     }
 

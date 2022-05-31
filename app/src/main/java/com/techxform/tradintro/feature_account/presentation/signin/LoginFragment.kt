@@ -1,10 +1,10 @@
 package com.techxform.tradintro.feature_account.presentation.signin
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
@@ -74,7 +74,18 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                         ).show()
                     )
                 }
-                else -> {}
+                Failure.ServerError -> {
+                    (
+                            Toast.makeText(
+                                requireContext(), "server error",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            )
+                }
+
+
+                else -> {
+                }
             }
         }
     }

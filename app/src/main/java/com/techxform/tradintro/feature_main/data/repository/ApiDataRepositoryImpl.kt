@@ -390,6 +390,26 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun userDetails(): Result<BaseResponse<UserDetailsResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.userDetails()
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }    }
+
 }
 
 

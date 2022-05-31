@@ -233,8 +233,7 @@
                             android:id="@+id/limitGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:constraint_referenced_ids="orderValidityLbl,colon5,orderValidityRg, limitedPrizeLbl,colon6 limitPrizeEt"/>
-
+/>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/orderValidityLbl"
                             android:layout_width="wrap_content"
@@ -308,7 +307,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
 
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <TextView
                             android:id="@+id/orderDateEt"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -325,7 +324,7 @@
                             app:layout_constraintStart_toEndOf="@+id/colon20"
                             app:layout_constraintTop_toTopOf="@id/orderValidityDateLbl"
 
-                            />
+                            android:orientation="horizontal" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/limitedPrizeLbl"
@@ -595,7 +594,6 @@
                                 android:id="@+id/textDiff"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignEnd="@+id/textCode2"
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="@font/open_sans"
                                 android:text="xNSE"

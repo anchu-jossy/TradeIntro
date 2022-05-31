@@ -59,5 +59,6 @@ interface ApiService {
     @GET("api/user-levels")
     suspend fun userLevels(): Response<BaseResponse<UserLevels>>
 
-
+    @GET("api/users/me")
+    suspend fun userDetails(  ): Response<BaseResponse<UserDetailsResponse>>
 }

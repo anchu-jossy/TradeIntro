@@ -1,26 +1,36 @@
 package com.techxform.tradintro.feature_main.presentation.profile
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.techxform.tradintro.core.base.BaseFragment
-import com.techxform.tradintro.databinding.PortfolioFragmentBinding
 import com.techxform.tradintro.databinding.UpdateProfileFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UpdateProfileoFragment : BaseFragment<UpdateProfileFragmentBinding>(UpdateProfileFragmentBinding::inflate) {
 
     companion object {
         fun newInstance() = UpdateProfileoFragment()
     }
 
+    private lateinit var viewModel: UpdateProfileViewModel
 
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[UpdateProfileViewModel::class.java]
+        viewModel.userDetails()
+        viewModel.userDetailLiveData.observe(viewLifecycleOwner) {
+            it.data?.let { data ->
+                binding.userDetail = data
+                Glide.with(requireContext())
+                    .load(data.userImage)
+                    .into(binding.roundedimag);
+            }
+        }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
     }
 
 }
