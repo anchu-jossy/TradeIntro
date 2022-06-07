@@ -233,6 +233,29 @@ class ApiDataRepositoryImpl @Inject constructor(
             } catch (e: JsonParseException) {
                 Result.Error(Failure.JsonParsing)
             } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun deleteNotification(notificationsId: Int): Result<BaseResponse<DeleteNotificationResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.notifications(notificationsId)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
                 Result.Error(Failure.ServerError)
             }
         }

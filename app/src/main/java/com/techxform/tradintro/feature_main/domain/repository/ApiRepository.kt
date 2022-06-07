@@ -31,6 +31,8 @@ interface ApiRepository {
 
     suspend fun notifications(searchModel: SearchModel): Result<BaseResponse<ArrayList<Notifications>>>
 
+    suspend fun deleteNotification(notificationsId: Int): Result<BaseResponse<DeleteNotificationResponse>>
+
     suspend fun watchlist(filterModel: FilterModel): Result<BaseResponse<ArrayList<WatchList>>>
 
     suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>>

@@ -151,7 +151,7 @@ class EqualityPlaceOrderFragment :
         with(binding) {
             binding.stock = market
             textdate.text = market.history[0].stockHistoryDate
-            textCode.text = market.history[0].stockHistoryCode.split(".")[1]
+            textCode.text = market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
             textName.text = market.stockName
             textName1.text = market.stockName
             textopenClose.text =
@@ -159,7 +159,7 @@ class EqualityPlaceOrderFragment :
             texthighLow.text =
                 "${market.history[0].stockHistoryHigh}" + "," + "${market.history[0].stockHistoryLow}"
             exchangeTv.text =
-                market.history[0].stockHistoryCode.split(".")[1]
+                market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
             val buyPrice =
                 (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
             binding.buyAmountEt.setText(buyPrice.toString())

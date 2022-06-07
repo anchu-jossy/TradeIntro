@@ -65,7 +65,7 @@ class MarketDetailFragment :
     {
         binding.buyBtn.setOnClickListener {
             if(binding.stock !=null)
-                viewModel.buyStock(stockId, BuyStockReq(5,0,  binding.stock!!.stockCode, 0, 0f, "2022-05-26T00:00:00.000Z"))
+                viewModel.buyStock(stockId, BuyStockReq(5,0,  binding.stock!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
         }
         binding.watchlistPlusBtn.setOnClickListener {
             if (binding.stock?.watchList == null)

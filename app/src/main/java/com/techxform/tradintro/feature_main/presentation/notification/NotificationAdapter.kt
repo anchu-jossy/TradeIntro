@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.NotificationRowBinding
-import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
 
 class NotificationAdapter(val list : ArrayList<Notifications>,val listener: OnClickListener) : RecyclerView.Adapter<NotificationAdapter.NotificationVH>() {
@@ -35,12 +34,14 @@ class NotificationAdapter(val list : ArrayList<Notifications>,val listener: OnCl
     {
         fun binding(){
 
+            notificationRowBinding.notification = list[adapterPosition]
+
             notificationRowBinding.root.setOnClickListener {
-                listener.onItemClick(adapterPosition)
+                listener.onItemClick(adapterPosition, list[adapterPosition])
             }
 
             notificationRowBinding.closeIv.setOnClickListener {
-                listener.onDeleteClick(adapterPosition)
+                listener.onDeleteClick(adapterPosition, list[adapterPosition])
             }
         }
 
@@ -48,8 +49,8 @@ class NotificationAdapter(val list : ArrayList<Notifications>,val listener: OnCl
 
 
     interface OnClickListener{
-        fun onItemClick(position:Int)
-        fun onDeleteClick(position: Int)
+        fun onItemClick(position:Int, notifications: Notifications)
+        fun onDeleteClick(position: Int, notifications: Notifications)
     }
 
 

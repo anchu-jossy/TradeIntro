@@ -7,23 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.NotificationFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotificationFragment : BaseFragment<NotificationFragmentBinding>(NotificationFragmentBinding::inflate) {
+class NotificationFragment :
+    BaseFragment<NotificationFragmentBinding>(NotificationFragmentBinding::inflate) {
 
     companion object {
         fun newInstance() = NotificationFragment()
     }
 
     private lateinit var viewModel: NotificationViewModel
+    private lateinit var adapter: NotificationAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,32 +42,38 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(Notificat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.notifications(SearchModel("", 10,0,0))
+        viewModel.notifications(SearchModel("", 10, 0, 0))
     }
 
-    private val listener = object : NotificationAdapter.OnClickListener{
+    private val listener = object : NotificationAdapter.OnClickListener {
 
-        override fun onItemClick(position: Int) {
-            findNavController().navigate(R.id.action_notificationFragment_to_detailedNotificationFragment)
-
+        override fun onItemClick(position: Int, notifications: Notifications) {
+            findNavController().navigate(
+                R.id.detailedNotificationFragment,
+                DetailedNotificationFragment.navBundle(notifications)
+            )
         }
 
-        override fun onDeleteClick(position: Int) {
-            //TODO:delete
+        override fun onDeleteClick(position: Int, notifications: Notifications) {
+            viewModel.deleteNotifications(position, notifications.notificationId)
         }
 
     }
 
 
-    private fun observers()
-    {
+    private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
 
         viewModel.notificationLiveData.observe(viewLifecycleOwner) {
-            binding.notificationRv.adapter = NotificationAdapter(it.data,listener)
-
+            adapter = NotificationAdapter(it.data, listener)
+            binding.notificationRv.adapter = adapter
+        }
+        viewModel.deleteNotificationLiveData.observe(viewLifecycleOwner) {
+            adapter.list.removeAt(it)
+            adapter.notifyItemRemoved(it)
+            Toast.makeText(requireContext(), getString(R.string.notification_delete_msg), Toast.LENGTH_SHORT).show()
         }
 
         viewModel.notificationErrorLiveData.observe(viewLifecycleOwner) {

@@ -6,27 +6,38 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import com.techxform.tradintro.R
+import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.databinding.DetailedNotificationFragmentBinding
+import com.techxform.tradintro.databinding.NotificationFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
+import dagger.hilt.android.AndroidEntryPoint
 
-class DetailedNotificationFragment : Fragment() {
+@AndroidEntryPoint
+class DetailedNotificationFragment : BaseFragment<DetailedNotificationFragmentBinding>(
+    DetailedNotificationFragmentBinding::inflate) {
 
     companion object {
-        fun newInstance() = DetailedNotificationFragment()
+        const val NOTIFICATION:String = "notifications"
+        fun navBundle(notifications: Notifications) = bundleOf( NOTIFICATION to notifications)
     }
 
-    private lateinit var viewModel: DetailedNotificationViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.detailed_notification_fragment, container, false)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetailedNotificationViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val notifications = requireArguments().getParcelable<Notifications>(NOTIFICATION)
+        binding.notification = notifications
+
     }
 
 }

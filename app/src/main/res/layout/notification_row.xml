@@ -39,7 +39,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans"
                 android:maxLines="1"
-                android:text="@{notification.notificationHeading}"
+                android:text="@{notification.market.stockName}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/closeIv"
                 app:layout_constraintStart_toStartOf="parent"

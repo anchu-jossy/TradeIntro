@@ -6,6 +6,9 @@
 
     <data>
 
+        <variable
+            name="notification"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.Notifications" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -28,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16sdp"
                 android:fontFamily="@font/open_sans_semibold"
-                android:text="Message"
+                android:text="@{notification.market.stockName}"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +48,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_light"
-                    android:text="01-03-2022"
+                    android:text="@{notification.formatDate()}"
                     android:textSize="@dimen/_8ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -57,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_light"
                     android:gravity="end"
-                    android:text="15:30:00"
+                    android:text="@{notification.formatTime()}"
                     android:textSize="@dimen/_8ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -79,7 +82,7 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/open_sans"
                     android:paddingBottom="@dimen/_8sdp"
-                    android:text="Message Message Message Message Message Message Message Message Message"
+                    android:text="@{notification.notificationText}"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@+id/divider" />
 

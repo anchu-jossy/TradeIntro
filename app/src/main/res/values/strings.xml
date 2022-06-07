@@ -92,6 +92,7 @@
     <string name="day_lbl">Day</string>
     <string name="gtd_lbl">GTD</string>
     <string name="gtc_lbl">GTC</string>
+    <string name="redeem_voucher_lbl">Redeem voucher</string>
 
     <!--    Market list Screen &#37;-->
     <string name="markets">Markets</string>
@@ -147,5 +148,6 @@
     <string name="sell_stock">Sell Stock</string>
     <string name="usable_balance">Usable Balance</string>
     <string name="nodata">No data available</string>
+    <string name="notification_delete_msg">Notification deleted successfully</string>
 
 </resources>
