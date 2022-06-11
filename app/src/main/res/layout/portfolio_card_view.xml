@@ -72,7 +72,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/open_sans_light"
                 android:gravity="end"
-                android:text="@{@string/holding_value_per_format(portfolioDashboard.holdingValueDiff, portfolioDashboard.holdingValueDiffPer) }"
+                android:text='@{portfolioDashboard.holdingValueDiff!= null ? @string/holding_value_per_format(portfolioDashboard.holdingValueDiff, portfolioDashboard.holdingValueDiffPer  ): ""}'
+
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/open_sans_medium"
-                android:text="@{@string/rs_format(portfolioDashboard.tradeMoneyBalance)}"
+                android:text='@{portfolioDashboard.tradeMoneyBalance!= null ? @string/rs_format(portfolioDashboard.tradeMoneyBalance  ): ""}'
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintEnd_toStartOf="@+id/divider"
