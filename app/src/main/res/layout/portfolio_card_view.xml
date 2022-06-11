@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="portfolioDashboard"
             type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard" />
@@ -29,53 +31,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent=".5"/>
+                app:layout_constraintGuide_percent=".5" />
 
             <TextView
                 android:id="@+id/myPortfolioLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/my_portfolio_lbl"
                 android:fontFamily="@font/open_sans_medium"
+                android:text="@string/my_portfolio_lbl"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/holdingValueLbl"/>
+                app:layout_constraintBottom_toTopOf="@+id/holdingValueLbl"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/holdingValueLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/holding_value_lbl"
                 android:fontFamily="@font/open_sans_light"
+                android:text="@string/holding_value_lbl"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
-                app:layout_constraintBottom_toTopOf="@+id/holdingAmountTv"/>
+                app:layout_constraintBottom_toTopOf="@+id/holdingAmountTv" />
 
             <TextView
                 android:id="@+id/holdingAmountTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{@string/rs_format(portfolioDashboard.holdingValue)}"
                 android:fontFamily="@font/open_sans_semibold"
+                android:text='@{portfolioDashboard.holdingValue!= null ? @string/rs_format(portfolioDashboard.holdingValue  ): ""}'
                 android:textColor="@color/white"
                 android:textSize="@dimen/_18ssp"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintBottom_toBottomOf="@+id/g1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="@+id/g1"/>
+                app:layout_constraintWidth_percent="0.5" />
 
             <TextView
                 android:id="@+id/tradeValueTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{@string/holding_value_per_format(portfolioDashboard.holdingValueDiff, portfolioDashboard.holdingValueDiffPer) }"
                 android:fontFamily="@font/open_sans_light"
-                app:layout_constraintWidth_percent="0.3"
+                android:gravity="end"
+                android:text="@{@string/holding_value_per_format(portfolioDashboard.holdingValueDiff, portfolioDashboard.holdingValueDiffPer) }"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
-                android:gravity="end"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/holdingAmountTv"/>
+                app:layout_constraintTop_toTopOf="@+id/holdingAmountTv"
+                app:layout_constraintWidth_percent="0.3" />
 
 
             <View
@@ -83,67 +85,69 @@
                 android:layout_width="0.5dp"
                 android:layout_height="0dp"
                 android:background="@color/white"
-                app:layout_constraintTop_toTopOf="@+id/tradeMoneyBalanceLbl"
                 app:layout_constraintBottom_toBottomOf="@+id/tradeMoneyBalance"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tradeMoneyBalanceLbl" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/g2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="@+id/g1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintGuide_percent=".75"/>
+                app:layout_constraintGuide_percent=".75"
+                app:layout_constraintTop_toTopOf="@+id/g1" />
 
             <TextView
                 android:id="@+id/tradeMoneyBalanceLbl"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans_light"
                 android:text="@string/trade_money_balance_lbl"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
-                android:fontFamily="@font/open_sans_light"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/g2"
                 app:layout_constraintEnd_toStartOf="@+id/divider"
-                app:layout_constraintBottom_toTopOf="@+id/g2"/>
+                app:layout_constraintStart_toStartOf="parent" />
+
             <TextView
                 android:id="@+id/tradeMoneyBalance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{@string/rs_format(portfolioDashboard.tradeMoneyBalance)}"
                 android:fontFamily="@font/open_sans_medium"
+                android:text="@{@string/rs_format(portfolioDashboard.tradeMoneyBalance)}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/divider"
-                app:layout_constraintTop_toTopOf="@+id/g2"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/g2" />
 
             <TextView
                 android:id="@+id/totalInvestmentLbl"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans_light"
+                android:gravity="end"
                 android:text="@string/total_investment_lbl"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
-                android:gravity="end"
-                android:fontFamily="@font/open_sans_light"
-                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintBottom_toTopOf="@+id/g2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/g2"/>
+                app:layout_constraintStart_toEndOf="@+id/divider" />
+
             <TextView
                 android:id="@+id/totalInvestment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{@string/rs_format(portfolioDashboard.totalInvestment)}"
-                android:gravity="end"
                 android:fontFamily="@font/open_sans_medium"
+                android:gravity="end"
+                android:text="@{@string/rs_format(portfolioDashboard.totalInvestment)}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toEndOf="@+id/divider"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/g2"/>
+                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="@+id/g2" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
