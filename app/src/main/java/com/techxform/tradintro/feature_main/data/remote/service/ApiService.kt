@@ -1,7 +1,10 @@
 package com.techxform.tradintro.feature_main.data.remote.service
 
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -83,6 +86,10 @@ interface ApiService {
 
     @GET("api/wallet/history")
     suspend fun walletHistory(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<WalletHistory>>
-
-
+    @Headers("Content-Type: application/json")
+    @POST
+    suspend fun updateWallet(
+        @Url url: String,
+        @Body inputModel: UpdateWalletRequest
+    ): Response<JsonPrimitive>
 }

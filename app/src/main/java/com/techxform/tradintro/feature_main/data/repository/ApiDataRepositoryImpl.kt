@@ -1,8 +1,8 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
-import androidx.compose.ui.text.toLowerCase
 import com.google.gson.JsonParseException
+import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
@@ -11,10 +11,10 @@ import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
 import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class ApiDataRepositoryImpl @Inject constructor(
     private val apiService: ApiService
@@ -360,11 +360,14 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateData>> {
+    override suspend fun updateWatchList(
+        id: Number,
+        req: UpdateWatchListRequest
+    ): Result<BaseResponse<UpdateData>> {
         return withContext(Dispatchers.Default)
         {
             try {
-                val response = apiService.updateWatchList(id,req)
+                val response = apiService.updateWatchList(id, req)
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
@@ -403,7 +406,7 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>> {
-      return  try {
+        return try {
             val response = apiService.getWalletSummary(type.name.lowercase(Locale.getDefault()))
             if (response.isSuccessful)
                 Result.Success(response.body()!!)
@@ -462,7 +465,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun readNotification(id:Int): Result<BaseResponse<Int>> {
+    override suspend fun readNotification(id: Int): Result<BaseResponse<Int>> {
         return withContext(Dispatchers.Default)
         {
             try {
@@ -507,6 +510,47 @@ class ApiDataRepositoryImpl @Inject constructor(
                 Result.Error(Failure.ServerError)
             }
         }
+    }
+
+
+    override suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest){
+        return withContext(Dispatchers.Default)
+
+        {
+            val response = apiService.updateWallet(RECHARGE_URL,updateWalletRequest)
+response
+        }
+      //      try {
+//                if (response.is) {
+//                    Result.Success(response.body()!!)
+//                } else {
+//                    Log.e("Error:", response.raw().message)
+//                    Result.Error(Failure.FeatureFailure(response.raw().message))
+//                }
+//            } catch (e: UnknownHostException) {
+//                Result.Error(Failure.NetworkConnection)
+//            } catch (e: JsonParseException) {
+//                Result.Error(Failure.JsonParsing)
+//            } catch (e: Exception) {
+//                Result.Error(Failure.ServerError)
+//            }
+            //   try {
+//                val response =
+//                if (response.isSuccessful)
+//                    Result.Success(response.body()!!)
+//                else {
+//                    Log.e("Error:", response.raw().message)
+//                    Result.Error(Failure.FeatureFailure(response.raw().message))
+//                }
+//            } catch (e: UnknownHostException) {
+//                Result.Error(Failure.NetworkConnection)
+//            } catch (e: JsonParseException) {
+//                Result.Error(Failure.JsonParsing)
+//            } catch (e: Exception) {
+//                Result.Error(Failure.ServerError)
+//            }
+
+  //      }
     }
 
 }

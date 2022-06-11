@@ -1,6 +1,8 @@
 package com.techxform.tradintro.core.di
 
 
+import androidx.core.text.HtmlCompat
+import com.google.gson.GsonBuilder
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
 import com.techxform.tradintro.feature_main.data.repository.ApiDataRepositoryImpl
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
@@ -13,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
 @Module(includes = [NetworkModules::class])
@@ -24,7 +27,8 @@ object AppModules {
     fun provideAPIService(
         client: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
-    ) = provideServices(client, gsonConverterFactory, ApiService::class.java)
+    )
+    = provideServices(client, gsonConverterFactory, ApiService::class.java)
 
     @Provides
     @Singleton
@@ -66,9 +70,17 @@ object AppModules {
         createRetrofit(client, gsonConverterFactory).create(newClass)
 
     private fun createRetrofit(client: OkHttpClient, gsonConverterFactory: GsonConverterFactory) =
+
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(ScalarsConverterFactory.create())
+                
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder()
+                .setLenient()
+                .create()))
             .build()
+
+
+
 }

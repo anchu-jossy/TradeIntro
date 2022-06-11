@@ -6,4 +6,6 @@ object Contants {
     const val PREFERENCE = "Trade"
     const val PREF_TOKEN_KEY = "token"
     const val PREF_REFRESH_TOKEN_KEY = "refresh_token"
+    const val RECHARGE_URL = "https://test.tradintro.com/"
+
 }

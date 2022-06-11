@@ -11,6 +11,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.RechargeFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,11 +47,13 @@ class RechargeFragment : BaseFragment<RechargeFragmentBinding>(RechargeFragmentB
         val gst = (rechargeAmount * 18) / 100
         val otherChargeAmount = 0f
         val totalAmount = rechargeAmount + gst + otherChargeAmount
+        viewModel.updateWallet(UpdateWalletRequest(10,totalAmount,rechargeAmount,gst,otherChargeAmount))
+
     }
 
     private fun clickListeners() {
         binding.rechargeBtn.setOnClickListener {
-            //calculation()
+            calculation()
         }
 
         binding.redeemBtn.setOnClickListener {
