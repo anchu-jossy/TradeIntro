@@ -53,24 +53,11 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    //implementation 'androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2'
 
-   /* // Compose dependencies
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-alpha06"
-    implementation "androidx.navigation:navigation-compose:2.5.0-alpha04"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
-*/
+
     //SDP
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
-
-    //SplashScreen
-    //implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
@@ -89,12 +76,6 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
-   /* // Room
-    implementation "androidx.room:room-runtime:2.4.2"
-    kapt "androidx.room:room-compiler:2.4.2"
-
-    // Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:2.4.2"*/
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -123,8 +104,6 @@ dependencies {
     // Glide dependency
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
 
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }
