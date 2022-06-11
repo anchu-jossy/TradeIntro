@@ -35,6 +35,12 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
     private var _buyStockErrorLiveData = MutableLiveData<Failure>()
     val buyStockErrorLiveData: LiveData<Failure> = _buyStockErrorLiveData
 
+    private var _sellStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
+    val sellStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _sellStockLiveData
+
+    private var _sellStockErrorLiveData = MutableLiveData<Failure>()
+    val sellStockErrorLiveData: LiveData<Failure> = _sellStockErrorLiveData
+
     fun marketDetail(marketId:Int)
     {
         _loadingLiveData.postValue(true)
@@ -80,16 +86,32 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
         }
     }
 
-    fun buyStock(marketId: Int, buyStockReq: BuyStockReq)
+    fun buyStock(marketId: Int, buySellStockReq: BuySellStockReq)
     {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.buyStock(marketId, buyStockReq)) {
+            when (val result = repository.buyStock(marketId, buySellStockReq)) {
                 is Result.Success -> {
                     _buyStockLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _buyStockErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun sellStock(marketId: Int, buySellStockReq: BuySellStockReq)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.sellStock(marketId, buySellStockReq)) {
+                is Result.Success -> {
+                    _sellStockLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _sellStockErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)

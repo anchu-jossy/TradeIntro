@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.data.remote.service
 
 import com.techxform.tradintro.feature_main.data.remote.dto.*
+import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -18,7 +19,16 @@ interface ApiService {
     suspend fun marketDetails(@Path("id") marketId: Int): Response<BaseResponse<Stock>>
 
     @POST("/api/market/{id}/buy")
-    suspend fun buyStock(@Path("id") marketId: Int, @Body buyStockReq: BuyStockReq) :Response<BaseResponse<PortfolioItem>>
+    suspend fun buyStock(
+        @Path("id") marketId: Int,
+        @Body buySellStockReq: BuySellStockReq
+    ): Response<BaseResponse<PortfolioItem>>
+
+    @POST("/api/market/{id}/sell")
+    suspend fun sellStock(
+        @Path("id") marketId: Int,
+        @Body buySellStockReq: BuySellStockReq
+    ): Response<BaseResponse<PortfolioItem>>
 
     @GET("api/portfolio")
     suspend fun portfolio(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<PortfolioItem>>>
@@ -51,17 +61,28 @@ interface ApiService {
     suspend fun createWatchList(@Body createWatchList: CreateWatchListRequest): Response<BaseResponse<WatchList>>
 
     @PATCH("api/watch-lists/{id}")
-    suspend fun updateWatchList(@Path("id") id: Number, @Body updateWatchlistReq: UpdateWatchListRequest): Response<BaseResponse<UpdateData>>
+    suspend fun updateWatchList(
+        @Path("id") id: Number,
+        @Body updateWatchlistReq: UpdateWatchListRequest
+    ): Response<BaseResponse<UpdateData>>
 
     @DELETE("api/watch-lists/{id}")
     suspend fun deleteWatchList(@Path("id") id: Number): Response<BaseResponse<DeleteWatchListResponse>>
 
     @GET("api/wallet/summery/")
-    suspend fun getWalletSummary(@Query("voucher") name: String): Response<BaseResponse<WalletSummaryResponse>>
+    suspend fun getWalletSummary(@Query("type") name: String): Response<BaseResponse<WalletSummaryResponse>>
 
     @GET("api/user-levels")
     suspend fun userLevels(): Response<BaseResponse<UserLevels>>
 
     @GET("api/users/me")
-    suspend fun userDetails(  ): Response<BaseResponse<UserDetailsResponse>>
+    suspend fun userDetails(): Response<BaseResponse<UserDetailsResponse>>
+
+    @PATCH("api/notifications/read/{id}")
+    suspend fun readNotification(@Path("id") id: Int): Response<BaseResponse<Int>>
+
+    @GET("api/wallet/history")
+    suspend fun walletHistory(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<WalletHistory>>
+
+
 }

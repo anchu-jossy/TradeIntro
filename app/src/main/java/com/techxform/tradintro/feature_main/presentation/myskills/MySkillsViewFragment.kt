@@ -6,30 +6,35 @@ import android.text.style.BulletSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.os.bundleOf
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MySkillsViewBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Levels
+import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MySkillsViewFragment :
     BaseFragment<MySkillsViewBinding>(MySkillsViewBinding::inflate) {
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    companion object {
+        private const val LEVEL:String = "level"
+        fun navBundle(levels: Levels) = bundleOf( LEVEL to levels)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            level = requireArguments().getParcelable(LEVEL)
             imgSemiRectangle.clipToOutline = true
             val backgroundDrawable = DrawableCompat.wrap(imgSemiRectangle.background).mutate()
             DrawableCompat.setTint(
                 backgroundDrawable, ContextCompat.getColor(requireContext(), R.color.purple)
             )
-            val bulletedList = listOf("Trade on a limit price", "Set the validity order", "set alerts for the stock you own or monitor").toBulletedList()
-            textViewDetailList1.text = bulletedList
+           /* val bulletedList = listOf("Trade on a limit price", "Set the validity order", "set alerts for the stock you own or monitor").toBulletedList()
+            textViewDetailList1.text = bulletedList*/
 
         }
 

@@ -5,109 +5,119 @@
 
     <data>
 
+        <import type="android.text.Html" />
+
+        <variable
+            name="level"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.Levels" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/_16sdp">
+        android:layout_height="wrap_content">
 
-
-        <ImageView
-            android:id="@+id/imageViewMainLevel"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:contentDescription="TODO"
-            android:src="@drawable/level2"
-            app:layout_constraintBottom_toTopOf="@+id/cardContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/g2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".3" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardContainer"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/g2">
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/_16sdp">
+
 
             <ImageView
-                android:id="@+id/imgSemiRectangle"
+                android:id="@+id/imageViewMainLevel"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_90sdp"
+                app:imageUrl="@{level.userLevelImage}"
+                app:layout_constraintBottom_toTopOf="@+id/cardContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/g2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".3" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/semi_rectangle"
-                tools:ignore="ImageContrastCheck" />
+                android:layout_height="70dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/g2">
+
+                <ImageView
+                    android:id="@+id/imgSemiRectangle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/semi_rectangle"
+                    tools:ignore="ImageContrastCheck" />
+
+                <TextView
+                    android:id="@+id/textViewMainLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableEnd="@drawable/ic_baseline_lock_white"
+                    android:drawablePadding="@dimen/_15ssp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:text="@{level.userLevelName}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16ssp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/closeIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_baseline_close_white" />
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/textViewMainLevel"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewDetailHeader1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableEnd="@drawable/ic_baseline_lock_white"
-                android:drawablePadding="@dimen/_15ssp"
+                android:layout_margin="@dimen/_12sdp"
+                android:fontFamily="@font/open_sans_medium"
+                android:text="@{Html.fromHtml(level.userLevelFeature)}"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardContainer" />
+
+
+            <TextView
+                android:id="@+id/textViewDetailList1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_12sdp"
+                android:fontFamily="@font/open_sans_medium"
+                android:text="@{Html.fromHtml(level.earnPoints)}"
+                android:textColor="@color/dark_most_grey"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDetailHeader1" />
+
+            <TextView
+                android:id="@+id/textViewPoints"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_12sdp"
                 android:fontFamily="@font/open_sans_bold"
-                android:text="Level 2"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_16ssp" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/closeIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center"
-                android:padding="@dimen/_8sdp"
-                app:srcCompat="@drawable/ic_baseline_close_white" />
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/textViewDetailHeader1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_12sdp"
-            android:fontFamily="@font/open_sans_bold"
-            android:text="@string/string_features_unlocked"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardContainer" />
+                android:text="@{@string/required_points(level.userLevelPoints)}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDetailList1" />
 
 
-        <TextView
-            android:id="@+id/textViewDetailList1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_12sdp"
-            android:fontFamily="@font/open_sans_medium"
-            android:textColor="@color/dark_most_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDetailHeader1" />
-
-        <TextView
-            android:id="@+id/textViewPoints"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_12sdp"
-            android:fontFamily="@font/open_sans_bold"
-            android:text="@string/required_points"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDetailList1" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </layout>

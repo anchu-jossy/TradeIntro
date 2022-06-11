@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
-import com.techxform.tradintro.feature_main.data.remote.dto.BuyStockReq
+import com.techxform.tradintro.feature_main.data.remote.dto.BuySellStockReq
 import com.techxform.tradintro.feature_main.data.remote.dto.CreateWatchListRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
@@ -65,12 +65,15 @@ class MarketDetailFragment :
     {
         binding.buyBtn.setOnClickListener {
             if(binding.stock !=null)
-                viewModel.buyStock(stockId, BuyStockReq(5,0,  binding.stock!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
+                viewModel.buyStock(stockId, BuySellStockReq(5,0,  binding.stock!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
         }
         binding.watchlistPlusBtn.setOnClickListener {
             if (binding.stock?.watchList == null)
                 viewModel.createWatchList(CreateWatchListRequest(stockId,  binding.ediTextAddtoWatchList.text.toString().toDouble()))
             else viewModel.updateWatchList(binding.stock?.watchList?.watchlistId?:0,binding.ediTextAddtoWatchList.text.toString().toDouble())
+        }
+        binding.sellBtn.setOnClickListener {
+            //viewModel.sellStock()
         }
     }
 

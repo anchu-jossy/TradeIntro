@@ -12,6 +12,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MySkillsBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.Levels
 import com.techxform.tradintro.feature_main.presentation.market.MarketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,14 +34,13 @@ class MySkillsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.userLevels()
 
     }
 
     private val rvListener = object : MySkillsAdapter.ClickListener {
-        override fun onItemClick(position: Int) {
-            findNavController().navigate(R.id.mySkillsViewFragment)
+        override fun onItemClick(position: Int, levels: Levels) {
+            findNavController().navigate(R.id.mySkillsViewFragment, MySkillsViewFragment.navBundle(levels))
         }
 
     }

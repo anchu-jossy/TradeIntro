@@ -8,6 +8,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.data.remote.dto.WalletSummaryResponse
+import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,10 +26,10 @@ class WalletViewModel @Inject constructor(private val repository: ApiRepository)
     val walletSummaryLiveData: LiveData<BaseResponse<WalletSummaryResponse>> =
         _walletSummaryLiveData
 
-    fun walletSummary(name: String) {
+    fun walletSummary(type: PaymentType) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.walletSummary(name)) {
+            when (val result = repository.walletSummary(type)) {
                 is Result.Success -> {
 
                     _walletSummaryLiveData.postValue(result.data!!)

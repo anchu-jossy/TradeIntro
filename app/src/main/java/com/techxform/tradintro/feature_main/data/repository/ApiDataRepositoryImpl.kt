@@ -1,16 +1,20 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
+import androidx.compose.ui.text.toLowerCase
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
+import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class ApiDataRepositoryImpl @Inject constructor(
     private val apiService: ApiService
@@ -86,12 +90,36 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     override suspend fun buyStock(
         marketId: Int,
-        buyStockReq: BuyStockReq
+        buySellStockReq: BuySellStockReq
     ): Result<BaseResponse<PortfolioItem>> {
         return withContext(Dispatchers.Default)
         {
             try {
-                val response = apiService.buyStock(marketId, buyStockReq)
+                val response = apiService.buyStock(marketId, buySellStockReq)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun sellStock(
+        marketId: Int,
+        buySellStockReq: BuySellStockReq
+    ): Result<BaseResponse<PortfolioItem>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.sellStock(marketId, buySellStockReq)
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
@@ -374,9 +402,9 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun walletSummary(name: String): Result<BaseResponse<WalletSummaryResponse>> {
+    override suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>> {
       return  try {
-            val response = apiService.getWalletSummary(name)
+            val response = apiService.getWalletSummary(type.name.lowercase(Locale.getDefault()))
             if (response.isSuccessful)
                 Result.Success(response.body()!!)
             else {
@@ -431,7 +459,55 @@ class ApiDataRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 Result.Error(Failure.ServerError)
             }
-        }    }
+        }
+    }
+
+    override suspend fun readNotification(id:Int): Result<BaseResponse<Int>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.readNotification(id)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<WalletHistory>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "type" to searchModel.type,
+                    "limit" to searchModel.limit.toString(),
+                    "offset" to searchModel.offset.toString()
+                )
+                val response = apiService.walletHistory(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 
 }
 

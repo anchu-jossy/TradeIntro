@@ -1,5 +1,7 @@
 package com.techxform.tradintro.feature_main.data.remote.dto
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class UserLevels(
@@ -35,4 +37,71 @@ data class Levels(
     @SerializedName("pts_per_watchlist") var ptsPerWatchlist: Int? = null,
     @SerializedName("max_pts_per_watchlist") var maxPtsPerWatchlist: Int? = null,
 
-){}
+):Parcelable{
+    constructor(parcel: Parcel) : this(
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readValue(Float::class.java.classLoader) as? Float,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(userLevelId)
+        parcel.writeString(userLevelName)
+        parcel.writeString(userLevelImage)
+        parcel.writeValue(userLevelPoints)
+        parcel.writeString(userLevelFeature)
+        parcel.writeString(earnPoints)
+        parcel.writeValue(levelPosition)
+        parcel.writeValue(loginPoint)
+        parcel.writeValue(maxLoginPoint)
+        parcel.writeValue(rechargePts)
+        parcel.writeValue(maxRechargePts)
+        parcel.writeValue(rechargeUnit)
+        parcel.writeValue(ptsPerBuy)
+        parcel.writeValue(maxPtsPerBuy)
+        parcel.writeValue(ptsPerUnitBuyTradeValue)
+        parcel.writeValue(unitBuyTradeValue)
+        parcel.writeValue(maxPtsBuyTradeValue)
+        parcel.writeValue(ptsPerStock)
+        parcel.writeValue(maxPtsPerStock)
+        parcel.writeValue(ptsPerReferal)
+        parcel.writeValue(maxPtsPerReferal)
+        parcel.writeValue(ptsPerWatchlist)
+        parcel.writeValue(maxPtsPerWatchlist)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Levels> {
+        override fun createFromParcel(parcel: Parcel): Levels {
+            return Levels(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Levels?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

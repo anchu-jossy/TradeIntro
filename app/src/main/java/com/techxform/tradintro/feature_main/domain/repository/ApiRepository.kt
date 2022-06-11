@@ -2,7 +2,10 @@ package com.techxform.tradintro.feature_main.domain.repository
 
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
+import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import retrofit2.Response
+import retrofit2.http.QueryMap
 
 interface ApiRepository {
     suspend fun getDataList(): List<ApiData>
@@ -15,7 +18,12 @@ interface ApiRepository {
 
     suspend fun buyStock(
         marketId: Int,
-        buyStockReq: BuyStockReq
+        buySellStockReq: BuySellStockReq
+    ): Result<BaseResponse<PortfolioItem>>
+
+    suspend fun sellStock(
+        marketId: Int,
+        buySellStockReq: BuySellStockReq
     ): Result<BaseResponse<PortfolioItem>>
 
     suspend fun portfolio(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>>
@@ -41,10 +49,14 @@ interface ApiRepository {
     suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateData>>
     suspend fun deleteWatchList(id: Number): Result<BaseResponse<DeleteWatchListResponse>>
 
-    suspend fun walletSummary(name: String): Result<BaseResponse<WalletSummaryResponse>>
+    suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>>
 
     suspend fun userLevels(): Result<BaseResponse<UserLevels>>
     suspend fun userDetails(): Result<BaseResponse<UserDetailsResponse>>
+
+    suspend fun readNotification(id:Int): Result<BaseResponse<Int>>
+
+    suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<WalletHistory>>
 
 
 }

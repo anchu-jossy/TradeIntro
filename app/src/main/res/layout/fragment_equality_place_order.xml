@@ -607,6 +607,7 @@
                                 android:layout_below="@+id/textCode"
                                 android:layout_centerInParent="true"
                                 android:layout_marginTop="@dimen/_5sdp"
+                                android:gravity="center_horizontal"
                                 android:fontFamily="@font/open_sans_medium"
                                 android:text="N/A"
                                 android:textSize="@dimen/_16ssp" />
@@ -616,6 +617,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/textName1"
+                                android:gravity="center_horizontal"
                                 android:layout_centerInParent="true"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:fontFamily="@font/open_sans"
@@ -627,6 +629,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/textName"
+                                android:gravity="center_horizontal"
                                 android:layout_centerInParent="true"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:fontFamily="@font/open_sans"

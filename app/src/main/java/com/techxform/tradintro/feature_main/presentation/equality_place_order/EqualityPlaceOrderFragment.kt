@@ -16,6 +16,7 @@ import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
+import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.math.roundToInt
@@ -59,7 +60,7 @@ class EqualityPlaceOrderFragment :
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.walletSummary("voucher")
+        viewModel.walletSummary(PaymentType.VOUCHER)
         orderId = requireArguments().getInt(ORDER_ID, 0)
         viewModel.marketDetail(orderId)
 
@@ -150,7 +151,7 @@ class EqualityPlaceOrderFragment :
 
         with(binding) {
             binding.stock = market
-            textdate.text = market.history[0].stockHistoryDate
+            textdate.text = market.history[0].formatDate()
             textCode.text = market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
             textName.text = market.stockName
             textName1.text = market.stockName

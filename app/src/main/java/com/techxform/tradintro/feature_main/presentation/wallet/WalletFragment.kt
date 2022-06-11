@@ -8,6 +8,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WalletFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +23,7 @@ class WalletFragment : BaseFragment<WalletFragmentBinding>(WalletFragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[WalletViewModel::class.java]
-        viewModel.walletSummary("voucher")
+        viewModel.walletSummary(PaymentType.VOUCHER)
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
             with(binding) {
                 balanceLbl.text = it.data.balance.toString()

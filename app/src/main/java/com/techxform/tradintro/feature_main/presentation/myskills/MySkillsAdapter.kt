@@ -17,7 +17,7 @@ class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener) 
         fun binding() {
             rowItemBinding.level = list[adapterPosition]
             rowItemBinding.root.setOnClickListener {
-                listener.onItemClick(adapterPosition)
+                listener.onItemClick(adapterPosition,  list[adapterPosition])
             }
         }
     }
@@ -43,7 +43,7 @@ class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener) 
 
 
     interface ClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int, levels: Levels)
     }
 
 
