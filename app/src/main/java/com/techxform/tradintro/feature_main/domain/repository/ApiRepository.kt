@@ -4,6 +4,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.QueryMap
 
@@ -58,5 +59,6 @@ interface ApiRepository {
 
     suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<WalletHistory>>
 
+    suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest)
 
 }

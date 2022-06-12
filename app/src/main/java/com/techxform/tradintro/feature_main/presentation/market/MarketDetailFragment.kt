@@ -52,7 +52,7 @@ class MarketDetailFragment :
         stockId = requireArguments().getInt("stockId")
         totalPrice = requireArguments().getInt("totalPrice")
 
-        binding.amountTv.text =getString(R.string.rs_format,totalPrice.toFloat())
+
         listeners()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
@@ -121,6 +121,8 @@ class MarketDetailFragment :
         }
 
         viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
+          val average=  (it.data.history[0].stockHistoryOpen.plus(it.data.history[0].stockHistoryClose)/2)
+            binding.amountTv.text =getString(R.string.rs_format,average)
             binding.stock = it.data
             binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
         }

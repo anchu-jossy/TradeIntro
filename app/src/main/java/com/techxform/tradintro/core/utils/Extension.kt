@@ -21,7 +21,7 @@ fun ImageView.loadImage(url: String?) {
 @BindingAdapter("colorText")
 fun TextView.color(value: Float) {
     if (value < 0)
-        setTextColor(Color.RED)
+        setTextColor(ContextCompat.getColor(context, R.color.red));
     else setTextColor(Color.GREEN)
 
 }
