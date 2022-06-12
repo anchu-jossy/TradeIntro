@@ -115,6 +115,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
+                    navController.popBackStack(R.id.nav_home1, true)
                     navController.navigate(R.id.nav_home1)
                 }
                 R.id.nav_portfolio -> {

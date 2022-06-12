@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment">
+
     <data>
 
         <variable
@@ -11,6 +12,7 @@
 
 
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -26,9 +28,9 @@
             android:fontFamily="@font/open_sans_medium"
             android:foreground="?selectableItemBackground"
             android:maxLines="1"
-            android:visibility="gone"
             android:text="@string/back_lbl"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone" />
 
 
         <androidx.appcompat.widget.SearchView
@@ -38,10 +40,10 @@
             android:layout_below="@+id/backTv"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:visibility="gone"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/frame"
-            android:layoutDirection="rtl" />
+            android:layoutDirection="rtl"
+            android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/titleTv"
@@ -112,21 +114,21 @@
                             android:id="@+id/stockNameLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/stock_name_lbl"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@+id/stockNameEt"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/exchangeLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/stockNameEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@+id/stockNameLbl"
                             app:layout_constraintStart_toStartOf="@+id/b"
-                            app:layout_constraintTop_toBottomOf="@+id/exchangeLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/stockNameLbl" />
 
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -139,10 +141,9 @@
                             android:fontFamily="@font/open_sans"
                             android:hint=""
                             android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@id/stockNameLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon2"
-                            app:layout_constraintTop_toTopOf="@id/stockNameLbl" />
+                            app:layout_constraintTop_toBottomOf="@+id/exchangeTv" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/quantityLbl"
@@ -152,17 +153,18 @@
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/quantity_lbl"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/quantityEt"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/stockNameLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/quantityEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@id/quantityEt"
                             app:layout_constraintStart_toStartOf="@+id/b"
-                            app:layout_constraintTop_toBottomOf="@+id/stockNameLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/quantityEt" />
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/quantityEt"
@@ -176,30 +178,29 @@
                             android:inputType="number"
                             android:text="1"
                             android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@id/quantityLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon3"
-                            app:layout_constraintTop_toTopOf="@id/quantityLbl" />
+                            app:layout_constraintTop_toBottomOf="@+id/stockNameEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/orderTypeLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/order_type_lbl"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@+id/radioGrp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/quantityLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/radioGrp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@+id/radioGrp"
                             app:layout_constraintStart_toStartOf="@+id/b"
-                            app:layout_constraintTop_toBottomOf="@+id/quantityLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/radioGrp" />
 
 
                         <RadioGroup
@@ -207,11 +208,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
                             android:orientation="horizontal"
-                            app:layout_constraintBottom_toBottomOf="@id/orderTypeLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon3"
-                            app:layout_constraintTop_toTopOf="@id/orderTypeLbl">
+                            app:layout_constraintTop_toBottomOf="@+id/quantityEt">
 
                             <RadioButton
                                 android:id="@+id/marketRb"
@@ -233,79 +234,89 @@
                             android:id="@+id/limitGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-/>
+                            app:constraint_referenced_ids="orderValidityLbl,colon5,flow,limitedPrizeLbl,colon6,limitPrizeEt"/>
+
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/orderValidityLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/order_validity_lbl"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/flow"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/orderTypeLbl" />
+                            app:layout_constraintTop_toTopOf="@id/flow" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@id/orderValidityLbl"
                             app:layout_constraintStart_toStartOf="@+id/b"
-                            app:layout_constraintTop_toBottomOf="@+id/orderTypeLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/orderValidityLbl" />
 
-                        <RadioGroup
-                            android:id="@+id/orderValidityRg"
+                        <androidx.constraintlayout.helper.widget.Flow
+                            android:id="@+id/flow"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
-                            android:orientation="horizontal"
-                            app:layout_constraintBottom_toBottomOf="@id/orderValidityLbl"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:constraint_referenced_ids="dayRb,gtdRb,gtcRb"
+                            app:flow_horizontalGap="@dimen/_8sdp"
+                            app:flow_horizontalStyle="spread_inside"
+                            app:flow_verticalGap="@dimen/_8sdp"
+                            app:flow_wrapMode="aligned"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon4"
-                            app:layout_constraintTop_toTopOf="@id/orderValidityLbl">
+                            app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
 
-                            <RadioButton
-                                android:id="@+id/dayRb"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/day_lbl" />
+                        <RadioButton
+                            android:id="@+id/dayRb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/day_lbl" />
 
-                            <RadioButton
-                                android:id="@+id/gtdRb"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/gtd_lbl" />
+                        <RadioButton
+                            android:id="@+id/gtdRb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gtd_lbl" />
 
-                            <RadioButton
-                                android:id="@+id/gtcRb"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/gtc_lbl" />
-                        </RadioGroup>
+                        <RadioButton
+                            android:id="@+id/gtcRb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gtc_lbl" />
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/validityDateGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:constraint_referenced_ids="orderValidityDateLbl,colon20,orderDateEt "/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/orderValidityDateLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/order_validity_date_lbl"
                             android:textSize="@dimen/_12ssp"
                             android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@id/orderDateEt"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/orderDateEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
                             android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@id/orderDateEt"
                             app:layout_constraintStart_toStartOf="@+id/b"
-                            app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
-
+                            app:layout_constraintTop_toTopOf="@+id/orderDateEt" />
 
                         <TextView
                             android:id="@+id/orderDateEt"
@@ -317,34 +328,32 @@
                             android:fontFamily="@font/open_sans"
                             android:hint="Date"
                             android:inputType="number"
+                            android:orientation="horizontal"
                             android:textSize="@dimen/_12ssp"
                             android:visibility="gone"
-                            app:layout_constraintBottom_toBottomOf="@id/orderValidityDateLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon20"
-                            app:layout_constraintTop_toTopOf="@id/orderValidityDateLbl"
-
-                            android:orientation="horizontal" />
+                            app:layout_constraintTop_toBottomOf="@id/flow" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/limitedPrizeLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/limited_prize_lbl"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/limitPrizeEt"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/orderValidityDateLbl" />
+                            app:layout_constraintTop_toTopOf="@id/limitPrizeEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@id/limitPrizeEt"
                             app:layout_constraintStart_toStartOf="@+id/b"
-                            app:layout_constraintTop_toBottomOf="@+id/orderValidityLbl" />
+                            app:layout_constraintTop_toTopOf="@id/limitPrizeEt" />
 
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -357,30 +366,29 @@
                             android:fontFamily="@font/open_sans"
                             android:hint=""
                             android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@id/limitedPrizeLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon6"
-                            app:layout_constraintTop_toTopOf="@id/limitedPrizeLbl" />
+                            app:layout_constraintTop_toBottomOf="@+id/orderDateEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/chargesLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/charges_lbl"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/chargesEt"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/limitedPrizeLbl" />
+                            app:layout_constraintTop_toTopOf="@id/chargesEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@id/chargesEt"
                             app:layout_constraintStart_toStartOf="@+id/b"
-                            app:layout_constraintTop_toBottomOf="@+id/limitedPrizeLbl" />
+                            app:layout_constraintTop_toTopOf="@id/chargesEt" />
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/chargesEt"
@@ -392,30 +400,29 @@
                             android:fontFamily="@font/open_sans"
                             android:hint=""
                             android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@id/chargesLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon7"
-                            app:layout_constraintTop_toTopOf="@id/chargesLbl" />
+                            app:layout_constraintTop_toBottomOf="@+id/limitPrizeEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/buyAmountLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/buy_amount_lbl"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/buyAmountEt"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/chargesLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/buyAmountEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@id/buyAmountEt"
                             app:layout_constraintStart_toStartOf="@+id/b"
-                            app:layout_constraintTop_toBottomOf="@+id/chargesLbl" />
+                            app:layout_constraintTop_toTopOf="@+id/buyAmountEt" />
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/buyAmountEt"
@@ -427,10 +434,9 @@
                             android:fontFamily="@font/open_sans"
                             android:hint=""
                             android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@id/buyAmountLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon8"
-                            app:layout_constraintTop_toTopOf="@id/buyAmountLbl" />
+                            app:layout_constraintTop_toBottomOf="@id/chargesEt" />
 
                         <androidx.constraintlayout.widget.Barrier
                             android:id="@+id/b"
@@ -478,21 +484,21 @@
                             android:id="@+id/balanceLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/balance_lbl"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/balanceEt"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="@id/balanceEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@id/balanceEt"
                             app:layout_constraintStart_toStartOf="@+id/b1"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="@id/balanceEt" />
 
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -500,36 +506,35 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
-                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_16sdp"
                             android:background="@drawable/edittext_bg"
                             android:fontFamily="@font/open_sans"
                             android:hint=""
                             android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@id/balanceLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon9"
-                            app:layout_constraintTop_toTopOf="@id/balanceLbl" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/usableBalanceLbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
                             android:text="@string/usable_balance"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="@id/usableBalanceEt"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/balanceLbl" />
+                            app:layout_constraintTop_toTopOf="@id/usableBalanceEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
+                            app:layout_constraintBottom_toBottomOf="@id/usableBalanceEt"
                             app:layout_constraintStart_toStartOf="@+id/b1"
-                            app:layout_constraintTop_toBottomOf="@+id/balanceLbl" />
+                            app:layout_constraintTop_toTopOf="@id/usableBalanceEt" />
 
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -542,10 +547,9 @@
                             android:fontFamily="@font/open_sans"
                             android:hint=""
                             android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@id/usableBalanceLbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon10"
-                            app:layout_constraintTop_toTopOf="@id/usableBalanceLbl" />
+                            app:layout_constraintTop_toBottomOf="@id/balanceEt" />
 
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -557,16 +561,16 @@
                             android:text="@string/stock_name_lbl"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/usableBalanceLbl" />
+                            app:layout_constraintTop_toTopOf="@id/stockInfoContainer" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/colon11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
                             android:text="@string/colon_lbl"
                             app:layout_constraintStart_toStartOf="@+id/b1"
-                            app:layout_constraintTop_toBottomOf="@+id/usableBalanceLbl" />
+                            app:layout_constraintBottom_toBottomOf="@+id/stockInfoLbl"
+                            app:layout_constraintTop_toTopOf="@id/stockInfoLbl" />
 
                         <RelativeLayout
                             android:id="@+id/stockInfoContainer"
@@ -578,7 +582,7 @@
                             android:padding="@dimen/_8sdp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon11"
-                            app:layout_constraintTop_toTopOf="@id/stockInfoLbl">
+                            app:layout_constraintTop_toBottomOf="@id/usableBalanceEt">
 
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -607,8 +611,8 @@
                                 android:layout_below="@+id/textCode"
                                 android:layout_centerInParent="true"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:gravity="center_horizontal"
                                 android:fontFamily="@font/open_sans_medium"
+                                android:gravity="center_horizontal"
                                 android:text="N/A"
                                 android:textSize="@dimen/_16ssp" />
 
@@ -617,10 +621,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/textName1"
-                                android:gravity="center_horizontal"
                                 android:layout_centerInParent="true"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:fontFamily="@font/open_sans"
+                                android:gravity="center_horizontal"
                                 android:text="N/A"
                                 android:textSize="@dimen/_10ssp" />
 
@@ -629,10 +633,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/textName"
-                                android:gravity="center_horizontal"
                                 android:layout_centerInParent="true"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:fontFamily="@font/open_sans"
+                                android:gravity="center_horizontal"
                                 android:text="Date : 0000-00-00"
                                 android:textSize="@dimen/_10ssp" />
 

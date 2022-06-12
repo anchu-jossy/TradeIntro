@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.DatePicker
+import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
@@ -70,7 +73,7 @@ class EqualityPlaceOrderFragment :
             binding.titleTv.text = getString(R.string.order_stock)
         else binding.titleTv.text = getString(R.string.sell_stock)
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
-        setMarketView()
+        isLimitVisible(false)
         binding.radioGrp.check(R.id.marketRb)
         binding.quantityEt.addTextChangedListener {
             quantity = if (it.toString() == "")
@@ -86,7 +89,8 @@ class EqualityPlaceOrderFragment :
             val sum =
                 market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
             val percent = (diff / sum) * 100
-            binding.textRate.text = getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
+            binding.textRate.text =
+                getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
             binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
 
         }
@@ -103,8 +107,7 @@ class EqualityPlaceOrderFragment :
 
     }
 
-    private fun observer()
-    {
+    private fun observer() {
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 Failure.NetworkConnection -> {
@@ -133,14 +136,14 @@ class EqualityPlaceOrderFragment :
         }
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
             it.data?.let { it ->
-                market=it.market
+                market = it.market
                 setData(it.market)
 
             }
         }
         viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
             it.data?.let { stock ->
-                market=stock
+                market = stock
                 setData(stock)
             }
 
@@ -164,7 +167,7 @@ class EqualityPlaceOrderFragment :
             val buyPrice =
                 (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
             binding.buyAmountEt.setText(buyPrice.toString())
-            if (market.history.size>1) {
+            if (market.history.size > 1) {
                 val diff =
                     market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
                 binding.textDiff.text = diff.roundToInt().toString()
@@ -183,58 +186,70 @@ class EqualityPlaceOrderFragment :
 
 
             marketRb.setOnClickListener {
-                setMarketView()
+                isLimitVisible(false)
             }
+
             limitRb.setOnClickListener {
-                setLimitRbView()
+                isLimitVisible(true)
             }
-            gtdRb.setOnClickListener {
-                this.orderValidityDateLbl.visibility = View.VISIBLE
-                this.colon20.visibility = View.VISIBLE
-                this.orderDateEt.visibility = View.VISIBLE
 
-            }
-            dayRb.setOnClickListener {
-                setDefaultRbView()
-            }
-            gtcRb.setOnClickListener {
-                setDefaultRbView()
-            }
+
+            gtdRb.setOnCheckedChangeListener(checkListener)
+            dayRb.setOnCheckedChangeListener(checkListener)
+            gtcRb.setOnCheckedChangeListener(checkListener)
 
 
         }
     }
 
-    private fun setLimitRbView() {
+    private val checkListener = CompoundButton.OnCheckedChangeListener { p0, p1 ->
+        when (p0.id) {
+            R.id.gtdRb -> {
+                binding.gtdRb.isChecked = p1
+                binding.dayRb.isChecked = false
+                binding.gtcRb.isChecked = false
+                binding.validityDateGroup.isVisible = true
+            }
+            R.id.dayRb -> {
+                binding.gtdRb.isChecked = false
+                binding.dayRb.isChecked = p1
+                binding.gtcRb.isChecked = false
+                binding.validityDateGroup.isVisible = false
+            }
+            R.id.gtcRb -> {
+                binding.gtdRb.isChecked = false
+                binding.dayRb.isChecked = false
+                binding.gtcRb.isChecked = p1
+                binding.validityDateGroup.isVisible = false
+            }
+            else -> {
+                binding.gtdRb.isChecked = false
+                binding.dayRb.isChecked = false
+                binding.gtcRb.isChecked = false
+                binding.validityDateGroup.isVisible = false
+            }
+        }
+    }
+
+    private fun isLimitVisible(isVisible: Boolean) {
         with(binding) {
-            orderValidityLbl.visibility = View.VISIBLE
-            gtcRb.visibility = View.VISIBLE
-            gtdRb.visibility = View.VISIBLE
-            dayRb.visibility = View.VISIBLE
-            limitedPrizeLbl.visibility = View.VISIBLE
-            colon6.visibility = View.VISIBLE
-            limitPrizeEt.visibility = View.VISIBLE
+            limitGroup.isVisible = isVisible
+            /* orderValidityLbl.visibility = View.VISIBLE
+             gtcRb.visibility = View.VISIBLE
+             gtdRb.visibility = View.VISIBLE
+             dayRb.visibility = View.VISIBLE
+             limitedPrizeLbl.visibility = View.VISIBLE
+             colon6.visibility = View.VISIBLE
+             limitPrizeEt.visibility = View.VISIBLE*/
         }
     }
 
-    private fun setDefaultRbView() {
+   /* private fun setDefaultRbView() {
         binding.orderValidityDateLbl.visibility = View.GONE
         binding.colon20.visibility = View.GONE
         binding.orderDateEt.visibility = View.GONE
-    }
+    }*/
 
-    private fun setMarketView() {
-        with(binding) {
-            orderValidityLbl.visibility = View.GONE
-            gtcRb.visibility = View.GONE
-            gtdRb.visibility = View.GONE
-            dayRb.visibility = View.GONE
-            limitedPrizeLbl.visibility = View.GONE
-            colon6.visibility = View.GONE
-            limitPrizeEt.visibility = View.GONE
-
-        }
-    }
 
     private fun getTotalCharge(orderPrice: Float, quantity: Int): Float {
 

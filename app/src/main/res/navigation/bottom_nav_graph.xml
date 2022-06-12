@@ -9,6 +9,7 @@
         android:id="@+id/nav_home1"
         android:name="com.techxform.tradintro.feature_main.presentation.home.OriginalHomeFragment"
         android:label="@string/nav_home"
+
         tools:layout="@layout/original_home_fragment" />
     <fragment
         android:id="@+id/nav_home"

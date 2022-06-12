@@ -26,7 +26,7 @@ class PortfoliosFragment :
 
     private lateinit var viewModel: PortfolisViewModel
     private var portfolioList: ArrayList<PortfolioItem> = arrayListOf()
-    private lateinit var adapter: PortfolioAdapter
+    private var adapter: PortfolioAdapter? = null
 
     private val limit = 10
     private var isLoading = false
@@ -50,14 +50,17 @@ class PortfoliosFragment :
                searchText.typeface = face*/
 
         binding.searchView.queryHint = getString(R.string.search)
+        binding.searchView.setOnCloseListener {
+            if (binding.searchView.query.isEmpty()) {
+                portfolioList.clear()
+                viewModel.portfolioList(SearchModel("", limit, 0, 0))
+            }
+            return@setOnCloseListener true
+        }
         binding.searchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isEmpty()) {
-                    portfolioList.clear()
-                    viewModel.portfolioList(SearchModel("", limit, 0, 0))
-                }
                 return false
             }
 
@@ -86,10 +89,10 @@ class PortfoliosFragment :
             }
 
         })
-
-        setAdapter()
+        adapter = null
         viewModel.portfolioDashboard()
-        viewModel.portfolioList(SearchModel("", limit, portfolioList.size, 0))
+        if (portfolioList.isEmpty())
+            viewModel.portfolioList(SearchModel("", limit, portfolioList.size, 0))
 
     }
 
@@ -152,12 +155,12 @@ class PortfoliosFragment :
     }
 
     private fun setAdapter() {
-        if(!::adapter.isInitialized) {
+        if (adapter == null) {
             adapter = PortfolioAdapter(portfolioList, rvListener)
             binding.portfolioRv.adapter = adapter
-        }else {
-            adapter.list = portfolioList
-            adapter.notifyDataSetChanged()
+        } else {
+            adapter?.list = portfolioList
+            adapter?.notifyDataSetChanged()
         }
     }
 

@@ -20,6 +20,11 @@ import kotlin.math.roundToLong
 
 class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
+    /*private var list: ArrayList<PortfolioItem> = arrayListOf()
+    init {
+        list.clear()
+         list.addAll(portfolioList)
+    }*/
 
 
     inner class PortfolioVH(private val rowItemBinding: RowItemBinding) :
