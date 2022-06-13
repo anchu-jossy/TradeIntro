@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature_main.presentation.wallet.WalletFragment">
+
     <data>
-    <variable
-        name="viewModel"
-        type="com.techxform.tradintro.feature_main.presentation.wallet.WalletViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.techxform.tradintro.feature_main.presentation.wallet.WalletViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,18 +18,19 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/_16sdp"
             app:cardBackgroundColor="@color/magenta"
             app:cardCornerRadius="@dimen/_5sdp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintHeight_percent="0.6"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/_16sdp">
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:paddingTop="@dimen/_16sdp"
+                android:paddingBottom="@dimen/_30sdp">
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -61,9 +64,8 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.428"
-                    tools:layout_editor_absoluteX="22dp" />
+                    app:layout_constraintTop_toBottomOf="@+id/holdingAmountTv"
+                    app:layout_constraintVertical_bias="0.3" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/lastAllocationDate"
@@ -98,18 +100,18 @@
                     android:layout_height="0.5dp"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:background="@color/white_alpha"
-                    app:layout_constraintTop_toBottomOf="@+id/lastAllocationDate"/>
+                    app:layout_constraintTop_toBottomOf="@+id/lastAllocationDate" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/lastAllocationAmountLbl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_light"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/open_sans_light"
                     android:text="@string/last_allocation_amount_lbl"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10ssp"
-                    app:layout_constraintTop_toBottomOf="@+id/divider"/>
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/lastAllocationAmountTv"
@@ -122,7 +124,6 @@
                     android:textSize="@dimen/_20ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/lastAllocationAmountLbl" />
-
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

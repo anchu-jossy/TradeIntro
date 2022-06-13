@@ -37,6 +37,7 @@
             android:fontFamily="@font/open_sans_bold"
             android:textColor="@color/dark_most_grey"
             android:textSize="@dimen/_18ssp"
+            android:layout_marginTop="@dimen/_16sdp"
             app:layout_constraintBottom_toTopOf="@+id/textViewLevelDesc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,13 +47,13 @@
             android:id="@+id/textViewLevelDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:fontFamily="@font/open_sans_medium"
             android:textColor="@color/dark_most_grey"
-            app:layout_constraintBottom_toTopOf="@+id/g1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewLevel" />
 
         <TextView
             android:id="@+id/textViewPoints"
@@ -61,8 +62,8 @@
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:fontFamily="@font/open_sans_bold"
             android:textColor="@color/dark_gray"
+            android:layout_marginTop="@dimen/_16sdp"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewLearn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewLevelDesc" />
@@ -72,27 +73,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:fontFamily="@font/open_sans_medium"
             android:text="Learn More"
             android:textColor="@color/purple"
-            app:layout_constraintBottom_toTopOf="@+id/g1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.725" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/g1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".6" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewPoints"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mySkillsRV"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginHorizontal="@dimen/_16sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

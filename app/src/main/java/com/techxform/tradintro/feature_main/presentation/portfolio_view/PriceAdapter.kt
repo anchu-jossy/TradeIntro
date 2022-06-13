@@ -17,10 +17,10 @@ class PriceAdapter(val list: ArrayList<PriceType>) :
     inner class PriceViewHolder(private val itemViewBinding: PriceRowBinding) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
         fun binding() {
-            itemViewBinding.price = list[adapterPosition]
-            itemViewBinding.titleTv.text = "${list[adapterPosition].amount}"
-            if (adapterPosition == 6 || adapterPosition == 7) {
-                itemViewBinding.titleTv.text = "${list[adapterPosition].amount.roundToInt()}"
+            itemViewBinding.price = list[absoluteAdapterPosition]
+            itemViewBinding.titleTv.text = itemViewBinding.root.context.getString(R.string.rs_format, list[absoluteAdapterPosition].amount)
+            if (absoluteAdapterPosition == 6 || absoluteAdapterPosition == 7) {
+                itemViewBinding.titleTv.text = "${list[absoluteAdapterPosition].amount.roundToInt()}"
                 if (!isPositive(itemViewBinding.titleTv.text as String))
                     itemViewBinding.titleTv.setTextColor(
                         ContextCompat.getColor(
