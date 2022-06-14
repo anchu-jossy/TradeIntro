@@ -73,7 +73,8 @@ class MarketDetailFragment :
             else viewModel.updateWatchList(binding.stock?.watchList?.watchlistId?:0,binding.ediTextAddtoWatchList.text.toString().toDouble())
         }
         binding.sellBtn.setOnClickListener {
-            //viewModel.sellStock()
+            if(binding.stock !=null)
+                viewModel.sellStock(stockId, BuySellStockReq(5,0,  binding.stock!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
         }
     }
 
@@ -175,6 +176,26 @@ class MarketDetailFragment :
                 }
             }
         }
+        viewModel.sellStockErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), getString(R.string.no_internet_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
+                Failure.ServerError-> {
+                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+
+                }
+                else -> {
+                    val errorMsg = (it as Failure.FeatureFailure).message
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
 
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
             val bundle = bundleOf(
@@ -183,6 +204,15 @@ class MarketDetailFragment :
             )
             findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
             Toast.makeText(requireContext(), "Successfully buy the stocks", Toast.LENGTH_LONG)
+                .show()
+        }
+        viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
+            val bundle = bundleOf(
+                EqualityPlaceOrderFragment.ORDER_ID to stockId,
+                EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to EqualityPlaceOrderFragment.SELL
+            )
+            findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
+            Toast.makeText(requireContext(), "Successfully sold the stocks", Toast.LENGTH_LONG)
                 .show()
         }
     }

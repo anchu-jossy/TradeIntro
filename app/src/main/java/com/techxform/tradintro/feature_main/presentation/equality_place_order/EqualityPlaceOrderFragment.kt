@@ -68,10 +68,11 @@ class EqualityPlaceOrderFragment :
         viewModel.marketDetail(orderId)
 
         isBuyOrSell = arguments?.get(IS_BUY_OR_ORDER) as String
+        binding.buttonBuy.text=isBuyOrSell
         binding.buttonBuy.setOnClickListener(this)
-        if (isBuyOrSell == BUY)
-            binding.titleTv.text = getString(R.string.order_stock)
-        else binding.titleTv.text = getString(R.string.sell_stock)
+        if (isBuyOrSell == BUY){
+            binding.titleTv.text = getString(R.string.order_stock)}
+        else{ binding.titleTv.text = getString(R.string.sell_stock)}
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
         isLimitVisible(false)
         binding.radioGrp.check(R.id.marketRb)
