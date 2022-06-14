@@ -149,5 +149,7 @@
     <string name="usable_balance">Usable Balance</string>
     <string name="nodata">No data available</string>
     <string name="notification_delete_msg">Notification deleted successfully</string>
+    <string name="mail_subject">Crash Report</string>
+    <string name="mail_body">Cause</string>
 
 </resources>
