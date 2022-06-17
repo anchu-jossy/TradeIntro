@@ -59,6 +59,6 @@ interface ApiRepository {
 
     suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<WalletHistory>>
 
-    suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest)
+    suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest) : Result<UpdateWalletResponse>
 
 }
