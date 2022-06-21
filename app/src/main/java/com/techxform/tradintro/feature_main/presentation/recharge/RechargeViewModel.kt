@@ -21,6 +21,10 @@ class RechargeViewModel @Inject constructor(private val repository: ApiRepositor
     val walletSummaryLiveData: LiveData<BaseResponse<WalletSummaryResponse>> =
         _walletSummaryLiveData
 
+    private var _updateWalletLiveData = MutableLiveData<UpdateWalletResponse>()
+    val updateWalletLiveData: LiveData<UpdateWalletResponse> =
+        _updateWalletLiveData
+
     private var _walletErrorLiveData = MutableLiveData<Failure>()
     val walletErrorLiveData: LiveData<Failure> = _walletErrorLiveData
 
@@ -42,17 +46,14 @@ class RechargeViewModel @Inject constructor(private val repository: ApiRepositor
     fun updateWallet(updateWalletRequest: UpdateWalletRequest) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            repository.updateWallet(updateWalletRequest)
-//            when (val result = ) {
-//                is Result.Success -> {
-//                    result
-//                   //  _walletSummaryLiveData.postValue(result.data!!)
-//                }
-//                is Result.Error -> {
-//                    result
-//                    //  _walletErrorLiveData.postValue(result.exception)
-//                }
-//            }
+            when (val result = repository.updateWallet(updateWalletRequest)) {
+                is Result.Success -> {
+                    _updateWalletLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                      _walletErrorLiveData.postValue(result.exception)
+                }
+            }
             _loadingLiveData.postValue(false)
         }
     }

@@ -86,10 +86,12 @@ interface ApiService {
 
     @GET("api/wallet/history")
     suspend fun walletHistory(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<WalletHistory>>
-    @Headers("Content-Type: application/json")
+
+    @Headers("Content-Type: application/x-www-form-urlencoded")
     @POST
+    @FormUrlEncoded
     suspend fun updateWallet(
         @Url url: String,
-        @Body inputModel: UpdateWalletRequest
-    ): Response<JsonPrimitive>
+        @FieldMap reqMap: Map<String, String>
+    ): Response<UpdateWalletResponse>
 }

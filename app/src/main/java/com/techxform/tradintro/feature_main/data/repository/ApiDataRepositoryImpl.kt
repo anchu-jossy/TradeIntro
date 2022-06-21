@@ -513,44 +513,35 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest){
+    override suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest): Result<UpdateWalletResponse>{
         return withContext(Dispatchers.Default)
-
         {
-            val response = apiService.updateWallet(RECHARGE_URL,updateWalletRequest)
-response
+            try {
+                val reqMap = mapOf(
+                    "user_id" to updateWalletRequest.userId.toString(),
+                    "gst_amount" to updateWalletRequest.gstAmount.toString(),
+                    "other_recharge_amount" to updateWalletRequest.otherRechargeAmount.toString(),
+                    "recharge_amount" to updateWalletRequest.rechargeAmount.toString(),
+                    "total_amount" to updateWalletRequest.totalAmount.toString()
+                )
+                val response = apiService.updateWallet(RECHARGE_URL, reqMap = reqMap)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
         }
-      //      try {
-//                if (response.is) {
-//                    Result.Success(response.body()!!)
-//                } else {
-//                    Log.e("Error:", response.raw().message)
-//                    Result.Error(Failure.FeatureFailure(response.raw().message))
-//                }
-//            } catch (e: UnknownHostException) {
-//                Result.Error(Failure.NetworkConnection)
-//            } catch (e: JsonParseException) {
-//                Result.Error(Failure.JsonParsing)
-//            } catch (e: Exception) {
-//                Result.Error(Failure.ServerError)
-//            }
-            //   try {
-//                val response =
-//                if (response.isSuccessful)
-//                    Result.Success(response.body()!!)
-//                else {
-//                    Log.e("Error:", response.raw().message)
-//                    Result.Error(Failure.FeatureFailure(response.raw().message))
-//                }
-//            } catch (e: UnknownHostException) {
-//                Result.Error(Failure.NetworkConnection)
-//            } catch (e: JsonParseException) {
-//                Result.Error(Failure.JsonParsing)
-//            } catch (e: Exception) {
-//                Result.Error(Failure.ServerError)
-//            }
-
-  //      }
     }
 
 }

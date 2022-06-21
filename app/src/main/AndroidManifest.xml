@@ -12,7 +12,30 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo2"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.TradIntro">
+        <activity
+            android:name=".feature_main.presentation.PaymentResponseActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TradIntro.NoActionbar">
+
+           <!-- <intent-filter >
+
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+&lt;!&ndash;                <category android:name="android.intent.category.BROWSABLE" />&ndash;&gt;
+
+             &lt;!&ndash;   <data android:scheme="http" />
+                <data android:scheme="https" />
+
+                <data android:host="test.tradintro.com"
+                    android:path="/index.php/payment_gateway/recharge_success"
+                    />&ndash;&gt;
+
+            </intent-filter>-->
+
+        </activity>
         <activity
             android:name=".feature_main.presentation.SplashScreenActivity"
             android:exported="true"
@@ -23,8 +46,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>
