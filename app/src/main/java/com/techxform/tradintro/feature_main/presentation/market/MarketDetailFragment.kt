@@ -145,7 +145,7 @@ class MarketDetailFragment :
                     )
                 }
                 Failure.ServerError-> {
-                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
 
                 }
                 else -> {
@@ -166,7 +166,7 @@ class MarketDetailFragment :
                     )
                 }
                 Failure.ServerError-> {
-                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
 
                 }
                 else -> {
