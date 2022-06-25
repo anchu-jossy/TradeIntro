@@ -12,7 +12,6 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MyReferalFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.AddUserRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.WalletSummaryResponse
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -25,7 +24,6 @@ class MyReferalFragment :
     }
 
     private lateinit var viewModel: MyReferalViewModel
-    private lateinit var walletSummaryResponse: WalletSummaryResponse
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +62,6 @@ class MyReferalFragment :
                 it.status,
                 Toast.LENGTH_SHORT
             ).show()
-
         }
 
         viewModel.walletErrorLiveData.observe(viewLifecycleOwner) {
@@ -82,6 +79,4 @@ class MyReferalFragment :
             }
         }
     }
-
-
 }
