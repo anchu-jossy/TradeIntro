@@ -1,0 +1,87 @@
+package com.techxform.tradintro.feature_main.presentation.referal
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import com.techxform.tradintro.R
+import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.databinding.MyReferalFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.AddUserRequest
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.WalletSummaryResponse
+import dagger.hilt.android.AndroidEntryPoint
+
+
+@AndroidEntryPoint
+class MyReferalFragment :
+    BaseFragment<MyReferalFragmentBinding>(MyReferalFragmentBinding::inflate) {
+
+    companion object {
+        fun newInstance() = MyReferalFragment()
+    }
+
+    private lateinit var viewModel: MyReferalViewModel
+    private lateinit var walletSummaryResponse: WalletSummaryResponse
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[MyReferalViewModel::class.java]
+        observers()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        clickListeners()
+
+    }
+
+
+    private fun clickListeners() {
+        binding.inviteBtn.setOnClickListener {
+            viewModel.addUser(AddUserRequest(10, "hello", "email@gmail.com"))
+        }
+
+
+    }
+
+    private fun observers() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBar.progressOverlay.isVisible = it
+        }
+
+        viewModel.updateWalletLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(
+                requireContext(),
+                it.status,
+                Toast.LENGTH_SHORT
+            ).show()
+
+        }
+
+        viewModel.walletErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), getString(R.string.no_internet_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
+                else -> {
+                }
+            }
+        }
+    }
+
+
+}

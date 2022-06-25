@@ -2,6 +2,7 @@ package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
 import com.google.gson.JsonParseException
+import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
 import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
@@ -525,6 +526,36 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "total_amount" to updateWalletRequest.totalAmount.toString()
                 )
                 val response = apiService.updateWallet(RECHARGE_URL, reqMap = reqMap)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun addUser(addUserRequest: AddUserRequest): Result<AddUserResponse> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "user_id" to addUserRequest.userId.toString(),
+                    "name" to addUserRequest.name.toString(),
+                    "email" to addUserRequest.email.toString(),
+
+                )
+                val response = apiService.addUser(ADD_USER_URL, reqMap = reqMap)
                 if (response.isSuccessful) {
                     Result.Success(response.body()!!)
                 } else {

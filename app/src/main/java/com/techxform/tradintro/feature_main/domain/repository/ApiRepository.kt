@@ -60,5 +60,6 @@ interface ApiRepository {
     suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<WalletHistory>>
 
     suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest) : Result<UpdateWalletResponse>
+    suspend fun addUser(addUserRequest: AddUserRequest) : Result<AddUserResponse>
 
 }

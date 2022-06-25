@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature_main.presentation.recharge.RechargeFragment">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/titleTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:text="@string/invite_user"
+                    android:textSize="@dimen/_16ssp"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/rechargeTradeMoneyContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:elevation="@dimen/_5sdp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleTv">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_16sdp"
+                        app:layout_constraintEnd_toStartOf="@+id/rechargeBtn"
+                        app:layout_constraintStart_toStartOf="@+id/rechargeBtn">
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/nameTv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/name"
+                            android:textColor="@color/dark_most_grey"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintBottom_toTopOf="@+id/nameEt"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/nameEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:textColor="@color/dark_most_grey"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/nameTv" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/EmailTV"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:text="@string/email"
+                            android:textColor="@color/dark_most_grey"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintBottom_toTopOf="@+id/emailEt"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/nameEt" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/emailEt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans_medium"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintBottom_toTopOf="@+id/inviteBtn"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/inviteBtn"
+                            style="@style/Theme.TradIntro.Button"
+                            android:layout_width="96dp"
+                            android:layout_height="45dp"
+                            android:background="@color/magenta"
+                            android:text="@string/invite"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+
+                            />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title1Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:text="@string/invited_list"
+                    android:textSize="@dimen/_16ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rechargeTradeMoneyContainer" />
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/list_search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/frame"
+                    android:layoutDirection="rtl"
+
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="25dp"
+                    tools:layout_editor_absoluteY="365dp" />
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/listRv"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:visibility="gone"-->
+<!--                    android:layout_below="@+id/list_search_view"-->
+<!--                    android:layout_marginHorizontal="@dimen/_16sdp"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                    tools:itemCount="10"-->
+<!--                    tools:listitem="@layout/notification_row" />-->
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
+</layout>

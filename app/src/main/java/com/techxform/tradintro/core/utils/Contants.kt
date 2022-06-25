@@ -6,6 +6,8 @@ object Contants {
     const val PREFERENCE = "Trade"
     const val PREF_TOKEN_KEY = "token"
     const val PREF_REFRESH_TOKEN_KEY = "refresh_token"
-    const val RECHARGE_URL = "https://test.tradintro.com/index.php/api/update_wallet"
+    private const val DEV_URL = "https://dev.tradintro.com/"
+    const val RECHARGE_URL = DEV_URL+"index.php/api/update_wallet"
+    const val ADD_USER_URL = DEV_URL+"index.php/api/add_invite_user"
 
 }

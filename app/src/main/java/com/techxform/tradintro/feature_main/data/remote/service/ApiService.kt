@@ -1,10 +1,7 @@
 package com.techxform.tradintro.feature_main.data.remote.service
 
-import com.google.gson.JsonObject
-import com.google.gson.JsonPrimitive
+
 import com.techxform.tradintro.feature_main.data.remote.dto.*
-import com.techxform.tradintro.feature_main.domain.model.SearchModel
-import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -94,4 +91,12 @@ interface ApiService {
         @Url url: String,
         @FieldMap reqMap: Map<String, String>
     ): Response<UpdateWalletResponse>
+
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @POST
+    @FormUrlEncoded
+    suspend fun addUser(
+        @Url url: String,
+        @FieldMap reqMap: Map<String, String>
+    ): Response<AddUserResponse>
 }

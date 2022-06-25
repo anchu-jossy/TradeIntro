@@ -149,4 +149,9 @@
         android:name="com.techxform.tradintro.feature_main.presentation.recharge.RechargeFragment"
         android:label="recharge_fragment"
         tools:layout="@layout/recharge_fragment" />
+    <fragment
+        android:id="@+id/myReferalFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.referal.MyReferalFragment"
+        android:label="referal_fragment"
+        tools:layout="@layout/my_referal_fragment" />
 </navigation>
