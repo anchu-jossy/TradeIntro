@@ -154,5 +154,6 @@
     <string name="email">Email ID</string>
     <string name="invite">Invite</string>
     <string name="invited_list">Invited List</string>
+    <string name="server_error">Server Error</string>
 
 </resources>

@@ -9,6 +9,6 @@ data class UpdateWalletRequest(
     @SerializedName("total_amount") var totalAmount: Number? = null,
     @SerializedName("recharge_amount") var rechargeAmount: Number? = null,
     @SerializedName("gst_amount") var gstAmount: Number? = null,
-    @SerializedName("other_recharge_amount") var otherRechargeAmount: Number? = null,
+    @SerializedName("other_charge_amount") var otherRechargeAmount: Number? = null,
 
     )

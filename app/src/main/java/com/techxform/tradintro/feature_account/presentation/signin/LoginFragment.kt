@@ -77,7 +77,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 Failure.ServerError -> {
                     (
                             Toast.makeText(
-                                requireContext(), "server error",
+                                requireContext(), getString(R.string.server_error),
                                 Toast.LENGTH_SHORT
                             ).show()
                             )

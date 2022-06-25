@@ -521,7 +521,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                 val reqMap = mapOf(
                     "user_id" to updateWalletRequest.userId.toString(),
                     "gst_amount" to updateWalletRequest.gstAmount.toString(),
-                    "other_recharge_amount" to updateWalletRequest.otherRechargeAmount.toString(),
+                    "other_charge_amount" to updateWalletRequest.otherRechargeAmount.toString(),
                     "recharge_amount" to updateWalletRequest.rechargeAmount.toString(),
                     "total_amount" to updateWalletRequest.totalAmount.toString()
                 )

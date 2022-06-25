@@ -106,6 +106,14 @@ class RechargeFragment : BaseFragment<RechargeFragmentBinding>(RechargeFragmentB
                         ).show()
                     )
                 }
+                Failure.ServerError -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), getString(R.string.server_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
                 else -> {}
             }
         }
