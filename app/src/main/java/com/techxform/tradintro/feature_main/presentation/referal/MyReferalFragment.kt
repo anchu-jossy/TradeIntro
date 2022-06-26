@@ -37,17 +37,23 @@ class MyReferalFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         clickListeners()
 
     }
 
 
     private fun clickListeners() {
-        binding.inviteBtn.setOnClickListener {
-            viewModel.addUser(AddUserRequest(10, "hello", "email@gmail.com"))
+        with( binding.rechargeTradeMoneyContainer) {
+         button.setOnClickListener {
+                viewModel.addUser(
+                    AddUserRequest(
+                        10,
+                        labelOneValue,
+                      labelTwoValue
+                    )
+                )
+            }
         }
-
 
     }
 
@@ -74,6 +80,13 @@ class MyReferalFragment :
                         ).show()
                     )
                 }
+                Failure.ServerError->
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(), getString(R.string.server_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
                 else -> {
                 }
             }
