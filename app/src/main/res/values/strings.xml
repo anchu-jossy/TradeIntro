@@ -157,4 +157,6 @@
     <string name="server_error">Server Error</string>
     <string name="hello">hello</string>
     <string name="email_value">email@gmail.com</string>
+    <string name="trade_money">Trade money</string>
+    <string name="voucher_code">Voucher code</string>
 </resources>

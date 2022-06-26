@@ -146,7 +146,7 @@
         tools:layout="@layout/fragment_equality_place_order" />
     <fragment
         android:id="@+id/rechargeFragment"
-        android:name="com.techxform.tradintro.feature_main.presentation.recharge.RechargeFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.recharge.RechargeSummaryFragment"
         android:label="recharge_fragment"
         tools:layout="@layout/recharge_fragment" />
     <fragment

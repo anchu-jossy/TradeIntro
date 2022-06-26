@@ -57,17 +57,30 @@
         <entry key="..\:/Users/001YG4744/My/tradintro-android/app/src/main/res/menu/drawer_menu.xml" value="0.16770833333333332" />
         <entry key="..\:/Users/001YG4744/My/tradintro-android/app/src/main/res/menu/menu_bottom_nav.xml" value="0.1" />
         <entry key="..\:/Users/001YG4744/My/tradintro-android/app/src/main/res/menu/toolbar_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-mdpi/frameoval.xml" value="0.1805" />
+        <entry key="app/src/main/res/drawable/frame.xml" value="0.1805" />
+        <entry key="app/src/main/res/drawable/framehalfoval.xml" value="0.1735" />
+        <entry key="app/src/main/res/drawable/frameoval.xml" value="0.1735" />
+        <entry key="app/src/main/res/layout/custom_et_btn.xml" value="0.16510416666666666" />
         <entry key="app/src/main/res/layout/fragment_landing.xml" value="0.11927083333333334" />
         <entry key="app/src/main/res/layout/market_detail_fragment.xml" value="0.12916666666666668" />
         <entry key="app/src/main/res/layout/market_fragment.xml" value="0.17395833333333333" />
+        <entry key="app/src/main/res/layout/my_referal_fragment.xml" value="0.23697916666666666" />
+        <entry key="app/src/main/res/layout/my_skills_view.xml" value="0.16458333333333333" />
+        <entry key="app/src/main/res/layout/myskills_item.xml" value="0.16458333333333333" />
+        <entry key="app/src/main/res/layout/notification_fragment.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/original_home_fragment.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/portfolio_card_view.xml" value="0.1171875" />
         <entry key="app/src/main/res/layout/portfolio_fragment.xml" value="0.19010416666666666" />
         <entry key="app/src/main/res/layout/portfolio_view_fragment.xml" value="0.19010416666666666" />
         <entry key="app/src/main/res/layout/portfolis_fragment.xml" value="0.19010416666666666" />
         <entry key="app/src/main/res/layout/price_row.xml" value="0.2046875" />
-        <entry key="app/src/main/res/layout/recharge_fragment.xml" value="0.11510416666666666" />
+        <entry key="app/src/main/res/layout/recharge_fragment.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/recharge_row_item.xml" value="0.16458333333333333" />
+        <entry key="app/src/main/res/layout/recharge_trade_money_fragment.xml" value="0.13645833333333332" />
         <entry key="app/src/main/res/layout/row_item.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/update_profile_fragment.xml" value="0.16510416666666666" />
+        <entry key="app/src/main/res/layout/watchlist_fragment.xml" value="0.15414634146341463" />
         <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.17083333333333334" />
       </map>
     </option>

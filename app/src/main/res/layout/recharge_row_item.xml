@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <!--        <variable-->
+        <!--            name="stock"-->
+        <!--            type="com.techxform.tradintro.feature_main.data.remote.dto.Stock" />-->
+
+        <!--        <variable-->
+        <!--            name="portfolio"-->
+        <!--            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />-->
+
+        <!--        <variable-->
+        <!--            name="watchlist"-->
+        <!--            type="com.techxform.tradintro.feature_main.data.remote.dto.WatchList" />-->
+
+        <!--        <variable-->
+        <!--            name="rowType"-->
+        <!--            type="Integer" />-->
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/_2sdp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingVertical="@dimen/_8sdp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/titleTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/open_sans_semibold"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.4" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/subTitleTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/open_sans"
+                android:maxLines="1"
+                android:text="23344.00"
+                android:textColor="@color/dark_most_grey"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleTv"
+                app:layout_constraintWidth_percent="0.4" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/amountTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/open_sans_semibold"
+                android:gravity="end"
+                android:maxLines="1"
+                android:text="Voucher code"
+                android:textColor="@color/dark_most_grey"
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/perTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/open_sans"
+                android:gravity="end"
+                android:maxLines="1"
+                android:text="23444.00"
+                android:textColor="@color/dark_most_grey"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="@+id/amountTv"
+                app:layout_constraintStart_toStartOf="@+id/amountTv"
+                app:layout_constraintTop_toBottomOf="@+id/amountTv"
+                app:layout_constraintWidth_percent="0.3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>

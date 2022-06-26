@@ -101,6 +101,7 @@
                     android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/open_sans"
                     android:hint="@{labelOneHint}"
+                    android:singleLine="true"
                     android:text="@{labelOneValue}"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@+id/label1Tv" />
@@ -127,6 +128,7 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/open_sans"
+                    android:singleLine="true"
                     android:hint="@{labelTwoHint}"
                     android:text="@{labelTwoValue}"
                     android:textSize="@dimen/_12ssp"
@@ -156,6 +158,7 @@
                     android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/open_sans"
                     android:hint="@{labelThreeHint}"
+                    android:singleLine="true"
                     android:textSize="@dimen/_12ssp"
                     android:visibility="@{isThirdVisible? View.VISIBLE: View.GONE}"
                     app:layout_constraintTop_toBottomOf="@+id/label3Tv" />
