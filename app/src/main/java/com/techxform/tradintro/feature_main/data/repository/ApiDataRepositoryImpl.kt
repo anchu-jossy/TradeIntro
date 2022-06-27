@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
 import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
+import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
@@ -488,7 +489,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<WalletHistory>> {
+    override suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<WalletHistory>>> {
         return withContext(Dispatchers.Default)
         {
             try {
@@ -555,7 +556,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "name" to addUserRequest.name.toString(),
                     "email" to addUserRequest.email.toString(),
 
-                    )
+                )
                 val response = apiService.addUser(ADD_USER_URL, reqMap = reqMap)
                 if (response.isSuccessful) {
                     Result.Success(response.body()!!)
@@ -625,8 +626,30 @@ class ApiDataRepositoryImpl @Inject constructor(
         }    }
 }
 
-//    override suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>> {
-//
+    override suspend fun fcmTokenRegistration(request: FcmTokenRegReq) {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.fcmTokenRegistration(request)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
 
 
 

@@ -5,6 +5,7 @@ object Contants {
     const val IMAGE_BASE_URL = "https://www.tradintro.com//uploads/"
     const val PREFERENCE = "Trade"
     const val PREF_TOKEN_KEY = "token"
+    const val PREF_FCM_TOKEN_KEY = "fcm_token"
     const val PREF_REFRESH_TOKEN_KEY = "refresh_token"
     private const val DEV_URL = "https://dev.tradintro.com/"
     const val RECHARGE_URL = DEV_URL+"index.php/api/update_wallet"

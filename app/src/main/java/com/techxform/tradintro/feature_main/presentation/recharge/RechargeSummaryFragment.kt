@@ -13,8 +13,11 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.RechargeFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.domain.model.PaymentType
+import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.presentation.PaymentResponseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -22,6 +25,7 @@ class RechargeSummaryFragment :
     BaseFragment<RechargeFragmentBinding>(RechargeFragmentBinding::inflate){
 
     companion object {
+        const val LIMIT = 10
         fun newInstance() = RechargeSummaryFragment()
     }
     private lateinit var adapter: RechargeSummaryAdapter
@@ -33,7 +37,7 @@ class RechargeSummaryFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[RechargeViewModel::class.java]
-
+        observer()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -41,13 +45,16 @@ class RechargeSummaryFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.trade_money)))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.voucher_code)))
-        adapter = RechargeSummaryAdapter(emptyList())
-        binding.rechargeRv.adapter = adapter
 
+        viewModel.walletHistory(SearchModel(type = PaymentType.RECHARGE.name.lowercase(), limit = LIMIT))
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                adapter = RechargeSummaryAdapter(emptyList())
-                binding.rechargeRv.adapter = adapter
+                when(tab.position)
+                {
+                    0 ->  viewModel.walletHistory(SearchModel(type=PaymentType.RECHARGE.name.lowercase(
+                        Locale.getDefault()), limit= LIMIT))
+                    1 ->  viewModel.walletHistory(SearchModel(type = PaymentType.VOUCHER.name.lowercase(Locale.getDefault()), limit=LIMIT))
+                }
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
@@ -56,5 +63,14 @@ class RechargeSummaryFragment :
 
     }
 
+    private fun observer()
+    {
+        viewModel.walletHistoryLiveData.observe(viewLifecycleOwner) {
+            adapter = RechargeSummaryAdapter(it)
+            adapter.setSelectionType(binding.tabLayout.selectedTabPosition)
+            binding.rechargeRv.adapter = adapter
+        }
+
+    }
 
 }

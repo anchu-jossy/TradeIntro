@@ -1,11 +1,13 @@
 package com.techxform.tradintro.feature_main.domain.repository
 
+import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import okhttp3.ResponseBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.QueryMap
 
 interface ApiRepository {
@@ -57,7 +59,7 @@ interface ApiRepository {
 
     suspend fun readNotification(id:Int): Result<BaseResponse<Int>>
 
-    suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<WalletHistory>>
+    suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<WalletHistory>>>
 
     suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest) : Result<UpdateWalletResponse>
     suspend fun addUser(addUserRequest: AddUserRequest) : Result<AddUserResponse>
@@ -66,4 +68,5 @@ interface ApiRepository {
 
 
 
+    suspend fun fcmTokenRegistration(request: FcmTokenRegReq)
 }
