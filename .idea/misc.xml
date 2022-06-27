@@ -63,12 +63,14 @@
         <entry key="app/src/main/res/drawable/frameoval.xml" value="0.1735" />
         <entry key="app/src/main/res/layout/custom_et_btn.xml" value="0.16510416666666666" />
         <entry key="app/src/main/res/layout/fragment_landing.xml" value="0.11927083333333334" />
+        <entry key="app/src/main/res/layout/invite_row_item.xml" value="0.2234375" />
         <entry key="app/src/main/res/layout/market_detail_fragment.xml" value="0.12916666666666668" />
         <entry key="app/src/main/res/layout/market_fragment.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/layout/my_referal_fragment.xml" value="0.23697916666666666" />
         <entry key="app/src/main/res/layout/my_skills_view.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/myskills_item.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/notification_fragment.xml" value="0.171875" />
+        <entry key="app/src/main/res/layout/notification_row.xml" value="0.2234375" />
         <entry key="app/src/main/res/layout/original_home_fragment.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/portfolio_card_view.xml" value="0.1171875" />
         <entry key="app/src/main/res/layout/portfolio_fragment.xml" value="0.19010416666666666" />

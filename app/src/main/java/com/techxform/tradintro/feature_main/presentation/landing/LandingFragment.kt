@@ -1,14 +1,23 @@
 package com.techxform.tradintro.feature_main.presentation.landing
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.telephony.TelephonyManager
+import android.util.Log
 import android.view.*
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,21 +26,105 @@ import androidx.navigation.ui.setupWithNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.FragmentLandingBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
 import com.techxform.tradintro.feature_main.domain.model.DrawerItem
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate),
     Toolbar.OnMenuItemClickListener {
 
     private lateinit var navController: NavController
 
+    private lateinit var viewModel: LandingViewModel
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         bottomNavSetup()
         drawerSetup()
+        viewModel.logOutLiveData.observe(viewLifecycleOwner) {
+            if (it.status) {
+                Toast.makeText(requireContext(), "logout Succesfully", Toast.LENGTH_LONG).show()
+
+                requireActivity().finish()
+            }
+        }
+        viewModel.logOutErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.no_internet_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    )
+                }
+                Failure.ServerError -> {
+                    (
+                            Toast.makeText(
+                                requireContext(), getString(R.string.server_error),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            )
+                }
 
 
+                else -> {
+                }
+            }
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun IMEI() {
+        var myIMEI: String? = null
+        try {
+            val tm =
+                requireActivity().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+            val IMEI = tm.imei
+            if (IMEI != null) {
+
+                Log.d("testing", IMEI)
+                myIMEI = IMEI
+//                show_IMEI.setText(myIMEI)
+//                show_IMEI.setOnClickListener{
+//
+//                    Toast.makeText(this, myIMEI,Toast.LENGTH_SHORT ).show()
+//
+//                }
+            }
+        } catch (ex: Exception) {
+            Toast.makeText(requireContext(), ex.toString(), Toast.LENGTH_SHORT).show()
+
+        }
+
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.READ_PHONE_STATE
+            ) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    android.Manifest.permission.READ_PHONE_STATE
+                )
+            ) {
+
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(android.Manifest.permission.READ_PHONE_STATE),
+                    2
+                )
+
+            }
+        }
     }
 
     private fun drawerSetup() {
@@ -64,14 +157,14 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         binding.drawerRv.adapter = DrawerAdapter(createDrawerItems(), listener)
         val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         navController.navigateUp(appBarConfiguration)
+
     }
 
     private val listener = object : DrawerAdapter.ClickListener {
         override fun onClick(position: Int) {
-
             when (position) {
-                0 ->navController.navigate(R.id.nav_profile)
-                1 ->navController.navigate(R.id.myReferalFragment)
+                0 -> navController.navigate(R.id.nav_profile)
+                1 -> navController.navigate(R.id.myReferalFragment)
                 2 -> navController.navigate(R.id.mySkillsFragment)
                 3 -> navController.navigate(R.id.rechargeFragment)
                 4 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
@@ -79,7 +172,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 6 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 7 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
                 8 -> navController.navigate(R.id.changePasswordFragment)
-                else -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                9 -> viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
             }
             binding.drawerLayout.close()
 
@@ -199,6 +292,16 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
             }
         return false
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewModel = ViewModelProvider(this)[LandingViewModel::class.java]
+        return super.onCreateView(inflater, container, savedInstanceState)
+
     }
 
 }

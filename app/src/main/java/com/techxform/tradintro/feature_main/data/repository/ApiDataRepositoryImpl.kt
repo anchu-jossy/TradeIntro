@@ -16,6 +16,7 @@ import okhttp3.ResponseBody
 import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class ApiDataRepositoryImpl @Inject constructor(
     private val apiService: ApiService
@@ -514,7 +515,7 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest): Result<UpdateWalletResponse>{
+    override suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest): Result<UpdateWalletResponse> {
         return withContext(Dispatchers.Default)
         {
             try {
@@ -554,7 +555,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "name" to addUserRequest.name.toString(),
                     "email" to addUserRequest.email.toString(),
 
-                )
+                    )
                 val response = apiService.addUser(ADD_USER_URL, reqMap = reqMap)
                 if (response.isSuccessful) {
                     Result.Success(response.body()!!)
@@ -575,6 +576,57 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.logOut(loginRequest)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+
+    }
+
+
+    override suspend fun findUserInviteList(): Result<BaseResponse<ArrayList<InviteData>>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "10" to "limit",
+                    "0" to "offset",
+                    )
+                val response = apiService.userInviteList( reqMap = reqMap)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }    }
 }
+
+//    override suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>> {
+//
+
 
 

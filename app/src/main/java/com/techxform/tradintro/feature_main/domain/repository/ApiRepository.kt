@@ -61,5 +61,9 @@ interface ApiRepository {
 
     suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest) : Result<UpdateWalletResponse>
     suspend fun addUser(addUserRequest: AddUserRequest) : Result<AddUserResponse>
+    suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>>
+    suspend fun findUserInviteList() : Result<BaseResponse<ArrayList<InviteData>>>
+
+
 
 }

@@ -12,6 +12,8 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MyReferalFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.AddUserRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.presentation.notification.NotificationAdapter
+import com.techxform.tradintro.feature_main.presentation.recharge.MyReferalListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -22,7 +24,7 @@ class MyReferalFragment :
     companion object {
         fun newInstance() = MyReferalFragment()
     }
-
+    private lateinit var adapter: MyReferalListAdapter
     private lateinit var viewModel: MyReferalViewModel
 
     override fun onCreateView(
@@ -38,18 +40,18 @@ class MyReferalFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         clickListeners()
-
+        viewModel.getUserInviteList()
     }
 
 
     private fun clickListeners() {
-        with( binding.rechargeTradeMoneyContainer) {
-         button.setOnClickListener {
+        with(binding.rechargeTradeMoneyContainer) {
+            button.setOnClickListener {
                 viewModel.addUser(
                     AddUserRequest(
                         10,
-                        labelOneValue,
-                      labelTwoValue
+                        binding.rechargeTradeMoneyContainer.label1Et.text.toString(),
+                        binding.rechargeTradeMoneyContainer.label2Et.text.toString()
                     )
                 )
             }
@@ -80,7 +82,7 @@ class MyReferalFragment :
                         ).show()
                     )
                 }
-                Failure.ServerError->
+                Failure.ServerError ->
                     sequenceOf(
                         Toast.makeText(
                             requireContext(), getString(R.string.server_error),
@@ -90,6 +92,10 @@ class MyReferalFragment :
                 else -> {
                 }
             }
+        }
+        viewModel.updateUserListLiveData.observe(viewLifecycleOwner){
+            adapter = MyReferalListAdapter(it.data)
+            binding.listRv.adapter = adapter
         }
     }
 }

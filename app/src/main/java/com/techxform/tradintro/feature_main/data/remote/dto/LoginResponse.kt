@@ -13,4 +13,24 @@ data class LoginResponse(
 data class LoginRequest(
     @SerializedName("username") val username: String,
     @SerializedName("password") val password: String,
-) {}
+)
+
+data class LogOutRequest(
+    @SerializedName("deviceId") val deviceId: String,
+    @SerializedName("device") val device: String,
+)
+
+data class LogOutResponse(
+
+
+        @SerializedName("error" ) var error : Error? = Error())
+
+data class Error (
+
+    @SerializedName("statusCode" ) var statusCode : Int?    = null,
+    @SerializedName("name"       ) var name       : String? = null,
+    @SerializedName("message"    ) var message    : String? = null
+
+)
+
+
