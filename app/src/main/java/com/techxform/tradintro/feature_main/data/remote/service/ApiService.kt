@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.data.remote.service
 
 
+import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -82,7 +83,7 @@ interface ApiService {
     suspend fun readNotification(@Path("id") id: Int): Response<BaseResponse<Int>>
 
     @GET("api/wallet/history")
-    suspend fun walletHistory(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<WalletHistory>>
+    suspend fun walletHistory(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<WalletHistory>>>
 
     @Headers("Content-Type: application/x-www-form-urlencoded")
     @POST
@@ -99,4 +100,8 @@ interface ApiService {
         @Url url: String,
         @FieldMap reqMap: Map<String, String>
     ): Response<AddUserResponse>
+
+
+    @POST("api/users/fcm/token")
+    suspend fun fcmTokenRegistration(@Body request: FcmTokenRegReq) : Response<Any>
 }

@@ -4,21 +4,7 @@
 
     <data>
 
-        <!--        <variable-->
-        <!--            name="stock"-->
-        <!--            type="com.techxform.tradintro.feature_main.data.remote.dto.Stock" />-->
 
-        <!--        <variable-->
-        <!--            name="portfolio"-->
-        <!--            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />-->
-
-        <!--        <variable-->
-        <!--            name="watchlist"-->
-        <!--            type="com.techxform.tradintro.feature_main.data.remote.dto.WatchList" />-->
-
-        <!--        <variable-->
-        <!--            name="rowType"-->
-        <!--            type="Integer" />-->
     </data>
 
     <androidx.cardview.widget.CardView

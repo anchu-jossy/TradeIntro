@@ -159,4 +159,5 @@
     <string name="email_value">email@gmail.com</string>
     <string name="trade_money">Trade money</string>
     <string name="voucher_code">Voucher code</string>
+    <string name="notification_permission_denied_msg">You will not receive any notification from us because of no permission</string>
 </resources>
