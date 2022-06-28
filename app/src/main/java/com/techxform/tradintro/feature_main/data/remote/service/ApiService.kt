@@ -102,6 +102,13 @@ interface ApiService {
     ): Response<AddUserResponse>
 
 
+    @POST("api/users/logout")
+    suspend fun logOut(@Body request: LogOutRequest): Response<BaseResponse<Any>>
+
+    @GET("api/users/invites/history")
+    suspend fun userInviteList(@QueryMap reqMap: Map<String, String>):  Response<BaseResponse<ArrayList<InviteData>>>
+
+
     @POST("api/users/fcm/token")
     suspend fun fcmTokenRegistration(@Body request: FcmTokenRegReq) : Response<Any>
 }
