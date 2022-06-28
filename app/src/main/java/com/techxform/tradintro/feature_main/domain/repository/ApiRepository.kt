@@ -64,5 +64,5 @@ interface ApiRepository {
     suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest) : Result<UpdateWalletResponse>
     suspend fun addUser(addUserRequest: AddUserRequest) : Result<AddUserResponse>
 
-    suspend fun fcmTokenRegistration(request: FcmTokenRegReq)
+    suspend fun fcmTokenRegistration(request: FcmTokenRegReq):  Result<Any>
 }

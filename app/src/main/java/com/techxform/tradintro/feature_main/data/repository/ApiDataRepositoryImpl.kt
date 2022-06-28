@@ -1,9 +1,13 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
 import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
+import com.techxform.tradintro.core.utils.PreferenceHelper
+import com.techxform.tradintro.core.utils.PreferenceHelper.fcmToken
+import com.techxform.tradintro.core.utils.PreferenceHelper.isFcmTokenSync
 import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
@@ -576,7 +580,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fcmTokenRegistration(request: FcmTokenRegReq) {
+    override suspend fun fcmTokenRegistration(request: FcmTokenRegReq):Result<Any> {
         return withContext(Dispatchers.Default)
         {
             try {

@@ -7,6 +7,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.techxform.tradintro.core.utils.Contants.PREFERENCE
 import com.techxform.tradintro.core.utils.Contants.PREF_FCM_TOKEN_KEY
+import com.techxform.tradintro.core.utils.Contants.PREF_FCM_TOKEN_SYNC_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_REFRESH_TOKEN_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_TOKEN_KEY
 
@@ -56,6 +57,14 @@ object PreferenceHelper {
         set(value) {
             editMe {
                 it.putString(PREF_FCM_TOKEN_KEY, value)
+            }
+        }
+
+    var SharedPreferences.isFcmTokenSync
+        get() = getBoolean(PREF_FCM_TOKEN_SYNC_KEY, false)
+        set(value) {
+            editMe {
+                it.putBoolean(PREF_FCM_TOKEN_SYNC_KEY, value)
             }
         }
 
