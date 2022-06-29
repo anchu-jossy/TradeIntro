@@ -66,7 +66,5 @@ interface ApiRepository {
     suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>>
     suspend fun findUserInviteList() : Result<BaseResponse<ArrayList<InviteData>>>
 
-
-
-    suspend fun fcmTokenRegistration(request: FcmTokenRegReq)
+    suspend fun fcmTokenRegistration(request: FcmTokenRegReq):  Result<Any>
 }

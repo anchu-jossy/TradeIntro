@@ -2,6 +2,7 @@ package com.techxform.tradintro.feature_main.presentation.landing
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
@@ -23,19 +24,37 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.PreferenceHelper
+import com.techxform.tradintro.core.utils.PreferenceHelper.fcmToken
+import com.techxform.tradintro.core.utils.PreferenceHelper.isFcmTokenSync
 import com.techxform.tradintro.databinding.FragmentLandingBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
+import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
+import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 import dagger.hilt.android.AndroidEntryPoint
+import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate),
     Toolbar.OnMenuItemClickListener {
 
     private lateinit var navController: NavController
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(Dispatchers.IO + job)
+    @Inject
+    lateinit var repository: ApiRepository
+    private lateinit var pref : SharedPreferences
 
     private lateinit var viewModel: LandingViewModel
 
@@ -45,6 +64,14 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         setHasOptionsMenu(true)
         bottomNavSetup()
         drawerSetup()
+        pref = PreferenceHelper.customPreference(requireContext())
+        if(!pref.fcmToken.isNullOrEmpty() && !pref.isFcmTokenSync)
+        {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { t1 ->
+                sendRegistrationToServer(t1.result)
+            }
+        }
+
         viewModel.logOutLiveData.observe(viewLifecycleOwner) {
             if (it.status) {
                 Toast.makeText(requireContext(), "logout Succesfully", Toast.LENGTH_LONG).show()
@@ -71,8 +98,6 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                             ).show()
                             )
                 }
-
-
                 else -> {
                 }
             }
@@ -302,6 +327,34 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         viewModel = ViewModelProvider(this)[LandingViewModel::class.java]
         return super.onCreateView(inflater, container, savedInstanceState)
 
+    }
+
+    private fun sendRegistrationToServer(token: String) {
+        val device = (Build.MANUFACTURER
+                + " " + Build.MODEL + " " + Build.VERSION.RELEASE
+                + " " + Build.VERSION_CODES::class.java.fields[Build.VERSION.SDK_INT].name)
+
+        /*The Firebase installations service (FIS) provides a Firebase installation ID (FID) for each installed instance of a Firebase app.
+        FIDs provide better privacy properties compared to non-resettable, device-scoped hardware IDs. For more information, see the firebase.installations API reference.*/
+        FirebaseInstallations.getInstance().id.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("Installations", "Installation ID: " + task.result)
+                val req = FcmTokenRegReq(token, task.result, device)
+                scope.launch() {
+                    when(repository.fcmTokenRegistration(req))
+                    {
+                        is Result.Success -> {
+                            pref.isFcmTokenSync = true
+                        }
+                        is Result.Error -> {
+                            Log.e("Error", "FCM registration Error")
+                        }
+                    }
+                }
+            } else {
+                Log.e("Installations", "Unable to get Installation ID")
+            }
+        }
     }
 
 }
