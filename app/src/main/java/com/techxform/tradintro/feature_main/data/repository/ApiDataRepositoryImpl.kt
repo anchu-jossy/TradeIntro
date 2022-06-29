@@ -556,7 +556,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "name" to addUserRequest.name.toString(),
                     "email" to addUserRequest.email.toString(),
 
-                )
+                    )
                 val response = apiService.addUser(ADD_USER_URL, reqMap = reqMap)
                 if (response.isSuccessful) {
                     Result.Success(response.body()!!)
@@ -605,8 +605,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 val reqMap = mapOf(
                     "10" to "limit",
                     "0" to "offset",
-                    )
-                val response = apiService.userInviteList( reqMap = reqMap)
+                )
+                val response = apiService.userInviteList(reqMap = reqMap)
                 if (response.isSuccessful) {
                     Result.Success(response.body()!!)
                 } else {
@@ -623,8 +623,9 @@ class ApiDataRepositoryImpl @Inject constructor(
                 e.printStackTrace()
                 Result.Error(Failure.ServerError)
             }
-        }    }
-}
+        }
+    }
+
 
     override suspend fun fcmTokenRegistration(request: FcmTokenRegReq) {
         return withContext(Dispatchers.Default)
@@ -649,6 +650,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             }
         }
     }
+}
 
 
 

@@ -12,10 +12,8 @@ import com.google.android.material.tabs.TabLayout
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.RechargeFragmentBinding
-import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
-import com.techxform.tradintro.feature_main.presentation.PaymentResponseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
