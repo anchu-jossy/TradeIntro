@@ -22,12 +22,17 @@ import java.util.*
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    private val CHANNEL_ID = "channel_1"
+    companion object {
+        private const val CHANNEL_ID = "trade_intro_channel"
+        const val TYPE = "key_1"
+        const val TITLE = "title"
+        const val BODY = "body"
+    }
 
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.e("onMessageReceived", "msg: ${message.notification?.title}")
+        Log.e("onMessageReceived", "msg: ${message.data}")
 
         createNotification(message)
     }
@@ -37,11 +42,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= VERSION_CODES.O) {
-            //val name = getString(R.string.channel_name)
-            val descriptionText = "channel description"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance).apply {
-                description = descriptionText
+                description = getString(R.string.channel_description)
             }
 
             notificationManager.createNotificationChannel(channel)
@@ -50,13 +53,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.notification)
-            .setContentTitle(message.notification?.title)
-            .setContentText(message.notification?.body)
+            .setContentTitle(message.data[TITLE])
+            .setContentText(message.data[BODY])
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val notificationIntent = Intent(this, SplashScreenActivity::class.java)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         notificationIntent.putExtra(SplashScreenActivity.IS_NOTIFICATION, true)
+        notificationIntent.putExtra(SplashScreenActivity.NOTIFICATION_TYPE, message.data[TYPE])
 
         val pendingIntent = PendingIntent.getActivity(
             this,

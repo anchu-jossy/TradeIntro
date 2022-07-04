@@ -23,6 +23,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     private lateinit var viewModel: LoginViewModel
     private var isNotification: Boolean = false
+    private var notificationType: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,8 +56,9 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     }
 
-    fun isNotification(isNotification : Boolean) {
+    fun isNotification(isNotification : Boolean, notificationType:String) {
         this.isNotification = isNotification
+        this.notificationType = notificationType
     }
 
 
@@ -68,6 +70,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
             val b = Bundle()
             b.putBoolean(SplashScreenActivity.IS_NOTIFICATION, isNotification)
+            b.putString(SplashScreenActivity.NOTIFICATION_TYPE, notificationType)
             findNavController().navigate(R.id.landingFragment, b)
         }
 
