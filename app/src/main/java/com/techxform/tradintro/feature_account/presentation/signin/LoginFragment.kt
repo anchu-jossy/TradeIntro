@@ -11,6 +11,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.LoginFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.LoginRequest
+import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +22,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     }
 
     private lateinit var viewModel: LoginViewModel
+    private var isNotification: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,14 +55,20 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     }
 
+    fun isNotification(isNotification : Boolean) {
+        this.isNotification = isNotification
+    }
+
+
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
 
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
-            //(requireActivity().application as TradIntroApp).token = it.data.token
-            findNavController().navigate(R.id.landingFragment)
+            val b = Bundle()
+            b.putBoolean(SplashScreenActivity.IS_NOTIFICATION, isNotification)
+            findNavController().navigate(R.id.landingFragment, b)
         }
 
         viewModel.loginErrorLiveData.observe(viewLifecycleOwner) {

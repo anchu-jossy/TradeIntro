@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -65,6 +66,18 @@ class WatchlistFragment :
         })
         watchList.clear()
         viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
+
+        binding.searchView.addTextChangedListener {
+            if (binding.searchView.text.toString().isEmpty()) {
+                watchList.clear()
+                viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
+            }else if (binding.searchView.text.toString().length > 3) {
+                watchList.clear()
+                viewModel.watchlist(FilterModel(binding.searchView.text.toString(), limit, watchList.size, 0, ""))
+            }
+        }
+
+
     }
 
     private val listener = object : WatchListAdapter.ClickListener {
@@ -101,7 +114,7 @@ class WatchlistFragment :
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        position = viewHolder.adapterPosition
+                        position = viewHolder.absoluteAdapterPosition
                         Toast.makeText(
                             requireContext(),
                             "onswiped",

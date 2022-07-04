@@ -2,6 +2,7 @@ package com.techxform.tradintro.feature_main.presentation
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +12,10 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.techxform.tradintro.R
-import com.techxform.tradintro.core.base.BaseActivity
+import com.techxform.tradintro.feature_account.presentation.signin.LoginFragment
+import com.techxform.tradintro.feature_main.presentation.landing.LandingFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +24,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     companion object {
         const val NOTIFICATION_REQUEST_CODE = 100
+        const val IS_NOTIFICATION = "isNotification"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +39,20 @@ class SplashScreenActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= 33) {
             askNotificationPermission()
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val fragment = getFragment()
+        if (fragment is LoginFragment) {
+            fragment.isNotification(true)
+        } else if (fragment is LandingFragment)
+            fragment.redirectToNotification()
+    }
+
+    private fun getFragment(): Fragment? {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        return navHost?.childFragmentManager?.fragments?.get(0)
     }
 
 

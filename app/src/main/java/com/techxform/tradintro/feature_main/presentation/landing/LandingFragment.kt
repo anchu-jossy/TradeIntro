@@ -39,6 +39,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 import dagger.hilt.android.AndroidEntryPoint
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
+import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -74,8 +75,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
         viewModel.logOutLiveData.observe(viewLifecycleOwner) {
             if (it.status) {
-                Toast.makeText(requireContext(), "logout Succesfully", Toast.LENGTH_LONG).show()
-
+                Toast.makeText(requireContext(), "logout Successfully", Toast.LENGTH_LONG).show()
                 requireActivity().finish()
             }
         }
@@ -102,6 +102,8 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 }
             }
         }
+
+
 
     }
 
@@ -225,10 +227,23 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         return list
     }
 
+    fun redirectToNotification()
+    {
+        val navGraph = navController.navInflater.inflate(R.navigation.bottom_nav_graph)
+        navGraph.setStartDestination(R.id.notificationFragment)
+        navController.graph = navGraph
+    }
+
     private fun bottomNavSetup() {
         val navHostFragment =
             childFragmentManager.findFragmentById(R.id.container_fragment) as NavHostFragment
         navController = navHostFragment.navController
+        if(requireActivity().intent?.getBooleanExtra(SplashScreenActivity.IS_NOTIFICATION,false) == true || requireArguments().getBoolean(SplashScreenActivity.IS_NOTIFICATION, false))
+        {
+            redirectToNotification()
+        }
+
+
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
