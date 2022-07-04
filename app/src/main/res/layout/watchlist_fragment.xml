@@ -34,18 +34,18 @@
         android:layout_marginBottom="@dimen/_3sdp"
         android:orientation="horizontal"
         android:weightSum="2">
-
-        <EditText
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:fontFamily="@font/open_sans"
-            android:gravity="start"
-            android:hint="@string/add"
-            android:singleLine="true" />
+            android:layout_marginTop="@dimen/_3sdp"
+            android:background="@drawable/editext_frame"
+            android:layoutDirection="rtl"
+           />
 
         <TextView
+            android:id="@+id/tv_addWatchlist"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_3sdp"
