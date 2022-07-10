@@ -160,4 +160,5 @@
     <string name="trade_money">Trade money</string>
     <string name="voucher_code">Voucher code</string>
     <string name="notification_permission_denied_msg">You will not receive any notification from us because of no permission</string>
+    <string name="channel_description">This channel is used to send the notification related to Trade Intro app</string>
 </resources>

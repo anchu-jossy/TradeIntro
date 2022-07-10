@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.ui.text.toLowerCase
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -45,7 +46,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate),
@@ -243,10 +246,16 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         return list
     }
 
-    fun redirectToNotification()
+    fun redirectToNotification(type : String = "")
     {
         val navGraph = navController.navInflater.inflate(R.navigation.bottom_nav_graph)
-        navGraph.setStartDestination(R.id.notificationFragment)
+        when(type.lowercase(Locale.getDefault()))
+        {
+            getString(R.string.nav_portfolio).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(R.id.nav_home)
+            getString(R.string.nav_market).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(R.id.nav_market)
+            getString(R.string.nav_watchlist).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(R.id.nav_watchlist)
+            else -> navGraph.setStartDestination(R.id.notificationFragment)
+        }
         navController.graph = navGraph
     }
 
@@ -256,7 +265,9 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         navController = navHostFragment.navController
         if(requireActivity().intent?.getBooleanExtra(SplashScreenActivity.IS_NOTIFICATION,false) == true || requireArguments().getBoolean(SplashScreenActivity.IS_NOTIFICATION, false))
         {
-            redirectToNotification()
+            val type =
+                (requireActivity().intent?.getStringExtra(SplashScreenActivity.NOTIFICATION_TYPE) ?: requireArguments().getString(SplashScreenActivity.NOTIFICATION_TYPE)) as String ?: ""
+            redirectToNotification(type)
         }
 
 

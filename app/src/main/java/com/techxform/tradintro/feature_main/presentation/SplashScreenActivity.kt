@@ -25,6 +25,7 @@ class SplashScreenActivity : AppCompatActivity() {
     companion object {
         const val NOTIFICATION_REQUEST_CODE = 100
         const val IS_NOTIFICATION = "isNotification"
+        const val NOTIFICATION_TYPE = "notification_type"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,10 +45,14 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         val fragment = getFragment()
+        val type = intent?.getStringExtra(NOTIFICATION_TYPE)?: ""
+
         if (fragment is LoginFragment) {
-            fragment.isNotification(true)
-        } else if (fragment is LandingFragment)
-            fragment.redirectToNotification()
+            fragment.isNotification(true, type)
+
+        } else if (fragment is LandingFragment) {
+            fragment.redirectToNotification(type)
+        }
     }
 
     private fun getFragment(): Fragment? {
