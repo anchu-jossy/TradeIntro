@@ -253,7 +253,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "search" to searchModel.searchText,
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
-                    "skip" to searchModel.skip.toString()
+                    "skip" to searchModel.skip.toString(),
+                    "type" to searchModel.type.toString(),
                 )
 
                 val response = apiService.notifications(reqMap)

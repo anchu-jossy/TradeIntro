@@ -40,6 +40,7 @@ import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 import dagger.hilt.android.AndroidEntryPoint
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
+import com.techxform.tradintro.feature_main.presentation.home.OriginalHomeFragmentDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -195,9 +196,24 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 2 -> navController.navigate(R.id.mySkillsFragment)
                 3 -> navController.navigate(R.id.rechargeFragment)
                 4 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
-                5 -> navController.navigate(R.id.notificationFragment)
+                5 -> {
+                    navController.navigateUp()
+                    navController.navigate(
+                        OriginalHomeFragmentDirections.actionNavHome1ToNotificationFragment(
+                            ""
+                        )
+                    )
+                }
+
                 6 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
-                7 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                7 -> {
+                    navController.navigateUp()
+                    navController.navigate(
+                        OriginalHomeFragmentDirections.actionNavHome1ToNotificationFragment(
+                            "alerts"
+                        )
+                    )
+                }
                 8 -> navController.navigate(R.id.changePasswordFragment)
                 9 -> viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
             }

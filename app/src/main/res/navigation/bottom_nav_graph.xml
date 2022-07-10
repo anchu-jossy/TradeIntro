@@ -10,7 +10,16 @@
         android:name="com.techxform.tradintro.feature_main.presentation.home.OriginalHomeFragment"
         android:label="@string/nav_home"
 
-        tools:layout="@layout/original_home_fragment" />
+        tools:layout="@layout/original_home_fragment" >
+        <action
+            android:id="@+id/action_nav_home1_to_notificationFragment"
+            app:destination="@id/notificationFragment" >
+        <argument
+            android:name="notification_type"
+            app:argType="string"
+            app:nullable="true" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/nav_home"
         android:name="com.techxform.tradintro.feature_main.presentation.portfolio.PortfoliosFragment"
@@ -67,11 +76,7 @@
             android:id="@+id/action_nav_watchlist_to_watchlistViewFragment"
             app:destination="@id/watchlistViewFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/nav_portfolio"
-        android:name="com.techxform.tradintro.feature_main.presentation.portfolio.PortfolioFragment"
-        android:label="@string/nav_portfolio"
-        tools:layout="@layout/portfolio_fragment" />
+
     <fragment
         android:id="@+id/nav_trade"
         android:name="com.techxform.tradintro.feature_main.presentation.trade.TradeFragment"
@@ -111,10 +116,29 @@
         android:label="change_password_fragment"
         tools:layout="@layout/change_password_fragment" />
     <fragment
+        android:id="@+id/landingFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.landing.LandingFragment"
+        android:label="landing_fragment"
+        tools:layout="@layout/fragment_landing" >
+        <action
+            android:id="@+id/action_landingFragment_to_notificationFragment"
+
+            app:destination="@id/notificationFragment" >
+            <argument
+                android:name="notification_type"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+    </fragment>
+    <fragment
         android:id="@+id/notificationFragment"
         android:name="com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment"
         android:label="notification_fragment"
         tools:layout="@layout/notification_fragment">
+        <argument
+            android:name="notification_type"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_notificationFragment_to_detailedNotificationFragment"
             app:destination="@id/detailedNotificationFragment" />
