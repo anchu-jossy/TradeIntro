@@ -161,4 +161,9 @@
     <string name="voucher_code">Voucher code</string>
     <string name="notification_permission_denied_msg">You will not receive any notification from us because of no permission</string>
     <string name="channel_description">This channel is used to send the notification related to Trade Intro app</string>
+    <string name="enter_emailid">Enter your emailId</string>
+    <string name="ok">OK</string>
+    <string name="verify_email">Please verify the forgetPassword link that send to your entered email id</string>
+    <string name="success">success</string>
+    <string name="error">error</string>
 </resources>

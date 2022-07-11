@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_account.presentation.signin
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +15,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.LoginRequest
 import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
@@ -31,6 +34,24 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
         observers()
         listeners()
+        binding.tvForgotPassword.setOnClickListener {
+            val alert = AlertDialog.Builder(requireContext())
+            val edittext = EditText(requireContext())
+            edittext.setText("sheffinjoy@gmail.com")
+            alert.setMessage(getString(R.string.enter_emailid))
+            alert.setView(edittext)
+
+            alert.setPositiveButton(
+                getString(R.string.ok)
+            ) { dialog, _ ->
+                dialog.dismiss()
+               viewModel.forgetPassword(edittext.text.toString())
+
+
+            }
+            alert.show()
+
+        }
 
     }
 
@@ -65,6 +86,21 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
+        }
+        viewModel.forgetPasswordLiveData.observe(viewLifecycleOwner){
+            if (it.toString().contains(getString(R.string.success)))
+                sequenceOf(
+                Toast.makeText(
+                    requireContext(), getString(R.string.verify_email),
+                    Toast.LENGTH_SHORT
+                ).show() )
+            else
+                sequenceOf(
+                    Toast.makeText(
+                        requireContext(), getString(R.string.error),
+                        Toast.LENGTH_SHORT
+                    ).show() )
+
         }
 
         viewModel.loginLiveData.observe(viewLifecycleOwner) {

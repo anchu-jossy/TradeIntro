@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
+import com.techxform.tradintro.core.utils.Contants.FORGOT_PASSWORD
 import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
 import com.techxform.tradintro.core.utils.PreferenceHelper
 import com.techxform.tradintro.core.utils.PreferenceHelper.fcmToken
@@ -18,6 +19,7 @@ import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
+import retrofit2.Response
 import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
@@ -655,6 +657,31 @@ class ApiDataRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun forgetPassword(emailId: String): Result<Any> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "forgot_email" to emailId  )
+                val response = apiService.forgetPassword( FORGOT_PASSWORD,reqMap)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }    }
 }
 
 
