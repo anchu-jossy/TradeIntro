@@ -67,4 +67,8 @@ interface ApiRepository {
     suspend fun findUserInviteList() : Result<BaseResponse<ArrayList<InviteData>>>
 
     suspend fun fcmTokenRegistration(request: FcmTokenRegReq):  Result<Any>
+
+    suspend fun forgetPassword(email:String): Result<BaseResponse<Any>>
+
+    suspend fun register(request:RegisterRequest) : Result<BaseResponse<Any>>
 }

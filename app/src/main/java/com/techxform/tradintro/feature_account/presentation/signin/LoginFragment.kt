@@ -53,10 +53,16 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 //TradSharedPreference.createGetPreference(requireContext())
             )
         }
+        binding.signUpBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+        }
+
+        binding.tvForgotPassword.setOnClickListener {
+        }
 
     }
 
-    fun isNotification(isNotification : Boolean, notificationType:String) {
+    fun isNotification(isNotification: Boolean, notificationType: String) {
         this.isNotification = isNotification
         this.notificationType = notificationType
     }

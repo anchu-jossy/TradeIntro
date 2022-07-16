@@ -106,9 +106,21 @@ interface ApiService {
     suspend fun logOut(@Body request: LogOutRequest): Response<BaseResponse<Any>>
 
     @GET("api/users/invites/history")
-    suspend fun userInviteList(@QueryMap reqMap: Map<String, String>):  Response<BaseResponse<ArrayList<InviteData>>>
+    suspend fun userInviteList(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<InviteData>>>
 
 
     @POST("api/users/fcm/token")
-    suspend fun fcmTokenRegistration(@Body request: FcmTokenRegReq) : Response<Any>
+    suspend fun fcmTokenRegistration(@Body request: FcmTokenRegReq): Response<Any>
+
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @POST("api/forgot_password")
+    @FormUrlEncoded
+    suspend fun forgetPassword(@Field("forgot_email") email:String): Response<BaseResponse<Any>>
+
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @POST("api/register")
+    @FormUrlEncoded
+    suspend fun register(@FieldMap request: Map<String, String>): Response<BaseResponse<Any>>
+
+
 }

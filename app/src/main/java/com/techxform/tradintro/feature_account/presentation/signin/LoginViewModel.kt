@@ -26,6 +26,12 @@ class LoginViewModel @Inject constructor(
     private var _loginErrorLiveData = MutableLiveData<Failure>()
     val loginErrorLiveData: LiveData<Failure> = _loginErrorLiveData
 
+    private var _forgetPasswordLiveData = MutableLiveData<BaseResponse<Any>>()
+    val forgetPasswordLiveData: LiveData<BaseResponse<Any>> = _forgetPasswordLiveData
+
+    private var _forgetPasswordErrorLiveData = MutableLiveData<Failure>()
+    val forgetPasswordErrorLiveData: LiveData<Failure> = _forgetPasswordErrorLiveData
+
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
@@ -50,4 +56,19 @@ class LoginViewModel @Inject constructor(
 
     }
 
+    fun forgetPassword(email:String)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.forgetPassword(email)) {
+                is Result.Success -> {
+                    _forgetPasswordLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _forgetPasswordErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
 }

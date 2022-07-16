@@ -63,7 +63,6 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
     private lateinit var viewModel: LandingViewModel
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)

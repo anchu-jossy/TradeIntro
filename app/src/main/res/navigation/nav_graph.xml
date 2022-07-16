@@ -29,7 +29,11 @@
         android:id="@+id/loginFragment"
         android:name="com.techxform.tradintro.feature_account.presentation.signin.LoginFragment"
         android:label="login_fragment"
-        tools:layout="@layout/login_fragment" />
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
 
 
     <fragment
@@ -37,5 +41,10 @@
         android:name="com.techxform.tradintro.feature_main.presentation.landing.LandingFragment"
         android:label="fragment_landing"
         tools:layout="@layout/fragment_landing" />
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.register.RegistrationFragment"
+        android:label="registration_fragment"
+        tools:layout="@layout/registration_fragment" />
 
 </navigation>

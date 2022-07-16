@@ -655,6 +655,60 @@ class ApiDataRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun forgetPassword(email: String): Result<BaseResponse<Any>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.forgetPassword(email)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun register(request: RegisterRequest): Result<BaseResponse<Any>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "first_name" to request.firstName,
+                    "last_name" to request.lastName,
+                    "email" to request.email,
+                    "password" to request.password,
+                )
+                val response = apiService.register(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 }
 
 
