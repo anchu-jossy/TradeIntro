@@ -26,8 +26,8 @@ class LoginViewModel @Inject constructor(
     private var _loginErrorLiveData = MutableLiveData<Failure>()
     val loginErrorLiveData: LiveData<Failure> = _loginErrorLiveData
 
-    private var _forgetPasswordLiveData = MutableLiveData<BaseResponse<Any>>()
-    val forgetPasswordLiveData: LiveData<BaseResponse<Any>> = _forgetPasswordLiveData
+    private var _forgetPasswordLiveData = MutableLiveData<Any>()
+    val forgetPasswordLiveData: LiveData<Any> = _forgetPasswordLiveData
 
     private var _forgetPasswordErrorLiveData = MutableLiveData<Failure>()
     val forgetPasswordErrorLiveData: LiveData<Failure> = _forgetPasswordErrorLiveData

@@ -5,10 +5,6 @@ import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
-import okhttp3.ResponseBody
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.QueryMap
 
 interface ApiRepository {
     suspend fun getDataList(): List<ApiData>
@@ -49,7 +45,11 @@ interface ApiRepository {
     suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>>
 
     suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<WatchList>>
-    suspend fun updateWatchList(id: Number, req: UpdateWatchListRequest): Result<BaseResponse<UpdateData>>
+    suspend fun updateWatchList(
+        id: Number,
+        req: UpdateWatchListRequest
+    ): Result<BaseResponse<UpdateData>>
+
     suspend fun deleteWatchList(id: Number): Result<BaseResponse<DeleteWatchListResponse>>
 
     suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>>
@@ -57,18 +57,18 @@ interface ApiRepository {
     suspend fun userLevels(): Result<BaseResponse<UserLevels>>
     suspend fun userDetails(): Result<BaseResponse<UserDetailsResponse>>
 
-    suspend fun readNotification(id:Int): Result<BaseResponse<Int>>
+    suspend fun readNotification(id: Int): Result<BaseResponse<Int>>
 
     suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<WalletHistory>>>
 
-    suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest) : Result<UpdateWalletResponse>
-    suspend fun addUser(addUserRequest: AddUserRequest) : Result<AddUserResponse>
+    suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest): Result<UpdateWalletResponse>
+    suspend fun addUser(addUserRequest: AddUserRequest): Result<AddUserResponse>
     suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>>
-    suspend fun findUserInviteList() : Result<BaseResponse<ArrayList<InviteData>>>
+    suspend fun findUserInviteList(): Result<BaseResponse<ArrayList<InviteData>>>
 
-    suspend fun fcmTokenRegistration(request: FcmTokenRegReq):  Result<Any>
+    suspend fun fcmTokenRegistration(request: FcmTokenRegReq): Result<Any>
 
-    suspend fun forgetPassword(email:String): Result<BaseResponse<Any>>
+    suspend fun forgetPassword(emailId: String): Result<Any>
 
     suspend fun register(request:RegisterRequest) : Result<BaseResponse<Any>>
 }

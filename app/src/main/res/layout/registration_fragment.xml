@@ -6,14 +6,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/registerLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_bold"
             android:text="@string/register_lbl"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/_25ssp"
             app:layout_constraintBottom_toBottomOf="@+id/guideline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,15 +29,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_username"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:fontFamily="@font/open_sans_medium"
+            app:boxBackgroundColor="@android:color/transparent"
+            android:background="@android:color/transparent"
             app:layout_constraintTop_toTopOf="@+id/guideline2">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fullNameEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:singleLine="true"
-                android:text="neenu.pappachan@triplede.com"
-                android:textColor="@color/white"
+                android:imeOptions="actionNext"
+                android:fontFamily="@font/open_sans_medium"
                 android:textSize="@dimen/_12ssp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -42,16 +51,23 @@
             android:id="@+id/emailTl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_username"
-            app:layout_constraintTop_toTopOf="@+id/guideline2">
+            android:layout_marginTop="@dimen/_16sdp"
+            android:hint="@string/email_lbl"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:fontFamily="@font/open_sans_medium"
+            app:boxBackgroundColor="@android:color/transparent"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@+id/fullNameTL">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:fontFamily="@font/open_sans_medium"
                 android:text="neenu.pappachan@triplede.com"
-                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -60,16 +76,22 @@
             android:id="@+id/passwordTl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_username"
-            app:layout_constraintTop_toTopOf="@+id/guideline2">
+            android:layout_marginTop="@dimen/_16sdp"
+            android:hint="@string/hint_password"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:fontFamily="@font/open_sans_medium"
+            app:boxBackgroundColor="@android:color/transparent"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@+id/emailTl">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:singleLine="true"
-                android:text="neenu.pappachan@triplede.com"
-                android:textColor="@color/white"
+                android:imeOptions="actionNext"
+                android:fontFamily="@font/open_sans_medium"
                 android:textSize="@dimen/_12ssp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -78,16 +100,22 @@
             android:id="@+id/confirmPassTl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_username"
-            app:layout_constraintTop_toTopOf="@+id/guideline2">
+            android:layout_marginTop="@dimen/_16sdp"
+            android:hint="@string/confirm_password_lbl"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:fontFamily="@font/open_sans_medium"
+            app:boxBackgroundColor="@android:color/transparent"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordTl">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPassEt"
-                style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:singleLine="true"
-                android:textColor="@color/white"
+                android:imeOptions="actionNext"
+                android:fontFamily="@font/open_sans_medium"
                 android:textSize="@dimen/_12ssp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -95,14 +123,32 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/registerBtn"
             style="@style/Theme.TradIntro.Button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_24sdp"
             android:background="@drawable/pink_circular_bg"
             android:text="@string/register_lbl"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:imeOptions="actionDone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPassTl" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tncTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tnc_lbl"
+            android:textSize="@dimen/_12ssp"
+            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:fontFamily="@font/open_sans_medium"
+            app:layout_constraintWidth_percent="0.7"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registerBtn"/>
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -111,6 +157,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.2" />
+
+
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

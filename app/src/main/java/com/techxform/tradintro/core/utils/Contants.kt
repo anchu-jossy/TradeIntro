@@ -11,5 +11,8 @@ object Contants {
     private const val DEV_URL = "https://dev.tradintro.com/"
     const val RECHARGE_URL = DEV_URL+"index.php/api/update_wallet"
     const val ADD_USER_URL = DEV_URL+"index.php/api/add_invite_user"
+    const val FORGOT_PASSWORD = DEV_URL + "index.php/api/forgot_password"
+    const val REGISTER = DEV_URL + "index.php/api/register"
+
 
 }
