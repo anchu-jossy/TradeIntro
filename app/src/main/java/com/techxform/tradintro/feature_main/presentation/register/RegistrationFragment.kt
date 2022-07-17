@@ -4,11 +4,8 @@ import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -17,7 +14,6 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.RegistrationFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.RegisterRequest
-import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -105,7 +101,6 @@ class RegistrationFragment :
                             )
                 }
 
-
                 else -> {
                 }
             }
@@ -127,7 +122,6 @@ class RegistrationFragment :
             validation = false
             binding.passwordEt.error = getString(R.string.enter_password)
         }
-
         if (binding.confirmPassEt.text.toString().isNullOrEmpty()) {
             validation = false
             binding.confirmPassEt.error = getString(R.string.enter_confirm_password)
