@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.messaging.ktx.remoteMessage
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.LoginFragmentBinding
@@ -42,7 +43,6 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     {
         val alert = AlertDialog.Builder(requireContext())
         val edittext = EditText(requireContext())
-        edittext.setText("sheffinjoy@gmail.com")
         alert.setMessage(getString(R.string.enter_emailid))
         alert.setView(edittext)
         alert.setPositiveButton(
@@ -135,9 +135,13 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                             ).show()
                             )
                 }
-
-
                 else -> {
+
+                    Toast.makeText(
+                        requireContext(),(it as Failure.FeatureFailure).message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 }
             }
         }

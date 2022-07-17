@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.register
 
+import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -60,13 +62,25 @@ class RegistrationFragment :
 
     }
 
+    private fun registrationDialog() {
+        val alert = AlertDialog.Builder(requireContext())
+        alert.setMessage(getString(R.string.check_email))
+        alert.setPositiveButton(
+            getString(R.string.ok)
+        ) { dialog, _ ->
+            dialog.dismiss()
+            findNavController().popBackStack()
 
+        }
+        alert.show()
+    }
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
         viewModel.registerLiveData.observe(viewLifecycleOwner){
-           findNavController().popBackStack()
+            registrationDialog()
+
         }
 
 

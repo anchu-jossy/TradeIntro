@@ -174,4 +174,5 @@
     <string name="full_name_lbl">Full Name</string>
     <string name="email_lbl">E-mail</string>
     <string name="tnc_lbl">By Signing up you agree to our <a href="https://www.tradintro.com/index.php/pages/terms_and_conditions">terms of conditions</a></string>
+    <string name="check_email">Please check your Email</string>
 </resources>
