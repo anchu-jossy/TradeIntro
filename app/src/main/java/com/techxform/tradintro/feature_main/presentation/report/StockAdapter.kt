@@ -7,19 +7,58 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.StockRowLayoutBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 
-class StockAdapter(val list: ArrayList<String>) : RecyclerView.Adapter<StockAdapter.StockVH>() {
+class StockAdapter(val list: ArrayList<PortfolioItem>) :
+    RecyclerView.Adapter<StockAdapter.StockVH>() {
 
 
-    inner class StockVH(private val stockRowLayoutBinding: StockRowLayoutBinding): RecyclerView.ViewHolder(stockRowLayoutBinding.root)
-    {
-        fun bind()
-        {
-            val lm = LinearLayoutManager(stockRowLayoutBinding.root.context, LinearLayoutManager.HORIZONTAL, false)
+    inner class StockVH(private val stockRowLayoutBinding: StockRowLayoutBinding) :
+        RecyclerView.ViewHolder(stockRowLayoutBinding.root) {
+        fun bind() {
+            stockRowLayoutBinding.portfolio = list[absoluteAdapterPosition]
+            val lm = LinearLayoutManager(
+                stockRowLayoutBinding.root.context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
             stockRowLayoutBinding.priceRv.layoutManager = lm
-            stockRowLayoutBinding.priceRv.adapter = PriceAdapter(arrayListOf())
+            stockRowLayoutBinding.priceRv.adapter = PriceAdapter(createPricingList(list[absoluteAdapterPosition]))
+        }
+
+        private fun createPricingList(portfolioItem: PortfolioItem) : ArrayList<Pair<String,String>> {
+            var priceList = arrayListOf<Pair<String, String>>()
+            val context = stockRowLayoutBinding.root.context
+
+            priceList.add(
+                Pair(
+                    context.getString(R.string.quantity_lbl),
+                    portfolioItem.orderQty.toString()
+                )
+            )
+            priceList.add(
+                Pair(
+                    context.getString(R.string.avg_purchase_price_lbl),
+                    portfolioItem.orderPrice.toString()
+                )
+            )
+            priceList.add(
+                Pair(
+                    context.getString(R.string.total_buy_value_lbl),
+                    portfolioItem.totalStockValue.toString()
+                )
+            )
+            priceList.add(
+                Pair(
+                    context.getString(R.string.total_sell_value_lbl),
+                    portfolioItem.totalStockValue.toString()
+                )
+            )
+
+            return priceList
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockVH {
         val binding = DataBindingUtil.inflate<StockRowLayoutBinding>(
@@ -36,6 +75,6 @@ class StockAdapter(val list: ArrayList<String>) : RecyclerView.Adapter<StockAdap
     }
 
     override fun getItemCount(): Int {
-       return 5
+        return list.size
     }
 }

@@ -2,6 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="p"
+            type="kotlin.Pair&lt;String,String&gt;" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -13,12 +21,11 @@
             android:background="@color/light_blue_900"
             android:gravity="center"
             android:padding="@dimen/_8sdp"
-            android:text="Quantity"
+            android:text="@{p.first}"
             android:textColor="@color/white"
             app:fontFamily="@font/open_sans_medium"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-           />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/priceTv"
@@ -26,7 +33,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/_8sdp"
-            android:text="10"
+            android:text="@{p.second}"
             app:fontFamily="@font/open_sans_medium"
             app:layout_constraintEnd_toEndOf="@+id/headerTv"
             app:layout_constraintStart_toStartOf="@+id/headerTv"

@@ -5,6 +5,8 @@ import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import retrofit2.Response
+import retrofit2.http.QueryMap
 
 interface ApiRepository {
     suspend fun getDataList(): List<ApiData>
@@ -71,4 +73,8 @@ interface ApiRepository {
     suspend fun forgetPassword(emailId: String): Result<Any>
 
     suspend fun register(request:RegisterRequest) : Result<BaseResponse<Any>>
+
+    suspend fun historicalReport(searchModel: SearchModel) : Result<BaseResponse<ArrayList<PortfolioItem>>>
+
+
 }

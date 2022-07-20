@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="portfolio"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +66,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/_8sdp"
-                    android:text="0HHGHJDFJDFHUF-HDHD-DFJD"
+                    android:text="@{portfolio.orderNo}"
                     app:fontFamily="@font/open_sans_medium"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
@@ -73,7 +79,7 @@
                     android:gravity="center"
                     android:padding="@dimen/_8sdp"
                     android:maxLines="1"
-                    android:text="Prince Pipes and fittings Limited"
+                    android:text="@{portfolio.market.stockName}"
                     app:fontFamily="@font/open_sans_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
@@ -139,16 +145,25 @@
             app:layout_constraintTop_toBottomOf="@+id/priceContainer" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/executionTimeTv"
+            android:id="@+id/executionDateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:fontFamily="@font/open_sans"
-            android:text="2022-06-21 \n08:23:10"
-            app:layout_constraintBottom_toBottomOf="@+id/executionTimeLbl"
+            android:text="@{portfolio.formatDateTime().first}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/executionTimeLbl"
             app:layout_constraintTop_toTopOf="@+id/executionTimeLbl" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/executionTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:text="@{portfolio.formatDateTime().second}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/executionDateTv"
+            app:layout_constraintTop_toBottomOf="@+id/executionDateTv" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,14 +17,6 @@ class ReportFragment : BaseFragment<ReportFragmentBinding>(ReportFragmentBinding
         fun newInstance() = ReportFragment()
     }
 
-    private lateinit var viewModel: ReportViewModel
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[ReportViewModel::class.java]
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,14 +66,6 @@ class ReportFragment : BaseFragment<ReportFragmentBinding>(ReportFragmentBinding
                 }
 
             }
-
-
-        /*fm.beginTransaction()
-            .replace(fragmentB, R.id.container)
-            .addToBackstack(null)
-            .commit();*/
-        /*binding.profitLossRv.adapter = ProfitLossAdapter(arrayListOf())
-        binding.stockRv.adapter = StockAdapter(arrayListOf())*/
     }
 
 

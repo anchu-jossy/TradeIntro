@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowPriceBinding
 
-class PriceAdapter (val list: ArrayList<String>) : RecyclerView.Adapter<PriceAdapter.PriceVH>() {
+class PriceAdapter(val list: ArrayList<Pair<String, String>>) :
+    RecyclerView.Adapter<PriceAdapter.PriceVH>() {
 
 
-    inner class PriceVH(rowPriceBinding: RowPriceBinding): RecyclerView.ViewHolder(rowPriceBinding.root)
-    {
-        fun bind()
-        {
-
+    inner class PriceVH(private val rowPriceBinding: RowPriceBinding) :
+        RecyclerView.ViewHolder(rowPriceBinding.root) {
+        fun bind() {
+            rowPriceBinding.p = list[absoluteAdapterPosition]
         }
     }
 
@@ -33,6 +33,6 @@ class PriceAdapter (val list: ArrayList<String>) : RecyclerView.Adapter<PriceAda
     }
 
     override fun getItemCount(): Int {
-        return 6
+        return list.size
     }
 }

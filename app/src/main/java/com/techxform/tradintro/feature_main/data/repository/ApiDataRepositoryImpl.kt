@@ -154,7 +154,10 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "search" to searchModel.searchText,
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
-                    "skip" to searchModel.skip.toString()
+                    "skip" to searchModel.skip.toString(),
+                    "order_execution_type" to searchModel.orderExecutionType,
+                    "order_status" to searchModel.orderStatus,
+                    "portfolio_status" to searchModel.portfolioStatus
                 )
 
                 val response = apiService.portfolio(reqMap)
@@ -710,6 +713,32 @@ class ApiDataRepositoryImpl @Inject constructor(
                 Result.Error(Failure.JsonParsing)
             } catch (e: Exception) {
                 e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun historicalReport(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "limit" to searchModel.limit.toString(),
+                    "offset" to searchModel.offset.toString(),
+                )
+
+                val response = apiService.historicalReport(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
                 Result.Error(Failure.ServerError)
             }
         }

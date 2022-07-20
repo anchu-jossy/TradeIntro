@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="portfolio"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,8 +47,8 @@
             android:ellipsize="end"
             android:fontFamily="@font/open_sans_semibold"
             android:maxLines="1"
-            android:text="Prince Pipes and fittings Limited"
-            android:textSize="@dimen/_14ssp"
+            android:text="@{portfolio.market.stockName}"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -55,7 +61,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/open_sans"
             android:maxLines="1"
-            android:text="Princepipe(xNSE)"
+            android:text="@{portfolio.market.stockCode}"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleTv"
@@ -70,7 +76,7 @@
             android:fontFamily="@font/open_sans"
             android:gravity="end"
             android:maxLines="1"
-            android:text="2022-02-03"
+            android:text="@{portfolio.formatDateTime().first}"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toTopOf="@+id/timeTv"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +91,7 @@
             android:fontFamily="@font/open_sans"
             android:gravity="end"
             android:maxLines="1"
-            android:text="09:51:00"
+            android:text="@{portfolio.formatDateTime().second}"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/subTitleTv"
