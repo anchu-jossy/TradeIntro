@@ -174,4 +174,28 @@
     <string name="full_name_lbl">Full Name</string>
     <string name="email_lbl">E-mail</string>
     <string name="tnc_lbl">By Signing up you agree to our <a href="https://www.tradintro.com/index.php/pages/terms_and_conditions">terms of conditions</a></string>
+    <string name="profit_loss_report_lbl">Profit &amp; Loss Report</string>
+    <string name="trade_book_lbl">Trade Book</string>
+    <string name="order_book_lbl">Order Book</string>
+    <string name="historical_holdings_lbl">Historical Holdings</string>
+    <string name="stock_lbl">Stock</string>
+    <string name="last_transaction_date_lbl">Last Transaction Date</string>
+
+    <string-array name="reports">
+        <item>@string/trade_book_lbl</item>
+        <item>@string/order_book_lbl</item>
+        <item>@string/historical_holdings_lbl</item>
+        <item>@string/profit_loss_report_lbl</item>
+    </string-array>
+    
+    <string name="realised_profit_loss_lbl">Realised \nProfit/Loss</string>
+    <string name="realised_profit_loss_per_lbl">Realised % \nProfit/Loss</string>
+
+    <string name="execution_time_lbl">Execution \nTime:</string>
+    <string name="transaction_type_lbl">Transaction \nType:</string>
+    <string name="order_id_lbl">Order Id</string>
+
+
+
+
 </resources>

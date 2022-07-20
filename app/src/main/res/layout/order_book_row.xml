@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_16sdp">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/priceContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="0dp"
+            app:cardPreventCornerOverlap="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/shade_grey"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/orderIdLbl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_blue_900"
+                    android:gravity="center"
+                    android:padding="@dimen/_8sdp"
+                    android:text="@string/order_id_lbl"
+                    android:textColor="@color/white"
+                    app:fontFamily="@font/open_sans_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.6" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stockLbl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_blue_900"
+                    android:gravity="center"
+                    android:padding="@dimen/_8sdp"
+                    android:text="@string/stock_lbl"
+                    android:textColor="@color/white"
+                    app:fontFamily="@font/open_sans_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.4" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/orderIdTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:padding="@dimen/_8sdp"
+                    android:text="0HHGHJDFJDFHUF-HDHD-DFJD"
+                    app:fontFamily="@font/open_sans_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
+                    app:layout_constraintWidth_percent="0.6" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stockTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/_8sdp"
+                    android:maxLines="1"
+                    android:text="Prince Pipes and fittings Limited"
+                    app:fontFamily="@font/open_sans_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
+                    app:layout_constraintWidth_percent="0.4" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/priceRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/orderIdTv"
+                    tools:itemCount="6"
+                    tools:listitem="@layout/row_price" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txnTypeLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/transaction_type_lbl"
+            app:layout_constraintEnd_toStartOf="@+id/txnTypeTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/priceContainer" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txnTypeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/sell_lbl"
+            android:textColor="@color/dark_pink"
+            app:layout_constraintBottom_toBottomOf="@+id/txnTypeLbl"
+            app:layout_constraintEnd_toEndOf="@+id/g1"
+            app:layout_constraintStart_toEndOf="@+id/txnTypeLbl"
+            app:layout_constraintTop_toTopOf="@+id/txnTypeLbl" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/g1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/executionTimeLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/execution_time_lbl"
+            app:layout_constraintEnd_toStartOf="@+id/executionTimeTv"
+            app:layout_constraintStart_toStartOf="@+id/g1"
+            app:layout_constraintTop_toBottomOf="@+id/priceContainer" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/executionTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:fontFamily="@font/open_sans"
+            android:text="2022-06-21 \n08:23:10"
+            app:layout_constraintBottom_toBottomOf="@+id/executionTimeLbl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/executionTimeLbl"
+            app:layout_constraintTop_toTopOf="@+id/executionTimeLbl" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -178,4 +178,9 @@
         android:name="com.techxform.tradintro.feature_main.presentation.referal.MyReferalFragment"
         android:label="referal_fragment"
         tools:layout="@layout/my_referal_fragment" />
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.report.ReportFragment"
+        android:label="report_fragment"
+        tools:layout="@layout/report_fragment" />
 </navigation>

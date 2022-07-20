@@ -206,8 +206,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                         )
                     )
                 }
-
-                6 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                6 -> navController.navigate(R.id.reportFragment)
                 7 -> {
                     navController.navigateUp()
                     navController.navigate(
