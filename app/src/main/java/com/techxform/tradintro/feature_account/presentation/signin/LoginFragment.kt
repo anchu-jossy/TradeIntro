@@ -42,7 +42,6 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     {
         val alert = AlertDialog.Builder(requireContext())
         val edittext = EditText(requireContext())
-        edittext.setText("sheffinjoy@gmail.com")
         alert.setMessage(getString(R.string.enter_emailid))
         alert.setView(edittext)
         alert.setPositiveButton(
@@ -135,9 +134,13 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                             ).show()
                             )
                 }
-
-
                 else -> {
+
+                    Toast.makeText(
+                        requireContext(),(it as Failure.FeatureFailure).message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 }
             }
         }

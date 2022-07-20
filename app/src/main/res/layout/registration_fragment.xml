@@ -67,7 +67,6 @@
                 android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:fontFamily="@font/open_sans_medium"
-                android:text="neenu.pappachan@triplede.com"
                 android:textSize="@dimen/_12ssp" />
 
         </com.google.android.material.textfield.TextInputLayout>
