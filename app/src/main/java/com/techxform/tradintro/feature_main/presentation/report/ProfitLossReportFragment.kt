@@ -95,8 +95,7 @@ class ProfitLossReportFragment :
         }
         viewModel.summaryLiveData.observe(viewLifecycleOwner){
                        if(it.data!=null){
-                           binding.profitLossRv.adapter = ProfitLossAdapter()
-
+                     //      binding.profitLossRv.adapter = ProfitLossAdapter()
                        }
 
 
