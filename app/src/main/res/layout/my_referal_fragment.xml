@@ -37,8 +37,6 @@
                     app:isThirdVisible="@{false}"
                     app:labelOne="@{@string/name}"
                     app:labelTwo="@{@string/email}"
-                    app:labelOneValue="@{@string/hello}"
-                    app:labelTwoValue="@{@string/email_value}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:title="@{@string/invite_user}" />
 

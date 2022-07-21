@@ -70,8 +70,14 @@ class NotificationFragment :
         }
 
         viewModel.notificationLiveData.observe(viewLifecycleOwner) {
-            adapter = NotificationAdapter(it.data, listener)
-            binding.notificationRv.adapter = adapter
+            if(it.data.isEmpty()){
+               binding.tvNodata.visibility=View.VISIBLE
+            }
+            else {
+                binding.tvNodata.visibility=View.GONE
+                adapter = NotificationAdapter(it.data, listener)
+                binding.notificationRv.adapter = adapter
+            }
         }
         viewModel.deleteNotificationLiveData.observe(viewLifecycleOwner) {
             adapter.list.removeAt(it)

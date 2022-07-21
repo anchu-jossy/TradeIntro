@@ -98,9 +98,7 @@ class MyReferalFragment :
                 adapter = MyReferalListAdapter(it.data)
                 binding.listRv.adapter = adapter
             }
-            else{
-                Toast.makeText(context,getString(R.string.nodata),Toast.LENGTH_LONG).show()
-            }
+
         }
     }
 }

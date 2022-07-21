@@ -19,8 +19,12 @@ data class Stock(
 
 ):Parcelable {
     fun currentValue(): Float {
-        return (history.first().stockHistoryOpen +
-                history.first().stockHistoryClose) / 2
+
+        return if(history!=null){
+            (history.firstOrNull()?.stockHistoryOpen?: 0 +
+            history.firstOrNull()?.stockHistoryClose!! ?: 0.0f) / 2
+        } else 0.0f
+
     }
 
     fun perDiff(): Float {

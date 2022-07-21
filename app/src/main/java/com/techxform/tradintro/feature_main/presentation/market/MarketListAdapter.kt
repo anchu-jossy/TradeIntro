@@ -26,7 +26,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
             rowItemBinding.rowType = 0
             rowItemBinding.stock = list[adapterPosition]
 
-         /*   val openPrice = list[adapterPosition].history?.first()?.stockHistoryOpen?.toInt() ?: 0
+            /*   val openPrice = list[adapterPosition].history?.first()?.stockHistoryOpen?.toInt() ?: 0
             val closePrice = list[adapterPosition].history?.first()?.stockHistoryClose?.toInt() ?: 0
             val totalPrice = openPrice.plus(closePrice)
             val todayPrice = (totalPrice / 2)
@@ -52,22 +52,31 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
             }else if (percentage>0){
                 rowItemBinding.perTv.setTextColor(Color.GREEN);
             }*/
-            if (adapterPosition % 2 == 0) {
-                drawChart(
-                    ContextCompat.getColor(itemView.context, R.color.dark_pink),
-                    createData(list[adapterPosition].history, adapterPosition),
-                    rowItemBinding
-                )
-            } else drawChart(
-                ContextCompat.getColor(itemView.context, R.color.light_blue_900),
-                createData(list[adapterPosition].history, adapterPosition),
-                rowItemBinding
-            )
+            if (absoluteAdapterPosition % 2 == 0) {
+                if (list[absoluteAdapterPosition].history != null) {
+                    drawChart(
+                        ContextCompat.getColor(itemView.context, R.color.dark_pink),
+                        createData(list[absoluteAdapterPosition].history),
+                        rowItemBinding
+                    )
+                }
+
+            } else {
+                if(list[absoluteAdapterPosition].history!=null){
+                    drawChart(
+                        ContextCompat.getColor(itemView.context, R.color.light_blue_900),
+                        createData(list[absoluteAdapterPosition].history),
+                        rowItemBinding
+                    )
+                }
+
+            }
+
             rowItemBinding.cardContainer.setOnClickListener {
-                listener.onItemClick(list[adapterPosition], adapterPosition)
+                listener.onItemClick(list[absoluteAdapterPosition], absoluteAdapterPosition)
             }
             rowItemBinding.constraintContainer.setOnClickListener {
-                listener.onItemClick(list[adapterPosition], adapterPosition)
+                listener.onItemClick(list[absoluteAdapterPosition], absoluteAdapterPosition)
             }
 
         }
@@ -94,34 +103,10 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
 
     private fun createData(
         list: MutableList<StockHistory>,
-        adapterPosition: Int
+
     ): ArrayList<Entry> {
         val arrayList = arrayListOf<Entry>()
-/*
-        //TODO: remove it
-        if (list.isNullOrEmpty()) {
-           *//* arrayList.add(Entry(1F, 20.45F))
-            arrayList.add(Entry(2F, 40.45F))
-            arrayList.add(Entry(3F, 10.45F))
-            arrayList.add(Entry(4F, 60.45F))
-            arrayList.add(Entry(5F, 20.45F))
-            arrayList.add(Entry(6F, 100.45F))*//*
-            return arrayList
-        } else {
-            for (history in list){
-                Entry(
-                    ,
-                    history.stockHistoryClose
-                )
-            }
-            *//*      arrayList.add(
-                      Entry(
-                          list[adapterPosition ].stockHistoryOpen,
-                          list[adapterPosition ].stockHistoryClose
-                      )
-                  )*//*
-            return arrayList
-        }*/
+
 
         list.forEachIndexed { index, stockHistory ->
             arrayList.add(Entry(index.toFloat(), (stockHistory.stockHistoryOpen + stockHistory.stockHistoryClose)/2))
