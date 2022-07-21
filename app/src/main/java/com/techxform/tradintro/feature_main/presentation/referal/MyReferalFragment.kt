@@ -94,8 +94,13 @@ class MyReferalFragment :
             }
         }
         viewModel.updateUserListLiveData.observe(viewLifecycleOwner){
-            adapter = MyReferalListAdapter(it.data)
-            binding.listRv.adapter = adapter
+            if(it.data.isNotEmpty()) {
+                adapter = MyReferalListAdapter(it.data)
+                binding.listRv.adapter = adapter
+            }
+            else{
+                Toast.makeText(context,getString(R.string.nodata),Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

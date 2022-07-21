@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -36,7 +35,7 @@ class RegistrationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tncTv.movementMethod = LinkMovementMethod.getInstance();
+        binding.tncTv.movementMethod = LinkMovementMethod.getInstance()
         binding.registerBtn.setOnClickListener {
             if (validation()) {
                 val name = binding.fullNameEt.text.toString().split(" ")
@@ -78,8 +77,6 @@ class RegistrationFragment :
             registrationDialog()
 
         }
-
-
 
         viewModel.registerErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {
