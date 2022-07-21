@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.FragmentProfitLossReportBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.SummaryReport
+import com.techxform.tradintro.feature_main.data.remote.dto.TotalPrices
+import com.techxform.tradintro.feature_main.data.remote.dto.WalletSummaryResponse
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +48,7 @@ class ProfitLossReportFragment :
             viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
         } else {
             binding.titleTv.text = getString(R.string.profit_loss_report_lbl)
-
+            viewModel.summaryReport()
             val reports = resources.getStringArray(R.array.profit_loss_gain)
             binding.reportsSelectionSpinner.adapter =
                 ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, reports)
@@ -53,7 +57,7 @@ class ProfitLossReportFragment :
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                         when (reports[p2]) {
-                            getString(R.string.realised_gain)  -> {
+                            getString(R.string.realised_gain) -> {
                                 viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
                             }
                             getString(R.string.unrealised_gain) -> {
@@ -66,12 +70,10 @@ class ProfitLossReportFragment :
                         TODO("Not yet implemented")
                     }
                 }
-            binding.profitLossRv.adapter = ProfitLossAdapter(arrayListOf())
 
 
         }
     }
-
 
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
@@ -95,7 +97,41 @@ class ProfitLossReportFragment :
                 else -> {}
             }
         }
+        viewModel.summaryLiveData.observe(viewLifecycleOwner) {
+            if (it.data != null) {
+                binding.profitLossRv.adapter = ProfitLossAdapter(createList(it.data))
+            }
+        }
 
+    }
+
+    private fun createList(summaryReport: SummaryReport): ArrayList<TotalPrices> {
+        var list = ArrayList<TotalPrices>()
+        list.add(
+            TotalPrices(
+                ContextCompat.getColor(requireContext(), R.color.dark_pink),
+                summaryReport.realizedProfitLossValue?: 0f,
+                getString(R.string.total_realised_profit_loss_lbl),
+                getString(R.string.realised_profit_loss_lbl1)
+            )
+        )
+        list.add(
+            TotalPrices(
+                ContextCompat.getColor(requireContext(), R.color.light_blue_900),
+                summaryReport.totalInvestmentValue?: 0f,
+                getString(R.string.total_investment_value_lbl),
+                getString(R.string.total_investment_lbl)
+            )
+        )
+        list.add(
+            TotalPrices(
+                ContextCompat.getColor(requireContext(), R.color.dark_pink),
+                summaryReport.unRealizedProfitLossValue?: 0f,
+                getString(R.string.total_unrealised_profit_loss_lbl),
+                getString(R.string.unrealised_profit_loss_lbl)
+            )
+        )
+        return list
     }
 
     companion object {

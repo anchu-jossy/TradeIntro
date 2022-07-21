@@ -33,6 +33,7 @@
     <string name="holding_value_lbl">Holding Value</string>
     <string name="trade_money_balance_lbl">Trade Money Balance</string>
     <string name="total_investment_lbl">Total Investment</string>
+    <string name="total_investment_value_lbl">Total Investment Value</string>
     <string name="plus_buy_lbl">+ Buy</string>
     <string name="buy_lbl">Buy</string>
     <string name="sell_lbl">Sell</string>
@@ -197,6 +198,10 @@
 
     </string-array>
     <string name="realised_profit_loss_lbl">Realised \nProfit/Loss</string>
+    <string name="realised_profit_loss_lbl1">Realised Profit/Loss</string>
+    <string name="total_realised_profit_loss_lbl">Total Realised Profit/Loss Value</string>
+    <string name="total_unrealised_profit_loss_lbl">Total Unrealised Profit/Loss Value</string>
+    <string name="unrealised_profit_loss_lbl">Unrealised Profit/Loss</string>
     <string name="realised_profit_loss_per_lbl">Realised % \nProfit/Loss</string>
 
     <string name="execution_time_lbl">Execution \nTime:</string>

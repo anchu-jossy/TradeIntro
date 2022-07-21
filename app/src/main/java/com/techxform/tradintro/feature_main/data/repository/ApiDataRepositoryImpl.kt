@@ -1,15 +1,11 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
 import com.techxform.tradintro.core.utils.Contants.FORGOT_PASSWORD
 import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
 import com.techxform.tradintro.core.utils.Contants.REGISTER
-import com.techxform.tradintro.core.utils.PreferenceHelper
-import com.techxform.tradintro.core.utils.PreferenceHelper.fcmToken
-import com.techxform.tradintro.core.utils.PreferenceHelper.isFcmTokenSync
 import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
@@ -19,12 +15,9 @@ import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import retrofit2.Response
 import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class ApiDataRepositoryImpl @Inject constructor(
     private val apiService: ApiService
@@ -667,8 +660,9 @@ class ApiDataRepositoryImpl @Inject constructor(
         {
             try {
                 val reqMap = mapOf(
-                    "forgot_email" to emailId  )
-                val response = apiService.forgetPassword( FORGOT_PASSWORD,reqMap)
+                    "forgot_email" to emailId
+                )
+                val response = apiService.forgetPassword(FORGOT_PASSWORD, reqMap)
                 if (response.isSuccessful) {
                     Result.Success(response.body()!!)
                 } else {
@@ -685,7 +679,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 e.printStackTrace()
                 Result.Error(Failure.ServerError)
             }
-        }    }
+        }
+    }
 
 
     override suspend fun register(request: RegisterRequest): Result<BaseResponse<Any>> {
@@ -694,7 +689,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             try {
                 val reqMap = mapOf(
                     "first_name" to request.firstName,
-                    "last_name" to (request.lastName?: ""),
+                    "last_name" to (request.lastName ?: ""),
                     "email" to request.email,
                     "password" to request.password,
                 )
@@ -754,6 +749,27 @@ class ApiDataRepositoryImpl @Inject constructor(
                 )
 
                 val response = apiService.reportCurrent(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun summaryReport(): Result<BaseResponse<SummaryReport>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.summaryReport()
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {

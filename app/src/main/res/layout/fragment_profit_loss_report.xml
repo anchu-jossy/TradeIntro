@@ -45,6 +45,7 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toBottomOf="@+id/titleTv"
                     tools:listitem="@layout/profit_loss_report_layout" />
+
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/reportsSelectionSpinner"
                     android:layout_width="match_parent"

@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="price"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.TotalPrices" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,7 +19,7 @@
             android:id="@+id/v1"
             android:layout_width="@dimen/_2sdp"
             android:layout_height="0dp"
-            android:background="@color/red"
+            android:background="@{price.colorInt}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
-            android:text="Rs. 18930.63"
+            android:text="@{@string/rs_format(price.amount)}"
             android:textSize="@dimen/_12sdp"
             app:fontFamily="@font/open_sans_medium"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
             android:textSize="@dimen/_12sdp"
-            android:text="Total realise profit/loss value"
+            android:text="@{price.subtitle}"
             app:fontFamily="@font/open_sans_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/v1"
@@ -47,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_25sdp"
-            android:text="Total realise profit/loss value"
+            android:text="@{price.title}"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp"
             app:fontFamily="@font/open_sans_medium"
