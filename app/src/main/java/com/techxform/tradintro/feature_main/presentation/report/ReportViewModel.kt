@@ -43,4 +43,20 @@ class ReportViewModel  @Inject constructor(private val repository: ApiRepository
 
     }
 
+    fun reportCurrent(searchModel: SearchModel) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.reportCurrent(searchModel)) {
+                is Result.Success -> {
+                    _portfolioLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _portfolioErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+
+    }
+
 }

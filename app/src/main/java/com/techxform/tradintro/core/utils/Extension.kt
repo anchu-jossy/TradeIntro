@@ -25,6 +25,15 @@ fun TextView.color(value: Float) {
 
 }
 
+
+@BindingAdapter("colorTxnType")
+fun TextView.color(value: Int) {
+    if (value == 1)
+        setTextColor(ContextCompat.getColor(context, R.color.dark_pink));
+    else setTextColor(ContextCompat.getColor(context, R.color.light_blue_900))
+
+}
+
 @BindingAdapter("inviteColor")
 fun TextView.inviteColor(value: Int) {
     when (value) {

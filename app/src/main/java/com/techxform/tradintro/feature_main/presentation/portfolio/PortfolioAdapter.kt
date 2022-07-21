@@ -49,19 +49,19 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
                 rowItemBinding.perTv.setTextColor(Color.GREEN);
             }
 
-            if (adapterPosition % 2 == 0) {
+            if (absoluteAdapterPosition % 2 == 0) {
                 drawChart(
                     ContextCompat.getColor(itemView.context, R.color.dark_pink), createData(
-                        list[adapterPosition].market.history,
+                        list[absoluteAdapterPosition].market.history,
                     ), rowItemBinding
                 )
             } else drawChart(
                 ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(
-                    list[adapterPosition].market.history
+                    list[absoluteAdapterPosition].market.history
                 ), rowItemBinding
             )
             rowItemBinding.root.setOnClickListener {
-                listener.onItemClick(list[adapterPosition], adapterPosition)
+                listener.onItemClick(list[absoluteAdapterPosition], absoluteAdapterPosition)
             }
         }
     }

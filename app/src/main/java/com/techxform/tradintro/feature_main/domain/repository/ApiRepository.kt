@@ -76,5 +76,6 @@ interface ApiRepository {
 
     suspend fun historicalReport(searchModel: SearchModel) : Result<BaseResponse<ArrayList<PortfolioItem>>>
 
+    suspend fun reportCurrent(searchModel: SearchModel) : Result<BaseResponse<ArrayList<PortfolioItem>>>
 
 }

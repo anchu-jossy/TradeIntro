@@ -39,9 +39,12 @@ class ProfitLossReportFragment :
         val isHistorical = requireArguments().getBoolean(IS_HISTORICAL)
         binding.profitLossRv.isVisible = !isHistorical
         if (isHistorical) {
+            binding.reportsSelectionSpinner.isVisible = false
             binding.titleTv.text = getString(R.string.historical_holdings_lbl)
+            viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
         } else {
             binding.titleTv.text = getString(R.string.profit_loss_report_lbl)
+
             val reports = resources.getStringArray(R.array.profit_loss_gain)
             binding.reportsSelectionSpinner.adapter =
                 ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, reports)
@@ -49,8 +52,14 @@ class ProfitLossReportFragment :
             binding.reportsSelectionSpinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-
+                        when (reports[p2]) {
+                            getString(R.string.realised_gain)  -> {
+                                viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
+                            }
+                            getString(R.string.unrealised_gain) -> {
+                                viewModel.reportCurrent(SearchModel(limit = 10, offset = 0))
+                            }
+                        }
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -59,7 +68,7 @@ class ProfitLossReportFragment :
                 }
             binding.profitLossRv.adapter = ProfitLossAdapter(arrayListOf())
 
-            viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
+
         }
     }
 
@@ -70,10 +79,7 @@ class ProfitLossReportFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-//            portfolioList = it.data
-            //TODO:set adapter
             binding.stockRv.adapter = StockAdapter(it.data)
-
         }
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
