@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.NotificationFragmentBinding
@@ -23,7 +23,11 @@ class NotificationFragment :
 
     companion object {
         fun newInstance() = NotificationFragment()
+        const val NOTIFICATION_TYPE="alerts"
+
+        fun navBundle(notificationType: String) = bundleOf(NOTIFICATION_TYPE to notificationType)
     }
+
 
     private lateinit var viewModel: NotificationViewModel
     private lateinit var adapter: NotificationAdapter
@@ -35,9 +39,11 @@ class NotificationFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
-         val args: NotificationFragmentArgs by navArgs()
 
-        notificationType = args.notificationType
+         notificationType = requireArguments().getString(
+            NotificationFragment.NOTIFICATION_TYPE
+        )
+
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }

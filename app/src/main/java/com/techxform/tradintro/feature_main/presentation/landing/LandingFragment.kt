@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.compose.ui.text.toLowerCase
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,6 +23,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
@@ -41,7 +43,11 @@ import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 import dagger.hilt.android.AndroidEntryPoint
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
+import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.presentation.home.OriginalHomeFragmentDirections
+import com.techxform.tradintro.feature_main.presentation.notification.DetailedNotificationFragment
+import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment
+import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.NOTIFICATION_TYPE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -201,19 +207,19 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 5 -> {
                     navController.navigateUp()
                     navController.navigate(
-                        OriginalHomeFragmentDirections.actionNavHome1ToNotificationFragment(
-                            ""
-                        )
+                        R.id.notificationFragment,
+                        NotificationFragment.navBundle("")
                     )
                 }
                 6 -> navController.navigate(R.id.reportFragment)
                 7 -> {
                     navController.navigateUp()
                     navController.navigate(
-                        OriginalHomeFragmentDirections.actionNavHome1ToNotificationFragment(
-                            "alerts"
-                        )
+                        R.id.notificationFragment,
+                        NotificationFragment.navBundle(NOTIFICATION_TYPE)
                     )
+
+
                 }
                 8 -> navController.navigate(R.id.changePasswordFragment)
                 9 -> viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
