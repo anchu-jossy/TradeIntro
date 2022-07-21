@@ -42,6 +42,7 @@ class ProfitLossReportFragment :
             binding.titleTv.text = getString(R.string.historical_holdings_lbl)
         } else {
             binding.titleTv.text = getString(R.string.profit_loss_report_lbl)
+            viewModel.summaryReport()
             val reports = resources.getStringArray(R.array.profit_loss_gain)
             binding.reportsSelectionSpinner.adapter =
                 ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, reports)
@@ -57,11 +58,14 @@ class ProfitLossReportFragment :
                         TODO("Not yet implemented")
                     }
                 }
-            binding.profitLossRv.adapter = ProfitLossAdapter(arrayListOf())
-
-            viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
         }
-    }
+        viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
+
+
+
+        }
+
+
 
 
     private fun observers() {
@@ -88,6 +92,14 @@ class ProfitLossReportFragment :
                 }
                 else -> {}
             }
+        }
+        viewModel.summaryLiveData.observe(viewLifecycleOwner){
+                       if(it.data!=null){
+                           binding.profitLossRv.adapter = ProfitLossAdapter()
+
+                       }
+
+
         }
 
     }
