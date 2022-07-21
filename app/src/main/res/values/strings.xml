@@ -191,7 +191,11 @@
         <item>@string/historical_holdings_lbl</item>
         <item>@string/profit_loss_report_lbl</item>
     </string-array>
+    <string-array name="profit_loss_gain">
+        <item>@string/realised_gain</item>
+        <item>@string/unrealised_gain</item>
 
+    </string-array>
     <string name="realised_profit_loss_lbl">Realised \nProfit/Loss</string>
     <string name="realised_profit_loss_per_lbl">Realised % \nProfit/Loss</string>
 
@@ -201,8 +205,8 @@
     <string name="txn_type_price_lbl">Transaction Type Price</string>
     <string name="txn_charges_lbl">Transaction Charges</string>
     <string name="brokerage_lbl">Brokerage</string>
-
-
+    <string name="realised_gain">Realised Gain</string>
+    <string name="unrealised_gain">Unrealised Gain</string>
 
 
 </resources>

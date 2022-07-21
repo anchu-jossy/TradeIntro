@@ -45,7 +45,15 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toBottomOf="@+id/titleTv"
                     tools:listitem="@layout/profit_loss_report_layout" />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/reportsSelectionSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_26sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/profitLossRv"
 
+                />
                 <androidx.cardview.widget.CardView
                     android:id="@+id/stockListContainer"
                     android:layout_width="match_parent"
@@ -54,7 +62,8 @@
                     app:cardBackgroundColor="@color/lighter_gray"
                     app:cardCornerRadius="@dimen/_8sdp"
                     app:cardPreventCornerOverlap="false"
-                    app:layout_constraintTop_toBottomOf="@+id/profitLossRv">
+                    app:layout_constraintTop_toBottomOf="@+id/reportsSelectionSpinner">
+
 
 
                     <androidx.recyclerview.widget.RecyclerView

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -38,12 +40,27 @@ class ProfitLossReportFragment :
         binding.profitLossRv.isVisible = !isHistorical
         if (isHistorical) {
             binding.titleTv.text = getString(R.string.historical_holdings_lbl)
-        }else {
+        } else {
             binding.titleTv.text = getString(R.string.profit_loss_report_lbl)
-        }
-        binding.profitLossRv.adapter = ProfitLossAdapter(arrayListOf())
+            val reports = resources.getStringArray(R.array.profit_loss_gain)
+            binding.reportsSelectionSpinner.adapter =
+                ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, reports)
 
-        viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
+            binding.reportsSelectionSpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                        TODO("Not yet implemented")
+                    }
+                }
+            binding.profitLossRv.adapter = ProfitLossAdapter(arrayListOf())
+
+            viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
+        }
     }
 
 
