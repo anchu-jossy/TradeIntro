@@ -122,6 +122,8 @@ interface ApiService {
     @GET("api/reports/historical")
     suspend fun historicalReport(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<PortfolioItem>>>
 
+    @GET("api/reports/current")
+    suspend fun reportCurrent(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<PortfolioItem>>>
     @GET("api/reports/profit-loss/summery")
     suspend fun summaryReport() : Response<BaseResponse<SummaryReport>>
 

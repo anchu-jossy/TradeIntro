@@ -6,16 +6,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.ProfitLossReportLayoutBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.TotalPrices
 
-class ProfitLossAdapter(val list: ArrayList<String>) : RecyclerView.Adapter<ProfitLossAdapter.ProfitLossVH>() {
+class ProfitLossAdapter(val list: ArrayList<TotalPrices>) : RecyclerView.Adapter<ProfitLossAdapter.ProfitLossVH>() {
 
 
-    inner class ProfitLossVH(profitLossReportLayoutBinding: ProfitLossReportLayoutBinding) :
+    inner class ProfitLossVH(private val profitLossReportLayoutBinding: ProfitLossReportLayoutBinding) :
         RecyclerView.ViewHolder(profitLossReportLayoutBinding.root) {
 
             fun bind()
             {
-
+                profitLossReportLayoutBinding.price = list[absoluteAdapterPosition]
             }
 
     }
@@ -35,7 +36,7 @@ class ProfitLossAdapter(val list: ArrayList<String>) : RecyclerView.Adapter<Prof
     }
 
     override fun getItemCount(): Int {
-        return 4
+        return list.size
     }
 
 

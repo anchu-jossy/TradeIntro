@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.FragmentProfitLossReportBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.SummaryReport
+import com.techxform.tradintro.feature_main.data.remote.dto.TotalPrices
+import com.techxform.tradintro.feature_main.data.remote.dto.WalletSummaryResponse
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +43,9 @@ class ProfitLossReportFragment :
         val isHistorical = requireArguments().getBoolean(IS_HISTORICAL)
         binding.profitLossRv.isVisible = !isHistorical
         if (isHistorical) {
+            binding.reportsSelectionSpinner.isVisible = false
             binding.titleTv.text = getString(R.string.historical_holdings_lbl)
+            viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
         } else {
             binding.titleTv.text = getString(R.string.profit_loss_report_lbl)
             viewModel.summaryReport()
@@ -50,23 +56,24 @@ class ProfitLossReportFragment :
             binding.reportsSelectionSpinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-
+                        when (reports[p2]) {
+                            getString(R.string.realised_gain) -> {
+                                viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
+                            }
+                            getString(R.string.unrealised_gain) -> {
+                                viewModel.reportCurrent(SearchModel(limit = 10, offset = 0))
+                            }
+                        }
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                         TODO("Not yet implemented")
                     }
                 }
-        }
-        viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
-
 
 
         }
-
-
-
+    }
 
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
@@ -74,10 +81,7 @@ class ProfitLossReportFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-//            portfolioList = it.data
-            //TODO:set adapter
             binding.stockRv.adapter = StockAdapter(it.data)
-
         }
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
@@ -93,14 +97,41 @@ class ProfitLossReportFragment :
                 else -> {}
             }
         }
-        viewModel.summaryLiveData.observe(viewLifecycleOwner){
-                       if(it.data!=null){
-                     //      binding.profitLossRv.adapter = ProfitLossAdapter()
-                       }
-
-
+        viewModel.summaryLiveData.observe(viewLifecycleOwner) {
+            if (it.data != null) {
+                binding.profitLossRv.adapter = ProfitLossAdapter(createList(it.data))
+            }
         }
 
+    }
+
+    private fun createList(summaryReport: SummaryReport): ArrayList<TotalPrices> {
+        var list = ArrayList<TotalPrices>()
+        list.add(
+            TotalPrices(
+                ContextCompat.getColor(requireContext(), R.color.dark_pink),
+                summaryReport.realizedProfitLossValue?: 0f,
+                getString(R.string.total_realised_profit_loss_lbl),
+                getString(R.string.realised_profit_loss_lbl1)
+            )
+        )
+        list.add(
+            TotalPrices(
+                ContextCompat.getColor(requireContext(), R.color.light_blue_900),
+                summaryReport.totalInvestmentValue?: 0f,
+                getString(R.string.total_investment_value_lbl),
+                getString(R.string.total_investment_lbl)
+            )
+        )
+        list.add(
+            TotalPrices(
+                ContextCompat.getColor(requireContext(), R.color.dark_pink),
+                summaryReport.unRealizedProfitLossValue?: 0f,
+                getString(R.string.total_unrealised_profit_loss_lbl),
+                getString(R.string.unrealised_profit_loss_lbl)
+            )
+        )
+        return list
     }
 
     companion object {
