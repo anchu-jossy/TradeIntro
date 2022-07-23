@@ -64,12 +64,13 @@ class MyReferalFragment :
             binding.progressBar.progressOverlay.isVisible = it
         }
 
-        viewModel.updateWalletLiveData.observe(viewLifecycleOwner) {
+        viewModel.addUseLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(
                 requireContext(),
                 it.status,
                 Toast.LENGTH_SHORT
             ).show()
+            viewModel.getUserInviteList()
         }
 
         viewModel.walletErrorLiveData.observe(viewLifecycleOwner) {
