@@ -38,11 +38,11 @@ class RechargeSummaryFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.trade_money)))
+      /*  binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.trade_money)))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.voucher_code)))
-
+*/
         viewModel.walletHistory(SearchModel(type = PaymentType.RECHARGE.name.lowercase(), limit = LIMIT))
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        /*binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when(tab.position)
                 {
@@ -53,7 +53,7 @@ class RechargeSummaryFragment :
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
+        })*/
 
 
     }
@@ -62,7 +62,7 @@ class RechargeSummaryFragment :
     {
         viewModel.walletHistoryLiveData.observe(viewLifecycleOwner) {
             adapter = RechargeSummaryAdapter(it)
-            adapter.setSelectionType(binding.tabLayout.selectedTabPosition)
+            //adapter.setSelectionType(binding.tabLayout.selectedTabPosition)
             binding.rechargeRv.adapter = adapter
         }
 

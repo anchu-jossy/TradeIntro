@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
+import java.text.SimpleDateFormat
 
 data class WalletHistory(
     @SerializedName("wallet_id") val walletId: Int?,
@@ -19,4 +20,9 @@ data class WalletHistory(
     @SerializedName("allocate_email_status") val allocateEmailStatus: Int?,
     @SerializedName("wallet_created_on") val walletCreatedOn: String?,
 ) {
+
+    fun formatDate(): String {
+        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(walletCreatedOn)
+        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(d)
+    }
 }

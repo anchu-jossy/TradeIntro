@@ -23,7 +23,10 @@ class NotificationFragment :
 
     companion object {
         fun newInstance() = NotificationFragment()
-        const val NOTIFICATION_TYPE="alerts"
+        const val ALERT_TYPE = "alert"
+        const val NEWS_TYPE = "news"
+        const val NOTIFICATION_TYPE = "notification_type"
+
 
         fun navBundle(notificationType: String) = bundleOf(NOTIFICATION_TYPE to notificationType)
     }
@@ -31,7 +34,7 @@ class NotificationFragment :
 
     private lateinit var viewModel: NotificationViewModel
     private lateinit var adapter: NotificationAdapter
-  private  var notificationType:String?=null
+    private var notificationType: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +43,8 @@ class NotificationFragment :
     ): View? {
         viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
 
-         notificationType = requireArguments().getString(
-            NotificationFragment.NOTIFICATION_TYPE
+        notificationType = requireArguments().getString(
+            NOTIFICATION_TYPE
         )
 
         observers()
@@ -51,7 +54,7 @@ class NotificationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.notifications(SearchModel("", 10, 0, 0,type= notificationType?: ""))
+        viewModel.notifications(SearchModel("", 10, 0, 0, type = notificationType ?: ""))
     }
 
     private val listener = object : NotificationAdapter.OnClickListener {
@@ -76,11 +79,10 @@ class NotificationFragment :
         }
 
         viewModel.notificationLiveData.observe(viewLifecycleOwner) {
-            if(it.data.isEmpty()){
-               binding.tvNodata.visibility=View.VISIBLE
-            }
-            else {
-                binding.tvNodata.visibility=View.GONE
+            if (it.data.isEmpty()) {
+                binding.tvNodata.visibility = View.VISIBLE
+            } else {
+                binding.tvNodata.visibility = View.GONE
                 adapter = NotificationAdapter(it.data, listener)
                 binding.notificationRv.adapter = adapter
             }
@@ -88,7 +90,11 @@ class NotificationFragment :
         viewModel.deleteNotificationLiveData.observe(viewLifecycleOwner) {
             adapter.list.removeAt(it)
             adapter.notifyItemRemoved(it)
-            Toast.makeText(requireContext(), getString(R.string.notification_delete_msg), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.notification_delete_msg),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         viewModel.notificationErrorLiveData.observe(viewLifecycleOwner) {

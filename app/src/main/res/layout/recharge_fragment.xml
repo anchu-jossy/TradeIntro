@@ -9,7 +9,8 @@
             name="vm"
             type="com.techxform.tradintro.feature_main.presentation.notification.NotificationViewModel" />
     </data>
-    <RelativeLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,38 +20,72 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_90sdp"
             android:layout_margin="@dimen/_16sdp"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:layout_marginBottom="@dimen/_16sdp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.SearchView
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/frameoval"
-                app:queryHint="@string/search" />
+                android:background="@drawable/frame"
+                android:drawableEnd="@drawable/ic_baseline_search_24"
+                android:drawablePadding="@dimen/_8sdp"
+                android:fontFamily="@font/open_sans"
+                android:hint="@string/search"
+                android:maxLines="1"
+                android:padding="@dimen/_8sdp" />
 
-            <com.google.android.material.tabs.TabLayout
+<!--            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_alignParentBottom="true"
                 app:tabIndicatorColor="@color/blue"
-                app:tabTextColor="@color/blue" />
+                app:tabTextColor="@color/blue" />-->
         </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans_semibold"
+            android:maxLines="1"
+            android:text="@string/transaction_details_lbl"
+            android:textSize="@dimen/_8ssp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvHeader"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title1Tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans_semibold"
+            android:maxLines="1"
+            android:gravity="end"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:text="@string/trade_money_lbl"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvHeader"
+            app:layout_constraintWidth_percent="0.4" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rechargeRv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rvHeader"
+            android:layout_marginTop="@dimen/_8sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv"
             tools:listitem="@layout/recharge_row_item" />
-    </RelativeLayout>
-</layout>
-    <!--        <androidx.core.widget.NestedScrollView-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout><!--        <androidx.core.widget.NestedScrollView-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="match_parent">-->
 

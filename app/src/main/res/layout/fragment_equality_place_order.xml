@@ -33,7 +33,7 @@
             android:visibility="gone" />
 
 
-        <androidx.appcompat.widget.SearchView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +42,12 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/frame"
-            android:layoutDirection="rtl"
+            android:fontFamily="@font/open_sans"
+            android:hint ="@string/search"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
+            android:drawablePadding="@dimen/_8sdp"
+            android:maxLines="1"
+            android:padding="@dimen/_8sdp"
             android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
