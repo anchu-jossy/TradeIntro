@@ -17,9 +17,9 @@ class MyReferalViewModel @Inject constructor(private val repository: ApiReposito
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
 
-    private var _updateWalletLiveData = MutableLiveData<AddUserResponse>()
-    val updateWalletLiveData: LiveData<AddUserResponse> =
-        _updateWalletLiveData
+    private var _addUserLiveData = MutableLiveData<AddUserResponse>()
+    val addUseLiveData: LiveData<AddUserResponse> =
+        _addUserLiveData
 
     private var _walletErrorLiveData = MutableLiveData<Failure>()
     val walletErrorLiveData: LiveData<Failure> = _walletErrorLiveData
@@ -32,7 +32,7 @@ class MyReferalViewModel @Inject constructor(private val repository: ApiReposito
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.addUser(addUserRequest)) {
                 is Result.Success -> {
-                    _updateWalletLiveData.postValue(result.data!!)
+                    _addUserLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _walletErrorLiveData.postValue(result.exception)
