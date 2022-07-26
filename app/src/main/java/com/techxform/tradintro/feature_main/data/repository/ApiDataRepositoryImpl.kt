@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
+import androidx.compose.ui.text.toLowerCase
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
 import com.techxform.tradintro.core.utils.Contants.FORGOT_PASSWORD
@@ -540,7 +541,12 @@ class ApiDataRepositoryImpl @Inject constructor(
                 )
                 val response = apiService.updateWallet(RECHARGE_URL, reqMap = reqMap)
                 if (response.isSuccessful) {
-                    Result.Success(response.body()!!)
+                    val walletResponse = response.body()!!
+                    if(walletResponse.status.equals("ERROR"))
+                    {
+                        Result.Error(Failure.FeatureFailure(walletResponse.reason!!))
+                    }else
+                        Result.Success(response.body()!!)
                 } else {
                     Log.e("Error:", response.raw().message)
                     Result.Error(Failure.FeatureFailure(response.raw().message))
