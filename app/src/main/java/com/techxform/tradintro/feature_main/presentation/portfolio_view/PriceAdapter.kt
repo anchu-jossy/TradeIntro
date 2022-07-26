@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.PriceRowBinding
 import com.techxform.tradintro.feature_main.domain.model.PriceType
+import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
 class PriceAdapter(val list: ArrayList<PriceType>) :
@@ -18,9 +19,14 @@ class PriceAdapter(val list: ArrayList<PriceType>) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
         fun binding() {
             itemViewBinding.price = list[absoluteAdapterPosition]
-            itemViewBinding.titleTv.text = itemViewBinding.root.context.getString(R.string.rs_format, list[absoluteAdapterPosition].amount)
+            if(absoluteAdapterPosition==2)
+                itemViewBinding.titleTv.text =  DecimalFormat("0.#").format( list[absoluteAdapterPosition].amount).toString()
+
+            else
+                itemViewBinding.titleTv.text = itemViewBinding.root.context.getString(R.string.rs_format, list[absoluteAdapterPosition].amount)
+
             if (absoluteAdapterPosition == 6 || absoluteAdapterPosition == 7) {
-                itemViewBinding.titleTv.text = "${list[absoluteAdapterPosition].amount.roundToInt()}"
+                itemViewBinding.titleTv.text = "${list[absoluteAdapterPosition].amount}"
                 if (!isPositive(itemViewBinding.titleTv.text as String))
                     itemViewBinding.titleTv.setTextColor(
                         ContextCompat.getColor(

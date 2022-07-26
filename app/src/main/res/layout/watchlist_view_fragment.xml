@@ -20,21 +20,7 @@
         android:layout_height="match_parent">
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/backTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:drawableStart="@drawable/ic_back_action"
-            android:drawablePadding="@dimen/_8sdp"
-            android:fontFamily="@font/open_sans_medium"
-            android:foreground="?selectableItemBackground"
-            android:maxLines="1"
-            android:text="@string/back_lbl"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -46,7 +32,7 @@
             android:fontFamily="@font/open_sans_semibold"
             android:text="@string/add_stock_lbl"
             android:textSize="@dimen/_16ssp"
-            app:layout_constraintTop_toBottomOf="@+id/backTv" />
+            app:layout_constraintBottom_toTopOf="@id/exchangeTv" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -69,75 +55,11 @@
             android:background="@color/dark_violate"
             android:fontFamily="@font/open_sans_medium"
             android:paddingHorizontal="@dimen/_8sdp"
-            android:text="@{watchlist.market.stockCode}"
+            android:text="@{watchlist.formatCode()}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/exchangeTv"
             app:layout_constraintStart_toEndOf="@+id/exchangeTv"
             app:layout_constraintTop_toTopOf="@id/exchangeTv" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/stockNameSearch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:background="@drawable/editext_frame"
-            android:fontFamily="@font/open_sans"
-            android:hint="@string/stock_name_lbl"
-            android:padding="@dimen/_3sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/exchange"
-            app:layout_constraintWidth_percent="0.60" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/watchlistPlusBtn"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:background="@drawable/editext_frame"
-            android:ellipsize="end"
-            android:fontFamily="@font/open_sans_medium"
-            android:foreground="?selectableItemBackground"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="@string/watchlist"
-            app:layout_constraintBottom_toBottomOf="@+id/stockNameSearch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/stockNameSearch"
-            app:layout_constraintWidth_percent="0.25" />
-
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/filterSpinner"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:background="@drawable/frame"
-            app:layout_constraintBottom_toBottomOf="@+id/searchView"
-            app:layout_constraintEnd_toStartOf="@+id/searchView"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/searchView"
-            app:layout_constraintWidth_percent="0.30" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:background="@drawable/frame"
-            android:drawableEnd="@drawable/ic_baseline_search_24"
-            android:drawablePadding="@dimen/_8sdp"
-            android:fontFamily="@font/open_sans"
-            android:hint="@string/search"
-            android:maxLines="1"
-            android:padding="@dimen/_8sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toEndOf="@+id/filterSpinner"
-            app:layout_constraintTop_toBottomOf="@+id/stockNameSearch"
-            app:layout_constraintWidth_percent="0.55" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -146,7 +68,7 @@
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView">
+          >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

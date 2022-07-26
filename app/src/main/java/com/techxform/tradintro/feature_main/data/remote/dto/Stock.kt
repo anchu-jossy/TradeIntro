@@ -92,6 +92,9 @@ data class WatchList(
         }
         return null
     }
+    fun formatCode():String{
+      return  market?.stockApiCode?.split('.')?.get(1).toString()
+    }
 
 
 }

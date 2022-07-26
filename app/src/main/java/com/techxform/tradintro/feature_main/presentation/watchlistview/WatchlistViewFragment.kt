@@ -46,14 +46,7 @@ class WatchlistViewFragment :
         watchlistId = requireArguments().getInt("watchlistId")
 
         binding.alertPriceType = PriceType(63.2f, getString(R.string.alert_price_lbl))
-        val spinnerArr = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
-        val arrAdapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerArr)
-        arrAdapter.setDropDownViewResource(
-            android.R.layout
-                .simple_spinner_dropdown_item
-        )
-        binding.filterSpinner.adapter = arrAdapter
+
 
         viewModel.watchlistDetails(watchlistId)
     }
