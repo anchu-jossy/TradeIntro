@@ -73,6 +73,11 @@
         <entry key="app/src/main/res/drawable/frame.xml" value="0.1805" />
         <entry key="app/src/main/res/drawable/framehalfoval.xml" value="0.1735" />
         <entry key="app/src/main/res/drawable/frameoval.xml" value="0.1735" />
+        <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.168" />
+        <entry key="app/src/main/res/drawable/ic_my_profile.xml" value="0.168" />
+        <entry key="app/src/main/res/drawable/ic_watch_list.xml" value="0.168" />
+        <entry key="app/src/main/res/drawable/pink_circular_bg.xml" value="0.108" />
+        <entry key="app/src/main/res/drawable/yellowbar.xml" value="0.108" />
         <entry key="app/src/main/res/layout/change_password_fragment.xml" value="0.165625" />
         <entry key="app/src/main/res/layout/custom_et_btn.xml" value="0.16510416666666666" />
         <entry key="app/src/main/res/layout/fragment_equality_place_order.xml" value="0.25" />
@@ -104,6 +109,7 @@
         <entry key="app/src/main/res/layout/watchlist_fragment.xml" value="0.15414634146341463" />
         <entry key="app/src/main/res/layout/watchlist_view_fragment.xml" value="0.14984709480122324" />
         <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.1" />
       </map>
     </option>
   </component>

@@ -12,10 +12,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import androidx.compose.ui.text.toLowerCase
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,7 +21,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
@@ -43,13 +40,9 @@ import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 import dagger.hilt.android.AndroidEntryPoint
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
-import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
-import com.techxform.tradintro.feature_main.presentation.home.OriginalHomeFragmentDirections
-import com.techxform.tradintro.feature_main.presentation.notification.DetailedNotificationFragment
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.ALERT_TYPE
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.NEWS_TYPE
-import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.NOTIFICATION_TYPE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -299,9 +292,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 R.id.nav_profile -> {
                     navController.navigate(R.id.nav_profile)
                 }
-                R.id.nav_wallet -> {
-                    navController.navigate(R.id.walletFragment)
-                }
+//
             }
             it.isChecked = true
             return@setOnItemSelectedListener true

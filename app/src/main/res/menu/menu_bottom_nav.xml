@@ -17,11 +17,11 @@
         android:title="@string/dot" />
     <item
         android:id="@+id/nav_watchlist"
-        android:icon="@drawable/portfolio"
+        android:icon="@drawable/ic_watch_list"
         android:title="@string/dot" />
     <item
-        android:id="@+id/nav_wallet"
-        android:icon="@drawable/trade"
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
         android:title="@string/dot" />
 
 </menu>
