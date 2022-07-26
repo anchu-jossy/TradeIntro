@@ -36,102 +36,88 @@
 
             >
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/myCardView"
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/roundedimage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+
                 android:layout_centerInParent="true"
-            app:cardBackgroundColor="@color/light_gray"
-            app:cardCornerRadius="50dp">
+                android:src="@drawable/ic_user"
+                app:civ_border_color="@color/gray"
+                app:civ_border_width="10dp" />
+        </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/roundedimag"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/_16sdp"
+            android:layout_weight=".7"
+
+            android:orientation="vertical">
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_user" />
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/first_name"
+                android:textColor="@color/modest_grey" />
 
-            <ImageView
-                android:id="@+id/cameraimg"
-                android:layout_width="@dimen/_20ssp"
-                android:layout_height="@dimen/_20ssp"
-                android:layout_gravity="bottom|center"
-                android:scaleType="centerCrop"
-                android:layout_margin="@dimen/_10ssp"
-                android:src="@drawable/ic_camera"
+            <EditText
+                style="@style/App_EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{userDetail.userName}"
+                android:textColor="@color/grey" />
 
-                />
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/last_name"
+                android:textColor="@color/modest_grey" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".7"
-        android:orientation="vertical">
+            <EditText
+                style="@style/App_EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{userDetail.userLastName}"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans_semibold"
-            android:text="@string/first_name"
-            android:textColor="@color/modest_grey" />
+                android:textColor="@color/grey" />
 
-        <EditText
-            style="@style/App_EditTextStyle"
-            android:layout_width="match_parent"
-            android:text="@{userDetail.userName}"
-            android:textColor="@color/shade_grey"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/mail_id"
+                android:textColor="@color/modest_grey" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:fontFamily="@font/open_sans_semibold"
-            android:text="@string/last_name"
-            android:textColor="@color/modest_grey" />
+            <EditText
+                style="@style/App_EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{userDetail.userEmail}"
 
-        <EditText
-            style="@style/App_EditTextStyle"
-            android:layout_width="match_parent"
-            android:text="@{userDetail.userLastName}"
-            android:textColor="@color/shade_grey"
+                android:textColor="@color/grey" />
 
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/phone_num"
+                android:textColor="@color/modest_grey" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:fontFamily="@font/open_sans_semibold"
-            android:text="@string/mail_id"
-            android:textColor="@color/modest_grey" />
+            <EditText
+                style="@style/App_EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{userDetail.userPhone}"
 
-        <EditText
-            style="@style/App_EditTextStyle"
-            android:layout_width="match_parent"
-            android:text="@{userDetail.userEmail}"
-            android:textColor="@color/shade_grey"
-
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:fontFamily="@font/open_sans_semibold"
-            android:text="@string/phone_num"
-            android:textColor="@color/modest_grey" />
-
-        <EditText
-            style="@style/App_EditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{userDetail.userPhone}"
-
-            android:textColor="@color/shade_grey" />
-    </LinearLayout>
+                android:textColor="@color/grey" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sellBtn"
