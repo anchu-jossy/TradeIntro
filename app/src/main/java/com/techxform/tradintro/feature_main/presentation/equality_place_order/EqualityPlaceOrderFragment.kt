@@ -119,26 +119,12 @@ class EqualityPlaceOrderFragment :
 
     private fun observer() {
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                Failure.NetworkConnection -> {
-                    sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    )
-                }
-                Failure.ServerError -> {
-                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
-
-                }
-                else -> {
-                    val errorMsg = (it as Failure.FeatureFailure).message
-                    Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
-                    //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
-                }
-            }
+            handleError(it)
         }
+        viewModel.walletErrorLiveData.observe(viewLifecycleOwner){
+            handleError(it)
+        }
+
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
             it.data.let { walletResponse ->
                 userId = walletResponse.userId!!
@@ -309,7 +295,7 @@ class EqualityPlaceOrderFragment :
 
     private fun calculation() {
 
-        val rechargeAmount =  binding.quantityEt.text.toString().toInt()
+        val rechargeAmount =  binding.buyAmountEt.text.toString().toFloat()
         val gst = (rechargeAmount * 18) / 100
         val otherChargeAmount = 0f
         val totalAmount = rechargeAmount + gst + otherChargeAmount
@@ -323,6 +309,29 @@ class EqualityPlaceOrderFragment :
             )
         )
 
+    }
+
+    private fun handleError(failure: Failure)
+    {
+        when (failure) {
+            Failure.NetworkConnection -> {
+                sequenceOf(
+                    Toast.makeText(
+                        requireContext(), getString(R.string.no_internet_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                )
+            }
+            Failure.ServerError -> {
+                Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+
+            }
+            else -> {
+                val errorMsg = (failure as Failure.FeatureFailure).message
+                Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 
