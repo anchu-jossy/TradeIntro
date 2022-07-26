@@ -30,6 +30,11 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
     val marketDetailLiveData: LiveData<BaseResponse<Stock>> = _marketDetailLiveData
 
 
+    private var _updateWalletLiveData = MutableLiveData<UpdateWalletResponse>()
+    val updateWalletLiveData: LiveData<UpdateWalletResponse> =
+        _updateWalletLiveData
+    private var _walletErrorLiveData = MutableLiveData<Failure>()
+    val walletErrorLiveData: LiveData<Failure> = _walletErrorLiveData
 
     fun portfolioDetails(id:Int,filterModel: FilterModel) {
         _loadingLiveData.postValue(true)
@@ -73,6 +78,22 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
                 }
                 is Result.Error -> {
                     _portfolioErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+
+    fun updateWallet(updateWalletRequest: UpdateWalletRequest) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.updateWallet(updateWalletRequest)) {
+                is Result.Success -> {
+                    _updateWalletLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _walletErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)
