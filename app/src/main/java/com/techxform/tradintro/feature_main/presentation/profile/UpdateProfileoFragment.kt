@@ -22,12 +22,17 @@ class UpdateProfileoFragment : BaseFragment<UpdateProfileFragmentBinding>(Update
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[UpdateProfileViewModel::class.java]
         viewModel.userDetails()
-        viewModel.userDetailLiveData.observe(viewLifecycleOwner) {
+        viewModel.userDetailLiveData.observe(viewLifecycleOwner) { it ->
+
             it.data?.let { data ->
                 binding.userDetail = data
-                Glide.with(requireContext())
-                    .load(data.userImage)
-                    .into(binding.roundedimag);
+               data.userImage?.let { image->
+                   Glide.with(requireContext())
+                       .load(image)
+                       .into(binding.roundedimage);
+               } 
+
+
             }
         }
 

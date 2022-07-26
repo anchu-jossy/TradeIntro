@@ -112,4 +112,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.2.0')
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
     implementation 'com.google.firebase:firebase-installations:17.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
 }
