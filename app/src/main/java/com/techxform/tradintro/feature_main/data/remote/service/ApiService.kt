@@ -14,7 +14,7 @@ interface ApiService {
     suspend fun login(@Body loginRequest: LoginRequest): Response<BaseResponse<LoginResponse>>
 
     @GET("api/market")
-    suspend fun marketList(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<Stock>>>
+    suspend fun marketList(@QueryMap reqMap: Map<String, String?>): Response<BaseResponse<ArrayList<Stock>>>
 
     @GET("api/market/{id}")
     suspend fun marketDetails(@Path("id") marketId: Int): Response<BaseResponse<Stock>>
@@ -47,7 +47,7 @@ interface ApiService {
     suspend fun usersDashboard(): Response<BaseResponse<UserDashboard>>
 
     @GET("api/notifications")
-    suspend fun notifications(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<Notifications>>>
+    suspend fun notifications(@QueryMap reqMap: Map<String, String?>): Response<BaseResponse<ArrayList<Notifications>>>
 
     @DELETE("api/notifications/{id}")
     suspend fun notifications(@Path("id") notificationId: Int): Response<BaseResponse<DeleteNotificationResponse>>

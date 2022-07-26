@@ -36,6 +36,10 @@ class MySkillsViewFragment :
            /* val bulletedList = listOf("Trade on a limit price", "Set the validity order", "set alerts for the stock you own or monitor").toBulletedList()
             textViewDetailList1.text = bulletedList*/
 
+            closeIv.setOnClickListener {
+                requireActivity().onBackPressed()
+            }
+
         }
 
 

@@ -23,11 +23,13 @@
             android:paddingHorizontal="@dimen/_16sdp"
             android:paddingVertical="@dimen/_8sdp">
 
+
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/titleTv"
+                android:id="@+id/dateTimeTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:fontFamily="@font/open_sans_semibold"
                 android:maxLines="1"
                 android:text=""
@@ -35,7 +37,7 @@
                 android:textSize="@dimen/_8ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.4" />
+                app:layout_constraintWidth_percent="0.6" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/subTitleTv"
@@ -44,28 +46,14 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans"
                 android:maxLines="1"
-                android:text="23344.00"
+                android:text="Net Banking"
                 android:textColor="@color/dark_most_grey"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleTv"
-                app:layout_constraintWidth_percent="0.4" />
+                app:layout_constraintTop_toBottomOf="@+id/dateTimeTv"
+                app:layout_constraintWidth_percent="0.6" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/amountTv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fontFamily="@font/open_sans_semibold"
-                android:gravity="end"
-                android:maxLines="1"
-                android:text="Voucher code"
-                android:textColor="@color/dark_most_grey"
-                android:textSize="@dimen/_8ssp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.3" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/perTv"
@@ -78,9 +66,9 @@
                 android:text="23444.00"
                 android:textColor="@color/dark_most_grey"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintEnd_toEndOf="@+id/amountTv"
-                app:layout_constraintStart_toStartOf="@+id/amountTv"
-                app:layout_constraintTop_toBottomOf="@+id/amountTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/subTitleTv"
+                app:layout_constraintTop_toTopOf="@id/dateTimeTv"
                 app:layout_constraintWidth_percent="0.3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

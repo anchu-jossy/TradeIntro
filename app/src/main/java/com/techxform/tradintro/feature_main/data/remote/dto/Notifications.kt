@@ -24,6 +24,15 @@ data class Notifications(
     @SerializedName("market") val market: Stock?,
 
     ) : Parcelable {
+    fun heading() :String
+    {
+        if(notificationType != 3 && notificationHeading.isNullOrEmpty())
+        {
+            return market?.stockName ?: ""
+        }
+        return notificationHeading ?: ""
+    }
+
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),

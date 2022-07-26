@@ -39,18 +39,18 @@ class RechargeSummaryAdapter(val list: ArrayList<WalletHistory>? = null) :
             with(rechargeRowItemBinding)
             {
                 val context = root.context
+                list?.let {
+                    dateTimeTv.text = it[absoluteAdapterPosition].formatDate()
+                    subTitleTv.text = it[absoluteAdapterPosition]?.transactionType
+                    perTv.text = context.getString(
+                        R.string.rs_format,
+                        it[absoluteAdapterPosition]?.walletTradeValue
+                    )
+                }
 
-                subTitleTv.text = context.getString(
-                    R.string.rs_format,
-                    list?.get(absoluteAdapterPosition)?.netAmount
-                )
-                perTv.text = context.getString(
-                    R.string.rs_format,
-                    list?.get(absoluteAdapterPosition)?.walletTradeValue
-                )
-                if(selection == 0)
+              /*  if(selection == 0)
                 amountTv.text = context.getString(R.string.trade_money)
-                else amountTv.text = context.getString(R.string.voucher_code)
+                else amountTv.text = context.getString(R.string.voucher_code)*/
 
             }
         }

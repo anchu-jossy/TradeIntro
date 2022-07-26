@@ -212,6 +212,6 @@
     <string name="brokerage_lbl">Brokerage</string>
     <string name="realised_gain">Realised Gain</string>
     <string name="unrealised_gain">Unrealised Gain</string>
-
+    <string name="transaction_details_lbl">Transaction Details</string>
 
 </resources>

@@ -53,7 +53,22 @@ class WatchlistFragment :
         binding.tvAddWatchlist.setOnClickListener {
             findNavController().navigate(R.id.nav_market)
         }
-        binding.searchView.queryHint = getString(R.string.search)
+
+        binding.searchView.addTextChangedListener {
+            if(binding.searchView.text.toString().length > 3)
+            {
+                watchList.clear()
+                viewModel.watchlist(FilterModel(binding.searchView.text.toString().trim(), limit, 0, 0,""))
+                binding.searchView.isEnabled = false
+            }else if(binding.searchView.text.isNullOrEmpty())
+            {1
+                watchList.clear()
+                viewModel.watchlist(FilterModel("", limit, 0, 0,""))
+                binding.searchView.isEnabled = false
+            }
+        }
+
+       /* binding.searchView.queryHint = getString(R.string.search)
         binding.searchView.setOnCloseListener {
             if (binding.searchView.query.isEmpty()) {
                 watchList.clear()
@@ -75,10 +90,7 @@ class WatchlistFragment :
                 viewModel.watchlist(FilterModel(query, limit, 0, 0,""))
                 return false
             }
-
-
-
-        })
+        })*/
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (binding.nestedScrollView.getChildAt(0) != null && (binding.nestedScrollView.getChildAt(
                     0
@@ -87,7 +99,7 @@ class WatchlistFragment :
             ) {
                 if (!isLoading && !noMorePages) {
                     isLoading = true
-                    viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
+                    viewModel.watchlist(FilterModel(binding.searchView.text.toString().trim(), limit, watchList.size, 0, ""))
                 }
             }
         })

@@ -34,14 +34,14 @@ class NotificationAdapter(val list : ArrayList<Notifications>,val listener: OnCl
     {
         fun binding(){
 
-            notificationRowBinding.notification = list[adapterPosition]
+            notificationRowBinding.notification = list[absoluteAdapterPosition]
 
             notificationRowBinding.root.setOnClickListener {
-                listener.onItemClick(adapterPosition, list[adapterPosition])
+                listener.onItemClick(absoluteAdapterPosition, list[absoluteAdapterPosition])
             }
 
             notificationRowBinding.closeIv.setOnClickListener {
-                listener.onDeleteClick(adapterPosition, list[adapterPosition])
+                listener.onDeleteClick(absoluteAdapterPosition, list[absoluteAdapterPosition])
             }
         }
 

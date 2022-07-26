@@ -24,14 +24,19 @@
                 android:text="@string/markets"
                 android:textSize="@dimen/_16ssp" />
 
-            <androidx.appcompat.widget.SearchView
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/market_search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/frame"
-                android:layoutDirection="rtl" />
+                android:fontFamily="@font/open_sans"
+                android:hint ="@string/search"
+                android:padding="@dimen/_8sdp"
+                android:drawableEnd="@drawable/ic_baseline_search_24"
+                android:drawablePadding="@dimen/_8sdp"
+                android:maxLines="1"/>
 
         </LinearLayout>
 

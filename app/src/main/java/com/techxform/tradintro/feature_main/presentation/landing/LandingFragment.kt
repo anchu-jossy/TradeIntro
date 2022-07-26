@@ -47,6 +47,8 @@ import com.techxform.tradintro.feature_main.presentation.equality_place_order.Eq
 import com.techxform.tradintro.feature_main.presentation.home.OriginalHomeFragmentDirections
 import com.techxform.tradintro.feature_main.presentation.notification.DetailedNotificationFragment
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment
+import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.ALERT_TYPE
+import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.NEWS_TYPE
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.NOTIFICATION_TYPE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -208,7 +210,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                     navController.navigateUp()
                     navController.navigate(
                         R.id.notificationFragment,
-                        NotificationFragment.navBundle("")
+                        NotificationFragment.navBundle(NEWS_TYPE)
                     )
                 }
                 6 -> navController.navigate(R.id.reportFragment)
@@ -216,7 +218,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                     navController.navigateUp()
                     navController.navigate(
                         R.id.notificationFragment,
-                        NotificationFragment.navBundle(NOTIFICATION_TYPE)
+                        NotificationFragment.navBundle(ALERT_TYPE)
                     )
 
 
@@ -356,7 +358,8 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                     true
                 }
                 R.id.action_notification -> {
-                    navController.navigate(R.id.notificationFragment)
+                    navController.navigate(R.id.notificationFragment,  NotificationFragment.navBundle(
+                        NEWS_TYPE))
                     true
                 }
                 else -> super.onOptionsItemSelected(item)

@@ -95,11 +95,11 @@
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:background="@drawable/editext_frame"
+            android:ellipsize="end"
             android:fontFamily="@font/open_sans_medium"
             android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:maxLines="1"
-            android:ellipsize="end"
             android:text="@string/watchlist"
             app:layout_constraintBottom_toBottomOf="@+id/stockNameSearch"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,19 +120,24 @@
             app:layout_constraintTop_toTopOf="@+id/searchView"
             app:layout_constraintWidth_percent="0.30" />
 
-        <androidx.appcompat.widget.SearchView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:background="@drawable/frame"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
+            android:drawablePadding="@dimen/_8sdp"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/search"
+            android:maxLines="1"
+            android:padding="@dimen/_8sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/filterSpinner"
             app:layout_constraintTop_toBottomOf="@+id/stockNameSearch"
-            app:layout_constraintWidth_percent="0.55"
-            app:queryHint="@string/search" />
+            app:layout_constraintWidth_percent="0.55" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -304,8 +309,7 @@
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toEndOf="@+id/alertPrice"
                     app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
-                    app:layout_constraintWidth_percent="0.33"
-                     />
+                    app:layout_constraintWidth_percent="0.33" />
 
                 <include
                     android:id="@+id/gainLossPerPrice"
@@ -317,8 +321,7 @@
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toEndOf="@+id/gainLossPrice"
                     app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
-                    app:layout_constraintWidth_percent="0.33"
-                    />
+                    app:layout_constraintWidth_percent="0.33" />
 
 
                 <androidx.appcompat.widget.AppCompatButton

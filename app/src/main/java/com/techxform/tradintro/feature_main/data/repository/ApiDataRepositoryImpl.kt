@@ -50,12 +50,14 @@ class ApiDataRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.Default)
         {
             try {
-                val reqMap = mapOf(
-                    "search" to searchModel.searchText,
+                val reqMap = mutableMapOf(
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
                     "skip" to searchModel.skip.toString()
                 )
+
+                if(!searchModel.searchText.isNullOrEmpty())
+                    reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.marketList(reqMap)
                 if (response.isSuccessful)
@@ -143,8 +145,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.Default)
         {
             try {
-                val reqMap = mapOf(
-                    "search" to searchModel.searchText,
+                var reqMap = mutableMapOf(
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
                     "skip" to searchModel.skip.toString(),
@@ -152,6 +153,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "order_status" to searchModel.orderStatus,
                     "portfolio_status" to searchModel.portfolioStatus
                 )
+                if(!searchModel.searchText.isNullOrEmpty())
+                    reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.portfolio(reqMap)
                 if (response.isSuccessful)
@@ -248,13 +251,15 @@ class ApiDataRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.Default)
         {
             try {
-                val reqMap = mapOf(
-                    "search" to searchModel.searchText,
+                val reqMap = mutableMapOf(
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
                     "skip" to searchModel.skip.toString(),
                     "type" to searchModel.type.toString(),
                 )
+
+                if(!searchModel.searchText.isNullOrEmpty())
+                    reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.notifications(reqMap)
                 if (response.isSuccessful)
@@ -301,12 +306,14 @@ class ApiDataRepositoryImpl @Inject constructor(
         {
             try {
                 //  val reqString = Gson().toJson(filterModel)
-                val reqMap = mapOf(
-                    "search" to filterModel.searchText,
+                val reqMap = mutableMapOf(
                     "limit" to filterModel.limit.toString(),
                     "offset" to filterModel.offset.toString(),
                     "skip" to filterModel.skip.toString()
                 )
+
+                if(!filterModel.searchText.isNullOrEmpty())
+                    reqMap["search"] = filterModel.searchText!!
 
                 val response = apiService.watchlist(reqMap)
                 if (response.isSuccessful)

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,28 +50,20 @@ class PortfoliosFragment :
                val searchText = binding.searchView as TextView
                searchText.typeface = face*/
 
-        binding.searchView.queryHint = getString(R.string.search)
-        binding.searchView.setOnCloseListener {
-            if (binding.searchView.query.isEmpty()) {
+        binding.searchView.addTextChangedListener {
+            if(binding.searchView.text.toString().length > 3)
+            {
                 portfolioList.clear()
-                viewModel.portfolioList(SearchModel("", limit, 0, 0))
+                viewModel.portfolioList(SearchModel(binding.searchView.text.toString().trim(), limit, 0, 0))
+                binding.searchView.isEnabled = false
+            }else if(binding.searchView.text.isNullOrEmpty())
+            {
+                portfolioList.clear()
+                viewModel.portfolioList(SearchModel(null, limit, 0, 0))
+                binding.searchView.isEnabled = false
             }
-            return@setOnCloseListener true
         }
-        binding.searchView.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                portfolioList.clear()
-                viewModel.portfolioList(SearchModel(query.trim(), limit, 0, 0))
-                return false
-            }
-
-        })
 
         binding.portfolioRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -82,7 +75,7 @@ class PortfoliosFragment :
                 if (totalItemCount != null) {
                     if (!isLoading && totalItemCount <= (lastVisibleItem + 5) && !noMorePages) {
                         isLoading = true
-                        viewModel.portfolioList(SearchModel("", limit, portfolioList.size, 0))
+                        viewModel.portfolioList(SearchModel(binding.searchView.text.toString().trim(), limit, portfolioList.size, 0))
                     }
 
                 }
@@ -113,7 +106,7 @@ class PortfoliosFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-
+            binding.searchView.isEnabled = true
             if (it.data.isEmpty() || it.data.size < limit)
                 noMorePages = true
             portfolioList.addAll(it.data)
@@ -127,6 +120,7 @@ class PortfoliosFragment :
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
             isLoading = false
+            binding.searchView.isEnabled = true
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(

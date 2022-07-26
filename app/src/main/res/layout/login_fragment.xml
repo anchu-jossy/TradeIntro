@@ -49,7 +49,7 @@
                     android:background="#00000000"
                     android:backgroundTint="@color/white"
                     android:singleLine="true"
-
+                    android:text="neenu.pappachan@triplede.com"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp" />
 
