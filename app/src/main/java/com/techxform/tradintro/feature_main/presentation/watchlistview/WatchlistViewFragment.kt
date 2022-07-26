@@ -15,7 +15,7 @@ import com.techxform.tradintro.databinding.WatchlistViewFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.PriceType
-import com.techxform.tradintro.feature_main.presentation.watchlist.WatchListAdapter
+import com.techxform.tradintro.feature_main.domain.util.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -63,11 +63,9 @@ class WatchlistViewFragment :
         val per =
             ((currentPrice - watchList.watchStockPrice) / ((currentPrice + watchList.watchStockPrice) / 2)) * 100
         with(binding) {
-            binding.alertPrice.titleTv.text =
-                getString(R.string.rs_format, watchList.watchStockPrice)
-
-            gainLossPrice.titleTv.text = gainLoss.toString()
-            gainLossPerPrice.titleTv.text = getString(R.string.per_format, per)
+            binding.alertPrice.titleTv.text =Utils.formatStringToTwoDecimals(watchList.watchStockPrice.toString())
+            gainLossPrice.titleTv.text = Utils.formatStringToTwoDecimals(gainLoss.toString())
+            gainLossPerPrice.titleTv.text = getString(R.string.per_format_string,Utils.formatPercentageWithoutDecimals(per.toString()))
             gainLossPrice.subTitleTv.text = getString(R.string.gain_loss_lbl)
             gainLossPerPrice.subTitleTv.text = getString(R.string.per_gain_loss_lbl)
 

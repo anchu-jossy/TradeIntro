@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.Contants.IMAGE_URL
 import com.techxform.tradintro.databinding.UpdateProfileFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,9 +29,9 @@ class UpdateProfileoFragment : BaseFragment<UpdateProfileFragmentBinding>(Update
                 binding.userDetail = data
                data.userImage?.let { image->
                    Glide.with(requireContext())
-                       .load(image)
+                       .load(IMAGE_URL+image)
                        .into(binding.roundedimage);
-               } 
+               }
 
 
             }

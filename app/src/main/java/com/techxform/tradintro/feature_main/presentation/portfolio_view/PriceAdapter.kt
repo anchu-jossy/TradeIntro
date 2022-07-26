@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio_view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.PriceRowBinding
 import com.techxform.tradintro.feature_main.domain.model.PriceType
+import com.techxform.tradintro.feature_main.domain.util.Utils
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
@@ -19,14 +21,14 @@ class PriceAdapter(val list: ArrayList<PriceType>) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
         fun binding() {
             itemViewBinding.price = list[absoluteAdapterPosition]
-            if(absoluteAdapterPosition==2)
-                itemViewBinding.titleTv.text =  DecimalFormat("0.#").format( list[absoluteAdapterPosition].amount).toString()
-
+            if(absoluteAdapterPosition==2 && list[absoluteAdapterPosition].type==(itemViewBinding.root.resources.getString(R.string.quantity)) )
+                itemViewBinding.titleTv.text =  DecimalFormat("0.#").format( list[absoluteAdapterPosition].amount)
+                   .toString()
             else
-                itemViewBinding.titleTv.text = itemViewBinding.root.context.getString(R.string.rs_format, list[absoluteAdapterPosition].amount)
+                itemViewBinding.titleTv.text = itemViewBinding.root.context.getString(R.string.rs_format_string, Utils.formatStringToTwoDecimals(list[absoluteAdapterPosition].amount.toString()))
 
             if (absoluteAdapterPosition == 6 || absoluteAdapterPosition == 7) {
-                itemViewBinding.titleTv.text = "${list[absoluteAdapterPosition].amount}"
+                itemViewBinding.titleTv.text = Utils.formatPercentageWithoutDecimals(list[absoluteAdapterPosition].amount.toString())
                 if (!isPositive(itemViewBinding.titleTv.text as String))
                     itemViewBinding.titleTv.setTextColor(
                         ContextCompat.getColor(

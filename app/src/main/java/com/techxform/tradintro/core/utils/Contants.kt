@@ -13,6 +13,7 @@ object Contants {
     const val ADD_USER_URL = DEV_URL+"index.php/api/add_invite_user"
     const val FORGOT_PASSWORD = DEV_URL + "index.php/api/forgot_password"
     const val REGISTER = DEV_URL + "index.php/api/register"
+    const val IMAGE_URL="https://www.tradintro.com/uploads/"
 
 
 }
