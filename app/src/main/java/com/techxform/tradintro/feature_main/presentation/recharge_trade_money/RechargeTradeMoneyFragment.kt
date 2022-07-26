@@ -103,7 +103,7 @@ class RechargeTradeMoneyFragment :
     }
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         //if (result.resultCode == Activity.RESULT_OK) {
-        binding.rechargeTradeMoneyContainer.label2Et.setText(0)
+        binding.rechargeTradeMoneyContainer.label2Et.setText("0")
         //}
     }
     private fun calculation() {
