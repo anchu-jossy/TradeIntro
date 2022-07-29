@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="portfolio"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_16sdp">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/stockLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stock_lbl"
+            android:textSize="@dimen/_10sdp"
+            app:fontFamily="@font/open_sans_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lastTxnLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:gravity="end"
+            android:text="@string/last_transaction_date_lbl"
+            android:textSize="@dimen/_10sdp"
+            app:fontFamily="@font/open_sans_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans_semibold"
+            android:maxLines="1"
+            android:text="@{portfolio.market.stockName}"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.7" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans"
+            android:maxLines="1"
+            android:text="@{portfolio.market.stockCode}"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv"
+            app:layout_constraintWidth_percent="0.7" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{portfolio.formatDateTime().first}"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toTopOf="@+id/timeTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/subTitleTv"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timeTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{portfolio.formatDateTime().second}"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/subTitleTv"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv"
+            app:layout_constraintWidth_percent="0.3" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/priceContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="0dp"
+            app:cardPreventCornerOverlap="true"
+            app:layout_constraintTop_toBottomOf="@+id/subTitleTv"
+            app:strokeColor="@color/shade_grey"
+            app:strokeWidth="1dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/priceRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="6"
+                tools:listitem="@layout/row_price" />
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/realisePLLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/realised_profit_loss_lbl"
+            app:layout_constraintEnd_toStartOf="@+id/realisePLTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/priceContainer" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/realisePLTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans"
+            android:text="Rs.1637.73"
+            android:textColor="@color/dark_pink"
+            app:layout_constraintBottom_toBottomOf="@+id/realisePLLbl"
+            app:layout_constraintEnd_toEndOf="@+id/g1"
+            app:layout_constraintStart_toEndOf="@+id/realisePLLbl"
+            app:layout_constraintTop_toTopOf="@+id/realisePLLbl" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/g1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/realisePLPerLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/realised_profit_loss_per_lbl"
+            app:layout_constraintEnd_toStartOf="@+id/realisePLPerTv"
+            app:layout_constraintStart_toStartOf="@+id/g1"
+            app:layout_constraintTop_toBottomOf="@+id/priceContainer" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/realisePLPerTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans"
+            android:text="-73.6%"
+            android:textColor="@color/dark_pink"
+            app:layout_constraintBottom_toBottomOf="@+id/realisePLPerLbl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/realisePLPerLbl"
+            app:layout_constraintTop_toTopOf="@+id/realisePLPerLbl" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

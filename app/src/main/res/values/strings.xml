@@ -33,11 +33,15 @@
     <string name="holding_value_lbl">Holding Value</string>
     <string name="trade_money_balance_lbl">Trade Money Balance</string>
     <string name="total_investment_lbl">Total Investment</string>
+    <string name="total_investment_value_lbl">Total Investment Value</string>
     <string name="plus_buy_lbl">+ Buy</string>
     <string name="buy_lbl">Buy</string>
     <string name="sell_lbl">Sell</string>
     <string name="current_price_lbl">Current Price</string>
     <string name="avg_purchase_price_lbl">Avg Purchase Price</string>
+    <string name="avg_sell_price_lbl">Avg Sell Price</string>
+    <string name="total_buy_value_lbl">Total Buy Value</string>
+    <string name="total_sell_value_lbl">Total Sell Value</string>
     <string name="quantity_lbl">Quantity</string>
     <string name="total_price_lbl">Total Price</string>
     <string name="total_value_lbl">Total Value</string>
@@ -75,7 +79,9 @@
     <string name="user_name_pass_required_msg">Please fill user name or password</string>
     <string name="no_internet_error">No internet</string>
     <string name="rs_format">\u20B9 %.2f</string>
+    <string name="rs_format_string">\u20B9 %1$S</string>
     <string name="per_format">%.2f \%%</string>
+    <string name="per_format_string">%1$s \%%</string>
     <string name="holding_value_per_format"> %1$.2f (%2$.2f\%%)</string>
     <string name="points_format"> %.2f Pts</string>
     <string name="watchlist_price_date_format">%1$.2f, %2$s</string>
@@ -149,6 +155,69 @@
     <string name="usable_balance">Usable Balance</string>
     <string name="nodata">No data available</string>
     <string name="notification_delete_msg">Notification deleted successfully</string>
+    <string name="name">Name</string>
+    <string name="invite_user">Invite User</string>
+    <string name="email">Email ID</string>
+    <string name="invite">Invite</string>
+    <string name="invited_list">Invited List</string>
+    <string name="server_error">Server Error</string>
+    <string name="hello">hello</string>
+    <string name="email_value">email@gmail.com</string>
+    <string name="trade_money">Trade money</string>
+    <string name="voucher_code">Voucher code</string>
+    <string name="notification_permission_denied_msg">You will not receive any notification from us because of no permission</string>
+    <string name="channel_description">This channel is used to send the notification related to Trade Intro app</string>
+    <string name="enter_emailid">Enter your emailId</string>
+    <string name="enter_user_name">Enter user name</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_confirm_password">Enter confirm password</string>
+    <string name="password_not_match_msg">Password does not matched</string>
+    <string name="ok">OK</string>
+    <string name="verify_email">Please verify the forgetPassword link that send to your entered email id</string>
+    <string name="success">success</string>
+    <string name="error">error</string>
+    <string name="register_lbl">Register</string>
+    <string name="full_name_lbl">Full Name</string>
+    <string name="email_lbl">E-mail</string>
+    <string name="tnc_lbl">By Signing up you agree to our <a href="https://www.tradintro.com/index.php/pages/terms_and_conditions">terms of conditions</a></string>
+    <string name="check_email">Please check your Email</string>
+    <string name="profit_loss_report_lbl">Profit &amp; Loss Report</string>
+    <string name="trade_book_lbl">Trade Book</string>
+    <string name="order_book_lbl">Order Book</string>
+    <string name="historical_holdings_lbl">Historical Holdings</string>
+    <string name="stock_lbl">Stock</string>
+    <string name="last_transaction_date_lbl">Last Transaction Date</string>
+
+    <string-array name="reports">
+        <item>@string/trade_book_lbl</item>
+        <item>@string/order_book_lbl</item>
+        <item>@string/historical_holdings_lbl</item>
+        <item>@string/profit_loss_report_lbl</item>
+    </string-array>
+    <string-array name="profit_loss_gain">
+        <item>@string/realised_gain</item>
+        <item>@string/unrealised_gain</item>
+
+    </string-array>
+    <string name="realised_profit_loss_lbl">Realised \nProfit/Loss</string>
+    <string name="realised_profit_loss_lbl1">Realised Profit/Loss</string>
+    <string name="total_realised_profit_loss_lbl">Total Realised Profit/Loss Value</string>
+    <string name="total_unrealised_profit_loss_lbl">Total Unrealised Profit/Loss Value</string>
+    <string name="unrealised_profit_loss_lbl">Unrealised Profit/Loss</string>
+    <string name="realised_profit_loss_per_lbl">Realised % \nProfit/Loss</string>
+
+    <string name="execution_time_lbl">Execution \nTime:</string>
+    <string name="transaction_type_lbl">Transaction \nType:</string>
+    <string name="order_id_lbl">Order Id</string>
+    <string name="txn_type_price_lbl">Transaction Type Price</string>
+    <string name="txn_charges_lbl">Transaction Charges</string>
+    <string name="brokerage_lbl">Brokerage</string>
+    <string name="realised_gain">Realised Gain</string>
+    <string name="unrealised_gain">Unrealised Gain</string>
+    <string name="transaction_details_lbl">Transaction Details</string>
+    <string name="quantity">Quantity</string>
+    <string name="add_to_watchlist_lbl">Add to Watchlist</string>
+    <string name="set_alert_price_lbl">Set Alert Price</string>
     <string name="mail_subject">Crash Report</string>
     <string name="mail_body">Cause</string>
 

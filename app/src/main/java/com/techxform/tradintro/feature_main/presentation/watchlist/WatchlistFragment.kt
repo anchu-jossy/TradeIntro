@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,13 +17,10 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WatchlistFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
-import com.techxform.tradintro.feature_main.presentation.notification.NotificationAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import java.security.acl.Group
 
 @AndroidEntryPoint
 class WatchlistFragment :
@@ -44,13 +42,55 @@ class WatchlistFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[WatchlistViewModel::class.java]
+
+
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvAddWatchlist.setOnClickListener {
+            findNavController().navigate(R.id.nav_market)
+        }
 
+        binding.searchView.addTextChangedListener {
+            if(binding.searchView.text.toString().length > 3)
+            {
+                watchList.clear()
+                viewModel.watchlist(FilterModel(binding.searchView.text.toString().trim(), limit, 0, 0,""))
+                binding.searchView.isEnabled = false
+            }else if(binding.searchView.text.isNullOrEmpty())
+            {1
+                watchList.clear()
+                viewModel.watchlist(FilterModel("", limit, 0, 0,""))
+                binding.searchView.isEnabled = false
+            }
+        }
+
+       /* binding.searchView.queryHint = getString(R.string.search)
+        binding.searchView.setOnCloseListener {
+            if (binding.searchView.query.isEmpty()) {
+                watchList.clear()
+                viewModel.watchlist(FilterModel("", limit, 0, 0,""))
+            }
+            return@setOnCloseListener true
+        }
+        binding.searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                watchList.clear()
+                viewModel.watchlist(FilterModel("", limit, 0, 0,""))
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                watchList.clear()
+                viewModel.watchlist(FilterModel(query, limit, 0, 0,""))
+                return false
+            }
+        })*/
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (binding.nestedScrollView.getChildAt(0) != null && (binding.nestedScrollView.getChildAt(
                     0
@@ -59,12 +99,16 @@ class WatchlistFragment :
             ) {
                 if (!isLoading && !noMorePages) {
                     isLoading = true
-                    viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
+                    viewModel.watchlist(FilterModel(binding.searchView.text.toString().trim(), limit, watchList.size, 0, ""))
                 }
             }
         })
         watchList.clear()
         viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
+
+
+
+
     }
 
     private val listener = object : WatchListAdapter.ClickListener {
@@ -101,7 +145,7 @@ class WatchlistFragment :
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        position = viewHolder.adapterPosition
+                        position = viewHolder.absoluteAdapterPosition
                         Toast.makeText(
                             requireContext(),
                             "onswiped",

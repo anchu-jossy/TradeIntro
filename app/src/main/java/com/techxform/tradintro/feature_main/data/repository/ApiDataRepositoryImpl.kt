@@ -1,8 +1,13 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.util.Log
+import androidx.compose.ui.text.toLowerCase
 import com.google.gson.JsonParseException
+import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
+import com.techxform.tradintro.core.utils.Contants.FORGOT_PASSWORD
 import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
+import com.techxform.tradintro.core.utils.Contants.REGISTER
+import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
@@ -11,7 +16,6 @@ import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
 import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
@@ -47,12 +51,14 @@ class ApiDataRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.Default)
         {
             try {
-                val reqMap = mapOf(
-                    "search" to searchModel.searchText,
+                val reqMap = mutableMapOf(
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
                     "skip" to searchModel.skip.toString()
                 )
+
+                if(!searchModel.searchText.isNullOrEmpty())
+                    reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.marketList(reqMap)
                 if (response.isSuccessful)
@@ -140,12 +146,16 @@ class ApiDataRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.Default)
         {
             try {
-                val reqMap = mapOf(
-                    "search" to searchModel.searchText,
+                var reqMap = mutableMapOf(
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
-                    "skip" to searchModel.skip.toString()
+                    "skip" to searchModel.skip.toString(),
+                    "order_execution_type" to searchModel.orderExecutionType,
+                    "order_status" to searchModel.orderStatus,
+                    "portfolio_status" to searchModel.portfolioStatus
                 )
+                if(!searchModel.searchText.isNullOrEmpty())
+                    reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.portfolio(reqMap)
                 if (response.isSuccessful)
@@ -242,12 +252,15 @@ class ApiDataRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.Default)
         {
             try {
-                val reqMap = mapOf(
-                    "search" to searchModel.searchText,
+                val reqMap = mutableMapOf(
                     "limit" to searchModel.limit.toString(),
                     "offset" to searchModel.offset.toString(),
-                    "skip" to searchModel.skip.toString()
+                    "skip" to searchModel.skip.toString(),
+                    "type" to searchModel.type.toString(),
                 )
+
+                if(!searchModel.searchText.isNullOrEmpty())
+                    reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.notifications(reqMap)
                 if (response.isSuccessful)
@@ -294,12 +307,14 @@ class ApiDataRepositoryImpl @Inject constructor(
         {
             try {
                 //  val reqString = Gson().toJson(filterModel)
-                val reqMap = mapOf(
-                    "search" to filterModel.searchText,
+                val reqMap = mutableMapOf(
                     "limit" to filterModel.limit.toString(),
                     "offset" to filterModel.offset.toString(),
                     "skip" to filterModel.skip.toString()
                 )
+
+                if(!filterModel.searchText.isNullOrEmpty())
+                    reqMap["search"] = filterModel.searchText!!
 
                 val response = apiService.watchlist(reqMap)
                 if (response.isSuccessful)
@@ -486,7 +501,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<WalletHistory>> {
+    override suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<WalletHistory>>> {
         return withContext(Dispatchers.Default)
         {
             try {
@@ -513,18 +528,53 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest): Result<UpdateWalletResponse>{
+    override suspend fun updateWallet(updateWalletRequest: UpdateWalletRequest): Result<UpdateWalletResponse> {
         return withContext(Dispatchers.Default)
         {
             try {
                 val reqMap = mapOf(
                     "user_id" to updateWalletRequest.userId.toString(),
                     "gst_amount" to updateWalletRequest.gstAmount.toString(),
-                    "other_recharge_amount" to updateWalletRequest.otherRechargeAmount.toString(),
+                    "other_charge_amount" to updateWalletRequest.otherRechargeAmount.toString(),
                     "recharge_amount" to updateWalletRequest.rechargeAmount.toString(),
                     "total_amount" to updateWalletRequest.totalAmount.toString()
                 )
                 val response = apiService.updateWallet(RECHARGE_URL, reqMap = reqMap)
+                if (response.isSuccessful) {
+                    val walletResponse = response.body()!!
+                    if(walletResponse.status.equals("ERROR"))
+                    {
+                        Result.Error(Failure.FeatureFailure(walletResponse.reason!!))
+                    }else
+                        Result.Success(response.body()!!)
+                } else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun addUser(addUserRequest: AddUserRequest): Result<AddUserResponse> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "user_id" to addUserRequest.userId.toString(),
+                    "name" to addUserRequest.name.toString(),
+                    "email" to addUserRequest.email.toString(),
+
+                    )
+                val response = apiService.addUser(ADD_USER_URL, reqMap = reqMap)
                 if (response.isSuccessful) {
                     Result.Success(response.body()!!)
                 } else {
@@ -544,6 +594,212 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.logOut(loginRequest)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+
+    }
+
+
+    override suspend fun findUserInviteList(): Result<BaseResponse<ArrayList<InviteData>>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "10" to "limit",
+                    "0" to "offset",
+                )
+                val response = apiService.userInviteList(reqMap = reqMap)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+
+    override suspend fun fcmTokenRegistration(request: FcmTokenRegReq): Result<Any> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.fcmTokenRegistration(request)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun forgetPassword(emailId: String): Result<Any> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "forgot_email" to emailId
+                )
+                val response = apiService.forgetPassword(FORGOT_PASSWORD, reqMap)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+
+    override suspend fun register(request: RegisterRequest): Result<BaseResponse<Any>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "first_name" to request.firstName,
+                    "last_name" to (request.lastName ?: ""),
+                    "email" to request.email,
+                    "password" to request.password,
+                )
+                val response = apiService.register(REGISTER, reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun historicalReport(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "limit" to searchModel.limit.toString(),
+                    "offset" to searchModel.offset.toString(),
+                )
+
+                val response = apiService.historicalReport(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun reportCurrent(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "limit" to searchModel.limit.toString(),
+                    "offset" to searchModel.offset.toString(),
+                )
+
+                val response = apiService.reportCurrent(reqMap)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun summaryReport(): Result<BaseResponse<SummaryReport>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.summaryReport()
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 }
+
+
 
 

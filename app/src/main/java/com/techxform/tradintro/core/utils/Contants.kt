@@ -5,7 +5,15 @@ object Contants {
     const val IMAGE_BASE_URL = "https://www.tradintro.com//uploads/"
     const val PREFERENCE = "Trade"
     const val PREF_TOKEN_KEY = "token"
+    const val PREF_FCM_TOKEN_KEY = "fcm_token"
+    const val PREF_FCM_TOKEN_SYNC_KEY = "isFcmTokenSync"
     const val PREF_REFRESH_TOKEN_KEY = "refresh_token"
-    const val RECHARGE_URL = "https://test.tradintro.com/index.php/api/update_wallet"
+    private const val DEV_URL = "https://dev.tradintro.com/"
+    const val RECHARGE_URL = DEV_URL+"index.php/api/update_wallet"
+    const val ADD_USER_URL = DEV_URL+"index.php/api/add_invite_user"
+    const val FORGOT_PASSWORD = DEV_URL + "index.php/api/forgot_password"
+    const val REGISTER = DEV_URL + "index.php/api/register"
+    const val IMAGE_URL="https://www.tradintro.com/uploads/"
+
 
 }

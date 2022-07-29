@@ -208,7 +208,7 @@
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ashHighLow"
-                    app:layout_constraintWidth_percent="0.45" />
+                    app:layout_constraintWidth_percent="0.5" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/sellBtn"
@@ -238,21 +238,6 @@
                     app:layout_constraintBottom_toTopOf="@+id/ediTextAddtoWatchList"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/ediTextAddtoWatchList"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/editext_frame"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/open_sans"
-                    android:hint="@string/alert_price_lbl"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:padding="@dimen/_3sdp"
-                    app:layout_constraintBottom_toBottomOf="@+id/watchlistPlusBtn"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/watchlistPlusBtn"
-                    app:layout_constraintWidth_percent="0.65" />
 
                 <View
                     android:id="@+id/wishListBorder"
@@ -264,7 +249,23 @@
                     app:layout_constraintTop_toBottomOf="@+id/wishListTV" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/watchlistPlusBtn"
+                    android:id="@+id/addToWatchlistBtn"
+                    style="@style/Theme.TradIntro.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:background="@drawable/pink_circular_bg"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="@dimen/_8sdp"
+                    android:text= "@string/add_to_watchlist_lbl"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/buyBtn"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/setAlertPriceBtn"
                     style="@style/Theme.TradIntro.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -272,13 +273,46 @@
                     android:background="@drawable/violet_circular_bg"
                     android:clickable="true"
                     android:gravity="center"
+                    android:padding="@dimen/_8sdp"
+                    android:text= "@string/set_alert_price_lbl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/buyBtn"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.45" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/ediTextAddtoWatchList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/editext_frame"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/open_sans"
+                    android:hint="@string/alert_price_lbl"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:padding="@dimen/_3sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/watchlistPlusBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/watchlistPlusBtn"
+                    app:layout_constraintWidth_percent="0.65" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/watchlistPlusBtn"
+                    style="@style/Theme.TradIntro.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:background="@drawable/violet_circular_bg"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    android:gravity="center"
                     android:padding="@dimen/_2sdp"
                     android:text='@{stock.watchList == null ? @string/save : @string/update}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/buyBtn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

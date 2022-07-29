@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,8 @@ import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.presentation.portfolio_view.PriceAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.internal.trimSubstring
+import java.math.BigDecimal
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
@@ -122,7 +125,9 @@ class MarketDetailFragment :
         }
 
         viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
-          val average=  (it.data.history[0].stockHistoryOpen.plus(it.data.history[0].stockHistoryClose)/2)
+            var average=0.0f
+            if(it.data.history!=null)
+                average=   (it.data.history[0].stockHistoryOpen.plus(it.data.history[0].stockHistoryClose)/2)
             binding.amountTv.text =getString(R.string.rs_format,average)
             binding.stock = it.data
             binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
@@ -146,7 +151,7 @@ class MarketDetailFragment :
                     )
                 }
                 Failure.ServerError-> {
-                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
 
                 }
                 else -> {
@@ -167,7 +172,7 @@ class MarketDetailFragment :
                     )
                 }
                 Failure.ServerError-> {
-                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
 
                 }
                 else -> {

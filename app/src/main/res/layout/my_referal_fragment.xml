@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature_main.presentation.recharge.RechargeFragment">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16sdp">
+
+                <include
+                    android:id="@+id/rechargeTradeMoneyContainer"
+                    layout="@layout/custom_et_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:buttonLabel="@{@string/invite}"
+                    app:isThirdVisible="@{false}"
+                    app:labelOne="@{@string/name}"
+                    app:labelTwo="@{@string/email}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:title="@{@string/invite_user}" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title1Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:text="@string/invited_list"
+                    android:textSize="@dimen/_16ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rechargeTradeMoneyContainer" />
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/list_search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/frame"
+                    android:layoutDirection="rtl"
+                    app:layout_constraintTop_toBottomOf="@+id/title1Tv" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_below="@+id/list_search_view"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/list_search_view"
+                    tools:listitem="@layout/invite_row_item" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
+</layout>

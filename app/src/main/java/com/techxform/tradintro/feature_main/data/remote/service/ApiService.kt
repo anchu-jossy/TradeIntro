@@ -1,10 +1,8 @@
 package com.techxform.tradintro.feature_main.data.remote.service
 
-import com.google.gson.JsonObject
-import com.google.gson.JsonPrimitive
+
+import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
-import com.techxform.tradintro.feature_main.domain.model.SearchModel
-import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -16,7 +14,7 @@ interface ApiService {
     suspend fun login(@Body loginRequest: LoginRequest): Response<BaseResponse<LoginResponse>>
 
     @GET("api/market")
-    suspend fun marketList(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<Stock>>>
+    suspend fun marketList(@QueryMap reqMap: Map<String, String?>): Response<BaseResponse<ArrayList<Stock>>>
 
     @GET("api/market/{id}")
     suspend fun marketDetails(@Path("id") marketId: Int): Response<BaseResponse<Stock>>
@@ -49,7 +47,7 @@ interface ApiService {
     suspend fun usersDashboard(): Response<BaseResponse<UserDashboard>>
 
     @GET("api/notifications")
-    suspend fun notifications(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<Notifications>>>
+    suspend fun notifications(@QueryMap reqMap: Map<String, String?>): Response<BaseResponse<ArrayList<Notifications>>>
 
     @DELETE("api/notifications/{id}")
     suspend fun notifications(@Path("id") notificationId: Int): Response<BaseResponse<DeleteNotificationResponse>>
@@ -85,7 +83,7 @@ interface ApiService {
     suspend fun readNotification(@Path("id") id: Int): Response<BaseResponse<Int>>
 
     @GET("api/wallet/history")
-    suspend fun walletHistory(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<WalletHistory>>
+    suspend fun walletHistory(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<WalletHistory>>>
 
     @Headers("Content-Type: application/x-www-form-urlencoded")
     @POST
@@ -94,4 +92,39 @@ interface ApiService {
         @Url url: String,
         @FieldMap reqMap: Map<String, String>
     ): Response<UpdateWalletResponse>
+
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @POST
+    @FormUrlEncoded
+    suspend fun addUser(
+        @Url url: String,
+        @FieldMap reqMap: Map<String, String>
+    ): Response<AddUserResponse>
+
+
+    @POST("api/users/logout")
+    suspend fun logOut(@Body request: LogOutRequest): Response<BaseResponse<Any>>
+
+    @GET("api/users/invites/history")
+    suspend fun userInviteList(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<InviteData>>>
+
+    @POST("api/users/fcm/token")
+    suspend fun fcmTokenRegistration(@Body request: FcmTokenRegReq) : Response<Any>
+
+    @POST
+    @FormUrlEncoded
+    suspend fun forgetPassword(@Url url: String, @FieldMap reqMap: Map<String, String>) : Response<Any>
+
+    @POST
+    @FormUrlEncoded
+    suspend fun register(@Url url: String, @FieldMap request: Map<String, String>): Response<BaseResponse<Any>>
+
+    @GET("api/reports/historical")
+    suspend fun historicalReport(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<PortfolioItem>>>
+
+    @GET("api/reports/current")
+    suspend fun reportCurrent(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<PortfolioItem>>>
+    @GET("api/reports/profit-loss/summery")
+    suspend fun summaryReport() : Response<BaseResponse<SummaryReport>>
+
 }

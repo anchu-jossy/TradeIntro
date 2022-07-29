@@ -10,6 +10,7 @@ import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
@@ -18,11 +19,14 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
+import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
+import com.techxform.tradintro.feature_main.presentation.PaymentResponseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class EqualityPlaceOrderFragment :
@@ -35,6 +39,7 @@ class EqualityPlaceOrderFragment :
     private val myCalendar = Calendar.getInstance()
     var quantity: Int? = null
     lateinit var market: Stock
+    private var userId by Delegates.notNull<Int>()
 
     companion object {
         const val IS_BUY_OR_ORDER = "IsBuyOrOrderButtonClicked"
@@ -66,13 +71,17 @@ class EqualityPlaceOrderFragment :
         viewModel.walletSummary(PaymentType.VOUCHER)
         orderId = requireArguments().getInt(ORDER_ID, 0)
         viewModel.marketDetail(orderId)
+        arguments?.get(IS_BUY_OR_ORDER)?.let {
+            isBuyOrSell =    it as String
+            binding.buttonBuy.text=isBuyOrSell
+            if (isBuyOrSell == BUY){
+                binding.titleTv.text = getString(R.string.order_stock)}
+            else{ binding.titleTv.text = getString(R.string.sell_stock)}
+        }
 
-        isBuyOrSell = arguments?.get(IS_BUY_OR_ORDER) as String
-        binding.buttonBuy.text=isBuyOrSell
+
         binding.buttonBuy.setOnClickListener(this)
-        if (isBuyOrSell == BUY){
-            binding.titleTv.text = getString(R.string.order_stock)}
-        else{ binding.titleTv.text = getString(R.string.sell_stock)}
+
         viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
         isLimitVisible(false)
         binding.radioGrp.check(R.id.marketRb)
@@ -110,30 +119,19 @@ class EqualityPlaceOrderFragment :
 
     private fun observer() {
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                Failure.NetworkConnection -> {
-                    sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    )
-                }
-                Failure.ServerError -> {
-                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
-
-                }
-                else -> {
-                    val errorMsg = (it as Failure.FeatureFailure).message
-                    Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
-                    //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
-                }
-            }
+            handleError(it)
         }
-        viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
+        viewModel.walletErrorLiveData.observe(viewLifecycleOwner){
+            handleError(it)
+        }
 
-            binding.balanceEt.setText(it.data?.tradeMoneyBalance.toString())
-            binding.usableBalanceEt.setText(it.data?.balance.toString())
+        viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
+            it.data.let { walletResponse ->
+                userId = walletResponse.userId!!
+                binding.balanceEt.setText(walletResponse.tradeMoneyBalance.toString())
+                binding.usableBalanceEt.setText(walletResponse.balance.toString())
+            }
+
         }
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
             it.data?.let { it ->
@@ -149,6 +147,22 @@ class EqualityPlaceOrderFragment :
             }
 
         }
+
+        viewModel.updateWalletLiveData.observe(viewLifecycleOwner) {
+
+            it.paymentLink?.let { it1 ->
+                val i =   PaymentResponseActivity.newIntent(requireActivity(),
+                    it1
+                )
+                resultLauncher.launch(i)
+
+            }
+        }
+    }
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        //if (result.resultCode == Activity.RESULT_OK) {
+        binding.quantityEt.setText("0")
+        //}
     }
 
     private fun setData(market: Stock) {
@@ -266,6 +280,8 @@ class EqualityPlaceOrderFragment :
                 if (binding.quantityEt.text.toString().toInt() < 1) {
                     Toast.makeText(requireContext(), "quantity cannot be zero", Toast.LENGTH_LONG)
                         .show()
+                }else {
+                    calculation()
                 }
             }
         }
@@ -275,6 +291,47 @@ class EqualityPlaceOrderFragment :
 
         binding.orderDateEt.text = ("$p3/$p2/$p1")
 
+    }
+
+    private fun calculation() {
+
+        val rechargeAmount =  binding.buyAmountEt.text.toString().toFloat()
+        val gst = (rechargeAmount * 18) / 100
+        val otherChargeAmount = 0f
+        val totalAmount = rechargeAmount + gst + otherChargeAmount
+        viewModel.updateWallet(
+            UpdateWalletRequest(
+                userId,
+                totalAmount,
+                rechargeAmount,
+                gst,
+                otherChargeAmount
+            )
+        )
+
+    }
+
+    private fun handleError(failure: Failure)
+    {
+        when (failure) {
+            Failure.NetworkConnection -> {
+                sequenceOf(
+                    Toast.makeText(
+                        requireContext(), getString(R.string.no_internet_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                )
+            }
+            Failure.ServerError -> {
+                Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+
+            }
+            else -> {
+                val errorMsg = (failure as Failure.FeatureFailure).message
+                Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 

@@ -33,7 +33,7 @@
             android:visibility="gone" />
 
 
-        <androidx.appcompat.widget.SearchView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +42,12 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/frame"
-            android:layoutDirection="rtl"
+            android:fontFamily="@font/open_sans"
+            android:hint ="@string/search"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
+            android:drawablePadding="@dimen/_8sdp"
+            android:maxLines="1"
+            android:padding="@dimen/_8sdp"
             android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -102,7 +107,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
-                            android:background="@color/dark_violate"
                             android:fontFamily="@font/open_sans_medium"
                             android:paddingHorizontal="@dimen/_8sdp"
                             android:textColor="@color/white"
@@ -234,7 +238,7 @@
                             android:id="@+id/limitGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:constraint_referenced_ids="orderValidityLbl,colon5,flow,limitedPrizeLbl,colon6,limitPrizeEt"/>
+                            app:constraint_referenced_ids="orderValidityLbl,colon5,flow,limitedPrizeLbl,colon6,limitPrizeEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/orderValidityLbl"
@@ -294,7 +298,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:visibility="gone"
-                            app:constraint_referenced_ids="orderValidityDateLbl,colon20,orderDateEt "/>
+                            app:constraint_referenced_ids="orderValidityDateLbl,colon20,orderDateEt " />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/orderValidityDateLbl"
@@ -450,16 +454,17 @@
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/buttonBuy"
                             style="@style/Theme.TradIntro.Button"
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="@dimen/_24sdp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/_20sdp"
-                            android:background="@drawable/sign_in_bg"
+                            android:background="@drawable/pink_circular_bg"
                             android:clickable="true"
+                            app:layout_constraintWidth_percent="0.35"
                             android:text="@string/plus_buy_lbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/buyAmountEt"
-                            app:layout_constraintWidth_percent="0.7" />
+                           />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -568,8 +573,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/colon_lbl"
-                            app:layout_constraintStart_toStartOf="@+id/b1"
                             app:layout_constraintBottom_toBottomOf="@+id/stockInfoLbl"
+                            app:layout_constraintStart_toStartOf="@+id/b1"
                             app:layout_constraintTop_toTopOf="@id/stockInfoLbl" />
 
                         <RelativeLayout

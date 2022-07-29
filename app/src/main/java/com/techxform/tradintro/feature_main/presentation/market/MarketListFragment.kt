@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
@@ -58,7 +59,7 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.catagorySpinner.adapter = adapter
         binding.catagorySpinner.onItemSelectedListener = this
-        binding.marketSearchView.queryHint = getString(R.string.search)
+        /*binding.marketSearchView.queryHint = getString(R.string.search)
         binding.marketSearchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
@@ -77,6 +78,23 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             }
 
         })
+*/
+        binding.marketSearchView.addTextChangedListener {
+            if(binding.marketSearchView.text.toString().length > 3)
+            {
+                marketList.clear()
+                viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, 0, 0))
+                binding.marketSearchView.isEnabled = false
+            }else if(binding.marketSearchView.text.isNullOrEmpty())
+            {
+                marketList.clear()
+                viewModel.marketList(SearchModel(null, limit, 0, 0))
+                binding.marketSearchView.isEnabled = false
+            }
+        }
+
+
+
 
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (binding.nestedScrollView.getChildAt(0) != null && (binding.nestedScrollView.getChildAt(
@@ -86,7 +104,7 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             ) {
                 if (!isLoading && !noMorePages) {
                     isLoading = true
-                    viewModel.marketList(SearchModel("", limit, marketList.size, 0))
+                    viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, marketList.size, 0))
                 }
             }
         })
@@ -109,6 +127,7 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         }
 
         viewModel.marketListLiveData.observe(viewLifecycleOwner) {
+            binding.marketSearchView.isEnabled = true
             if (it.data.isEmpty() || it.data.size < limit)
                 noMorePages = true
             marketList.addAll(it.data)
@@ -117,6 +136,7 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         }
 
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
+            binding.marketSearchView.isEnabled = true
             isLoading = false
             when (it) {
                 Failure.NetworkConnection -> {

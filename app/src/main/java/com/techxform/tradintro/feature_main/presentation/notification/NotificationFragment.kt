@@ -2,7 +2,6 @@ package com.techxform.tradintro.feature_main.presentation.notification
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +23,18 @@ class NotificationFragment :
 
     companion object {
         fun newInstance() = NotificationFragment()
+        const val ALERT_TYPE = "alert"
+        const val NEWS_TYPE = "news"
+        const val NOTIFICATION_TYPE = "notification_type"
+
+
+        fun navBundle(notificationType: String) = bundleOf(NOTIFICATION_TYPE to notificationType)
     }
+
 
     private lateinit var viewModel: NotificationViewModel
     private lateinit var adapter: NotificationAdapter
+    private var notificationType: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +42,11 @@ class NotificationFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
+
+        notificationType = requireArguments().getString(
+            NOTIFICATION_TYPE
+        )
+
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -42,7 +54,7 @@ class NotificationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.notifications(SearchModel("", 10, 0, 0))
+        viewModel.notifications(SearchModel("", 10, 0, 0, type = notificationType ?: ""))
     }
 
     private val listener = object : NotificationAdapter.OnClickListener {
@@ -67,13 +79,22 @@ class NotificationFragment :
         }
 
         viewModel.notificationLiveData.observe(viewLifecycleOwner) {
-            adapter = NotificationAdapter(it.data, listener)
-            binding.notificationRv.adapter = adapter
+            if (it.data.isEmpty()) {
+                binding.tvNodata.visibility = View.VISIBLE
+            } else {
+                binding.tvNodata.visibility = View.GONE
+                adapter = NotificationAdapter(it.data, listener)
+                binding.notificationRv.adapter = adapter
+            }
         }
         viewModel.deleteNotificationLiveData.observe(viewLifecycleOwner) {
             adapter.list.removeAt(it)
             adapter.notifyItemRemoved(it)
-            Toast.makeText(requireContext(), getString(R.string.notification_delete_msg), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.notification_delete_msg),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         viewModel.notificationErrorLiveData.observe(viewLifecycleOwner) {

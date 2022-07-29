@@ -48,6 +48,11 @@
         <item name="hintTextColor">@color/white</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
+
+    <style name="HintAppearance" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="fontFamily">@font/open_sans_medium</item>
+    </style>
 </resources>
 
 

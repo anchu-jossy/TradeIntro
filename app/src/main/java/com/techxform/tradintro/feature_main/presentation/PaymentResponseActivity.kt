@@ -2,9 +2,8 @@ package com.techxform.tradintro.feature_main.presentation
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.os.Handler
 import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -68,8 +67,15 @@ class PaymentResponseActivity : AppCompatActivity(){
                     }
 
                     override fun onPageFinished(view: WebView?, url: String?) {
-                        super.onPageFinished(view, url)
+                        val keyWords = arrayOf("recharge_success?id", "cancel")
+
+                        if (keyWords.find { url.toString().contains(it) } != null )
+                            Handler().postDelayed({
+                                finish()
+                            }, 3000)
+
                         binding.progressBar.progressOverlay.visibility = View.GONE
+
                     }
                 }
                 webView.loadUrl(paymentLink)

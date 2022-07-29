@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_account.presentation.signin
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +13,9 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.LoginFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.LoginRequest
+import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
@@ -21,6 +25,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     }
 
     private lateinit var viewModel: LoginViewModel
+    private var isNotification: Boolean = false
+    private var notificationType: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,6 +35,22 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         observers()
         listeners()
 
+
+    }
+
+    private fun forgetPasswordDialog()
+    {
+        val alert = AlertDialog.Builder(requireContext())
+        val edittext = EditText(requireContext())
+        alert.setMessage(getString(R.string.enter_emailid))
+        alert.setView(edittext)
+        alert.setPositiveButton(
+            getString(R.string.ok)
+        ) { dialog, _ ->
+            dialog.dismiss()
+            viewModel.forgetPassword(edittext.text.toString())
+        }
+        alert.show()
     }
 
     private fun listeners() {
@@ -50,17 +72,47 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 //TradSharedPreference.createGetPreference(requireContext())
             )
         }
+        binding.signUpBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+        }
+
+        binding.tvForgotPassword.setOnClickListener {
+            forgetPasswordDialog()
+        }
 
     }
+
+    fun isNotification(isNotification: Boolean, notificationType: String) {
+        this.isNotification = isNotification
+        this.notificationType = notificationType
+    }
+
 
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
+        viewModel.forgetPasswordLiveData.observe(viewLifecycleOwner){
+            if (it.toString().contains(getString(R.string.success)))
+                sequenceOf(
+                Toast.makeText(
+                    requireContext(), getString(R.string.verify_email),
+                    Toast.LENGTH_SHORT
+                ).show() )
+            else
+                sequenceOf(
+                    Toast.makeText(
+                        requireContext(), getString(R.string.error),
+                        Toast.LENGTH_SHORT
+                    ).show() )
+
+        }
 
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
-            //(requireActivity().application as TradIntroApp).token = it.data.token
-            findNavController().navigate(R.id.landingFragment)
+            val b = Bundle()
+            b.putBoolean(SplashScreenActivity.IS_NOTIFICATION, isNotification)
+            b.putString(SplashScreenActivity.NOTIFICATION_TYPE, notificationType)
+            findNavController().navigate(R.id.landingFragment, b)
         }
 
         viewModel.loginErrorLiveData.observe(viewLifecycleOwner) {
@@ -77,14 +129,18 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 Failure.ServerError -> {
                     (
                             Toast.makeText(
-                                requireContext(), "server error",
+                                requireContext(), getString(R.string.server_error),
                                 Toast.LENGTH_SHORT
                             ).show()
                             )
                 }
-
-
                 else -> {
+
+                    Toast.makeText(
+                        requireContext(),(it as Failure.FeatureFailure).message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 }
             }
         }

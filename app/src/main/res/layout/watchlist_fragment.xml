@@ -35,16 +35,22 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
             android:layout_weight="1.5"
+            android:background="@drawable/editext_frame"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
+            android:drawablePadding="@dimen/_8sdp"
             android:fontFamily="@font/open_sans"
-            android:gravity="start"
-            android:hint="@string/add"
-            android:singleLine="true" />
+            android:hint="@string/search"
+            android:maxLines="1"
+            android:padding="@dimen/_8sdp" />
 
         <TextView
+            android:id="@+id/tv_addWatchlist"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_3sdp"

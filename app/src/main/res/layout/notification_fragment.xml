@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.SearchView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,12 @@
             android:layout_marginTop="@dimen/_32sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/frame"
-            android:layoutDirection="rtl"
+            android:fontFamily="@font/open_sans"
+            android:hint ="@string/search"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
+            android:drawablePadding="@dimen/_8sdp"
+            android:maxLines="1"
+            android:padding="@dimen/_8sdp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -37,12 +42,22 @@
             tools:itemCount="10"
             tools:listitem="@layout/notification_row" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_nodata"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/nodata"
+            android:textSize="@dimen/_16ssp" />
         <include
             android:id="@+id/progressBar"
             layout="@layout/progress_bar"
+            android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true" />
+             />
     </RelativeLayout>
 
 </layout>
