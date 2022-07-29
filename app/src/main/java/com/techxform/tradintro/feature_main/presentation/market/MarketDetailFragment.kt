@@ -1,7 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +20,6 @@ import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.presentation.portfolio_view.PriceAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.trimSubstring
-import java.math.BigDecimal
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint

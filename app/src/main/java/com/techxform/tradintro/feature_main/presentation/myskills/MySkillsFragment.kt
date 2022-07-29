@@ -13,7 +13,6 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MySkillsBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Levels
-import com.techxform.tradintro.feature_main.presentation.market.MarketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,8 +1,6 @@
 package com.techxform.tradintro.core
 
 import android.content.Context
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import com.google.auto.service.AutoService
 import org.acra.config.CoreConfiguration

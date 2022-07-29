@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.techxform.tradintro.feature_main.data.remote.dto.*
+import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
+import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

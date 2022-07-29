@@ -1,12 +1,12 @@
 package com.techxform.tradintro.feature_main.presentation.register
 
 import android.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment

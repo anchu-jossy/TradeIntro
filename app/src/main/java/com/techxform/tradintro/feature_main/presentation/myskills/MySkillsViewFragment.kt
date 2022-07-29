@@ -11,7 +11,6 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MySkillsViewBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Levels
-import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,12 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.change_password
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.techxform.tradintro.R
+import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.ChangePasswordFragmentBinding
 

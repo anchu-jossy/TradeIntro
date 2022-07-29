@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Result
-import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.data.remote.dto.UserLevels
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

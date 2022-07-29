@@ -23,13 +23,9 @@ class MyReferalListAdapter(val list: MutableList<InviteData>) :
         return MyReferalListVH(binding)
     }
 
-//    override fun onBindViewHolder(holder: MyReferalVH, position: Int) {
-//        holder.binding()
-//    }
 
     override fun getItemCount(): Int {
         return 10
-        //return 10
     }
 
 

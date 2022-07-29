@@ -16,15 +16,9 @@ import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
-    /*private var list: ArrayList<PortfolioItem> = arrayListOf()
-    init {
-        list.clear()
-         list.addAll(portfolioList)
-    }*/
 
 
     inner class PortfolioVH(private val rowItemBinding: RowItemBinding) :

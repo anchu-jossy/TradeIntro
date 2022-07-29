@@ -1,8 +1,8 @@
 package com.techxform.tradintro.feature_main.presentation.landing
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
@@ -32,24 +32,23 @@ import com.techxform.tradintro.core.utils.PreferenceHelper
 import com.techxform.tradintro.core.utils.PreferenceHelper.fcmToken
 import com.techxform.tradintro.core.utils.PreferenceHelper.isFcmTokenSync
 import com.techxform.tradintro.databinding.FragmentLandingBinding
+import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
-import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.domain.model.DrawerItem
-import dagger.hilt.android.AndroidEntryPoint
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.ALERT_TYPE
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.NEWS_TYPE
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate),

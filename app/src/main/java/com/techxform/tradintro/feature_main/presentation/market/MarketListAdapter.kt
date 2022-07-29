@@ -1,6 +1,5 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt

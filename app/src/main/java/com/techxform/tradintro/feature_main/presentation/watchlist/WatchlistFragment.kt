@@ -19,7 +19,6 @@ import com.techxform.tradintro.databinding.WatchlistFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
-import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,8 +41,6 @@ class WatchlistFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[WatchlistViewModel::class.java]
-
-
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }

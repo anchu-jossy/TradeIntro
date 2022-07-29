@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.tabs.TabLayout
-import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.RechargeFragmentBinding
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -38,23 +35,7 @@ class RechargeSummaryFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-      /*  binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.trade_money)))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.voucher_code)))
-*/
         viewModel.walletHistory(SearchModel(type = PaymentType.RECHARGE.name.lowercase(), limit = LIMIT))
-        /*binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when(tab.position)
-                {
-                    0 ->  viewModel.walletHistory(SearchModel(type=PaymentType.RECHARGE.name.lowercase(
-                        Locale.getDefault()), limit= LIMIT))
-                    1 ->  viewModel.walletHistory(SearchModel(type = PaymentType.VOUCHER.name.lowercase(Locale.getDefault()), limit=LIMIT))
-                }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })*/
-
 
     }
 
@@ -62,7 +43,6 @@ class RechargeSummaryFragment :
     {
         viewModel.walletHistoryLiveData.observe(viewLifecycleOwner) {
             adapter = RechargeSummaryAdapter(it)
-            //adapter.setSelectionType(binding.tabLayout.selectedTabPosition)
             binding.rechargeRv.adapter = adapter
         }
 

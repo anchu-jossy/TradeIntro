@@ -8,7 +8,6 @@ import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
-import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

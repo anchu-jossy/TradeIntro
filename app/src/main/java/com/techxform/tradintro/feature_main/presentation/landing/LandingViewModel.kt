@@ -1,14 +1,13 @@
 package com.techxform.tradintro.feature_main.presentation.landing
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.techxform.tradintro.core.utils.PreferenceHelper
-import com.techxform.tradintro.core.utils.PreferenceHelper.refreshToken
-import com.techxform.tradintro.core.utils.PreferenceHelper.token
-import com.techxform.tradintro.feature_main.data.remote.dto.*
+import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
+import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

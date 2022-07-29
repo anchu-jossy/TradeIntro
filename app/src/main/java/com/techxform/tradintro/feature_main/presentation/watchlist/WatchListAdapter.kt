@@ -13,7 +13,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
-import java.util.ArrayList
 
 class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListener) :
     RecyclerView.Adapter<WatchListAdapter.PortfolioVH>() {

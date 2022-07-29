@@ -12,7 +12,6 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MyReferalFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.AddUserRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.presentation.notification.NotificationAdapter
 import com.techxform.tradintro.feature_main.presentation.recharge.MyReferalListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

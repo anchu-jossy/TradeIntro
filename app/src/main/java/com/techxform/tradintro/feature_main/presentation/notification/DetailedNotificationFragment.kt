@@ -1,22 +1,18 @@
 package com.techxform.tradintro.feature_main.presentation.notification
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.DetailedNotificationFragmentBinding
-import com.techxform.tradintro.databinding.NotificationFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
-import com.techxform.tradintro.feature_main.presentation.myskills.MySkillsAdapter
-import com.techxform.tradintro.feature_main.presentation.myskills.MySkillsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

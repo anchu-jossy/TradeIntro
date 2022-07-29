@@ -1,6 +1,5 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio_view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -11,7 +10,6 @@ import com.techxform.tradintro.databinding.PriceRowBinding
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.domain.util.Utils
 import java.text.DecimalFormat
-import kotlin.math.roundToInt
 
 class PriceAdapter(val list: ArrayList<PriceType>) :
     RecyclerView.Adapter<PriceAdapter.PriceViewHolder>() {

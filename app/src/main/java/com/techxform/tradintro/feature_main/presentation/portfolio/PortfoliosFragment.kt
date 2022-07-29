@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.databinding.PortfolisFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import dagger.hilt.android.AndroidEntryPoint
-import com.techxform.tradintro.databinding.PortfolisFragmentBinding
 
 @AndroidEntryPoint
 class PortfoliosFragment :
