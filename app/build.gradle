@@ -115,4 +115,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
+    implementation("ch.acra:acra-mail:$acraVersion")
+    kapt("com.google.auto.service:auto-service:1.0.1")
+    compileOnly("com.google.auto.service:auto-service-annotations:1.0.1")
 }

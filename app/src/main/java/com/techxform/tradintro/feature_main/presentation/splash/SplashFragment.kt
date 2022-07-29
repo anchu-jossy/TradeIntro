@@ -32,6 +32,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
             else findNavController(this).navigate(R.id.action_splashFragment_to_loginFragment)
 
         }, UI_ANIMATION_DELAY.toLong())
+
     }
 
 

@@ -218,5 +218,7 @@
     <string name="quantity">Quantity</string>
     <string name="add_to_watchlist_lbl">Add to Watchlist</string>
     <string name="set_alert_price_lbl">Set Alert Price</string>
+    <string name="mail_subject">Crash Report</string>
+    <string name="mail_body">Cause</string>
 
 </resources>

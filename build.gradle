@@ -5,6 +5,7 @@ buildscript {
         nav_version = "2.5.0"
         paging_version = "2.1.2"
         multidex_version = "2.0.1"
+        acraVersion = "5.9.3"
 
     }
     dependencies {

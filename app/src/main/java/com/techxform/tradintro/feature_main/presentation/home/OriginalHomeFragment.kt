@@ -29,6 +29,8 @@ class OriginalHomeFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[OriginalHomeViewModel::class.java]
+        //TODO reproducing crash
+        throw  RuntimeException("This is a crash");
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
