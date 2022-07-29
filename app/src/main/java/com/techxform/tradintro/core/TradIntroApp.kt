@@ -19,7 +19,7 @@ import org.acra.ktx.initAcra
 
 @HiltAndroidApp
 class TradIntroApp: MultiDexApplication() {
-
+val  emailID ="georgepj1991@gmail.com"
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
@@ -27,7 +27,7 @@ class TradIntroApp: MultiDexApplication() {
         initAcra {
             mailSender {
                 //required
-                mailTo = "anchujossy@gmail.com"
+                mailTo = emailID
                 //defaults to true
                 reportAsFile = true
                 //defaults to ACRA-report.stacktrace
@@ -40,7 +40,7 @@ class TradIntroApp: MultiDexApplication() {
             }
             mailSenderConfiguration {
                 enabled=true
-                mailTo ="anchujossy@gmail.com"
+                mailTo =emailID
                reportAsFile=true
             }
 
