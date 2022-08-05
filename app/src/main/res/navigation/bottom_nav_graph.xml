@@ -107,7 +107,7 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.techxform.tradintro.feature_main.presentation.profile.UpdateProfileoFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.profile.UpdateProfileFragment"
         android:label="fragment_update_profile"
         tools:layout="@layout/update_profile_fragment" />
     <fragment

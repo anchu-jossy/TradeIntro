@@ -31,20 +31,20 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/frame"
-                android:fontFamily="@font/open_sans"
-                android:hint ="@string/search"
-                android:padding="@dimen/_8sdp"
                 android:drawableEnd="@drawable/ic_baseline_search_24"
                 android:drawablePadding="@dimen/_8sdp"
-                android:maxLines="1"/>
+                android:fontFamily="@font/open_sans"
+                android:hint="@string/search"
+                android:maxLines="1"
+                android:padding="@dimen/_8sdp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="3">
 
             <TextView
@@ -88,6 +88,18 @@
                 android:layout_height="0dp"
                 android:orientation="vertical">
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/noMarketsTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:gravity="center_horizontal"
+                    android:text="@string/no_market_placeholder"
+                    android:textSize="@dimen/_16ssp" />
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/marketListRv"
@@ -95,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:nestedScrollingEnabled="false"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/row_item" />
 

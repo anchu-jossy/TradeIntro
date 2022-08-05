@@ -124,7 +124,18 @@ interface ApiService {
 
     @GET("api/reports/current")
     suspend fun reportCurrent(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<PortfolioItem>>>
+
     @GET("api/reports/profit-loss/summery")
     suspend fun summaryReport() : Response<BaseResponse<SummaryReport>>
+
+    @POST("api/portfolio/{id}/alert")
+    suspend fun alertPrice(@Path("id") id: Int, @Body  alertPriceRequest: AlertPriceRequest) : Response<BaseResponse<AlertPriceResponse>>
+
+    @POST("api/watch-lists/{id}/alert")
+    suspend fun alertPriceWL(@Path("id") id: Int, @Body  alertPriceRequest: AlertPriceRequest) : Response<BaseResponse<AlertPriceResponse>>
+
+    @PATCH("api/users/me")
+    @Multipart
+    suspend fun editProfile(@PartMap reqMap: Map<String, String>) : Response<BaseResponse<UserDetailsResponse>>
 
 }

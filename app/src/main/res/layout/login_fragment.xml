@@ -71,6 +71,7 @@
                     android:background="#00000000"
                     android:textColor="@color/white"
                     android:singleLine="true"
+                    android:text="222555"
                     android:inputType="textPassword"
                     android:textSize="@dimen/_12ssp" />
 

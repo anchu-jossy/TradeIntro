@@ -23,8 +23,10 @@
             android:gravity="end">
 
             <ImageView
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:id="@+id/editBtn"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:padding="@dimen/_4sdp"
                 android:src="@drawable/ic_baseline_edit_24" />
         </LinearLayout>
 
@@ -53,7 +55,6 @@
             android:layout_height="0dp"
             android:layout_margin="@dimen/_16sdp"
             android:layout_weight=".7"
-
             android:orientation="vertical">
 
             <TextView
@@ -64,6 +65,7 @@
                 android:textColor="@color/modest_grey" />
 
             <EditText
+                android:id = "@+id/userNameET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +81,7 @@
                 android:textColor="@color/modest_grey" />
 
             <EditText
+                android:id = "@+id/userLastNameET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,6 +98,7 @@
                 android:textColor="@color/modest_grey" />
 
             <EditText
+                android:id = "@+id/userEmailET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,6 +115,7 @@
                 android:textColor="@color/modest_grey" />
 
             <EditText
+                android:id = "@+id/userPhoneET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,9 +130,10 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center"
+            android:visibility = "gone"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/pink_circular_bg1"
             android:shadowRadius="0"
-            android:text="@string/delete_account" />
+            android:text="@string/save" />
     </LinearLayout>
 </layout>

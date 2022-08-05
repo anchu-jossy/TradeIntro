@@ -189,8 +189,8 @@
     <string name="last_transaction_date_lbl">Last Transaction Date</string>
 
     <string-array name="reports">
-        <item>@string/trade_book_lbl</item>
         <item>@string/order_book_lbl</item>
+        <item>@string/trade_book_lbl</item>
         <item>@string/historical_holdings_lbl</item>
         <item>@string/profit_loss_report_lbl</item>
     </string-array>
@@ -220,5 +220,12 @@
     <string name="set_alert_price_lbl">Set Alert Price</string>
     <string name="mail_subject">Crash Report</string>
     <string name="mail_body">Cause</string>
+
+    <string name="no_market_placeholder">No Markets</string>
+    <string name="no_portfolios_placeholder">No Portfolio list</string>
+    <string name="remove_watchlist_lbl">Remove Watchlist</string>
+    <string name="remove_alert_lbl">Remove Alert</string>
+    <string name="modify_alert_lbl">Modify Alert</string>
+    <string name="enter_alert_price_lbl">Enter Alert Price</string>
 
 </resources>

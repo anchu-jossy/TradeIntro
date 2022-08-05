@@ -23,8 +23,11 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
-    private var _updateWatchListLiveData = MutableLiveData<BaseResponse<UpdateData>>()
-    val updateWatchListLiveData: LiveData<BaseResponse<UpdateData>> = _updateWatchListLiveData
+   /* private var _updateWatchListLiveData = MutableLiveData<BaseResponse<UpdateData>>()
+    val updateWatchListLiveData: LiveData<BaseResponse<UpdateData>> = _updateWatchListLiveData*/
+
+    private var _deleteWatchlistLiveData = MutableLiveData<BaseResponse<DeleteWatchListResponse>>()
+    val deleteWatchlistLiveData: LiveData<BaseResponse<DeleteWatchListResponse>> = _deleteWatchlistLiveData
 
     private var _createWatchListLiveData = MutableLiveData<BaseResponse<WatchList>>()
     val createWatchListLiveData: LiveData<BaseResponse<WatchList>> = _createWatchListLiveData
@@ -40,6 +43,16 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
 
     private var _sellStockErrorLiveData = MutableLiveData<Failure>()
     val sellStockErrorLiveData: LiveData<Failure> = _sellStockErrorLiveData
+
+    private var _deleteWatchListErrorLiveData = MutableLiveData<Failure>()
+    val deleteWatchListErrorLiveData: LiveData<Failure> = _deleteWatchListErrorLiveData
+
+    private var _modifyAlertPriceLiveData = MutableLiveData<BaseResponse<AlertPriceResponse>>()
+    val modifyAlertPriceLiveData: LiveData<BaseResponse<AlertPriceResponse>> = _modifyAlertPriceLiveData
+
+    private var _modifyAlertPriceErrorLiveData = MutableLiveData<Failure>()
+    val modifyAlertPriceErrorLiveData: LiveData<Failure> = _modifyAlertPriceErrorLiveData
+
 
     fun marketDetail(marketId:Int)
     {
@@ -71,7 +84,7 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
             _loadingLiveData.postValue(false)
         }
     }
-    fun updateWatchList(id: Number, amount: Number) {
+   /* fun updateWatchList(id: Number, amount: Number) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.updateWatchList(id,UpdateWatchListRequest(amount))) {
@@ -84,7 +97,25 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
             }
             _loadingLiveData.postValue(false)
         }
+    }*/
+
+    fun removeWatchlist(id: Int)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.deleteWatchList(id)) {
+                is Result.Success -> {
+
+                    _deleteWatchlistLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _deleteWatchListErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
     }
+
 
     fun buyStock(marketId: Int, buySellStockReq: BuySellStockReq)
     {
@@ -112,6 +143,22 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
                 }
                 is Result.Error -> {
                     _sellStockErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun modifyAlertPrice(stockId:Int, alertPriceRequest: AlertPriceRequest)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.alertPrice(stockId, alertPriceRequest)) {
+                is Result.Success -> {
+                    _modifyAlertPriceLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _modifyAlertPriceErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)

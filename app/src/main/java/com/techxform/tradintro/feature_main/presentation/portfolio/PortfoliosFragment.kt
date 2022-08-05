@@ -149,6 +149,16 @@ class PortfoliosFragment :
     }
 
     private fun setAdapter() {
+        if(portfolioList.isNullOrEmpty())
+        {
+            binding.noPortfoliosTv.visibility = View.VISIBLE
+            binding.portfolioRv.visibility = View.GONE
+        }else if(!portfolioList.isNullOrEmpty() && binding.portfolioRv.visibility == View.GONE)
+        {
+            binding.portfolioRv.visibility = View.VISIBLE
+            binding.noPortfoliosTv.visibility = View.GONE
+        }
+
         if (adapter == null) {
             adapter = PortfolioAdapter(portfolioList, rvListener)
             binding.portfolioRv.adapter = adapter
