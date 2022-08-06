@@ -71,7 +71,7 @@ interface ApiService {
     suspend fun deleteWatchList(@Path("id") id: Number): Response<BaseResponse<DeleteWatchListResponse>>
 
     @GET("api/wallet/summery/")
-    suspend fun getWalletSummary(@Query("type") name: String): Response<BaseResponse<WalletSummaryResponse>>
+    suspend fun getWalletSummary(): Response<BaseResponse<WalletSummaryResponse>>
 
     @GET("api/user-levels")
     suspend fun userLevels(): Response<BaseResponse<UserLevels>>

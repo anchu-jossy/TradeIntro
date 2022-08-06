@@ -422,7 +422,7 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     override suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>> {
         return try {
-            val response = apiService.getWalletSummary(type.name.lowercase(Locale.getDefault()))
+            val response = apiService.getWalletSummary()
             if (response.isSuccessful)
                 Result.Success(response.body()!!)
             else {

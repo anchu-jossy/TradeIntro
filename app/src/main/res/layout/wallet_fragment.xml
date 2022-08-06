@@ -87,7 +87,6 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/open_sans_medium"
                     android:gravity="end"
-                    android:text="10:40:00"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14ssp"
                     app:layout_constraintEnd_toEndOf="parent"

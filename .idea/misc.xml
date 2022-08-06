@@ -92,6 +92,7 @@
         <entry key="app/src/main/res/layout/myskills_item.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/notification_fragment.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/notification_row.xml" value="0.2234375" />
+        <entry key="app/src/main/res/layout/order_book_fragment.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/original_home_fragment.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/portfolio_card_view.xml" value="0.1171875" />
         <entry key="app/src/main/res/layout/portfolio_fragment.xml" value="0.19010416666666666" />
@@ -106,6 +107,7 @@
         <entry key="app/src/main/res/layout/row_item.xml" value="0.2526041666666667" />
         <entry key="app/src/main/res/layout/stock_row_layout.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/layout/update_profile_fragment.xml" value="0.16510416666666666" />
+        <entry key="app/src/main/res/layout/wallet_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/watchlist_fragment.xml" value="0.15414634146341463" />
         <entry key="app/src/main/res/layout/watchlist_view_fragment.xml" value="0.14984709480122324" />
         <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.17083333333333334" />
