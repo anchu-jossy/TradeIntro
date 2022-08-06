@@ -1,16 +1,22 @@
 package com.techxform.tradintro.feature_main.presentation.watchlistview
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WatchlistViewFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.AlertPriceRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.PriceType
@@ -46,8 +52,59 @@ class WatchlistViewFragment :
 
         binding.alertPriceType = PriceType(63.2f, getString(R.string.alert_price_lbl))
 
-
+        listeners()
         viewModel.watchlistDetails(watchlistId)
+    }
+
+    private fun listeners()
+    {
+        binding.setAlertPriceBtn.setOnClickListener {
+            alertPriceSetDialog()
+        }
+    }
+
+    private fun alertPriceSetDialog()
+    {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(R.string.alert_price_lbl)
+
+        val amountEt = EditText(requireContext())
+        amountEt.hint = getString(R.string.alert_price_lbl)
+
+        val container = LinearLayout(requireContext())
+        container.orientation = LinearLayout.VERTICAL
+        val lp = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        lp.setMargins(20, 0, 20, 0)
+
+        amountEt.layoutParams = lp
+        //amountEt.gravity = Gravity.TOP or Gravity.LEFT
+        amountEt.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER
+        amountEt.setLines(1)
+        amountEt.maxLines = 1
+        container.addView(amountEt, lp)
+        builder.setView(container)
+        builder.setPositiveButton(R.string.modify_alert_lbl
+        ) { dialog, p1 ->
+            if(amountEt.text.toString().isNullOrEmpty())
+                Toast.makeText(requireContext(),R.string.enter_alert_price_lbl, Toast.LENGTH_SHORT).show()
+            else {
+                viewModel.setAlertPrice(
+                    watchlistId,
+                    AlertPriceRequest(amountEt.text.toString().toDouble())
+                )
+                dialog.dismiss()
+            }
+        }
+
+        builder.setNegativeButton(R.string.remove_alert_lbl
+        ) { dialog, p1 ->
+            dialog.dismiss()
+        }
+        builder.show()
+
     }
 
     private fun setGainProfit(watchList: WatchList) {
@@ -62,7 +119,7 @@ class WatchlistViewFragment :
         val per =
             ((currentPrice - watchList.watchStockPrice) / ((currentPrice + watchList.watchStockPrice) / 2)) * 100
         with(binding) {
-            binding.alertPrice.titleTv.text =Utils.formatStringToTwoDecimals(watchList.watchStockPrice.toString())
+            alertPrice.titleTv.text =Utils.formatStringToTwoDecimals(watchList.watchStockPrice.toString())
             gainLossPrice.titleTv.text = Utils.formatStringToTwoDecimals(gainLoss.toString())
             gainLossPerPrice.titleTv.text = getString(R.string.per_format_string,Utils.formatPercentageWithoutDecimals(per.toString()))
             gainLossPrice.subTitleTv.text = getString(R.string.gain_loss_lbl)
@@ -104,22 +161,50 @@ class WatchlistViewFragment :
             binding.progressBar.progressOverlay.isVisible = it
         }
 
+        viewModel.modifyAlertPriceLiveData.observe(viewLifecycleOwner){
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                Toast.makeText(
+                    requireContext(),
+                    "Successfully modified alert price",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+        }
+
+        viewModel.modifyAlertPriceErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+
         viewModel.watchlistViewLiveData.observe(viewLifecycleOwner) {
             binding.watchlist = it.data
             setGainProfit(it.data)
         }
 
         viewModel.watchlistViewErrorLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                Failure.NetworkConnection -> {
-                    sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    )
-                }
-                else -> {}
+           handleError(it)
+        }
+    }
+
+    private fun handleError(failure: Failure)
+    {
+        when (failure) {
+            Failure.NetworkConnection -> {
+                sequenceOf(
+                    Toast.makeText(
+                        requireContext(), getString(R.string.no_internet_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                )
+            }
+            Failure.ServerError-> {
+                Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
+
+            }
+            else -> {
+                val errorMsg = (failure as Failure.FeatureFailure).message
+                Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
             }
         }
     }

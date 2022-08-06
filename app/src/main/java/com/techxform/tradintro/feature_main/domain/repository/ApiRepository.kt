@@ -6,6 +6,8 @@ import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import retrofit2.Response
+import retrofit2.http.PartMap
+import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
 interface ApiRepository {
@@ -77,6 +79,12 @@ interface ApiRepository {
     suspend fun historicalReport(searchModel: SearchModel) : Result<BaseResponse<ArrayList<PortfolioItem>>>
 
     suspend fun reportCurrent(searchModel: SearchModel) : Result<BaseResponse<ArrayList<PortfolioItem>>>
+
     suspend fun summaryReport() : Result<BaseResponse<SummaryReport>>
 
+    suspend fun alertPrice(id: Int, alertPriceRequest: AlertPriceRequest) : Result<BaseResponse<AlertPriceResponse>>
+
+    suspend fun alertPriceWL(id: Int, alertPriceRequest: AlertPriceRequest) : Result<BaseResponse<AlertPriceResponse>>
+
+    suspend fun editProfile(editUserProfileReq: EditUserProfileReq) : Result<BaseResponse<UserDetailsResponse>>
 }

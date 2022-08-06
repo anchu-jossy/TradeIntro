@@ -59,26 +59,7 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.catagorySpinner.adapter = adapter
         binding.catagorySpinner.onItemSelectedListener = this
-        /*binding.marketSearchView.queryHint = getString(R.string.search)
-        binding.marketSearchView.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isEmpty()) {
-                    marketList.clear()
-                    viewModel.marketList(SearchModel("", limit, 0, 0))
-                }
-                return false
-            }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                marketList.clear()
-                viewModel.marketList(SearchModel(query.trim(), limit, 0, 0))
-                return false
-            }
-
-        })
-*/
         binding.marketSearchView.addTextChangedListener {
             if(binding.marketSearchView.text.toString().length > 3)
             {
@@ -153,6 +134,16 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
     }
 
     private fun setAdapter() {
+        if(marketList.isNullOrEmpty())
+        {
+            binding.noMarketsTv.visibility = View.VISIBLE
+            binding.marketListRv.visibility = View.GONE
+        }else if(!marketList.isNullOrEmpty() && binding.marketListRv.visibility == View.GONE)
+        {
+            binding.marketListRv.visibility = View.VISIBLE
+            binding.noMarketsTv.visibility = View.GONE
+        }
+
         binding.marketListRv.adapter =
             MarketListAdapter(marketList, object : MarketListAdapter.OnItemClickListner {
                 override fun onItemClick(stock: Stock, position: Int) {

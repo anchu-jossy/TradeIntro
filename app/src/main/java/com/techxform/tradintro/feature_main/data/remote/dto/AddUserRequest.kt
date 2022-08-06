@@ -16,3 +16,11 @@ data class AddUserResponse(
 
 
 )
+
+data class EditUserProfileReq(
+    @SerializedName("image") var image: String? = null,
+    @SerializedName("user_name") var userName: String? = null,
+    @SerializedName("user_last_name") var lastName: String? = null,
+    @SerializedName("user_phone") var userPhone: String? = null
+)
+{}

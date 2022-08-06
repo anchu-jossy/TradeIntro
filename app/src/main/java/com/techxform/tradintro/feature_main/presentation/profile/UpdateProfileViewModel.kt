@@ -77,5 +77,21 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
         }
     }
 
+    fun editUser(editUserProfileReq: EditUserProfileReq)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.editProfile(editUserProfileReq)) {
+                is Result.Success -> {
+                    _userDetailLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _userDetailErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
 
 }

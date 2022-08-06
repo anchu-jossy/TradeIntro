@@ -227,33 +227,13 @@
                     app:layout_constraintWidth_percent="0.45" />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/wishListTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:text="@string/watchList"
-                    android:textColor="@color/magenta"
-                    android:textSize="@dimen/_14ssp"
-                    app:layout_constraintBottom_toTopOf="@+id/ediTextAddtoWatchList"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-                <View
-                    android:id="@+id/wishListBorder"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_3sdp"
-                    android:background="@color/magenta"
-                    app:layout_constraintEnd_toEndOf="@+id/wishListTV"
-                    app:layout_constraintStart_toStartOf="@+id/wishListTV"
-                    app:layout_constraintTop_toBottomOf="@+id/wishListTV" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/addToWatchlistBtn"
                     style="@style/Theme.TradIntro.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
                     android:background="@drawable/pink_circular_bg"
                     android:clickable="true"
                     android:gravity="center"
@@ -269,7 +249,7 @@
                     style="@style/Theme.TradIntro.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
                     android:background="@drawable/violet_circular_bg"
                     android:clickable="true"
                     android:gravity="center"

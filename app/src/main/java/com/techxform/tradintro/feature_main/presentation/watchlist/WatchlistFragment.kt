@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -34,13 +35,19 @@ class WatchlistFragment :
     private var isLoading = false
     private var noMorePages = false
     private var watchList: ArrayList<WatchList> = arrayListOf()
+    private var isSearch = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[WatchlistViewModel::class.java]
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this)[WatchlistViewModel::class.java]
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -52,42 +59,28 @@ class WatchlistFragment :
         }
 
         binding.searchView.addTextChangedListener {
-            if(binding.searchView.text.toString().length > 3)
-            {
+            if (binding.searchView.text.toString().length > 3) {
+                isSearch = true
                 watchList.clear()
-                viewModel.watchlist(FilterModel(binding.searchView.text.toString().trim(), limit, 0, 0,""))
+                viewModel.watchlist(
+                    FilterModel(
+                        binding.searchView.text.toString().trim(),
+                        limit,
+                        0,
+                        0,
+                        ""
+                    )
+                )
                 binding.searchView.isEnabled = false
-            }else if(binding.searchView.text.isNullOrEmpty())
-            {1
+            } else if (binding.searchView.text.isNullOrEmpty() && isSearch) {
+                isSearch = false
                 watchList.clear()
-                viewModel.watchlist(FilterModel("", limit, 0, 0,""))
+                viewModel.watchlist(FilterModel("", limit, 0, 0, ""))
                 binding.searchView.isEnabled = false
             }
         }
 
-       /* binding.searchView.queryHint = getString(R.string.search)
-        binding.searchView.setOnCloseListener {
-            if (binding.searchView.query.isEmpty()) {
-                watchList.clear()
-                viewModel.watchlist(FilterModel("", limit, 0, 0,""))
-            }
-            return@setOnCloseListener true
-        }
-        binding.searchView.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                watchList.clear()
-                viewModel.watchlist(FilterModel("", limit, 0, 0,""))
-                return false
-            }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                watchList.clear()
-                viewModel.watchlist(FilterModel(query, limit, 0, 0,""))
-                return false
-            }
-        })*/
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (binding.nestedScrollView.getChildAt(0) != null && (binding.nestedScrollView.getChildAt(
                     0
@@ -96,14 +89,20 @@ class WatchlistFragment :
             ) {
                 if (!isLoading && !noMorePages) {
                     isLoading = true
-                    viewModel.watchlist(FilterModel(binding.searchView.text.toString().trim(), limit, watchList.size, 0, ""))
+                    viewModel.watchlist(
+                        FilterModel(
+                            binding.searchView.text.toString().trim(),
+                            limit,
+                            watchList.size,
+                            0,
+                            ""
+                        )
+                    )
                 }
             }
         })
         watchList.clear()
         viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
-
-
 
 
     }
@@ -118,44 +117,49 @@ class WatchlistFragment :
     }
 
     private fun observers() {
-        var position : Int =0
+        var position: Int = 0
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
 
         viewModel.watchlistLiveData.observe(viewLifecycleOwner) {
-            if (it.data.isEmpty() || it.data.size < limit)
-                noMorePages = true
-            watchList.addAll(it.data)
-            isLoading = false
-            binding.watchListRv.adapter = WatchListAdapter(watchList, listener)
-            val itemTouchHelperCallback =
-                object :
-                    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-                    override fun onMove(
-                        recyclerView: RecyclerView,
-                        viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder
-                    ): Boolean {
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                if (it.data.isEmpty() || it.data.size < limit)
+                    noMorePages = true
+                watchList.addAll(it.data)
+                isLoading = false
+                binding.watchListRv.adapter = WatchListAdapter(watchList, listener)
+                val itemTouchHelperCallback =
+                    object :
+                        ItemTouchHelper.SimpleCallback(
+                            0,
+                            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                        ) {
+                        override fun onMove(
+                            recyclerView: RecyclerView,
+                            viewHolder: RecyclerView.ViewHolder,
+                            target: RecyclerView.ViewHolder
+                        ): Boolean {
 
-                        return false
+                            return false
+                        }
+
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            position = viewHolder.absoluteAdapterPosition
+                            Toast.makeText(
+                                requireContext(),
+                                "onswiped",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.removeWatchlist(watchList[position].watchlistId)
+                        }
+
                     }
 
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        position = viewHolder.absoluteAdapterPosition
-                        Toast.makeText(
-                            requireContext(),
-                            "onswiped",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        viewModel.removeWatchlist(watchList[position].watchlistId)
-                    }
-
-                }
-
-            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-            itemTouchHelper.attachToRecyclerView(binding.watchListRv)
-            binding.watchListRv.adapter?.notifyItemRemoved(position)
+                val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+                itemTouchHelper.attachToRecyclerView(binding.watchListRv)
+                binding.watchListRv.adapter?.notifyItemRemoved(position)
+            }
         }
 
         viewModel.watchlistErrorLiveData.observe(viewLifecycleOwner) {
@@ -182,8 +186,8 @@ class WatchlistFragment :
                 else -> {}
             }
         }
-        viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(),"Successfully Deleted",Toast.LENGTH_LONG).show()
+        viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Successfully Deleted", Toast.LENGTH_LONG).show()
             viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
 
         }

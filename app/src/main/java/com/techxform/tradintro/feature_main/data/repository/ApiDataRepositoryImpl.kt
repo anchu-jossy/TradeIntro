@@ -16,6 +16,7 @@ import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
@@ -57,7 +58,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "skip" to searchModel.skip.toString()
                 )
 
-                if(!searchModel.searchText.isNullOrEmpty())
+                if (!searchModel.searchText.isNullOrEmpty())
                     reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.marketList(reqMap)
@@ -154,7 +155,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "order_status" to searchModel.orderStatus,
                     "portfolio_status" to searchModel.portfolioStatus
                 )
-                if(!searchModel.searchText.isNullOrEmpty())
+                if (!searchModel.searchText.isNullOrEmpty())
                     reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.portfolio(reqMap)
@@ -259,7 +260,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "type" to searchModel.type.toString(),
                 )
 
-                if(!searchModel.searchText.isNullOrEmpty())
+                if (!searchModel.searchText.isNullOrEmpty())
                     reqMap["search"] = searchModel.searchText!!
 
                 val response = apiService.notifications(reqMap)
@@ -313,7 +314,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "skip" to filterModel.skip.toString()
                 )
 
-                if(!filterModel.searchText.isNullOrEmpty())
+                if (!filterModel.searchText.isNullOrEmpty())
                     reqMap["search"] = filterModel.searchText!!
 
                 val response = apiService.watchlist(reqMap)
@@ -542,10 +543,9 @@ class ApiDataRepositoryImpl @Inject constructor(
                 val response = apiService.updateWallet(RECHARGE_URL, reqMap = reqMap)
                 if (response.isSuccessful) {
                     val walletResponse = response.body()!!
-                    if(walletResponse.status.equals("ERROR"))
-                    {
+                    if (walletResponse.status.equals("ERROR")) {
                         Result.Error(Failure.FeatureFailure(walletResponse.reason!!))
-                    }else
+                    } else
                         Result.Success(response.body()!!)
                 } else {
                     Log.e("Error:", response.raw().message)
@@ -783,6 +783,85 @@ class ApiDataRepositoryImpl @Inject constructor(
         {
             try {
                 val response = apiService.summaryReport()
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun alertPrice(
+        id: Int,
+        alertPriceRequest: AlertPriceRequest
+    ): Result<BaseResponse<AlertPriceResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.alertPrice(id, alertPriceRequest)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun alertPriceWL(
+        id: Int,
+        alertPriceRequest: AlertPriceRequest
+    ): Result<BaseResponse<AlertPriceResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.alertPriceWL(id, alertPriceRequest)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun editProfile(editUserProfileReq: EditUserProfileReq): Result<BaseResponse<UserDetailsResponse>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = hashMapOf<String, String>()
+                if (editUserProfileReq.image?.isNotEmpty() == true)
+                    reqMap["image"] = editUserProfileReq.image!!
+                if (editUserProfileReq.userName?.isNotEmpty() == true)
+                    reqMap["user_name"] = editUserProfileReq.userName!!
+                if (editUserProfileReq.lastName?.isNotEmpty() == true)
+                    reqMap["user_last_name"] = editUserProfileReq.lastName!!
+                if (editUserProfileReq.userPhone?.isNotEmpty() == true)
+                    reqMap["user_phone"] = editUserProfileReq.userPhone!!
+
+                val response = apiService.editProfile(reqMap)
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
