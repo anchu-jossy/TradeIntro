@@ -107,8 +107,10 @@ class RechargeTradeMoneyFragment :
         //}
     }
     private fun calculation() {
-
-        val rechargeAmount =  binding.rechargeTradeMoneyContainer.label2Et.text.toString().toInt()
+        var  rechargeAmount=0
+        if(!binding.rechargeTradeMoneyContainer.label2Et.text.isNullOrEmpty()){
+         rechargeAmount   =  binding.rechargeTradeMoneyContainer.label2Et.text.toString().toInt()
+        }
         val gst = (rechargeAmount * 18) / 100
         val otherChargeAmount = 0f
         val totalAmount = rechargeAmount + gst + otherChargeAmount

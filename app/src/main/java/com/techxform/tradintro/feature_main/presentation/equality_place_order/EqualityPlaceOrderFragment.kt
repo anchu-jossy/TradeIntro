@@ -22,6 +22,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
+import com.techxform.tradintro.feature_main.domain.util.Utils
 import com.techxform.tradintro.feature_main.presentation.PaymentResponseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -198,8 +199,6 @@ class EqualityPlaceOrderFragment :
 
             stockNameEt.setText(market.stockName)
 
-
-
             marketRb.setOnClickListener {
                 isLimitVisible(false)
             }
@@ -302,7 +301,7 @@ class EqualityPlaceOrderFragment :
         viewModel.updateWallet(
             UpdateWalletRequest(
                 userId,
-                totalAmount,
+                Utils.formatFloatIntoTwoDecimal(totalAmount),
                 rechargeAmount,
                 gst,
                 otherChargeAmount

@@ -1,6 +1,9 @@
 package com.techxform.tradintro.feature_main.domain.util
 
+import android.widget.Toast
 import okhttp3.internal.trimSubstring
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 object Utils {
     fun formatStringToTwoDecimals(num: String): String {
@@ -16,5 +19,13 @@ object Utils {
     }
     fun formatPercentageWithoutDecimals(num :String): String {
        return num.split(".")[0]
+    }
+    fun formatFloatIntoTwoDecimal(num :Float): Float {
+     val df=   DecimalFormat("0.00")
+        df.roundingMode = RoundingMode.DOWN;
+        return df.format(num).toFloat()
+
+
+
     }
 }
