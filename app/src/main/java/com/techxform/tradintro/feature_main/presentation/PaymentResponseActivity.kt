@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.ActivityPaymentResponseBinding
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,7 +62,7 @@ class PaymentResponseActivity : AppCompatActivity(){
                         error: WebResourceError?
                     ) {
                         super.onReceivedError(view, request, error)
-                        binding.progressBar.progressOverlay.visibility = View.GONE
+                        binding.progressBar.progressOverlay.setVisibiltyGone()
                         setResult(Activity.RESULT_OK)
                         finish()
                     }
@@ -74,7 +75,7 @@ class PaymentResponseActivity : AppCompatActivity(){
                                 finish()
                             }, 3000)
 
-                        binding.progressBar.progressOverlay.visibility = View.GONE
+                        binding.progressBar.progressOverlay.setVisibiltyGone()
 
                     }
                 }

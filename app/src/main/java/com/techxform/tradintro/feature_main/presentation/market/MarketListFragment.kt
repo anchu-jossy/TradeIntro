@@ -19,6 +19,8 @@ import com.techxform.tradintro.databinding.MarketFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -136,12 +138,12 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
     private fun setAdapter() {
         if(marketList.isNullOrEmpty())
         {
-            binding.noMarketsTv.visibility = View.VISIBLE
-            binding.marketListRv.visibility = View.GONE
+            binding.noMarketsTv.setVisible()
+            binding.marketListRv.setVisibiltyGone()
         }else if(!marketList.isNullOrEmpty() && binding.marketListRv.visibility == View.GONE)
         {
-            binding.marketListRv.visibility = View.VISIBLE
-            binding.noMarketsTv.visibility = View.GONE
+            binding.marketListRv.setVisible()
+            binding.noMarketsTv.setVisibiltyGone()
         }
 
         binding.marketListRv.adapter =

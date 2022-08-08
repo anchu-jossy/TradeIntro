@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.domain.util
 
+import android.view.View
 import android.widget.Toast
 import okhttp3.internal.trimSubstring
 import java.math.RoundingMode
@@ -27,5 +28,11 @@ object Utils {
 
 
 
+    }
+    fun View.setVisible(){
+        this.visibility=View.VISIBLE
+    }
+    fun View.setVisibiltyGone(){
+        this.visibility=View.GONE
     }
 }

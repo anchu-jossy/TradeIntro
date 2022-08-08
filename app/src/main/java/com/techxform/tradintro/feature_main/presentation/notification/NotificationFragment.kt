@@ -15,6 +15,8 @@ import com.techxform.tradintro.databinding.NotificationFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -80,9 +82,9 @@ class NotificationFragment :
 
         viewModel.notificationLiveData.observe(viewLifecycleOwner) {
             if (it.data.isEmpty()) {
-                binding.tvNodata.visibility = View.VISIBLE
+                binding.tvNodata.setVisible()
             } else {
-                binding.tvNodata.visibility = View.GONE
+                binding.tvNodata.setVisibiltyGone()
                 adapter = NotificationAdapter(it.data, listener)
                 binding.notificationRv.adapter = adapter
             }

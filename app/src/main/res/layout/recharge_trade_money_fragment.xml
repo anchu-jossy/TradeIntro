@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature_main.presentation.recharge_trade_money.RechargeTradeMoneyFragment">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="@dimen/_16sdp">
+       >
 
+        <com.google.android.material.tabs.TabLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/tabLayout" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

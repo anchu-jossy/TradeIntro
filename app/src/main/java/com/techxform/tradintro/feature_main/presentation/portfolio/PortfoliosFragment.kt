@@ -18,6 +18,8 @@ import com.techxform.tradintro.databinding.PortfolisFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -151,12 +153,12 @@ class PortfoliosFragment :
     private fun setAdapter() {
         if(portfolioList.isNullOrEmpty())
         {
-            binding.noPortfoliosTv.visibility = View.VISIBLE
-            binding.portfolioRv.visibility = View.GONE
+            binding.noPortfoliosTv.setVisible()
+            binding.portfolioRv.setVisibiltyGone()
         }else if(!portfolioList.isNullOrEmpty() && binding.portfolioRv.visibility == View.GONE)
         {
-            binding.portfolioRv.visibility = View.VISIBLE
-            binding.noPortfoliosTv.visibility = View.GONE
+            binding.portfolioRv.setVisible()
+            binding.noPortfoliosTv.setVisibiltyGone()
         }
 
         if (adapter == null) {
