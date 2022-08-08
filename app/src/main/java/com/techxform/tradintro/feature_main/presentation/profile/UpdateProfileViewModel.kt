@@ -18,6 +18,11 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
 
     private var _userDetailLiveData = MutableLiveData<BaseResponse<UserDetailsResponse>>()
     val userDetailLiveData: LiveData<BaseResponse<UserDetailsResponse>> = _userDetailLiveData
+
+    private var _deleteAccountLiveData = MutableLiveData<BaseResponse<Any>>()
+    val deleteAccountLiveData: LiveData<BaseResponse<Any>> = _deleteAccountLiveData
+
+
     private var _userDetailErrorLiveData = MutableLiveData<Failure>()
     val portfolioErrorLiveData: LiveData<Failure> = _userDetailErrorLiveData
     private var _loadingLiveData = MutableLiveData<Boolean>()
@@ -92,6 +97,20 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
             _loadingLiveData.postValue(false)
         }
     }
-
+    fun deleteUser()
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.deleteProfile()) {
+                is Result.Success -> {
+                    _deleteAccountLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _userDetailErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
 
 }

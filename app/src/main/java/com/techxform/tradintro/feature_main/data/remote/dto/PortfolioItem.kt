@@ -25,6 +25,10 @@ data class PortfolioItem(
     @SerializedName("order_validity_date") val orderValidityDate: String,
     @SerializedName("order_email_status") val orderEmailStatus: Int,
     @SerializedName("market") val market: Stock,
+    @SerializedName("isEditEnabled") val isEditEnabled: Boolean,
+    @SerializedName("isPriceEditEnabled") val isPriceEnabled: Boolean,
+
+
 ) {
 
     fun formatDateTime(): Pair<String, String> {
@@ -43,3 +47,5 @@ data class PortfolioItem(
     }
 
 }
+
+data class UpdatePortfolioRequest(@SerializedName("alert_price")val alert_price :Number,@SerializedName("order_qty")val order_qty:Number)

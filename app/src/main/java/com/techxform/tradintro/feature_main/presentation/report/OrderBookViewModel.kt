@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
-import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
-import com.techxform.tradintro.feature_main.data.remote.dto.Result
+import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +16,10 @@ import javax.inject.Inject
 class OrderBookViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
     private var _portfolioLiveData = MutableLiveData<BaseResponse<ArrayList<PortfolioItem>>>()
     val portfolioLiveData: LiveData<BaseResponse<ArrayList<PortfolioItem>>> = _portfolioLiveData
+    private var _updatePortfolioLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
+    val updatePortfolioLiveData: LiveData<BaseResponse<PortfolioItem>> = _updatePortfolioLiveData
+    private var _deletePortfolioLiveData = MutableLiveData<BaseResponse<Any>>()
+    val deletePortfolioLiveData: LiveData<BaseResponse<Any>> = _deletePortfolioLiveData
 
     private var _portfolioErrorLiveData = MutableLiveData<Failure>()
     val portfolioErrorLiveData: LiveData<Failure> = _portfolioErrorLiveData
@@ -41,6 +42,34 @@ class OrderBookViewModel @Inject constructor(private val repository: ApiReposito
         }
 
     }
+    fun updatePortfolio(id: Int, req: UpdatePortfolioRequest) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.updatePortfolio(id,req)) {
+                is Result.Success -> {
+                    _updatePortfolioLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _portfolioErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
 
+    }
+    fun deletePortfolio(id: Int) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.deletePortfolio(id)) {
+                is Result.Success -> {
+                    _deletePortfolioLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _portfolioErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
 
+    }
 }

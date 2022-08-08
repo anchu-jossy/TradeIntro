@@ -7,6 +7,8 @@
         <variable
             name="portfolio"
             type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
+        <import type="android.view.View"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,8 +79,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="@dimen/_8sdp"
                     android:maxLines="1"
+                    android:padding="@dimen/_8sdp"
                     android:text="@{portfolio.market.stockName}"
                     app:fontFamily="@font/open_sans_medium"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +92,8 @@
                     android:id="@+id/priceRv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderIdTv"
                     tools:itemCount="6"
                     tools:listitem="@layout/row_price" />
@@ -124,6 +128,48 @@
             app:layout_constraintEnd_toEndOf="@+id/g1"
             app:layout_constraintStart_toEndOf="@+id/txnTypeLbl"
             app:layout_constraintTop_toTopOf="@+id/txnTypeLbl" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_edit"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/edit"
+            android:textColor="@color/light_blue_900"
+            android:textSize="@dimen/_10sdp"
+            app:cornerRadius="@dimen/_3sdp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txnTypeLbl"
+            android:visibility="@{portfolio.isEditEnabled == true   ? View.VISIBLE : View.INVISIBLE}" app:strokeColor="@color/light_blue_900"
+            app:strokeWidth="@dimen/_1sdp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_delete"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/delete_text"
+            android:textColor="@color/light_blue_900"
+            android:textSize="@dimen/_10sdp"
+            app:cornerRadius="@dimen/_3sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_edit"
+            app:layout_constraintStart_toEndOf="@+id/g1"
+            app:layout_constraintTop_toTopOf="@+id/btn_edit"
+            app:strokeColor="@color/light_blue_900"
+            app:strokeWidth="@dimen/_1sdp"
+
+
+            />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/g1"

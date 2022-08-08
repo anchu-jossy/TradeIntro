@@ -65,7 +65,7 @@
                 android:fontFamily="@font/open_sans_semibold"
                 android:gravity="end"
                 android:maxLines="1"
-                android:text="@{data.inviteStatus.toString()}"
+                android:text='@{data.inviteStatus==0 ? "1" : data.inviteStatus==1 ? "1" : data.inviteStatus ==2 ? "2" : ""}'
                 app:inviteColor="@{data.inviteStatus}"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"

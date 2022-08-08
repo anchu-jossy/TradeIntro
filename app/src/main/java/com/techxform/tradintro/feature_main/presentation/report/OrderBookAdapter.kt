@@ -9,7 +9,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.OrderBookRowBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 
-class OrderBookAdapter (val list: ArrayList<PortfolioItem>) : RecyclerView.Adapter<OrderBookAdapter.OrderBookVH>() {
+class OrderBookAdapter(val list: ArrayList<PortfolioItem>, val listener: ClickListener) : RecyclerView.Adapter<OrderBookAdapter.OrderBookVH>() {
 
 
     inner class OrderBookVH(private val orderBookRowBinding: OrderBookRowBinding): RecyclerView.ViewHolder(orderBookRowBinding.root)
@@ -20,6 +20,12 @@ class OrderBookAdapter (val list: ArrayList<PortfolioItem>) : RecyclerView.Adapt
             val lm = LinearLayoutManager(orderBookRowBinding.root.context, LinearLayoutManager.HORIZONTAL, false)
             orderBookRowBinding.priceRv.layoutManager = lm
             orderBookRowBinding.priceRv.adapter = PriceAdapter(createPricingList(list[absoluteAdapterPosition]))
+            orderBookRowBinding.btnEdit.setOnClickListener {
+                listener.onEditBtnClick(list[absoluteAdapterPosition])
+            }
+            orderBookRowBinding.btnDelete.setOnClickListener {
+                listener.onDeleteBtnClick(list[absoluteAdapterPosition])
+            }
         }
 
 
@@ -78,5 +84,9 @@ class OrderBookAdapter (val list: ArrayList<PortfolioItem>) : RecyclerView.Adapt
 
     override fun getItemCount(): Int {
         return list.size
+    }
+    interface ClickListener{
+        fun onEditBtnClick(portfolio: PortfolioItem)
+        fun onDeleteBtnClick(portfolio: PortfolioItem)
     }
 }

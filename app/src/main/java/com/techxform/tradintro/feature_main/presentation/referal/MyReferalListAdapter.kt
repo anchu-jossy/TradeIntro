@@ -1,4 +1,4 @@
-package com.techxform.tradintro.feature_main.presentation.recharge
+package com.techxform.tradintro.feature_main.presentation.referal
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,7 +25,7 @@ class MyReferalListAdapter(val list: MutableList<InviteData>) :
 
 
     override fun getItemCount(): Int {
-        return 10
+        return list.size
     }
 
 
@@ -34,14 +34,7 @@ class MyReferalListAdapter(val list: MutableList<InviteData>) :
         fun binding() {
 
             rowBinding.data = list[adapterPosition]
-//
-//            notificationRowBinding.root.setOnClickListener {
-//                listener.onItemClick(adapterPosition, list[adapterPosition])
-//            }
-//
-//            notificationRowBinding.closeIv.setOnClickListener {
-//                listener.onDeleteClick(adapterPosition, list[adapterPosition])
-//            }
+
         }
 
     }
@@ -49,7 +42,6 @@ class MyReferalListAdapter(val list: MutableList<InviteData>) :
 
     interface OnClickListener {
         fun onItemClick(position: Int, notifications: Notifications)
-        fun onDeleteClick(position: Int, notifications: Notifications)
     }
 
     override fun onBindViewHolder(holder: MyReferalListVH, position: Int) {

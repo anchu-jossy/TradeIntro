@@ -209,7 +209,7 @@
     <string name="execution_time_lbl">Execution \nTime:</string>
     <string name="transaction_type_lbl">Transaction \nType:</string>
     <string name="order_id_lbl">Order Id</string>
-    <string name="txn_type_price_lbl">Transaction Type Price</string>
+    <string name="txn_type_price_lbl">Transaction  Price</string>
     <string name="txn_charges_lbl">Transaction Charges</string>
     <string name="brokerage_lbl">Brokerage</string>
     <string name="realised_gain">Realised Gain</string>
@@ -227,5 +227,14 @@
     <string name="remove_alert_lbl">Remove Alert</string>
     <string name="modify_alert_lbl">Modify Alert</string>
     <string name="enter_alert_price_lbl">Enter Alert Price</string>
+    <string name="delete_acc">Delete Account</string>
+    <string name="acc_delete">Account deleted successfully</string>
+
+    <string name="delete_text">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="stock_name">StockName</string>
+    <string name="stock_id">StockId</string>
+
+
 
 </resources>

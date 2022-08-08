@@ -138,4 +138,14 @@ interface ApiService {
     @Multipart
     suspend fun editProfile(@PartMap reqMap: Map<String, String>) : Response<BaseResponse<UserDetailsResponse>>
 
+
+    @DELETE("api/users/me")
+    suspend fun deleteProfile() : Response<BaseResponse<Any>>
+
+    @PATCH("api/portfolio/{id}/")
+    suspend fun updatePortfolio(@Path("id") id: Int,
+        @Body updatePortFolioRequest : UpdatePortfolioRequest):Response<BaseResponse<PortfolioItem>>
+
+    @DELETE("api/portfolio/{id}/")
+    suspend fun deletePortfolio(@Path("id") id: Int) : Response<BaseResponse<Any>>
 }

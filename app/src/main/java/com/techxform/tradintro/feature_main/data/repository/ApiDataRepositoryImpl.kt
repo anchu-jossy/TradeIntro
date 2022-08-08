@@ -174,6 +174,47 @@ class ApiDataRepositoryImpl @Inject constructor(
             }
         }
     }
+    override suspend fun updatePortfolio(id:Int,updatePortFolioReq: UpdatePortfolioRequest): Result<BaseResponse<PortfolioItem>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.updatePortfolio(id,updatePortFolioReq)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
+    override suspend fun deletePortfolio(id: Int): Result<BaseResponse<Any>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.deletePortfolio(id)
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 
     override suspend fun portfolioDetails(
         orderId: Int,
@@ -847,21 +888,48 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+
     override suspend fun editProfile(editUserProfileReq: EditUserProfileReq): Result<BaseResponse<UserDetailsResponse>> {
         return withContext(Dispatchers.Default)
         {
+
             try {
                 val reqMap = hashMapOf<String, String>()
-                if (editUserProfileReq.image?.isNotEmpty() == true)
-                    reqMap["image"] = editUserProfileReq.image!!
-                if (editUserProfileReq.userName?.isNotEmpty() == true)
-                    reqMap["user_name"] = editUserProfileReq.userName!!
-                if (editUserProfileReq.lastName?.isNotEmpty() == true)
-                    reqMap["user_last_name"] = editUserProfileReq.lastName!!
-                if (editUserProfileReq.userPhone?.isNotEmpty() == true)
-                    reqMap["user_phone"] = editUserProfileReq.userPhone!!
-
+                editUserProfileReq?.apply {
+                    if (this.image?.isNotEmpty() == true)
+                        reqMap["image"] = this.image!!
+                    if (this.userName?.isNotEmpty() == true)
+                        reqMap["user_name"] = this.userName!!
+                    if (this.lastName?.isNotEmpty() == true)
+                        reqMap["user_last_name"] = this.lastName!!
+                    if (this.userPhone?.isNotEmpty() == true)
+                        reqMap["user_phone"] = this.userPhone!!
+                }
                 val response = apiService.editProfile(reqMap)
+
+                if (response.isSuccessful)
+                    Result.Success(response.body()!!)
+                else {
+                    Log.e("Error:", response.raw().message)
+                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                }
+            } catch (e: UnknownHostException) {
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                Result.Error(Failure.ServerError)
+            }
+
+
+        }
+    }
+
+    override suspend fun deleteProfile(): Result<BaseResponse<Any>> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiService.deleteProfile()
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {

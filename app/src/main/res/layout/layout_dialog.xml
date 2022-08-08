@@ -5,9 +5,10 @@
     <data>
 
         <variable
-            name="userDetail"
-            type="com.techxform.tradintro.feature_main.data.remote.dto.UserDetailsResponse" />
+            name="portfolio"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
 
+        <import type="android.view.View" />
 
     </data>
 
@@ -16,38 +17,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".1"
-            android:gravity="end">
-
-            <ImageView
-                android:id="@+id/editBtn"
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="@dimen/_24sdp"
-                android:padding="@dimen/_4sdp"
-                android:src="@drawable/ic_baseline_edit_24" />
-        </LinearLayout>
-
         <RelativeLayout
             android:id="@+id/shape_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".2"
-
-            >
+            android:layout_weight=".2">
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/roundedimage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dateTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_user"
-                app:civ_border_color="@color/gray"
-                app:civ_border_width="10dp" />
+
+                android:fontFamily="@font/open_sans_medium"
+                android:text="Enter the  Fields"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp" />
+
         </RelativeLayout>
 
         <LinearLayout
@@ -61,15 +48,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/open_sans_semibold"
-                android:text="@string/first_name"
+                android:text="@string/stock_name"
+
                 android:textColor="@color/modest_grey" />
 
-            <EditText
-                android:id = "@+id/userNameET"
+            <TextView
+                android:id="@+id/stockNameET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{userDetail.userName}"
+
+                android:text="@{portfolio.market.stockName}"
                 android:textColor="@color/grey" />
 
             <TextView
@@ -77,16 +66,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/open_sans_semibold"
-                android:text="@string/last_name"
+                android:text="@string/stock_id"
+
                 android:textColor="@color/modest_grey" />
 
             <EditText
-                android:id = "@+id/userLastNameET"
+                android:id="@+id/stockIdET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{userDetail.userLastName}"
-
+                android:text="@{portfolio.orderNo}"
                 android:textColor="@color/grey" />
 
             <TextView
@@ -94,16 +83,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/open_sans_semibold"
-                android:text="@string/mail_id"
+                android:text="@string/txn_type_price_lbl"
                 android:textColor="@color/modest_grey" />
 
             <EditText
-                android:id = "@+id/userEmailET"
+                android:id="@+id/TransPriceET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{userDetail.userEmail}"
-
+                android:enabled="@{portfolio.isPriceEnabled == true   ? true : false}"
+                android:text="@{ String.valueOf(portfolio.orderPrice)}"
                 android:textColor="@color/grey" />
 
             <TextView
@@ -111,28 +100,37 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/open_sans_semibold"
-                android:text="@string/phone_num"
+                android:text="@string/quantity"
                 android:textColor="@color/modest_grey" />
 
             <EditText
-                android:id = "@+id/userPhoneET"
+                android:id="@+id/quantityET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{userDetail.userPhone}"
-
+                android:text="@{ String.valueOf(portfolio.orderQty)}"
                 android:textColor="@color/grey" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sellBtn"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_gravity="center"
+
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/update"
+                android:textColor="@color/light_blue_900"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="@{portfolio.isEditEnabled == true   ? View.VISIBLE : View.GONE}"
+                app:strokeColor="@color/light_blue_900"
+             />
+
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sellBtn"
-            style="@style/Theme.TradIntro.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/pink_circular_bg1"
-            android:shadowRadius="0"
-            android:text="@string/delete_acc" />
     </LinearLayout>
+
 </layout>
