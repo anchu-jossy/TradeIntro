@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.data.remote.dto
 
+import UserLevel
 import com.google.gson.annotations.SerializedName
 
 data class UserDetailsResponse (
@@ -28,6 +29,7 @@ data class UserDetailsResponse (
   @SerializedName("user_login_count"    ) var userLoginCount    : Int?    = null,
   @SerializedName("previous_tree_level" ) var previousTreeLevel : Int?    = null,
   @SerializedName("help_popup"          ) var helpPopup         : Int?    = null,
-  @SerializedName("invite_email_status" ) var inviteEmailStatus : Int?    = null
+  @SerializedName("invite_email_status" ) var inviteEmailStatus : Int?    = null,
+  @SerializedName("userLevel") val userLevel : UserLevel
 
 )

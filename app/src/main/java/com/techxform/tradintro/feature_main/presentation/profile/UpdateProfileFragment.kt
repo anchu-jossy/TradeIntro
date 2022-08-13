@@ -6,17 +6,13 @@ import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.Contants.IMAGE_URL
-import com.techxform.tradintro.core.utils.Contants.delete
-import com.techxform.tradintro.core.utils.Contants.update
 import com.techxform.tradintro.databinding.UpdateProfileFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.EditUserProfileReq
-import com.techxform.tradintro.feature_main.presentation.splash.SplashFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,9 +38,13 @@ class UpdateProfileFragment :
             isEnableDisable(false)
             it.data.let { data ->
                 binding.userDetail = data
-                data.userImage?.let { image ->
+                if (data.userImage?.isNotEmpty() == true)
                     Glide.with(requireContext())
-                        .load(IMAGE_URL + image)
+                        .load(IMAGE_URL + data.userImage)
+                        .into(binding.roundedimage);
+                else {
+                    Glide.with(requireContext())
+                        .load(R.drawable.profile)
                         .into(binding.roundedimage);
                 }
 

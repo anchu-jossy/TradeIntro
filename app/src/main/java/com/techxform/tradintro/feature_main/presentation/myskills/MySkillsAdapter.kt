@@ -8,17 +8,24 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.MyskillsItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Levels
 
-class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener) :
+class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener, val myLevel: Int?) :
     RecyclerView.Adapter<MySkillsAdapter.MySkillsVH>() {
 
 
     inner class MySkillsVH(private val rowItemBinding: MyskillsItemBinding) :
         RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
-            rowItemBinding.level = list[adapterPosition]
-            rowItemBinding.root.setOnClickListener {
-                listener.onItemClick(adapterPosition,  list[adapterPosition])
+            with(rowItemBinding){
+                level = list[adapterPosition]
+                userLevel=myLevel
+                root.setOnClickListener {
+                    listener.onItemClick(adapterPosition,  list[adapterPosition])
+                    textViewHeader
+                }
+
             }
+
+
         }
     }
 
@@ -29,6 +36,7 @@ class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener) 
             parent,
             false
         )
+
         return MySkillsVH(binding)
     }
 

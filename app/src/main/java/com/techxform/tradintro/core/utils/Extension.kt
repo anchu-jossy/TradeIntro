@@ -1,6 +1,7 @@
 package com.techxform.tradintro.core.utils
 
 import android.graphics.Color
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -42,6 +43,14 @@ fun TextView.inviteColor(value: Int) {
         2 -> setTextColor(ContextCompat.getColor(context, R.color.red));
 
     }
+    @BindingAdapter("userLevel","currentLevel")
+    fun TextView.setLock(userLevel:Int, currentLevel:Int) {
+        if (userLevel >= currentLevel)
+           drawableEndCompat.R.drawable.ic_open_lock
+        else
+            drawableEndCompat.R.drawable.ic_lock
+    }
+
 }
 
 

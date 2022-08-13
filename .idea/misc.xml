@@ -73,6 +73,7 @@
         <entry key="app/src/main/res/drawable/frame.xml" value="0.1805" />
         <entry key="app/src/main/res/drawable/framehalfoval.xml" value="0.1735" />
         <entry key="app/src/main/res/drawable/frameoval.xml" value="0.1735" />
+        <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.185" />
         <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_my_profile.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_watch_list.xml" value="0.168" />
@@ -88,6 +89,7 @@
         <entry key="app/src/main/res/layout/market_detail_fragment.xml" value="0.12916666666666668" />
         <entry key="app/src/main/res/layout/market_fragment.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/layout/my_referal_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/my_skills.xml" value="0.16666666666666666" />
         <entry key="app/src/main/res/layout/my_skills_view.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/myskills_item.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/notification_fragment.xml" value="0.171875" />
@@ -106,7 +108,7 @@
         <entry key="app/src/main/res/layout/report_fragment.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/layout/row_item.xml" value="0.2526041666666667" />
         <entry key="app/src/main/res/layout/stock_row_layout.xml" value="0.15260416666666668" />
-        <entry key="app/src/main/res/layout/update_profile_fragment.xml" value="0.16510416666666666" />
+        <entry key="app/src/main/res/layout/update_profile_fragment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/wallet_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/watchlist_fragment.xml" value="0.15414634146341463" />
         <entry key="app/src/main/res/layout/watchlist_view_fragment.xml" value="0.14984709480122324" />

@@ -3,6 +3,7 @@ package com.techxform.tradintro.feature_main.data.remote.dto
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.techxform.tradintro.R
 
 data class UserLevels(
     @SerializedName("myLevel") var myLevel: Int? = null,
@@ -63,6 +64,7 @@ data class Levels(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Int::class.java.classLoader) as? Int
     ) {
+
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -104,4 +106,5 @@ data class Levels(
             return arrayOfNulls(size)
         }
     }
+
 }

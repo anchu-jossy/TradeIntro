@@ -7,6 +7,9 @@
         <variable
             name="level"
             type="com.techxform.tradintro.feature_main.data.remote.dto.Levels" />
+        <variable
+            name="userLevel"
+            type="Integer" />
 
     </data>
 

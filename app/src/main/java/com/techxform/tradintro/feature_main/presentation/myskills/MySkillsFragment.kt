@@ -20,6 +20,7 @@ class MySkillsFragment :
     BaseFragment<MySkillsBinding>(MySkillsBinding::inflate) {
 
     private lateinit var viewModel: MySkillsViewModel
+    var level:Int?=0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +34,8 @@ class MySkillsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.userLevels()
+
+        viewModel.userDetails()
 
     }
 
@@ -50,11 +52,18 @@ class MySkillsFragment :
         }
 
         viewModel.userLevelsLiveData.observe(viewLifecycleOwner) {
-            binding.levelImage = it.data.levels.find { it1 -> it1.levelPosition == it.data.myLevel }?.userLevelImage?: ""
-            binding.textViewLevelDesc.text = String.format(getString(R.string.level_desc), it.data.myLevel)
+
             binding.textViewPoints.text = getString(R.string.current_point) + String.format(getString(R.string.points_format), it.data.myPoints)
-            binding.textViewLevel.text = String.format(getString(R.string.level_format), it.data.myLevel)
-            binding.mySkillsRV.adapter = MySkillsAdapter(it.data.levels, rvListener)
+            binding.mySkillsRV.adapter = MySkillsAdapter(it.data.levels, rvListener,this.level)
+
+        }
+        viewModel.userDetailLiveData.observe(viewLifecycleOwner) { it ->
+            viewModel.userLevels()
+            this.level= it.data.treeLevel
+            binding.levelImage = it.data.userLevel.user_level_image
+            binding.textViewLevelDesc.text = String.format(getString(R.string.level_desc), it.data.treeLevel)
+            binding.textViewLevel.text = String.format(getString(R.string.level_format), it.data.treeLevel)
+
 
         }
 

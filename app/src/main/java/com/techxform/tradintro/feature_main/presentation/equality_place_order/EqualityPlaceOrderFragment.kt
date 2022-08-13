@@ -23,6 +23,8 @@ import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.util.Utils
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import com.techxform.tradintro.feature_main.presentation.PaymentResponseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -125,9 +127,18 @@ class EqualityPlaceOrderFragment :
         viewModel.walletErrorLiveData.observe(viewLifecycleOwner){
             handleError(it)
         }
+       viewModel. userDetailLiveData.observe(viewLifecycleOwner){
+          if( it.data.treeLevel==1){
+              binding.limitRb.setVisibiltyGone()
+          }
+           else{
+              binding.limitRb.setVisible()
+          }
+       }
 
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
             it.data.let { walletResponse ->
+
                 userId = walletResponse.userId!!
                 binding.balanceEt.setText(walletResponse.tradeMoneyBalance.toString())
                 binding.usableBalanceEt.setText(walletResponse.balance.toString())
