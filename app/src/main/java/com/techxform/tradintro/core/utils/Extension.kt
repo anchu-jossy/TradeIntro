@@ -50,7 +50,7 @@ fun TextView.setLock(userLevel: Int, currentLevel: Int) {
     if (userLevel >= currentLevel)
         setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.ic_open_lock), null)
     else
-        setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.ic_baseline_lock_24), null)
+        setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.ic_lock), null)
 }
 
 
