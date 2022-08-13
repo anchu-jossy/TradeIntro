@@ -43,14 +43,16 @@ fun TextView.inviteColor(value: Int) {
         2 -> setTextColor(ContextCompat.getColor(context, R.color.red));
 
     }
-    @BindingAdapter("userLevel","currentLevel")
-    fun TextView.setLock(userLevel:Int, currentLevel:Int) {
-        if (userLevel >= currentLevel)
-           drawableEndCompat.R.drawable.ic_open_lock
-        else
-            drawableEndCompat.R.drawable.ic_lock
-    }
-
 }
+
+@BindingAdapter(value =["userLevel","currentLevel"], requireAll = true)
+fun TextView.setLock(userLevel: Int, currentLevel: Int) {
+    if (userLevel >= currentLevel)
+        setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.ic_open_lock), null)
+    else
+        setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.ic_baseline_lock_24), null)
+}
+
+
 
 

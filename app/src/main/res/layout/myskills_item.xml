@@ -75,7 +75,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/view2"
                 app:layout_constraintTop_toTopOf="parent"
-                app:drawableEndCompat="@drawable/ic_baseline_lock_open_24" />
+                app:userLevel = "@{userLevel}"
+                app:currentLevel = "@{level.levelPosition}"
+                />
 
             <TextView
                 android:id="@+id/textViewCurrentPoints"
