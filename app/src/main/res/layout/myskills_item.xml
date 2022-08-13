@@ -71,13 +71,12 @@
                 android:text="@{level.userLevelName}"
                 android:textColor="@color/dark_most_grey"
                 android:textSize="@dimen/_15ssp"
+                app:currentLevel="@{level.levelPosition}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/view2"
                 app:layout_constraintTop_toTopOf="parent"
-                app:userLevel = "@{userLevel}"
-                app:currentLevel = "@{level.levelPosition}"
-                />
+                app:userLevel="@{userLevel}" />
 
             <TextView
                 android:id="@+id/textViewCurrentPoints"

@@ -40,7 +40,8 @@ class MySkillsFragment :
     }
 
     private val rvListener = object : MySkillsAdapter.ClickListener {
-        override fun onItemClick(position: Int, levels: Levels) {
+        override fun onItemClick(position: Int, levels: Levels, myLevel: Int?) {
+            levels.userLevel=myLevel
             findNavController().navigate(R.id.mySkillsViewFragment, MySkillsViewFragment.navBundle(levels))
         }
 

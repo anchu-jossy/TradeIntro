@@ -19,7 +19,7 @@ class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener, 
                 level = list[adapterPosition]
                 userLevel=myLevel
                 root.setOnClickListener {
-                    listener.onItemClick(adapterPosition,  list[adapterPosition])
+                    listener.onItemClick(adapterPosition,  list[adapterPosition],myLevel)
                     textViewHeader
                 }
 
@@ -51,7 +51,7 @@ class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener, 
 
 
     interface ClickListener {
-        fun onItemClick(position: Int, levels: Levels)
+        fun onItemClick(position: Int, levels: Levels, myLevel: Int?)
     }
 
 

@@ -37,6 +37,7 @@ data class Levels(
     @SerializedName("max_pts_per_referal") var maxPtsPerReferal: Int? = null,
     @SerializedName("pts_per_watchlist") var ptsPerWatchlist: Int? = null,
     @SerializedName("max_pts_per_watchlist") var maxPtsPerWatchlist: Int? = null,
+    var userLevel: Int? = null,
 
 ):Parcelable{
     constructor(parcel: Parcel) : this(
