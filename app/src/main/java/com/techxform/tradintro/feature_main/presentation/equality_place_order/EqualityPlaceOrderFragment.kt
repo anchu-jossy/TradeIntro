@@ -84,8 +84,8 @@ class EqualityPlaceOrderFragment :
 
 
         binding.buttonBuy.setOnClickListener(this)
-
-        viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
+//TODO with portfolio followup
+     //   viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
         isLimitVisible(false)
         binding.radioGrp.check(R.id.marketRb)
         binding.quantityEt.addTextChangedListener {

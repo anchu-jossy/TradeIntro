@@ -144,6 +144,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 }
             }
         }
+
     }
 
 }

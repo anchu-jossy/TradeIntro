@@ -14,16 +14,14 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
+import androidx.core.view.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationBarMenu
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.techxform.tradintro.R
@@ -38,6 +36,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.ALERT_TYPE
@@ -68,6 +67,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         setHasOptionsMenu(true)
         bottomNavSetup()
         drawerSetup()
+        viewModel.userDetails()
         pref = PreferenceHelper.customPreference(requireContext())
         if(!pref.fcmToken.isNullOrEmpty() && !pref.isFcmTokenSync)
         {
@@ -106,7 +106,10 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             }
         }
 
+        viewModel.userDetailLiveData.observe(viewLifecycleOwner) {
+            (binding.bottomNav.menu as NavigationBarMenu).visibleItems[3].isVisible = it.data.treeLevel != 1
 
+        }
 
     }
 
@@ -261,15 +264,21 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         val navHostFragment =
             childFragmentManager.findFragmentById(R.id.container_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        if(requireActivity().intent?.getBooleanExtra(SplashScreenActivity.IS_NOTIFICATION,false) == true || requireArguments().getBoolean(SplashScreenActivity.IS_NOTIFICATION, false))
-        {
+        if (requireActivity().intent?.getBooleanExtra(
+                SplashScreenActivity.IS_NOTIFICATION,
+                false
+            ) == true || requireArguments().getBoolean(SplashScreenActivity.IS_NOTIFICATION, false)
+        ) {
             val type =
-                (requireActivity().intent?.getStringExtra(SplashScreenActivity.NOTIFICATION_TYPE) ?: requireArguments().getString(SplashScreenActivity.NOTIFICATION_TYPE)) as String ?: ""
+                (requireActivity().intent?.getStringExtra(SplashScreenActivity.NOTIFICATION_TYPE)
+                    ?: requireArguments().getString(SplashScreenActivity.NOTIFICATION_TYPE)) as String
+                    ?: ""
             redirectToNotification(type)
         }
 
 
         binding.bottomNav.setupWithNavController(navController)
+
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
@@ -296,6 +305,9 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             it.isChecked = true
             return@setOnItemSelectedListener true
         }
+
+
+
         manageBottomNavVisiblity()
     }
 

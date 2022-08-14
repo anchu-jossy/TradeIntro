@@ -48,7 +48,6 @@
                     android:layout_height="wrap_content"
                     android:background="#00000000"
                     android:backgroundTint="@color/white"
-                    android:text="anjujossy@gmail.com"
                     android:singleLine="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp" />
@@ -71,7 +70,6 @@
                     android:background="#00000000"
                     android:textColor="@color/white"
                     android:singleLine="true"
-                    android:text="12345"
                     android:inputType="textPassword"
                     android:textSize="@dimen/_12ssp" />
 
