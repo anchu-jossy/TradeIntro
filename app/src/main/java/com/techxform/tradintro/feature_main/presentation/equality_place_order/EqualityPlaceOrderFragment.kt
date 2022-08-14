@@ -2,6 +2,7 @@ package com.techxform.tradintro.feature_main.presentation.equality_place_order
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.ScreenType
 import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
@@ -43,19 +45,30 @@ class EqualityPlaceOrderFragment :
     var quantity: Int? = null
     lateinit var market: Stock
     private var userId by Delegates.notNull<Int>()
+    private var screenType:Int = 0
 
     companion object {
         const val IS_BUY_OR_ORDER = "IsBuyOrOrderButtonClicked"
         const val ORDER_ID = "orderId"
         const val BUY = "BUY"
         const val SELL = "SELL"
+        const val FROM_SCREEN = "from_screen"
+        const val STOCK = "stock"
 
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(orderId:Int, orderType:String, fromScreen:Int, stock: Stock) =
             EqualityPlaceOrderFragment().apply {
-                arguments = Bundle().apply {
-                }
+                arguments = navBundle(orderId, orderType, fromScreen, stock)
             }
+
+        fun navBundle(orderId:Int, orderType:String, fromScreen:Int, stock:Stock) =
+             Bundle().apply {
+                putInt(ORDER_ID, orderId)
+                putString(IS_BUY_OR_ORDER, orderType)
+                putInt(FROM_SCREEN, fromScreen)
+                putParcelable(STOCK, stock)
+            }
+
     }
 
     override fun onCreateView(
@@ -73,7 +86,7 @@ class EqualityPlaceOrderFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.walletSummary(PaymentType.VOUCHER)
         orderId = requireArguments().getInt(ORDER_ID, 0)
-        viewModel.marketDetail(orderId)
+       val screenType = requireArguments().getInt(FROM_SCREEN,0)
         arguments?.get(IS_BUY_OR_ORDER)?.let {
             isBuyOrSell =    it as String
             binding.buttonBuy.text=isBuyOrSell
@@ -82,10 +95,24 @@ class EqualityPlaceOrderFragment :
             else{ binding.titleTv.text = getString(R.string.sell_stock)}
         }
 
-
+       /* when (screenType) {
+            ScreenType.MARKET -> viewModel.marketDetail(orderId)
+            ScreenType.WATCHLIST ->  viewModel.watchListDetail(orderId)
+            ScreenType.PORTFOLIO -> viewModel.portfolioDetails(
+                orderId,
+                FilterModel("", 100, 0, 0, "")
+            )
+        }*/
+        val stock = if (Build.VERSION.SDK_INT >= 33) {
+            requireArguments().getParcelable(STOCK,Stock::class.java)
+        } else {
+            requireArguments().getParcelable(STOCK)
+        }
+        if (stock != null) {
+            market = stock
+            setData(stock)
+        }
         binding.buttonBuy.setOnClickListener(this)
-//TODO with portfolio followup
-     //   viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
         isLimitVisible(false)
         binding.radioGrp.check(R.id.marketRb)
         binding.quantityEt.addTextChangedListener {
@@ -127,7 +154,7 @@ class EqualityPlaceOrderFragment :
         viewModel.walletErrorLiveData.observe(viewLifecycleOwner){
             handleError(it)
         }
-       viewModel. userDetailLiveData.observe(viewLifecycleOwner){
+       viewModel.userDetailLiveData.observe(viewLifecycleOwner){
           if( it.data.treeLevel==1){
               binding.limitRb.setVisibiltyGone()
           }
@@ -145,7 +172,7 @@ class EqualityPlaceOrderFragment :
             }
 
         }
-        viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
+        /*viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
             it.data?.let { it ->
                 market = it.market
                 setData(it.market)
@@ -158,7 +185,7 @@ class EqualityPlaceOrderFragment :
                 setData(stock)
             }
 
-        }
+        }*/
 
         viewModel.updateWalletLiveData.observe(viewLifecycleOwner) {
 

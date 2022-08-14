@@ -13,14 +13,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.ScreenType
 import com.techxform.tradintro.databinding.WatchlistViewFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.AlertPriceRequest
+import com.techxform.tradintro.feature_main.data.remote.dto.BuySellStockReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.domain.util.Utils
+import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -34,6 +38,7 @@ class WatchlistViewFragment :
 
     private lateinit var viewModel: WatchlistViewViewModel
     private var watchlistId by Delegates.notNull<Int>()
+    private lateinit var watchList: WatchList
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +65,25 @@ class WatchlistViewFragment :
     {
         binding.setAlertPriceBtn.setOnClickListener {
             alertPriceSetDialog()
+        }
+        binding.buyBtn.setOnClickListener {
+            if (watchList != null && watchList.market != null) {
+                viewModel.buyStock(
+                    watchList!!.market!!.stockId,
+                    BuySellStockReq(
+                        5,
+                        0,
+                        watchList.market!!.stockCode!!,
+                        0,
+                        0f,
+                        "2022-05-26T00:00:00.000Z"
+                    )
+                )
+            }
+        }
+        binding.sellBtn.setOnClickListener {
+            if(watchList != null && watchList.market!! != null)
+                viewModel.sellStock(watchList.market!!.stockId, BuySellStockReq(5,0,  watchList.market!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
         }
     }
 
@@ -178,11 +202,31 @@ class WatchlistViewFragment :
 
         viewModel.watchlistViewLiveData.observe(viewLifecycleOwner) {
             binding.watchlist = it.data
+            watchList = it.data
             setGainProfit(it.data)
         }
 
         viewModel.watchlistViewErrorLiveData.observe(viewLifecycleOwner) {
            handleError(it)
+        }
+        viewModel.buyStockErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+        viewModel.sellStockErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+        viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
+                    EqualityPlaceOrderFragment.BUY, ScreenType.WATCHLIST, watchList.market!!))
+            }
+        }
+        viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
+                    EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST,watchList.market!!))
+
+            }
         }
     }
 

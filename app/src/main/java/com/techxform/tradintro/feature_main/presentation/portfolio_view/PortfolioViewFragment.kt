@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.ScreenType
 import com.techxform.tradintro.databinding.PortfolioViewFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.BuySellStockReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
@@ -34,6 +37,7 @@ class PortfolioViewFragment :
     }
 
     private lateinit var viewModel: PortfolioViewViewModel
+    private lateinit var portfolioItem: PortfolioItem
 
     private var orderId by Delegates.notNull<Int>()
 
@@ -118,42 +122,80 @@ class PortfolioViewFragment :
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
             it.data?.let { data->
                 binding.portfolio = data
+                portfolioItem = data
                 binding.priceRv.adapter = PriceAdapter(createPriceType(data))
             }
 
         }
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                Failure.NetworkConnection -> {
-                    sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    )
-                }
-                else -> {
-                }
+            handleError(it)
+        }
+
+        viewModel.buyStockErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+        viewModel.sellStockErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+        viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
+                    BUY, ScreenType.PORTFOLIO, portfolioItem.market!!))
+            }
+        }
+        viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
+                    SELL, ScreenType.PORTFOLIO,portfolioItem.market!!))
+
             }
         }
     }
 
+    private fun handleError(failure: Failure)
+    {
+        when (failure) {
+            Failure.NetworkConnection -> {
+                sequenceOf(
+                    Toast.makeText(
+                        requireContext(), getString(R.string.no_internet_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                )
+            }
+            Failure.ServerError-> {
+                Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
+
+            }
+            else -> {
+                val errorMsg = (failure as Failure.FeatureFailure).message
+                Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.buyBtn -> {
-                val bundle = bundleOf(
-                    ORDER_ID to orderId,
-                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to BUY
-                )
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
+                if (portfolioItem != null && portfolioItem.market != null) {
+                    viewModel.buyStock(
+                        portfolioItem!!.market!!.stockId,
+                        BuySellStockReq(
+                            5,
+                            0,
+                            portfolioItem.market!!.stockCode!!,
+                            0,
+                            0f,
+                            "2022-05-26T00:00:00.000Z"
+                        )
+                    )
+                }
             }
             R.id.sellBtn -> {
-                val bundle = bundleOf(
-                    ORDER_ID to orderId,
-                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to SELL
-                )
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
+                if(portfolioItem != null && portfolioItem.market!! != null)
+                    viewModel.sellStock(portfolioItem.market!!.stockId, BuySellStockReq(5,0,  portfolioItem.market!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
+
             }
         }
     }

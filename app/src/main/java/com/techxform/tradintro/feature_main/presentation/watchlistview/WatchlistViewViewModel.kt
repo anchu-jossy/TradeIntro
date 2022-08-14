@@ -29,6 +29,17 @@ class WatchlistViewViewModel @Inject constructor(private val repository: ApiRepo
     private var _modifyAlertPriceErrorLiveData = MutableLiveData<Failure>()
     val modifyAlertPriceErrorLiveData: LiveData<Failure> = _modifyAlertPriceErrorLiveData
 
+    private var _buyStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
+    val buyStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _buyStockLiveData
+
+    private var _buyStockErrorLiveData = MutableLiveData<Failure>()
+    val buyStockErrorLiveData: LiveData<Failure> = _buyStockErrorLiveData
+
+    private var _sellStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
+    val sellStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _sellStockLiveData
+
+    private var _sellStockErrorLiveData = MutableLiveData<Failure>()
+    val sellStockErrorLiveData: LiveData<Failure> = _sellStockErrorLiveData
 
     fun watchlistDetails(watchlistId: Int) {
         _loadingLiveData.postValue(true)
@@ -55,6 +66,38 @@ class WatchlistViewViewModel @Inject constructor(private val repository: ApiRepo
                 }
                 is Result.Error -> {
                     _modifyAlertPriceErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun buyStock(marketId: Int, buySellStockReq: BuySellStockReq)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.buyStock(marketId, buySellStockReq)) {
+                is Result.Success -> {
+                    _buyStockLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _buyStockErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun sellStock(marketId: Int, buySellStockReq: BuySellStockReq)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.sellStock(marketId, buySellStockReq)) {
+                is Result.Success -> {
+                    _sellStockLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _sellStockErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)
