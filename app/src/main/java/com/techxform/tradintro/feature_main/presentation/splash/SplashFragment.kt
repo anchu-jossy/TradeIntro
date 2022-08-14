@@ -24,7 +24,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
         isLoggedIn = pref.token!!.isNotEmpty()
 
 
-//TODO: Refresh Token Functionality
+
 
         Handler(Looper.getMainLooper()).postDelayed({
             if (isLoggedIn)

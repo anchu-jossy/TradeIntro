@@ -61,7 +61,7 @@ data class StockHistory(
 
     fun formatDate(): String {
         val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(stockHistoryDate)
-        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(d)
+        return SimpleDateFormat("yyyy-MM-dd hh:mm aa").format(d)
     }
 }
 
