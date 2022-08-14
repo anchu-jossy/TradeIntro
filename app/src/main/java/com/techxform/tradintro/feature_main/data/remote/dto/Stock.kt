@@ -20,22 +20,20 @@ data class Stock(
 ):Parcelable {
     fun currentValue(): Float {
 
-        return if(history!=null){
-            (history.firstOrNull()?.stockHistoryOpen?: 0 +
-            history.firstOrNull()?.stockHistoryClose!! ?: 0.0f) / 2
-        } else 0.0f
+        return (history.firstOrNull()?.stockHistoryOpen?: 0 +
+        history.firstOrNull()?.stockHistoryClose!! ?: 0.0f) / 2
 
     }
 
     fun perDiff(): Float {
 
         val todayPrice = currentValue()
-        val size = history?.size ?: 0
+        val size = history.size ?: 0
         if (size > 1) {
             val openPrice2 =
-                history?.get(1)?.stockHistoryOpen ?: 0.0f
+                history[1].stockHistoryOpen
             val closePrice2 =
-                history?.get(1)?.stockHistoryClose ?: 0.0f
+                history[1].stockHistoryClose
             val totalPrice2 = (openPrice2 + closePrice2)
             val yesterdayPrice = (totalPrice2 / 2)
 
@@ -61,7 +59,7 @@ data class StockHistory(
 
     fun formatDate(): String {
         val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(stockHistoryDate)
-        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(d)
+        return SimpleDateFormat("yyyy-MM-dd hh:mm aa").format(d)
     }
 }
 
