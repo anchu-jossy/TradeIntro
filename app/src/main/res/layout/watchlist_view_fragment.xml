@@ -27,7 +27,7 @@
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:fontFamily="@font/open_sans_semibold"
-            android:text="@string/add_stock_lbl"
+            android:text="@{watchlist.market.stockName}"
             android:textSize="@dimen/_16ssp"
             app:layout_constraintBottom_toTopOf="@id/exchangeTv" />
 
@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:background="@color/dark_violate"
+
             android:fontFamily="@font/open_sans_medium"
             android:paddingHorizontal="@dimen/_8sdp"
             android:text="@{watchlist.formatCode()}"
@@ -68,6 +69,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="@+id/exchange"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/_16sdp">
 
@@ -78,7 +80,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/open_sans_semibold"
                     android:maxLines="1"
-                    android:text="@{watchlist.market.stockName}"
+                    android:text="@{watchlist.market.stockCode}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
@@ -93,7 +95,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/open_sans"
                     android:maxLines="1"
-                    android:text="@{watchlist.market.stockCode}"
+                    android:text=""
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/stockTitleTv"
@@ -103,12 +105,12 @@
                     android:id="@+id/dateTv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
                     android:ellipsize="end"
                     android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
                     android:text="@{watchlist.formatDate()}"
+
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toTopOf="@+id/timeTv"
                     app:layout_constraintEnd_toEndOf="parent"

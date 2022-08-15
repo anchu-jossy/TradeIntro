@@ -68,7 +68,6 @@ class EqualityPlaceOrderFragment :
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.walletSummary(PaymentType.VOUCHER)
@@ -138,7 +137,6 @@ class EqualityPlaceOrderFragment :
 
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
             it.data.let { walletResponse ->
-
                 userId = walletResponse.userId!!
                 binding.balanceEt.setText(walletResponse.tradeMoneyBalance.toString())
                 binding.usableBalanceEt.setText(walletResponse.balance.toString())
@@ -146,14 +144,14 @@ class EqualityPlaceOrderFragment :
 
         }
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            it.data?.let { it ->
+            it.data.let { it ->
                 market = it.market
                 setData(it.market)
 
             }
         }
         viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
-            it.data?.let { stock ->
+            it.data.let { stock ->
                 market = stock
                 setData(stock)
             }

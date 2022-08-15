@@ -79,7 +79,7 @@ data class WatchList(
     }
     fun formatTime(): String {
         val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(watchlistDate)
-        return SimpleDateFormat("HH:mm:ss").format(d)
+        return SimpleDateFormat("hh:mm aa").format(d)
     }
 
     fun perDiff(): Float? {
