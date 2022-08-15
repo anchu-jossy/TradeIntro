@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.ScreenType
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.PriceType
@@ -95,7 +96,7 @@ class MarketDetailFragment :
 
         val amountEt = EditText(requireContext())
         amountEt.hint = getString(R.string.alert_price_lbl)
-        //amountEt.
+
 
         val container = LinearLayout(requireContext())
         container.orientation = LinearLayout.VERTICAL
@@ -252,21 +253,12 @@ class MarketDetailFragment :
 
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                val bundle = bundleOf(
-                    EqualityPlaceOrderFragment.ORDER_ID to stockId,
-                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to EqualityPlaceOrderFragment.BUY
-                )
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
-
+                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(stockId,EqualityPlaceOrderFragment.BUY, ScreenType.MARKET, binding.stock!!))
             }
         }
         viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                val bundle = bundleOf(
-                    EqualityPlaceOrderFragment.ORDER_ID to stockId,
-                    EqualityPlaceOrderFragment.IS_BUY_OR_ORDER to EqualityPlaceOrderFragment.SELL
-                )
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, bundle)
+                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(stockId,EqualityPlaceOrderFragment.SELL, ScreenType.MARKET,binding.stock!!))
 
             }
         }

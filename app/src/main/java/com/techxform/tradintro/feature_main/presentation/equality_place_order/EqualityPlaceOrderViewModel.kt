@@ -32,7 +32,6 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
     private var _userDetailLiveData = MutableLiveData<BaseResponse<UserDetailsResponse>>()
     val userDetailLiveData: LiveData<BaseResponse<UserDetailsResponse>> = _userDetailLiveData
 
-
     private var _updateWalletLiveData = MutableLiveData<UpdateWalletResponse>()
     val updateWalletLiveData: LiveData<UpdateWalletResponse> =
         _updateWalletLiveData
