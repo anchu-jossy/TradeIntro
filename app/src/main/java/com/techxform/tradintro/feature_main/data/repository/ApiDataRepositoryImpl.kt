@@ -7,6 +7,7 @@ import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
 import com.techxform.tradintro.core.utils.Contants.FORGOT_PASSWORD
 import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
 import com.techxform.tradintro.core.utils.Contants.REGISTER
+import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
@@ -506,9 +507,10 @@ class ApiDataRepositoryImpl @Inject constructor(
         {
             try {
                 val response = apiService.userDetails()
-                if (response.isSuccessful)
+                if (response.isSuccessful) {
+                    UserDetailsSingleton.setUserDetails(response.body()!!.data)
                     Result.Success(response.body()!!)
-                else {
+                }else {
                     Log.e("Error:", response.raw().message)
                     Result.Error(Failure.FeatureFailure(response.raw().message))
                 }

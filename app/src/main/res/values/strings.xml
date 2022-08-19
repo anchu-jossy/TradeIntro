@@ -194,6 +194,11 @@
         <item>@string/historical_holdings_lbl</item>
         <item>@string/profit_loss_report_lbl</item>
     </string-array>
+
+    <string-array name="level1_reports">
+        <item>@string/order_book_lbl</item>
+        <item>@string/trade_book_lbl</item>
+    </string-array>
     <string-array name="profit_loss_gain">
         <item>@string/realised_gain</item>
         <item>@string/unrealised_gain</item>

@@ -151,23 +151,23 @@ class MarketDetailFragment :
             priceTypes.add(
                 PriceType(
                     stockHistory.stockHistoryLow,
-                    getString(R.string.lower_circuit_lbl)
+                    getString(R.string.low_lbl)
                 )
             )
             priceTypes.add(
                 PriceType(
                     stockHistory.stockHistoryHigh,
-                    getString(R.string.upper_circuit_lbl)
+                    getString(R.string.high_lbl)
                 )
             )
 
-            val avg = (stockHistory.stockHistoryHigh + stockHistory.stockHistoryLow + stockHistory.stockHistoryClose + stockHistory.stockHistoryOpen)/4
+           /* val avg = (stockHistory.stockHistoryHigh + stockHistory.stockHistoryLow + stockHistory.stockHistoryClose + stockHistory.stockHistoryOpen)/4
             priceTypes.add(
                 PriceType(
                     avg,
                     getString(R.string.avg_traded_lbl)
                 )
-            )
+            )*/
         }
         return priceTypes
 

@@ -408,6 +408,12 @@
                             app:layout_constraintStart_toEndOf="@+id/colon7"
                             app:layout_constraintTop_toBottomOf="@+id/limitPrizeEt" />
 
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/chargesGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:constraint_referenced_ids="chargesLbl,colon7,chargesEt"/>
+
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/buyAmountLbl"
                             android:layout_width="wrap_content"

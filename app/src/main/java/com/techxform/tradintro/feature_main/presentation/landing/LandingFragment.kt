@@ -29,6 +29,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.PreferenceHelper
 import com.techxform.tradintro.core.utils.PreferenceHelper.fcmToken
 import com.techxform.tradintro.core.utils.PreferenceHelper.isFcmTokenSync
+import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.FragmentLandingBinding
 import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
@@ -66,7 +67,6 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         bottomNavSetup()
-        drawerSetup()
         viewModel.userDetails()
         pref = PreferenceHelper.customPreference(requireContext())
         if(!pref.fcmToken.isNullOrEmpty() && !pref.isFcmTokenSync)
@@ -108,6 +108,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
         viewModel.userDetailLiveData.observe(viewLifecycleOwner) {
             (binding.bottomNav.menu as NavigationBarMenu).visibleItems[3].isVisible = it.data.treeLevel != 1
+            drawerSetup()
 
         }
 
@@ -178,7 +179,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         binding.drawerLayout.addDrawerListener(mDrawerToggle)
         mDrawerToggle.isDrawerIndicatorEnabled = false
 
-        mDrawerToggle.setHomeAsUpIndicator(R.drawable.logo_small)
+        mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24)
         mDrawerToggle.toolbarNavigationClickListener = View.OnClickListener {
             if (binding.drawerLayout.isDrawerVisible(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -241,6 +242,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         )
         list.add(DrawerItem(getString(R.string.notification_lbl), R.drawable.ic_notification))
         list.add(DrawerItem(getString(R.string.reports_lbl), R.drawable.reports))
+        if(UserDetailsSingleton.userDetailsResponse.treeLevel != 1)
         list.add(DrawerItem(getString(R.string.alerts_lbl), R.drawable.ic_alerts))
         list.add(DrawerItem(getString(R.string.change_password_lbl), R.drawable.change_pass))
         list.add(DrawerItem(getString(R.string.logout_lbl), R.drawable.ic_logout))

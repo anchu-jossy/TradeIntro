@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.ScreenType
+import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
@@ -94,6 +95,8 @@ class EqualityPlaceOrderFragment :
                 binding.titleTv.text = getString(R.string.order_stock)}
             else{ binding.titleTv.text = getString(R.string.sell_stock)}
         }
+
+        binding.chargesGroup.isVisible = (UserDetailsSingleton.userDetailsResponse.treeLevel != 1)
 
        /* when (screenType) {
             ScreenType.MARKET -> viewModel.marketDetail(orderId)

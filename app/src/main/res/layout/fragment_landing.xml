@@ -29,6 +29,7 @@
                 app:contentInsetStart="0dp"
                 android:paddingStart="@dimen/_16sdp"
                 app:menu="@menu/toolbar_menu"
+                app:logo="@drawable/logo_small"
                 app:contentInsetStartWithNavigation="0dp"
                 app:popupTheme="@style/Theme.TradIntro" />
 

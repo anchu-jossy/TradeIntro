@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.ReportFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,9 +21,16 @@ class ReportFragment : BaseFragment<ReportFragmentBinding>(ReportFragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val reports = resources.getStringArray(R.array.reports)
-        binding.reportsSelectionSpinner.adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, reports)
+        var reports = resources.getStringArray(R.array.reports)
+        if(UserDetailsSingleton.userDetailsResponse.treeLevel == 1)
+        {
+            reports =  resources.getStringArray(R.array.level1_reports)
+        }
+
+       /* binding.reportsSelectionSpinner.adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, reports)*/
+binding.reportsSelectionSpinner.adapter =
+            SpinnerAdapter(requireContext(), reports)
 
         binding.reportsSelectionSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {

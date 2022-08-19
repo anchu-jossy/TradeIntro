@@ -187,12 +187,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
-                    app:highAmount="@{String.valueOf(watchlist.market.history[0].stockHistoryHigh)}"
-                    app:highLbl="@{@string/high_lbl}"
+                    app:lowAmount="@{String.valueOf(watchlist.market.history[0].stockHistoryHigh)}"
+                    app:lowLbl="@{@string/high_lbl}"
                     app:isYellow="@{true}"
                     app:layout_constraintTop_toBottomOf="@+id/watchlistPriceLbl"
-                    app:lowAmount="@{String.valueOf(watchlist.market.history[0].stockHistoryLow)}"
-                    app:lowLbl="@{@string/low_lbl}" />
+                    app:highAmount="@{String.valueOf(watchlist.market.history[0].stockHistoryLow)}"
+                    app:highLbl="@{@string/low_lbl}" />
 
                 <include
                     android:id="@+id/ashHighLow"
