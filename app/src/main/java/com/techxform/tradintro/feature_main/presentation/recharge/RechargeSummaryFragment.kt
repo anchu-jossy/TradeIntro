@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.RechargeFragmentBinding
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -42,6 +45,11 @@ class RechargeSummaryFragment :
     private fun observer()
     {
         viewModel.walletHistoryLiveData.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                binding.titleTv.text = getString(R.string.transaction_details_lbl)
+                binding.title1Tv.text = getString(R.string.trade_money_lbl)
+                binding.tvNodata.setVisibiltyGone()
+            } else binding.tvNodata.setVisible()
             adapter = RechargeSummaryAdapter(it)
             binding.rechargeRv.adapter = adapter
         }

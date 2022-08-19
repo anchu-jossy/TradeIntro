@@ -25,6 +25,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.domain.util.Utils
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -54,7 +55,6 @@ class WatchlistViewFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         watchlistId = requireArguments().getInt("watchlistId")
-
         binding.alertPriceType = PriceType(63.2f, getString(R.string.alert_price_lbl))
 
         listeners()

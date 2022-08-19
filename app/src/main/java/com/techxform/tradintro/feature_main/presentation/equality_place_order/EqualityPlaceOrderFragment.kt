@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.DatePicker
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -23,7 +22,6 @@ import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
-import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.util.Utils
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
@@ -43,7 +41,7 @@ class EqualityPlaceOrderFragment :
     private var orderId: Int = 0
     private lateinit var isBuyOrSell: String
     private val myCalendar = Calendar.getInstance()
-    var quantity: Int? = null
+    private var quantity: Int? = 1
     lateinit var market: Stock
     private var userId by Delegates.notNull<Int>()
     private var screenType:Int = 0
@@ -82,7 +80,6 @@ class EqualityPlaceOrderFragment :
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.walletSummary(PaymentType.VOUCHER)
@@ -118,9 +115,10 @@ class EqualityPlaceOrderFragment :
         binding.buttonBuy.setOnClickListener(this)
         isLimitVisible(false)
         binding.radioGrp.check(R.id.marketRb)
+
         binding.quantityEt.addTextChangedListener {
             quantity = if (it.toString() == "")
-                0
+                1
             else it.toString().toInt()
             val buyPrice =
                 (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
@@ -175,20 +173,6 @@ class EqualityPlaceOrderFragment :
             }
 
         }
-        /*viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            it.data?.let { it ->
-                market = it.market
-                setData(it.market)
-
-            }
-        }
-        viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
-            it.data?.let { stock ->
-                market = stock
-                setData(stock)
-            }
-
-        }*/
 
         viewModel.updateWalletLiveData.observe(viewLifecycleOwner) {
 
