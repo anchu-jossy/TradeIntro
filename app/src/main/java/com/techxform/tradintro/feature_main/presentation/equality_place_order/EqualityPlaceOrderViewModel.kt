@@ -103,19 +103,5 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
     }
 
 
-    fun userDetails() {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.userDetails()) {
-                is Result.Success -> {
-                    _userDetailLiveData.postValue(result.data!!)
-                }
-                is Result.Error -> {
-                    _portfolioErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
 
-    }
 }

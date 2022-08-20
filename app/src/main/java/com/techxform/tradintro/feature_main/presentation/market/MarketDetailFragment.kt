@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.ScreenType
+import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.PriceType
@@ -56,7 +56,7 @@ class MarketDetailFragment :
         stockId = requireArguments().getInt("stockId")
         totalPrice = requireArguments().getInt("totalPrice")
 
-
+        binding.buttonGroup.isVisible = (UserDetailsSingleton.userDetailsResponse.treeLevel != 1)
         listeners()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
@@ -198,7 +198,7 @@ class MarketDetailFragment :
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 Toast.makeText(
                     requireContext(),
-                    "Successfully added to watchlist",
+                    "Successfully updated  to watchlist",
                     Toast.LENGTH_LONG
                 )
                     .show()

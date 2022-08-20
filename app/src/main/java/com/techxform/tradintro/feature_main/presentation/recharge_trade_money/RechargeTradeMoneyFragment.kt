@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.RechargeTradeMoneyFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
@@ -46,7 +47,9 @@ class RechargeTradeMoneyFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.recharge_lbl)));
+        binding.tabLayout.addTab(
+            binding.tabLayout.newTab().setText(getString(R.string.recharge_lbl))
+        );
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.redeem_lbl)))
         binding.redeemVoucherContainer.linearLayout.setVisibiltyGone()
         binding.rechargeTradeMoneyContainer.linearLayout.setVisible()
@@ -69,30 +72,33 @@ class RechargeTradeMoneyFragment :
 
         clickListeners()
         observers()
-        viewModel.userDetails()
-        viewModel.userDetailLiveData.observe(viewLifecycleOwner) {
-            it.data?.let { data ->
-                userId=data.userId
-                userMargin = data.userMargin
-            }
+
+
+        with(UserDetailsSingleton.userDetailsResponse) {
+            userId = userId
+            userMargin = userMargin
         }
 
         binding.rechargeTradeMoneyContainer.label2Et.doAfterTextChanged { text ->
-
-            binding.rechargeTradeMoneyContainer.label1Et.setText(
-                (userMargin?.plus(
-                    text.toString().toInt()
-                ).toString())
-            )
+            if (text.isNullOrEmpty()) {
+                binding.rechargeTradeMoneyContainer.label1Et.setText("0")
+            } else
+                binding.rechargeTradeMoneyContainer.label1Et.setText(
+                    (userMargin?.plus(
+                        text.toString().toInt()
+                    ).toString())
+                )
 
         }
         binding.redeemVoucherContainer.label2Et.doAfterTextChanged { text ->
-
-            binding.redeemVoucherContainer.label1Et.setText(
-                (userMargin?.plus(
-                    text.toString().toInt()
-                ).toString())
-            )
+            if (text.isNullOrEmpty()) {
+                binding.redeemVoucherContainer.label1Et.setText("0")
+            } else
+                binding.redeemVoucherContainer.label1Et.setText(
+                    (userMargin?.plus(
+                        text.toString().toInt()
+                    ).toString())
+                )
 
 
         }
@@ -104,7 +110,8 @@ class RechargeTradeMoneyFragment :
         viewModel.updateWalletLiveData.observe(viewLifecycleOwner) {
 
             it.paymentLink?.let { it1 ->
-                val i =   PaymentResponseActivity.newIntent(requireActivity(),
+                val i = PaymentResponseActivity.newIntent(
+                    requireActivity(),
                     it1
                 )
                 resultLauncher.launch(i)
@@ -123,19 +130,23 @@ class RechargeTradeMoneyFragment :
                         ).show()
                     )
                 }
-                else -> {}
+                else -> {
+                }
             }
         }
     }
-    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        //if (result.resultCode == Activity.RESULT_OK) {
-        binding.rechargeTradeMoneyContainer.label2Et.setText("0")
-        //}
-    }
+
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            //if (result.resultCode == Activity.RESULT_OK) {
+            binding.rechargeTradeMoneyContainer.label2Et.setText("0")
+            //}
+        }
+
     private fun calculation() {
-        var  rechargeAmount=0
-        if(!binding.rechargeTradeMoneyContainer.label2Et.text.isNullOrEmpty()){
-         rechargeAmount   =  binding.rechargeTradeMoneyContainer.label2Et.text.toString().toInt()
+        var rechargeAmount = 0
+        if (!binding.rechargeTradeMoneyContainer.label2Et.text.isNullOrEmpty()) {
+            rechargeAmount = binding.rechargeTradeMoneyContainer.label2Et.text.toString().toInt()
         }
         val gst = (rechargeAmount * 18) / 100
         val otherChargeAmount = 0f
@@ -151,6 +162,7 @@ class RechargeTradeMoneyFragment :
         )
 
     }
+
     private fun clickListeners() {
         binding.rechargeTradeMoneyContainer.button.setOnClickListener {
             calculation()
@@ -170,9 +182,7 @@ class RechargeTradeMoneyFragment :
         }
 
 
-        }
-
-
+    }
 
 
 }

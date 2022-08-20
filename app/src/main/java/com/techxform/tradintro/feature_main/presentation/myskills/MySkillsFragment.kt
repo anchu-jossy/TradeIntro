@@ -10,14 +10,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.MySkillsBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Levels
+import com.techxform.tradintro.feature_main.data.remote.dto.UserDetailsResponse
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MySkillsFragment :
     BaseFragment<MySkillsBinding>(MySkillsBinding::inflate) {
+    lateinit var userDetailsResponse: UserDetailsResponse
 
     private lateinit var viewModel: MySkillsViewModel
     var level:Int?=0
@@ -28,6 +31,7 @@ class MySkillsFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[MySkillsViewModel::class.java]
+        viewModel.userLevels()
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -35,7 +39,14 @@ class MySkillsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.userDetails()
+
+        this.userDetailsResponse=UserDetailsSingleton.userDetailsResponse
+        with(userDetailsResponse){
+            binding.levelImage = userLevel.user_level_image
+            binding.textViewLevelDesc.text = String.format(getString(R.string.level_desc), treeLevel)
+            binding.textViewLevel.text = String.format(getString(R.string.level_format), treeLevel)
+
+        }
 
     }
 
@@ -58,15 +69,7 @@ class MySkillsFragment :
             binding.mySkillsRV.adapter = MySkillsAdapter(it.data.levels, rvListener,this.level)
 
         }
-        viewModel.userDetailLiveData.observe(viewLifecycleOwner) { it ->
-            viewModel.userLevels()
-            this.level= it.data.treeLevel
-            binding.levelImage = it.data.userLevel.user_level_image
-            binding.textViewLevelDesc.text = String.format(getString(R.string.level_desc), it.data.treeLevel)
-            binding.textViewLevel.text = String.format(getString(R.string.level_format), it.data.treeLevel)
 
-
-        }
 
         viewModel.userLevelsErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {
