@@ -8,7 +8,11 @@ object Contants {
     const val PREF_FCM_TOKEN_KEY = "fcm_token"
     const val PREF_FCM_TOKEN_SYNC_KEY = "isFcmTokenSync"
     const val PREF_REFRESH_TOKEN_KEY = "refresh_token"
-    private const val DEV_URL = "https://dev.tradintro.com/"
+   // private const val DEV_URL = "https://dev.tradintro.com/"
+    //TODO() this is commented only for  testing the build
+     private const val DEV_URL = "https://stage.tradintro.com/"
+
+
     const val RECHARGE_URL = DEV_URL+"index.php/api/update_wallet"
     const val ADD_USER_URL = DEV_URL+"index.php/api/add_invite_user"
     const val FORGOT_PASSWORD = DEV_URL + "index.php/api/forgot_password"

@@ -75,8 +75,9 @@ class RechargeTradeMoneyFragment :
 
 
         with(UserDetailsSingleton.userDetailsResponse) {
-            userId = userId
-            userMargin = userMargin
+            this@RechargeTradeMoneyFragment.userId = userId
+           this@RechargeTradeMoneyFragment.userMargin = userMargin
+
         }
 
         binding.rechargeTradeMoneyContainer.label2Et.doAfterTextChanged { text ->
@@ -153,7 +154,7 @@ class RechargeTradeMoneyFragment :
         val totalAmount = rechargeAmount + gst + otherChargeAmount
         viewModel.updateWallet(
             UpdateWalletRequest(
-                userId,
+                this.userId,
                 totalAmount,
                 rechargeAmount,
                 gst,
