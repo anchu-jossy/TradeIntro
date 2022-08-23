@@ -50,7 +50,7 @@
     <string name="per_gain_loss_lbl">% Gain/Loss</string>
     <string name="back_lbl">Back</string>
     <string name="add_stock_lbl">Add Stock</string>
-    <string name="exchange_lbl">Exchange: </string>
+    <string name="exchange_lbl">Exchange </string>
     <string name="stock_name_lbl">Stock Name </string>
     <string name="watchlist_price_lbl">Watchlist Price</string>
     <string name="high_lbl">High</string>
@@ -239,7 +239,9 @@
     <string name="edit">Edit</string>
     <string name="stock_name">StockName</string>
     <string name="stock_id">StockId</string>
+    <string name="bought_success">Successfully bought stock</string>
 
+    <string name="validate_fields">"Select all required fields "</string>
 
 
 </resources>

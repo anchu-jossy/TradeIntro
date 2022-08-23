@@ -1,6 +1,5 @@
 package com.techxform.tradintro.feature_main.presentation.equality_place_order
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
@@ -10,23 +9,20 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
-import com.techxform.tradintro.core.utils.ScreenType
 import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.BuySellStockReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
-import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.util.Utils
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
-import com.techxform.tradintro.feature_main.presentation.PaymentResponseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.math.roundToInt
@@ -44,7 +40,7 @@ class EqualityPlaceOrderFragment :
     private var quantity: Int? = 1
     lateinit var market: Stock
     private var userId by Delegates.notNull<Int>()
-    private var screenType:Int = 0
+    private var screenType: Int = 0
 
     companion object {
         const val IS_BUY_OR_ORDER = "IsBuyOrOrderButtonClicked"
@@ -55,13 +51,13 @@ class EqualityPlaceOrderFragment :
         const val STOCK = "stock"
 
         @JvmStatic
-        fun newInstance(orderId:Int, orderType:String, fromScreen:Int, stock: Stock) =
+        fun newInstance(orderId: Int, orderType: String, fromScreen: Int, stock: Stock) =
             EqualityPlaceOrderFragment().apply {
                 arguments = navBundle(orderId, orderType, fromScreen, stock)
             }
 
-        fun navBundle(orderId:Int, orderType:String, fromScreen:Int, stock:Stock) =
-             Bundle().apply {
+        fun navBundle(orderId: Int, orderType: String, fromScreen: Int, stock: Stock) =
+            Bundle().apply {
                 putInt(ORDER_ID, orderId)
                 putString(IS_BUY_OR_ORDER, orderType)
                 putInt(FROM_SCREEN, fromScreen)
@@ -84,27 +80,22 @@ class EqualityPlaceOrderFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.walletSummary(PaymentType.VOUCHER)
         orderId = requireArguments().getInt(ORDER_ID, 0)
-       val screenType = requireArguments().getInt(FROM_SCREEN,0)
-        arguments?.get(IS_BUY_OR_ORDER)?.let {
-            isBuyOrSell =    it as String
-            binding.buttonBuy.text=isBuyOrSell
-            if (isBuyOrSell == BUY){
-                binding.titleTv.text = getString(R.string.order_stock)}
-            else{ binding.titleTv.text = getString(R.string.sell_stock)}
-        }
+        screenType = requireArguments().getInt(FROM_SCREEN, 0)
 
+        arguments?.getString(IS_BUY_OR_ORDER)?.let {
+            isBuyOrSell = it as String
+            binding.buttonBuy.text = isBuyOrSell
+            if (isBuyOrSell == BUY) {
+                binding.titleTv.text = getString(R.string.order_stock)
+            } else {
+                binding.titleTv.text = getString(R.string.sell_stock)
+            }
+        }
         binding.chargesGroup.isVisible = (UserDetailsSingleton.userDetailsResponse.treeLevel != 1)
 
-       /* when (screenType) {
-            ScreenType.MARKET -> viewModel.marketDetail(orderId)
-            ScreenType.WATCHLIST ->  viewModel.watchListDetail(orderId)
-            ScreenType.PORTFOLIO -> viewModel.portfolioDetails(
-                orderId,
-                FilterModel("", 100, 0, 0, "")
-            )
-        }*/
+
         val stock = if (Build.VERSION.SDK_INT >= 33) {
-            requireArguments().getParcelable(STOCK,Stock::class.java)
+            requireArguments().getParcelable(STOCK, Stock::class.java)
         } else {
             requireArguments().getParcelable(STOCK)
         }
@@ -122,6 +113,8 @@ class EqualityPlaceOrderFragment :
             else it.toString().toInt()
             val buyPrice =
                 (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
+            //buyprice * qauntity +charge
+            // change round to limit 2 decimal
             binding.buyAmountEt.setText(buyPrice.toString())
             val diff =
                 market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
@@ -152,17 +145,16 @@ class EqualityPlaceOrderFragment :
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
-        viewModel.walletErrorLiveData.observe(viewLifecycleOwner){
+        viewModel.walletErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
-       viewModel.userDetailLiveData.observe(viewLifecycleOwner){
-          if( it.data.treeLevel==1){
-              binding.limitRb.setVisibiltyGone()
-          }
-           else{
-              binding.limitRb.setVisible()
-          }
-       }
+        viewModel.userDetailLiveData.observe(viewLifecycleOwner) {
+            if (it.data.treeLevel == 1) {
+                binding.limitRb.setVisibiltyGone()
+            } else {
+                binding.limitRb.setVisible()
+            }
+        }
 
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
             it.data.let { walletResponse ->
@@ -174,22 +166,18 @@ class EqualityPlaceOrderFragment :
 
         }
 
-        viewModel.updateWalletLiveData.observe(viewLifecycleOwner) {
-
-            it.paymentLink?.let { it1 ->
-                val i =   PaymentResponseActivity.newIntent(requireActivity(),
-                    it1
-                )
-                resultLauncher.launch(i)
-
+        viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
+            it.data.orderId?.let {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.bought_success),
+                    Toast.LENGTH_LONG
+                ).show()
             }
+
         }
     }
-    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        //if (result.resultCode == Activity.RESULT_OK) {
-        binding.quantityEt.setText("0")
-        //}
-    }
+
 
     private fun setData(market: Stock) {
 
@@ -199,10 +187,12 @@ class EqualityPlaceOrderFragment :
             textCode.text = market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
             textName.text = market.stockName
             textName1.text = market.stockName
-            textopenClose.text =
-                "${market.history[0].stockHistoryOpen}" + "," + "${market.history[0].stockHistoryClose}"
-            texthighLow.text =
-                "${market.history[0].stockHistoryHigh}" + "," + "${market.history[0].stockHistoryLow}"
+            ("${market.history[0].stockHistoryOpen}" + "," + "${market.history[0].stockHistoryClose}").also {
+                textopenClose.text = it
+            }
+            ("${market.history[0].stockHistoryHigh}" + "," + "${market.history[0].stockHistoryLow}").also {
+                texthighLow.text = it
+            }
             exchangeTv.text =
                 market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
             val buyPrice =
@@ -216,8 +206,10 @@ class EqualityPlaceOrderFragment :
                 val sum =
                     market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
                 val percent = (diff / sum) * 100
-                binding.textRate.text =
-                    getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
+                (getString(
+                    R.string.rs_format,
+                    buyPrice
+                ) + "(" + percent.roundToInt() + "%)").also { binding.textRate.text = it }
             }
 
             binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
@@ -271,23 +263,10 @@ class EqualityPlaceOrderFragment :
     }
 
     private fun isLimitVisible(isVisible: Boolean) {
-        with(binding) {
-            limitGroup.isVisible = isVisible
-            /* orderValidityLbl.visibility = View.VISIBLE
-             gtcRb.visibility = View.VISIBLE
-             gtdRb.visibility = View.VISIBLE
-             dayRb.visibility = View.VISIBLE
-             limitedPrizeLbl.visibility = View.VISIBLE
-             colon6.visibility = View.VISIBLE
-             limitPrizeEt.visibility = View.VISIBLE*/
-        }
-    }
 
-   /* private fun setDefaultRbView() {
-        binding.orderValidityDateLbl.visibility = View.GONE
-        binding.colon20.visibility = View.GONE
-        binding.orderDateEt.visibility = View.GONE
-    }*/
+        binding.limitGroup.isVisible = isVisible
+
+    }
 
 
     private fun getTotalCharge(orderPrice: Float, quantity: Int): Float {
@@ -301,42 +280,66 @@ class EqualityPlaceOrderFragment :
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.buttonBuy -> {
-                if (binding.quantityEt.text.toString().toInt() < 1) {
-                    Toast.makeText(requireContext(), "quantity cannot be zero", Toast.LENGTH_LONG)
+                if (binding.quantityEt.text.toString()
+                        .toInt() < 1 || binding.quantityEt.text.toString()
+                        .isEmpty() || orderValidity() == -1 || orderValidityDate() == String()
+                ) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.validate_fields),
+                        Toast.LENGTH_LONG
+                    )
                         .show()
-                }else {
-                    calculation()
+                } else {
+
+                    viewModel.buyStock(
+                        orderId,
+                        BuySellStockReq(
+                            quantity ?: 0,
+                            if (binding.marketRb.isChecked) 0 else 1,
+                            binding.stock!!.stockCode!!,
+                            orderValidity(),
+                            market.totalPrice.toFloat(),
+                            orderValidityDate()
+                        )
+                    )
+
                 }
             }
         }
     }
 
-    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+    private fun orderValidityDate(): String {
+        when {
+            binding.marketRb.isChecked || binding.gtdRb.isChecked ->
+                return Utils.formatCurrentDate()
+            binding.gtcRb.isChecked ->
+                return Utils.formatDate(binding.orderDateEt.text.toString())
 
+        }
+        return String()
+    }
+
+    private fun orderValidity(): Int {
+        when {
+            binding.marketRb.isChecked ->
+                return 0
+            binding.gtdRb.isChecked ->
+                return 1
+            binding.gtcRb.isChecked ->
+                return 2
+
+        }
+        return -1
+    }
+
+    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
         binding.orderDateEt.text = ("$p3/$p2/$p1")
 
     }
 
-    private fun calculation() {
 
-        val rechargeAmount =  binding.buyAmountEt.text.toString().toFloat()
-        val gst = (rechargeAmount * 18) / 100
-        val otherChargeAmount = 0f
-        val totalAmount = rechargeAmount + gst + otherChargeAmount
-        viewModel.updateWallet(
-            UpdateWalletRequest(
-                userId,
-                Utils.formatFloatIntoTwoDecimal(totalAmount),
-                rechargeAmount,
-                gst,
-                otherChargeAmount
-            )
-        )
-
-    }
-
-    private fun handleError(failure: Failure)
-    {
+    private fun handleError(failure: Failure) {
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(

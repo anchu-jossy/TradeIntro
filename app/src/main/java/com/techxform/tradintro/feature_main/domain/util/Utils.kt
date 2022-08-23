@@ -1,10 +1,11 @@
 package com.techxform.tradintro.feature_main.domain.util
 
 import android.view.View
-import android.widget.Toast
 import okhttp3.internal.trimSubstring
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Utils {
     fun formatStringToTwoDecimals(num: String): String {
@@ -34,5 +35,16 @@ object Utils {
     }
     fun View.setVisibiltyGone(){
         this.visibility=View.GONE
+    }
+    fun formatDate(date: String): String {
+
+        val d = SimpleDateFormat("dd/MM/yyyy").parse(date)
+
+        return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(d)
+    }
+
+
+    fun formatCurrentDate(): String {
+      return  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(Date());
     }
 }

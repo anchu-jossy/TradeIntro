@@ -57,7 +57,6 @@
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:text="@{portfolio.market.stockName}"
                 android:textColor="@color/grey" />
 
@@ -70,7 +69,7 @@
 
                 android:textColor="@color/modest_grey" />
 
-            <EditText
+            <TextView
                 android:id="@+id/stockIdET"
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"

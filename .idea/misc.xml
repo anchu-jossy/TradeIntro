@@ -86,8 +86,9 @@
         <entry key="app/src/main/res/layout/custom_et_btn.xml" value="0.16510416666666666" />
         <entry key="app/src/main/res/layout/fragment_equality_place_order.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_landing.xml" value="0.11927083333333334" />
-        <entry key="app/src/main/res/layout/fragment_profit_loss_report.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_profit_loss_report.xml" value="0.11555555555555555" />
         <entry key="app/src/main/res/layout/invite_row_item.xml" value="0.2234375" />
+        <entry key="app/src/main/res/layout/layout_dialog.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/login_fragment.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/market_detail_fragment.xml" value="0.12916666666666668" />
         <entry key="app/src/main/res/layout/market_fragment.xml" value="0.17395833333333333" />
@@ -98,6 +99,7 @@
         <entry key="app/src/main/res/layout/notification_fragment.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/notification_row.xml" value="0.2234375" />
         <entry key="app/src/main/res/layout/order_book_fragment.xml" value="0.23020833333333332" />
+        <entry key="app/src/main/res/layout/order_book_row.xml" value="0.16979166666666667" />
         <entry key="app/src/main/res/layout/original_home_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/portfolio_card_view.xml" value="0.1171875" />
         <entry key="app/src/main/res/layout/portfolio_fragment.xml" value="0.19010416666666666" />
@@ -110,6 +112,7 @@
         <entry key="app/src/main/res/layout/recharge_trade_money_fragment.xml" value="0.13645833333333332" />
         <entry key="app/src/main/res/layout/report_fragment.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/layout/row_item.xml" value="0.2526041666666667" />
+        <entry key="app/src/main/res/layout/row_price.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/stock_row_layout.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/layout/update_profile_fragment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/wallet_fragment.xml" value="0.25" />
