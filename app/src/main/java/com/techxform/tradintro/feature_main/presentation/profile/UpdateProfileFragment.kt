@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -86,14 +87,27 @@ class UpdateProfileFragment :
             }
 
         }
-
+        binding.cameraIv.setOnClickListener {
+            Toast.makeText(requireContext(), "upload image", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun isEnableDisable(isEnable: Boolean) {
-        binding.userNameET.isEnabled = isEnable
-        binding.userLastNameET.isEnabled = isEnable
-        binding.userPhoneET.isEnabled = isEnable
-        binding.roundedimage.isEnabled = isEnable
+        var color = ContextCompat.getColor(requireContext(),R.color.grey)
+        if(isEnable)
+            color = ContextCompat.getColor(requireContext(),R.color.black)
+
+        with(binding){
+            userNameET.isEnabled = isEnable
+            userLastNameET.isEnabled = isEnable
+            userPhoneET.isEnabled = isEnable
+            roundedimage.isEnabled = isEnable
+
+            userNameET.setTextColor(color)
+            userLastNameET.setTextColor(color)
+            userPhoneET.setTextColor(color)
+        }
+
     }
 
 

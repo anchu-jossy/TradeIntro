@@ -43,12 +43,19 @@
                 android:id="@+id/roundedimage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_user"
                 app:civ_border_color="@color/gray"
                 app:civ_border_width="10dp" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cameraIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom = "@id/roundedimage"
+                android:layout_alignEnd="@id/roundedimage"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_baseline_camera_alt_24" />
 
         </RelativeLayout>
 
@@ -63,8 +70,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/open_sans_semibold"
+                android:text="@string/mail_id"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id = "@+id/userEmailET"
+                style="@style/App_EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{userDetail.userEmail}"
+                android:textColor="@color/grey" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/open_sans_semibold"
                 android:text="@string/first_name"
-                android:textColor="@color/modest_grey" />
+                android:textColor="@color/black" />
 
             <EditText
                 android:id = "@+id/userNameET"
@@ -80,7 +103,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/open_sans_semibold"
                 android:text="@string/last_name"
-                android:textColor="@color/modest_grey" />
+                android:textColor="@color/black" />
 
             <EditText
                 android:id = "@+id/userLastNameET"
@@ -91,22 +114,7 @@
 
                 android:textColor="@color/grey" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:fontFamily="@font/open_sans_semibold"
-                android:text="@string/mail_id"
-                android:textColor="@color/modest_grey" />
 
-            <EditText
-                android:id = "@+id/userEmailET"
-                style="@style/App_EditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{userDetail.userEmail}"
-
-                android:textColor="@color/grey" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -114,7 +122,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/open_sans_semibold"
                 android:text="@string/phone_num"
-                android:textColor="@color/modest_grey" />
+                android:textColor="@color/black" />
 
             <EditText
                 android:id = "@+id/userPhoneET"

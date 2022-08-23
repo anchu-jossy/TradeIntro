@@ -83,7 +83,7 @@
                 android:fontFamily="@font/open_sans_semibold"
                 android:gravity="end"
                 android:maxLines="1"
-                android:text="@{rowType ==0 ?   @string/rs_format(stock.currentValue):  (rowType == 1 ? @string/rs_format(portfolio.orderTotal): @string/rs_format(watchlist.watchStockPrice))}"
+                android:text="@{rowType ==0 ?   @string/rs_format(stock.currentValue):  (rowType == 1 ? @string/rs_format(portfolio.market.currentValue()): @string/rs_format(watchlist.watchStockPrice))}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"
