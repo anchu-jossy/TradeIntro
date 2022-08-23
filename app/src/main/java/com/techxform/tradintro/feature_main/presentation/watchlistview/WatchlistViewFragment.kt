@@ -68,22 +68,15 @@ class WatchlistViewFragment :
         }
         binding.buyBtn.setOnClickListener {
             if (watchList != null && watchList.market != null) {
-                viewModel.buyStock(
-                    watchList!!.market!!.stockId,
-                    BuySellStockReq(
-                        5,
-                        0,
-                        watchList.market!!.stockCode!!,
-                        0,
-                        0f,
-                        "2022-05-26T00:00:00.000Z"
-                    )
-                )
+                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
+                    EqualityPlaceOrderFragment.BUY, ScreenType.WATCHLIST,watchList.market!!))
+
             }
         }
         binding.sellBtn.setOnClickListener {
             if(watchList != null && watchList.market!! != null)
-                viewModel.sellStock(watchList.market!!.stockId, BuySellStockReq(5,0,  watchList.market!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
+                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
+                    EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST,watchList.market!!))
         }
     }
 

@@ -30,15 +30,6 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
     val createWatchListLiveData: LiveData<BaseResponse<WatchList>> = _createWatchListLiveData
 
 
-    private var _buyStockErrorLiveData = MutableLiveData<Failure>()
-    val buyStockErrorLiveData: LiveData<Failure> = _buyStockErrorLiveData
-
-    private var _sellStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
-    val sellStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _sellStockLiveData
-
-    private var _sellStockErrorLiveData = MutableLiveData<Failure>()
-    val sellStockErrorLiveData: LiveData<Failure> = _sellStockErrorLiveData
-
     private var _deleteWatchListErrorLiveData = MutableLiveData<Failure>()
     val deleteWatchListErrorLiveData: LiveData<Failure> = _deleteWatchListErrorLiveData
 
@@ -115,21 +106,7 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
 //        }
 //    }
 
-    fun sellStock(marketId: Int, buySellStockReq: BuySellStockReq)
-    {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.sellStock(marketId, buySellStockReq)) {
-                is Result.Success -> {
-                    _sellStockLiveData.postValue(result.data!!)
-                }
-                is Result.Error -> {
-                    _sellStockErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
-    }
+
 
     fun modifyAlertPrice(stockId:Int, alertPriceRequest: AlertPriceRequest)
     {

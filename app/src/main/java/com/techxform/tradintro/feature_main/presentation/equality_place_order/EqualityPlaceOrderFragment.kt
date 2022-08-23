@@ -24,6 +24,7 @@ import com.techxform.tradintro.feature_main.domain.util.Utils
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import dagger.hilt.android.AndroidEntryPoint
+import java.math.BigDecimal
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.properties.Delegates
@@ -37,10 +38,11 @@ class EqualityPlaceOrderFragment :
     private var orderId: Int = 0
     private lateinit var isBuyOrSell: String
     private val myCalendar = Calendar.getInstance()
-    private var quantity: Int? = 1
+    private var quantity: Int = 1
     lateinit var market: Stock
     private var userId by Delegates.notNull<Int>()
     private var screenType: Int = 0
+    private var buyPrice = 0.0f
 
     companion object {
         const val IS_BUY_OR_ORDER = "IsBuyOrOrderButtonClicked"
@@ -105,17 +107,16 @@ class EqualityPlaceOrderFragment :
         }
         binding.buttonBuy.setOnClickListener(this)
         isLimitVisible(false)
+        binding.validityDateGroup.isVisible = false
         binding.radioGrp.check(R.id.marketRb)
 
         binding.quantityEt.addTextChangedListener {
-            quantity = if (it.toString() == "")
-                1
-            else it.toString().toInt()
-            val buyPrice =
-                (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
-            //buyprice * qauntity +charge
-            // change round to limit 2 decimal
-            binding.buyAmountEt.setText(buyPrice.toString())
+            if (it.toString() == "") {
+                quantity = 1
+                binding.quantityEt.setText("1")
+            } else quantity = it.toString().toInt()
+            buyPrice =
+                ( (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2)
             val diff =
                 market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
             binding.textDiff.text = diff.roundToInt().toString()
@@ -123,9 +124,17 @@ class EqualityPlaceOrderFragment :
             val sum =
                 market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
             val percent = (diff / sum) * 100
-            binding.textRate.text =
-                getString(R.string.rs_format, buyPrice) + "(" + percent.roundToInt() + "%)"
-            binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
+            (getString(
+                R.string.rs_format,
+                buyPrice
+            ) + "(" + percent.roundToInt() + "%)").also { rate ->
+                binding.textRate.text = rate
+            }
+          val totalCharge=  getTotalCharge(buyPrice, quantity)
+            binding.chargesEt.setText(Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString())
+
+            binding.buyAmountEt.setText(Utils.formatBigDecimalIntoTwoDecimal((buyPrice * quantity).toBigDecimal().plus(totalCharge)).toPlainString())
+
 
         }
 
@@ -174,6 +183,15 @@ class EqualityPlaceOrderFragment :
                     Toast.LENGTH_LONG
                 ).show()
             }
+        }
+            viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
+                it.data.orderId?.let {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.sold_success),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
 
         }
     }
@@ -195,9 +213,9 @@ class EqualityPlaceOrderFragment :
             }
             exchangeTv.text =
                 market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
-            val buyPrice =
-                (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
-            binding.buyAmountEt.setText(buyPrice.toString())
+             buyPrice =
+                 (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
+
             if (market.history.size > 1) {
                 val diff =
                     market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
@@ -212,7 +230,13 @@ class EqualityPlaceOrderFragment :
                 ) + "(" + percent.roundToInt() + "%)").also { binding.textRate.text = it }
             }
 
-            binding.chargesEt.setText(getTotalCharge(buyPrice, quantity ?: 0).toString())
+
+
+            val totalCharge=  getTotalCharge(buyPrice, quantity)
+            binding.chargesEt.setText(Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString())
+            binding.buyAmountEt.setText(Utils.formatBigDecimalIntoTwoDecimal((buyPrice * quantity).toBigDecimal().plus(totalCharge)).toPlainString())
+
+
 
             stockNameEt.setText(market.stockName)
 
@@ -263,26 +287,24 @@ class EqualityPlaceOrderFragment :
     }
 
     private fun isLimitVisible(isVisible: Boolean) {
-
         binding.limitGroup.isVisible = isVisible
 
     }
 
 
-    private fun getTotalCharge(orderPrice: Float, quantity: Int): Float {
+    private fun getTotalCharge(orderPrice: Float, quantity: Int): BigDecimal {
 
         val brokageValue = ((quantity * orderPrice) / 10) / 2
         val transValue = (brokageValue / 10) / 2
-        return brokageValue + transValue
+
+        return (brokageValue + transValue).toBigDecimal()
 
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.buttonBuy -> {
-                if (binding.quantityEt.text.toString()
-                        .toInt() < 1 || binding.quantityEt.text.toString()
-                        .isEmpty() || orderValidity() == -1 || orderValidityDate() == String()
+                if (quantity < 1 || orderValidity() == -1 || orderValidityDate() == String()
                 ) {
                     Toast.makeText(
                         requireContext(),
@@ -290,20 +312,35 @@ class EqualityPlaceOrderFragment :
                         Toast.LENGTH_LONG
                     )
                         .show()
-                } else {
+                }
+               else if (isBuyOrSell == BUY) {
+                   viewModel.buyStock(
+                            orderId,
+                            BuySellStockReq(
+                                quantity,
+                                if (binding.marketRb.isChecked) 0 else 1,
+                                binding.stock!!.stockCode!!,
+                                orderValidity(),
+                                buyPrice * quantity,
+                                orderValidityDate()
+                            )
+                        )
 
-                    viewModel.buyStock(
+                    }
+
+                else {
+
+                    viewModel.sellStock(
                         orderId,
                         BuySellStockReq(
-                            quantity ?: 0,
+                            quantity,
                             if (binding.marketRb.isChecked) 0 else 1,
                             binding.stock!!.stockCode!!,
                             orderValidity(),
-                            market.totalPrice.toFloat(),
+                            buyPrice * quantity,
                             orderValidityDate()
                         )
                     )
-
                 }
             }
         }
@@ -311,10 +348,12 @@ class EqualityPlaceOrderFragment :
 
     private fun orderValidityDate(): String {
         when {
-            binding.marketRb.isChecked || binding.gtdRb.isChecked ->
+            binding.marketRb.isChecked || binding.gtcRb.isChecked || binding.dayRb.isChecked ->
                 return Utils.formatCurrentDate()
-            binding.gtcRb.isChecked ->
-                return Utils.formatDate(binding.orderDateEt.text.toString())
+            binding.gtdRb.isChecked ->
+                return if(binding.orderDateEt.text.toString().isNotEmpty())
+                    Utils.formatDate(binding.orderDateEt.text.toString())
+                else String()
 
         }
         return String()
@@ -322,7 +361,7 @@ class EqualityPlaceOrderFragment :
 
     private fun orderValidity(): Int {
         when {
-            binding.marketRb.isChecked ->
+            binding.marketRb.isChecked || binding.dayRb.isChecked ->
                 return 0
             binding.gtdRb.isChecked ->
                 return 1

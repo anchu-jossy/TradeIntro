@@ -16,6 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EqualityPlaceOrderViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
 
+    private var _sellStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
+    val sellStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _sellStockLiveData
 
     private var _portfolioErrorLiveData = MutableLiveData<Failure>()
     val portfolioErrorLiveData: LiveData<Failure> = _portfolioErrorLiveData
@@ -68,7 +70,21 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
         }
     }
 
-
+    fun sellStock(marketId: Int, buySellStockReq: BuySellStockReq)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.sellStock(marketId, buySellStockReq)) {
+                is Result.Success -> {
+                    _sellStockLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _portfolioErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
 
 
 }

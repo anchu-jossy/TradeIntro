@@ -180,6 +180,8 @@
                             android:hint=""
                             android:inputType="number"
                             android:text="1"
+                            android:maxLength="10"
+
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon3"
@@ -329,7 +331,6 @@
                             android:layout_marginTop="@dimen/_8sdp"
                             android:background="@drawable/edittext_bg"
                             android:fontFamily="@font/open_sans"
-                            android:hint="Date"
                             android:inputType="number"
                             android:orientation="horizontal"
                             android:textSize="@dimen/_12ssp"
@@ -393,7 +394,7 @@
                             app:layout_constraintStart_toStartOf="@+id/b"
                             app:layout_constraintTop_toTopOf="@id/chargesEt" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <TextView
                             android:id="@+id/chargesEt"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -433,7 +434,7 @@
                             app:layout_constraintStart_toStartOf="@+id/b"
                             app:layout_constraintTop_toTopOf="@+id/buyAmountEt" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <TextView
                             android:id="@+id/buyAmountEt"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

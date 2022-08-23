@@ -2,6 +2,7 @@ package com.techxform.tradintro.feature_main.domain.util
 
 import android.view.View
 import okhttp3.internal.trimSubstring
+import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -22,14 +23,16 @@ object Utils {
     fun formatPercentageWithoutDecimals(num :String): String {
        return num.split(".")[0]
     }
-    fun formatFloatIntoTwoDecimal(num :Float): Float {
+    fun formatBigDecimalIntoTwoDecimal(num :BigDecimal): BigDecimal {
      val df=   DecimalFormat("0.00")
         df.roundingMode = RoundingMode.DOWN;
-        return df.format(num).toFloat()
-
-
+        return df.format(num).toBigDecimal()
 
     }
+
+
+
+
     fun View.setVisible(){
         this.visibility=View.VISIBLE
     }
@@ -37,10 +40,13 @@ object Utils {
         this.visibility=View.GONE
     }
     fun formatDate(date: String): String {
+        if (date.isNotEmpty()) {
+            val d = SimpleDateFormat("dd/MM/yyyy").parse(date)
 
-        val d = SimpleDateFormat("dd/MM/yyyy").parse(date)
+            return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(d)
 
-        return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(d)
+        }
+        return String()
     }
 
 
