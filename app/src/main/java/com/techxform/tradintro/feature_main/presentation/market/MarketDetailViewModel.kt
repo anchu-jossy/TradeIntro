@@ -23,26 +23,12 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
-   /* private var _updateWatchListLiveData = MutableLiveData<BaseResponse<UpdateData>>()
-    val updateWatchListLiveData: LiveData<BaseResponse<UpdateData>> = _updateWatchListLiveData*/
-
     private var _deleteWatchlistLiveData = MutableLiveData<BaseResponse<DeleteWatchListResponse>>()
     val deleteWatchlistLiveData: LiveData<BaseResponse<DeleteWatchListResponse>> = _deleteWatchlistLiveData
 
     private var _createWatchListLiveData = MutableLiveData<BaseResponse<WatchList>>()
     val createWatchListLiveData: LiveData<BaseResponse<WatchList>> = _createWatchListLiveData
 
-    private var _buyStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
-    val buyStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _buyStockLiveData
-
-    private var _buyStockErrorLiveData = MutableLiveData<Failure>()
-    val buyStockErrorLiveData: LiveData<Failure> = _buyStockErrorLiveData
-
-    private var _sellStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
-    val sellStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _sellStockLiveData
-
-    private var _sellStockErrorLiveData = MutableLiveData<Failure>()
-    val sellStockErrorLiveData: LiveData<Failure> = _sellStockErrorLiveData
 
     private var _deleteWatchListErrorLiveData = MutableLiveData<Failure>()
     val deleteWatchListErrorLiveData: LiveData<Failure> = _deleteWatchListErrorLiveData
@@ -84,20 +70,7 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
             _loadingLiveData.postValue(false)
         }
     }
-   /* fun updateWatchList(id: Number, amount: Number) {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.updateWatchList(id,UpdateWatchListRequest(amount))) {
-                is Result.Success -> {
-                    _updateWatchListLiveData.postValue(result.data!!)
-                }
-                is Result.Error -> {
-                    _marketErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
-    }*/
+
 
     fun removeWatchlist(id: Int)
     {
@@ -116,38 +89,24 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
         }
     }
 
+//
+//    fun buyStock(marketId: Int, buySellStockReq: BuySellStockReq)
+//    {
+//        _loadingLiveData.postValue(true)
+//        viewModelScope.launch(Dispatchers.Default) {
+//            when (val result = repository.buyStock(marketId, buySellStockReq)) {
+//                is Result.Success -> {
+//                    _buyStockLiveData.postValue(result.data!!)
+//                }
+//                is Result.Error -> {
+//                    _buyStockErrorLiveData.postValue(result.exception)
+//                }
+//            }
+//            _loadingLiveData.postValue(false)
+//        }
+//    }
 
-    fun buyStock(marketId: Int, buySellStockReq: BuySellStockReq)
-    {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.buyStock(marketId, buySellStockReq)) {
-                is Result.Success -> {
-                    _buyStockLiveData.postValue(result.data!!)
-                }
-                is Result.Error -> {
-                    _buyStockErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
-    }
 
-    fun sellStock(marketId: Int, buySellStockReq: BuySellStockReq)
-    {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.sellStock(marketId, buySellStockReq)) {
-                is Result.Success -> {
-                    _sellStockLiveData.postValue(result.data!!)
-                }
-                is Result.Error -> {
-                    _sellStockErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
-    }
 
     fun modifyAlertPrice(stockId:Int, alertPriceRequest: AlertPriceRequest)
     {

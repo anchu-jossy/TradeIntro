@@ -16,43 +16,26 @@ import javax.inject.Inject
 @HiltViewModel
 class EqualityPlaceOrderViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
 
-    private var _portfolioLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
-    val portfolioLiveData: LiveData<BaseResponse<PortfolioItem>> = _portfolioLiveData
+    private var _sellStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
+    val sellStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _sellStockLiveData
 
     private var _portfolioErrorLiveData = MutableLiveData<Failure>()
     val portfolioErrorLiveData: LiveData<Failure> = _portfolioErrorLiveData
 
+    private var _buyStockLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
+    val buyStockLiveData: LiveData<BaseResponse<PortfolioItem>> = _buyStockLiveData
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
     private var _walletSummaryLiveData = MutableLiveData<BaseResponse<WalletSummaryResponse>>()
     val walletSummaryLiveData: LiveData<BaseResponse<WalletSummaryResponse>> = _walletSummaryLiveData
-    private var _marketDetailLiveData = MutableLiveData<BaseResponse<Stock>>()
-    val marketDetailLiveData: LiveData<BaseResponse<Stock>> = _marketDetailLiveData
 
     private var _userDetailLiveData = MutableLiveData<BaseResponse<UserDetailsResponse>>()
     val userDetailLiveData: LiveData<BaseResponse<UserDetailsResponse>> = _userDetailLiveData
 
-    private var _updateWalletLiveData = MutableLiveData<UpdateWalletResponse>()
-    val updateWalletLiveData: LiveData<UpdateWalletResponse> =
-        _updateWalletLiveData
     private var _walletErrorLiveData = MutableLiveData<Failure>()
     val walletErrorLiveData: LiveData<Failure> = _walletErrorLiveData
 
-    fun portfolioDetails(id:Int,filterModel: FilterModel) {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.portfolioDetails(id, filterModel)) {
-                is Result.Success -> {
-                    _portfolioLiveData.postValue(result.data!!)
-                }
-                is Result.Error -> {
-                    _portfolioErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
 
-    }
 
     fun walletSummary(type:PaymentType)
     {
@@ -70,13 +53,14 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
             _loadingLiveData.postValue(false)
         }
     }
-    fun marketDetail(marketId:Int)
+
+    fun buyStock(marketId: Int, buySellStockReq: BuySellStockReq)
     {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.marketDetails(marketId)) {
+            when (val result = repository.buyStock(marketId, buySellStockReq)) {
                 is Result.Success -> {
-                    _marketDetailLiveData.postValue(result.data!!)
+                    _buyStockLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _portfolioErrorLiveData.postValue(result.exception)
@@ -86,22 +70,21 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
         }
     }
 
-
-    fun updateWallet(updateWalletRequest: UpdateWalletRequest) {
+    fun sellStock(marketId: Int, buySellStockReq: BuySellStockReq)
+    {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.updateWallet(updateWalletRequest)) {
+            when (val result = repository.sellStock(marketId, buySellStockReq)) {
                 is Result.Success -> {
-                    _updateWalletLiveData.postValue(result.data!!)
+                    _sellStockLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
-                    _walletErrorLiveData.postValue(result.exception)
+                    _portfolioErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)
         }
     }
-
 
 
 }

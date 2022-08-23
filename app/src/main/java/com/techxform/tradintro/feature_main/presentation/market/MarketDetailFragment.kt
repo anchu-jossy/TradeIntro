@@ -69,7 +69,8 @@ class MarketDetailFragment :
     {
         binding.buyBtn.setOnClickListener {
             if(binding.stock !=null)
-                viewModel.buyStock(stockId, BuySellStockReq(5,0,  binding.stock!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
+                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(stockId,EqualityPlaceOrderFragment.BUY, ScreenType.MARKET, binding.stock!!))
+
         }
 
         binding.addToWatchlistBtn.setOnClickListener {
@@ -79,7 +80,7 @@ class MarketDetailFragment :
         }
         binding.sellBtn.setOnClickListener {
             if(binding.stock !=null)
-                viewModel.sellStock(stockId, BuySellStockReq(5,0,  binding.stock!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
+                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(stockId,EqualityPlaceOrderFragment.SELL, ScreenType.MARKET,binding.stock!!))
         }
 
         binding.setAlertPriceBtn.setOnClickListener {
@@ -241,27 +242,13 @@ class MarketDetailFragment :
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
-        viewModel.buyStockErrorLiveData.observe(viewLifecycleOwner) {
-            handleError(it)
-        }
-        viewModel.sellStockErrorLiveData.observe(viewLifecycleOwner) {
-            handleError(it)
-        }
+
         viewModel.modifyAlertPriceErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
 
-        viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
-            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(stockId,EqualityPlaceOrderFragment.BUY, ScreenType.MARKET, binding.stock!!))
-            }
-        }
-        viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
-            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(stockId,EqualityPlaceOrderFragment.SELL, ScreenType.MARKET,binding.stock!!))
 
-            }
-        }
+
     }
 
     private fun handleError(failure: Failure)

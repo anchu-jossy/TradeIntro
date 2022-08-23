@@ -139,12 +139,7 @@ class PortfolioViewFragment :
         viewModel.sellStockErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
-        viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
-            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
-                    BUY, ScreenType.PORTFOLIO, portfolioItem.market!!))
-            }
-        }
+
         viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
@@ -179,24 +174,17 @@ class PortfolioViewFragment :
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.buyBtn -> {
-                if (portfolioItem != null && portfolioItem.market != null) {
-                    viewModel.buyStock(
-                        portfolioItem!!.market!!.stockId,
-                        BuySellStockReq(
-                            5,
-                            0,
-                            portfolioItem.market!!.stockCode!!,
-                            0,
-                            0f,
-                            "2022-05-26T00:00:00.000Z"
-                        )
-                    )
+
+                if (portfolioItem != null && portfolioItem?.market != null) {
+                    findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
+                        BUY, ScreenType.PORTFOLIO, portfolioItem.market))
                 }
+
+
             }
             R.id.sellBtn -> {
-                if(portfolioItem != null && portfolioItem.market!! != null)
-                    viewModel.sellStock(portfolioItem.market!!.stockId, BuySellStockReq(5,0,  portfolioItem.market!!.stockCode!!, 0, 0f, "2022-05-26T00:00:00.000Z"))
-
+                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
+                    SELL, ScreenType.PORTFOLIO, portfolioItem.market))
             }
         }
     }

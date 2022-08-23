@@ -16,6 +16,7 @@ import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import retrofit2.Response
 import java.net.UnknownHostException
 import java.util.*
@@ -149,8 +150,8 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful)
                     Result.Success(response.body()!!)
                 else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
+                    Log.e("Error123:", response.errorBody().toString())
+                    Result.Error(Failure.FeatureFailure(JSONObject(response.errorBody()?.string()).getString("message")))
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
