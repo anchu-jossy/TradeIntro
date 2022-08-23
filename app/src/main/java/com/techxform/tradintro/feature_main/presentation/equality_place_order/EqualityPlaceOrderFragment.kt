@@ -195,7 +195,7 @@ class EqualityPlaceOrderFragment :
 
         with(binding) {
             binding.stock = market
-            textdate.text = market.history[0].formatDate()
+            textdate.text = Utils.formatDateTimeString(market.history[0].stockHistoryDate)
             textCode.text = market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
             textName.text = market.stockName
             textName1.text = market.stockName

@@ -13,6 +13,8 @@
             name="stock"
             type="com.techxform.tradintro.feature_main.data.remote.dto.Stock" />
 
+        <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
+
     </data>
 
 
@@ -89,7 +91,7 @@
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:fontFamily="@font/open_sans_medium"
-            android:text="@{stock.history.get(0).formatDate()}"
+            android:text="@{Utils.INSTANCE.formatDateTimeString(stock.history.get(0).stockHistoryDate) }"
             android:textColor="@color/black"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toTopOf="@+id/g1"

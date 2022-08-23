@@ -5,6 +5,7 @@ import android.widget.Toast
 import okhttp3.internal.trimSubstring
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 
 object Utils {
     fun formatStringToTwoDecimals(num: String): String {
@@ -34,5 +35,22 @@ object Utils {
     }
     fun View.setVisibiltyGone(){
         this.visibility=View.GONE
+    }
+
+    fun formatDateTime(formattedDate:String?): Pair<String, String> {
+        if(formattedDate.isNullOrEmpty())
+            return Pair("","")
+        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(formattedDate)
+        val date = SimpleDateFormat("yyyy-MM-dd").format(d)
+        val time = SimpleDateFormat("hh:mm aa").format(d)
+
+        return Pair(date, time)
+    }
+
+    fun formatDateTimeString(formattedDate:String?): String {
+        if(formattedDate.isNullOrEmpty())
+            return ""
+        val pair = formatDateTime(formattedDate)
+        return pair.first + " " + pair.second
     }
 }

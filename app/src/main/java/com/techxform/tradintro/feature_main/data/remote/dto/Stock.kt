@@ -57,10 +57,6 @@ data class StockHistory(
     @SerializedName("stock_history_low") val stockHistoryLow: Float,
 ):Parcelable {
 
-    fun formatDate(): String {
-        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(stockHistoryDate)
-        return SimpleDateFormat("yyyy-MM-dd hh:mm aa").format(d)
-    }
 }
 
 @Parcelize
@@ -72,15 +68,6 @@ data class WatchList(
     @SerializedName("watchlist_date") val watchlistDate: String?,
     @SerializedName("market") val market: Stock?,
 ) :Parcelable {
-
-    fun formatDate(): String {
-        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(watchlistDate)
-        return SimpleDateFormat("dd/MM/yyyy").format(d)
-    }
-    fun formatTime(): String {
-        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(watchlistDate)
-        return SimpleDateFormat("hh:mm aa").format(d)
-    }
 
     fun perDiff(): Float? {
         val currentValue = market?.currentValue()

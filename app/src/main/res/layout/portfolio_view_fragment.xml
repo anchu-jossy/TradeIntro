@@ -5,7 +5,7 @@
     tools:context=".feature_main.presentation.portfolio_view.PortfolioViewFragment">
 
     <data>
-
+        <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
         <variable
             name="portfolioDashboard"
             type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard" />
@@ -107,7 +107,7 @@
                     android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:text="@{portfolio.formatDateTime().first}"
+                    android:text="@{Utils.INSTANCE.formatDateTime(portfolio.orderExecutedOn).first}"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toTopOf="@+id/timeTv"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -122,7 +122,7 @@
                     android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:text="@{portfolio.formatDateTime().second}"
+                    android:text="@{Utils.INSTANCE.formatDateTime(portfolio.orderExecutedOn).second}"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/subTitleTv"

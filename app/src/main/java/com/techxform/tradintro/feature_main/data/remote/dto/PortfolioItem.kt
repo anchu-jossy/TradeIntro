@@ -31,15 +31,6 @@ data class PortfolioItem(
 
 ) {
 
-    fun formatDateTime(): Pair<String, String> {
-
-        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(orderExecutedOn)
-        val date = SimpleDateFormat("yyyy-MM-dd").format(d)
-        val time = SimpleDateFormat("HH:mm:ss").format(d)
-
-        return Pair(date, time)
-    }
-
     fun perDiff(): Float {
         val currentValue = market.currentValue()
         return (((currentValue - orderPrice) /
