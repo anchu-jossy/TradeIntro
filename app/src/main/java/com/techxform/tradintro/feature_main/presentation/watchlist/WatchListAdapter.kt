@@ -21,12 +21,12 @@ class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListen
     inner class PortfolioVH(private val rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
             rowItemBinding.rowType = -1
-            rowItemBinding.watchlist = list[adapterPosition]
-            if(adapterPosition %2 == 0 ) {
+            rowItemBinding.watchlist = list[absoluteAdapterPosition]
+            if(absoluteAdapterPosition %2 == 0 ) {
                 drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(), rowItemBinding)
             }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(), rowItemBinding)
             rowItemBinding.root.setOnClickListener {
-                listener.onClick(list[adapterPosition],adapterPosition)
+                listener.onClick(list[absoluteAdapterPosition],absoluteAdapterPosition)
             }
         }
     }

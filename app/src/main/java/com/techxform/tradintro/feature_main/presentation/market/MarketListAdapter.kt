@@ -23,7 +23,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
         RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
             rowItemBinding.rowType = 0
-            rowItemBinding.stock = list[adapterPosition]
+            rowItemBinding.stock = list[absoluteAdapterPosition]
 
             /*   val openPrice = list[adapterPosition].history?.first()?.stockHistoryOpen?.toInt() ?: 0
             val closePrice = list[adapterPosition].history?.first()?.stockHistoryClose?.toInt() ?: 0

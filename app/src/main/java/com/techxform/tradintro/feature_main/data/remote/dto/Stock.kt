@@ -19,9 +19,9 @@ data class Stock(
 
 ):Parcelable {
     fun currentValue(): Float {
-
-        return (history.firstOrNull()?.stockHistoryOpen?: 0 +
-        history.firstOrNull()?.stockHistoryClose!! ?: 0.0f) / 2
+        return if (history.isEmpty()) 0f
+        else (history.first().stockHistoryOpen +
+                history.first().stockHistoryClose) / 2
 
     }
 

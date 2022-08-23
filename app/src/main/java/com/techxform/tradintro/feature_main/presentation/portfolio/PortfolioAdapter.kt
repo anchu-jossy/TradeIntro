@@ -1,6 +1,5 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
@@ -15,7 +14,6 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
-import kotlin.math.roundToInt
 
 class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
@@ -25,23 +23,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
         RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
             rowItemBinding.rowType = 1
-            rowItemBinding.portfolio = list[adapterPosition]
-            val portfolio = list[adapterPosition]
-            var currentValue = 0.0f
-            val size = portfolio.market?.history?.size ?: 0
-            if (size > 0) {
-                currentValue = (portfolio.market.history.first().stockHistoryOpen +
-                        portfolio .market.history.first().stockHistoryClose) / 2;
-            }
-            rowItemBinding.amountTv.text = currentValue.toString()
-            val diff=(((currentValue - portfolio.orderPrice) /
-                    ((currentValue + portfolio.orderPrice) / 2)) * 100);
-            rowItemBinding.perTv.text = "% "+diff.roundToInt();
-            if(diff<0){
-                rowItemBinding.perTv.setTextColor(Color.RED);
-            }else if (diff>0){
-                rowItemBinding.perTv.setTextColor(Color.GREEN);
-            }
+            rowItemBinding.portfolio = list[absoluteAdapterPosition]
 
             if (absoluteAdapterPosition % 2 == 0) {
                 drawChart(
