@@ -90,7 +90,7 @@
     <string name="order_validity_lbl">Order Validity</string>
     <string name="order_validity_date_lbl">Validity Date</string>
 
-    <string name="limited_prize_lbl">Limited Prize</string>
+    <string name="limited_prize_lbl">Limit Prize</string>
     <string name="charges_lbl">Charges</string>
     <string name="buy_amount_lbl">Buy Amount</string>
     <string name="colon_lbl">:</string>

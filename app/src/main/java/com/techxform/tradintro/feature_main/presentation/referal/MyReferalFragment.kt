@@ -45,13 +45,19 @@ class MyReferalFragment :
     private fun clickListeners() {
         with(binding.rechargeTradeMoneyContainer) {
             button.setOnClickListener {
-                viewModel.addUser(
-                    AddUserRequest(
-                        10,
-                        binding.rechargeTradeMoneyContainer.label1Et.text.toString(),
-                        binding.rechargeTradeMoneyContainer.label2Et.text.toString()
-                    )
-                )
+                with(binding.rechargeTradeMoneyContainer){
+                    if(label1Et.text.isNullOrEmpty() || label2Et.text.isNullOrEmpty())
+                        Toast.makeText(requireContext(),getString(R.string.validate_fields),Toast.LENGTH_LONG).show()
+
+                       else viewModel.addUser(
+                            AddUserRequest(
+                                10,
+                                binding.rechargeTradeMoneyContainer.label1Et.text.toString(),
+                                binding.rechargeTradeMoneyContainer.label2Et.text.toString()
+                            )
+                        )
+                }
+
             }
         }
 

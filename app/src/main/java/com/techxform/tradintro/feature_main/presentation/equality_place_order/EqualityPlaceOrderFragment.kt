@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.UserDetailsSingleton
@@ -109,14 +110,14 @@ class EqualityPlaceOrderFragment :
         isLimitVisible(false)
         binding.validityDateGroup.isVisible = false
         binding.radioGrp.check(R.id.marketRb)
-
+        setChargesAndBuyAmount()
         binding.quantityEt.addTextChangedListener {
             if (it.toString() == "") {
                 quantity = 1
                 binding.quantityEt.setText("1")
             } else quantity = it.toString().toInt()
             buyPrice =
-                ( (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2)
+                ((market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2)
             val diff =
                 market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
             binding.textDiff.text = diff.roundToInt().toString()
@@ -130,12 +131,15 @@ class EqualityPlaceOrderFragment :
             ) + "(" + percent.roundToInt() + "%)").also { rate ->
                 binding.textRate.text = rate
             }
-          val totalCharge=  getTotalCharge(buyPrice, quantity)
-            binding.chargesEt.text = Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString()
-            binding.buyAmountEt.text =
-                Utils.formatBigDecimalIntoTwoDecimal((buyPrice * quantity).toBigDecimal().plus(totalCharge)).toPlainString()
+            setChargesAndBuyAmount()
 
+        }
 
+        binding.limitPrizeEt.addTextChangedListener {
+            if (it.toString() == "") {
+                binding.limitPrizeEt.setText("0")
+            }
+            setChargesAndBuyAmount()
         }
 
         binding.orderDateEt.setOnClickListener {
@@ -144,10 +148,18 @@ class EqualityPlaceOrderFragment :
                 myCalendar[Calendar.YEAR], myCalendar[Calendar.MONTH],
                 myCalendar[Calendar.DAY_OF_MONTH]
             )
+            dialog.datePicker.maxDate = getAfterMonthsTime(myCalendar)
+
             dialog.show()
         }
 
 
+    }
+
+    private fun getAfterMonthsTime(cal: Calendar): Long {
+        cal.time = Date()
+        cal.add(Calendar.MONTH, 3)
+        return cal.time.time
     }
 
     private fun observer() {
@@ -182,20 +194,43 @@ class EqualityPlaceOrderFragment :
                     getString(R.string.bought_success),
                     Toast.LENGTH_LONG
                 ).show()
+                clearBackstack()
+                findNavController().navigate(R.id.nav_portfoliolist)
             }
+
         }
-            viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
-                it.data.orderId?.let {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.sold_success),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+        viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
+            it.data.orderId?.let {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.sold_success),
+                    Toast.LENGTH_LONG
+                ).show()
+                clearBackstack()
+                findNavController().navigate(R.id.nav_portfoliolist)
+            }
 
         }
     }
 
+
+    private fun setChargesAndBuyAmount() {
+        val totalCharge = getTotalCharge(buyPrice, quantity)
+        binding.chargesEt.text =
+            Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString()
+
+
+        binding.buyAmountEt.text = if (binding.limitRb.isChecked) {
+            Utils.formatBigDecimalIntoTwoDecimal(
+                (binding.limitPrizeEt.text.toString().toBigDecimal()
+                    .multiply(quantity.toBigDecimal()))
+                    .plus(totalCharge)
+            ).toPlainString()
+        } else
+            Utils.formatBigDecimalIntoTwoDecimal(
+                (buyPrice * quantity).toBigDecimal().plus(totalCharge)
+            ).toPlainString()
+    }
 
     private fun setData(market: Stock) {
 
@@ -213,8 +248,11 @@ class EqualityPlaceOrderFragment :
             }
             exchangeTv.text =
                 market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
-             buyPrice =
-                 (market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2
+            buyPrice =
+                (market.history[0].stockHistoryHigh + market.history[0].stockHistoryLow) / 2
+            binding.limitPrizeEt.setText(
+                Utils.formatBigDecimalIntoTwoDecimal(buyPrice.toBigDecimal()).toPlainString()
+            )
 
             if (market.history.size > 1) {
                 val diff =
@@ -231,10 +269,9 @@ class EqualityPlaceOrderFragment :
             }
 
 
-
-            val totalCharge=  getTotalCharge(buyPrice, quantity)
-            binding.chargesEt.setText(Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString())
-            binding.buyAmountEt.setText(Utils.formatBigDecimalIntoTwoDecimal((buyPrice * quantity).toBigDecimal().plus(totalCharge)).toPlainString())
+            val totalCharge = getTotalCharge(buyPrice, quantity)
+            binding.chargesEt.text =
+                Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString()
 
 
 
@@ -312,23 +349,20 @@ class EqualityPlaceOrderFragment :
                         Toast.LENGTH_LONG
                     )
                         .show()
-                }
-               else if (isBuyOrSell == BUY) {
-                   viewModel.buyStock(
-                            orderId,
-                            BuySellStockReq(
-                                quantity,
-                                if (binding.marketRb.isChecked) 0 else 1,
-                                binding.stock!!.stockCode!!,
-                                orderValidity(),
-                                buyPrice,
-                                orderValidityDate()
-                            )
+                } else if (isBuyOrSell == BUY) {
+                    viewModel.buyStock(
+                        orderId,
+                        BuySellStockReq(
+                            quantity,
+                            if (binding.marketRb.isChecked) 0 else 1,
+                            binding.stock!!.stockCode!!,
+                            orderValidity(),
+                            buyPrice,
+                            orderValidityDate()
                         )
+                    )
 
-                    }
-
-                else {
+                } else {
 
                     viewModel.sellStock(
                         orderId,
@@ -351,7 +385,7 @@ class EqualityPlaceOrderFragment :
             binding.marketRb.isChecked || binding.gtcRb.isChecked || binding.dayRb.isChecked ->
                 return Utils.formatCurrentDate()
             binding.gtdRb.isChecked ->
-                return if(binding.orderDateEt.text.toString().isNotEmpty())
+                return if (binding.orderDateEt.text.toString().isNotEmpty())
                     Utils.formatDateTimeString(binding.orderDateEt.text.toString())
                 else String()
 

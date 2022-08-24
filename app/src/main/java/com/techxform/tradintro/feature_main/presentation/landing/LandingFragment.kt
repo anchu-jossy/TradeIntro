@@ -288,7 +288,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                     navController.navigate(R.id.nav_home1)
                 }
                 R.id.nav_portfolio -> {
-                    navController.navigate(R.id.nav_home)
+                    navController.navigate(R.id.nav_portfoliolist)
                 }
                 R.id.nav_market -> {
                     navController.navigate(R.id.nav_market)

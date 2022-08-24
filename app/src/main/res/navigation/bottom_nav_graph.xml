@@ -21,7 +21,7 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_portfoliolist"
         android:name="com.techxform.tradintro.feature_main.presentation.portfolio.PortfoliosFragment"
         android:label="@string/nav_home"
         tools:layout="@layout/portfolis_fragment">
