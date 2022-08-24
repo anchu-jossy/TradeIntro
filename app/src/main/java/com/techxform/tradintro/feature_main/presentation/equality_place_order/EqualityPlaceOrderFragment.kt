@@ -131,9 +131,9 @@ class EqualityPlaceOrderFragment :
                 binding.textRate.text = rate
             }
           val totalCharge=  getTotalCharge(buyPrice, quantity)
-            binding.chargesEt.setText(Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString())
-
-            binding.buyAmountEt.setText(Utils.formatBigDecimalIntoTwoDecimal((buyPrice * quantity).toBigDecimal().plus(totalCharge)).toPlainString())
+            binding.chargesEt.text = Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString()
+            binding.buyAmountEt.text =
+                Utils.formatBigDecimalIntoTwoDecimal((buyPrice * quantity).toBigDecimal().plus(totalCharge)).toPlainString()
 
 
         }
@@ -321,7 +321,7 @@ class EqualityPlaceOrderFragment :
                                 if (binding.marketRb.isChecked) 0 else 1,
                                 binding.stock!!.stockCode!!,
                                 orderValidity(),
-                                buyPrice * quantity,
+                                buyPrice,
                                 orderValidityDate()
                             )
                         )
@@ -337,7 +337,7 @@ class EqualityPlaceOrderFragment :
                             if (binding.marketRb.isChecked) 0 else 1,
                             binding.stock!!.stockCode!!,
                             orderValidity(),
-                            buyPrice * quantity,
+                            buyPrice,
                             orderValidityDate()
                         )
                     )

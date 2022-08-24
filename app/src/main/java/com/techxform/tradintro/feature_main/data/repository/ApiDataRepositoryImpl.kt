@@ -16,7 +16,7 @@ import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
+import retrofit2.Response
 import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
@@ -442,7 +442,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             "skip" to filterModel.skip.toString()
         )
 
-        if (!filterModel.searchText.isNullOrEmpty())
+        if (filterModel.searchText.isNotEmpty())
             reqMap["search"] = filterModel.searchText!!
 
         return apiCall(apiService.watchlist(reqMap))

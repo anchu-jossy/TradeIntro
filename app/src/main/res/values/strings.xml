@@ -241,7 +241,7 @@
     <string name="stock_id">StockId</string>
     <string name="bought_success">Successfully bought stock</string>
     <string name="sold_success">Successfully sold stock</string>
-    <string name="validate_fields">"Select all required fields "</string>
+    <string name="validate_fields">"Fill all fields "</string>
 
 
 </resources>
