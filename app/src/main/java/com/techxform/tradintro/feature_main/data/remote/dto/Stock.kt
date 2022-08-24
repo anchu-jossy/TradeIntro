@@ -20,8 +20,8 @@ data class Stock(
 ):Parcelable {
     fun currentValue(): Float {
         return if (history.isEmpty()) 0f
-        else (history.first().stockHistoryOpen +
-                history.first().stockHistoryClose) / 2
+        else (history.first().stockHistoryHigh +
+                history.first().stockHistoryLow) / 2
 
     }
 
@@ -31,9 +31,9 @@ data class Stock(
         val size = history.size ?: 0
         if (size > 1) {
             val openPrice2 =
-                history[1].stockHistoryOpen
+                history[1].stockHistoryHigh
             val closePrice2 =
-                history[1].stockHistoryClose
+                history[1].stockHistoryLow
             val totalPrice2 = (openPrice2 + closePrice2)
             val yesterdayPrice = (totalPrice2 / 2)
 

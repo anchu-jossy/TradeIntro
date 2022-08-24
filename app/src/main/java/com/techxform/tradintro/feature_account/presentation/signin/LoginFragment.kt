@@ -13,6 +13,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.LoginFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.LoginRequest
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,8 +39,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     }
 
-    private fun forgetPasswordDialog()
-    {
+    private fun forgetPasswordDialog() {
         val alert = AlertDialog.Builder(requireContext())
         val edittext = EditText(requireContext())
         alert.setMessage(getString(R.string.enter_emailid))
@@ -56,11 +56,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     private fun listeners() {
         binding.btnSignIn.setOnClickListener {
             if (binding.userNameET.text.isNullOrEmpty() && binding.passwordET.text.isNullOrEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.user_name_pass_required_msg),
-                    Toast.LENGTH_SHORT
-                ).show()
+                requireContext().showShortToast(getString(R.string.user_name_pass_required_msg))
                 return@setOnClickListener
             }
             viewModel.login(
@@ -92,19 +88,15 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
-        viewModel.forgetPasswordLiveData.observe(viewLifecycleOwner){
+        viewModel.forgetPasswordLiveData.observe(viewLifecycleOwner) {
             if (it.toString().contains(getString(R.string.success)))
                 sequenceOf(
-                Toast.makeText(
-                    requireContext(), getString(R.string.verify_email),
-                    Toast.LENGTH_SHORT
-                ).show() )
+                    requireContext().showShortToast(getString(R.string.verify_email))
+                )
             else
                 sequenceOf(
-                    Toast.makeText(
-                        requireContext(), getString(R.string.error),
-                        Toast.LENGTH_SHORT
-                    ).show() )
+                    requireContext().showShortToast(getString(R.string.error)))
+
 
         }
 
@@ -119,27 +111,24 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(
+                            getString(R.string.no_internet_error)
+                        )
                     )
                 }
                 Failure.ServerError -> {
-                    (
-                            Toast.makeText(
-                                requireContext(), getString(R.string.server_error),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            )
+
+                    requireContext().showShortToast(
+                        getString(R.string.server_error)
+                    )
+
+
                 }
                 else -> {
+                    requireContext().showShortToast(
+                        (it as Failure.FeatureFailure).message
+                    )
 
-                    Toast.makeText(
-                        requireContext(),(it as Failure.FeatureFailure).message,
-                        Toast.LENGTH_SHORT
-                    ).show()
 
                 }
             }

@@ -20,6 +20,7 @@ import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.PriceType
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.presentation.portfolio_view.PriceAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -116,9 +117,9 @@ class MarketDetailFragment :
 
         builder.setView(container)
         builder.setPositiveButton(R.string.modify_alert_lbl
-        ) { dialog, p1 ->
+        ) { dialog, _ ->
             if(amountEt.text.toString().isNullOrEmpty())
-                Toast.makeText(requireContext(),R.string.enter_alert_price_lbl, Toast.LENGTH_SHORT).show()
+                requireContext().showShortToast(getString(R.string.enter_alert_price_lbl))
             else {
                 viewModel.modifyAlertPrice(
                     stockId,
@@ -129,7 +130,7 @@ class MarketDetailFragment :
         }
 
         builder.setNegativeButton(R.string.remove_alert_lbl
-        ) { dialog, p1 ->
+        ) { dialog, _->
             dialog.dismiss()
         }
         builder.show()
@@ -140,12 +141,7 @@ class MarketDetailFragment :
     private fun createPriceType(stockHistory: StockHistory?): ArrayList<PriceType> {
         val priceTypes = arrayListOf<PriceType>()
 
-        if (stockHistory == null) { //TODO: Remove
-        /*    priceTypes.add(PriceType(4663.36f, getString(R.string.open_lbl)))
-            priceTypes.add(PriceType(4363.36f, getString(R.string.close_lbl)))
-            priceTypes.add(PriceType(3728.34f, getString(R.string.lower_circuit_lbl)))
-            priceTypes.add(PriceType(47243.3f, getString(R.string.upper_circuit_lbl)))*/
-        } else {
+        if (stockHistory != null) { //TODO: Remove
             priceTypes.add(PriceType(stockHistory.stockHistoryOpen, getString(R.string.open_lbl)))
             priceTypes.add(PriceType(stockHistory.stockHistoryClose, getString(R.string.close_lbl)))
 
@@ -162,13 +158,7 @@ class MarketDetailFragment :
                 )
             )
 
-           /* val avg = (stockHistory.stockHistoryHigh + stockHistory.stockHistoryLow + stockHistory.stockHistoryClose + stockHistory.stockHistoryOpen)/4
-            priceTypes.add(
-                PriceType(
-                    avg,
-                    getString(R.string.avg_traded_lbl)
-                )
-            )*/
+
         }
         return priceTypes
 
@@ -184,7 +174,7 @@ class MarketDetailFragment :
                 var average = 0.0f
                 if (it.data.history != null)
                     average =
-                        (it.data.history[0].stockHistoryOpen.plus(it.data.history[0].stockHistoryClose) / 2)
+                        (it.data.history[0].stockHistoryHigh.plus(it.data.history[0].stockHistoryLow) / 2)
                 binding.amountTv.text = getString(R.string.rs_format, average)
                 binding.stock = it.data
                 binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
@@ -197,29 +187,16 @@ class MarketDetailFragment :
         }
         viewModel.createWatchListLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                Toast.makeText(
-                    requireContext(),
-                    "Successfully updated  to watchlist",
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+                requireContext().showShortToast(getString(R.string.added_to_watchlist))
                 binding.addToWatchlistBtn.text = getString(R.string.remove_watchlist_lbl)
                 binding.stock?.watchList = it.data
             }
         }
-        /*viewModel.updateWatchListLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "Successfully updated to watchlist", Toast.LENGTH_LONG)
-                .show()
-        }*/
+
 
         viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner){
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                Toast.makeText(
-                    requireContext(),
-                    "Successfully removed from watchlist",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                requireContext().showShortToast(getString(R.string.removed_to_watchlist))
                 binding.stock?.watchList = null
                 binding.addToWatchlistBtn.text = getString(R.string.add_to_watchlist_lbl)
             }
@@ -227,12 +204,8 @@ class MarketDetailFragment :
 
         viewModel.modifyAlertPriceLiveData.observe(viewLifecycleOwner){
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                Toast.makeText(
-                    requireContext(),
-                    "Successfully modified alert price",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                requireContext().showShortToast(   getString(R.string.modified_alert_price),)
+
             }
         }
 
@@ -256,20 +229,17 @@ class MarketDetailFragment :
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(
-                    Toast.makeText(
-                        requireContext(), getString(R.string.no_internet_error),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    requireContext().showShortToast(getString(R.string.no_internet_error))
+
                 )
             }
             Failure.ServerError-> {
-                Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
+                requireContext().showShortToast(getString(R.string.server_error))
 
             }
             else -> {
                 val errorMsg = (failure as Failure.FeatureFailure).message
-                Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
-                //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+                requireContext().showShortToast("Error: $errorMsg")
             }
         }
     }

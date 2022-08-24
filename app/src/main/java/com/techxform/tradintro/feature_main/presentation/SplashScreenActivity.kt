@@ -100,6 +100,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // FCM SDK (and your app) can post notifications.
                 } else {
+
                     Toast.makeText(this, getString(R.string.notification_permission_denied_msg), Toast.LENGTH_SHORT).show()
                 }
                 return

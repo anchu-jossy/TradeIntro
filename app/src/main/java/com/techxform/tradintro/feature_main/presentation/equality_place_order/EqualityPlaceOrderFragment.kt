@@ -117,13 +117,13 @@ class EqualityPlaceOrderFragment :
                 binding.quantityEt.setText("1")
             } else quantity = it.toString().toInt()
             buyPrice =
-                ((market.history[0].stockHistoryClose + market.history[0].stockHistoryOpen) / 2)
+                ((market.history[0].stockHistoryHigh + market.history[0].stockHistoryLow) / 2)
             val diff =
-                market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
+                market.history[1].stockHistoryHigh.minus(market.history[1].stockHistoryLow)
             binding.textDiff.text = diff.roundToInt().toString()
 
             val sum =
-                market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
+                market.history[1].stockHistoryHigh.plus(market.history[1].stockHistoryLow)
             val percent = (diff / sum) * 100
             (getString(
                 R.string.rs_format,
@@ -256,11 +256,11 @@ class EqualityPlaceOrderFragment :
 
             if (market.history.size > 1) {
                 val diff =
-                    market.history[1].stockHistoryOpen.minus(market.history[1].stockHistoryClose)
+                    market.history[1].stockHistoryHigh.minus(market.history[1].stockHistoryLow)
                 binding.textDiff.text = diff.roundToInt().toString()
 
                 val sum =
-                    market.history[1].stockHistoryOpen.plus(market.history[1].stockHistoryClose)
+                    market.history[1].stockHistoryHigh.plus(market.history[1].stockHistoryLow)
                 val percent = (diff / sum) * 100
                 (getString(
                     R.string.rs_format,
@@ -386,7 +386,7 @@ class EqualityPlaceOrderFragment :
                 return Utils.formatCurrentDate()
             binding.gtdRb.isChecked ->
                 return if (binding.orderDateEt.text.toString().isNotEmpty())
-                    Utils.formatDateTimeString(binding.orderDateEt.text.toString())
+                    Utils.formatDateString(binding.orderDateEt.text.toString())
                 else String()
 
         }

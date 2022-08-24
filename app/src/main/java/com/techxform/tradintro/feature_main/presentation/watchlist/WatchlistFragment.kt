@@ -20,6 +20,7 @@ import com.techxform.tradintro.databinding.WatchlistFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -146,11 +147,6 @@ class WatchlistFragment :
 
                         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                             position = viewHolder.absoluteAdapterPosition
-                            Toast.makeText(
-                                requireContext(),
-                                "onswiped",
-                                Toast.LENGTH_SHORT
-                            ).show()
                             viewModel.removeWatchlist(watchList[position].watchlistId)
                         }
 
@@ -175,10 +171,8 @@ class WatchlistFragment :
                 }
                 Failure.ServerError -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), "Internal Server Error",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(getString(R.string.internal_server_error))
+
                     )
                     viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
 
@@ -187,7 +181,7 @@ class WatchlistFragment :
             }
         }
         viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "Successfully Deleted", Toast.LENGTH_LONG).show()
+            requireContext().showShortToast(getString(R.string.delete_success))
             viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
 
         }

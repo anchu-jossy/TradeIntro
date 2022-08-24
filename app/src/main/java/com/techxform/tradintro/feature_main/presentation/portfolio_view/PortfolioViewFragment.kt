@@ -73,8 +73,8 @@ class PortfolioViewFragment :
         var currentPrice = 0.0f
         val size= portfolioItem?.market?.history?.size ?:0;
         if (size> 0) {
-            currentPrice = (portfolioItem.market.history.first().stockHistoryOpen +
-                    portfolioItem.market.history.first().stockHistoryClose) / 2
+            currentPrice = (portfolioItem.market.history.first().stockHistoryHigh +
+                    portfolioItem.market.history.first().stockHistoryLow) / 2
         }
         val c = portfolioItem.market.currentValue()
         priceTypes.add(PriceType(currentPrice, getString(R.string.current_price_lbl)))

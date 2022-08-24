@@ -75,7 +75,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
             return arrayList
         }*/
         list.forEachIndexed { index, stockHistory ->
-            arrayList.add(Entry(index.toFloat(), (stockHistory.stockHistoryClose + stockHistory.stockHistoryOpen)/2))
+            arrayList.add(Entry(index.toFloat(), (stockHistory.stockHistoryLow + stockHistory.stockHistoryHigh)/2))
         }
         return arrayList
     }

@@ -1,6 +1,8 @@
 package com.techxform.tradintro.feature_main.domain.util
 
+import android.content.Context
 import android.view.View
+import android.widget.Toast
 import okhttp3.internal.trimSubstring
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -42,6 +44,10 @@ object Utils {
         this.visibility=View.GONE
     }
 
+    fun Context.showShortToast(message: CharSequence) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     fun formatDateTime(formattedDate:String?): Pair<String, String> {
         if(formattedDate.isNullOrEmpty())
             return Pair("","")
@@ -60,5 +66,13 @@ object Utils {
     }
     fun formatCurrentDate(): String {
         return  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(Date());
+    }
+    fun formatDateString(formattedDate:String?): String {
+
+        val d = SimpleDateFormat("dd/MM/yyyy").parse(formattedDate)
+        return SimpleDateFormat(    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(d)
+
+
+
     }
 }

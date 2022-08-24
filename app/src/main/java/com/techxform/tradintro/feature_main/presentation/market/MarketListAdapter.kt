@@ -25,32 +25,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
             rowItemBinding.rowType = 0
             rowItemBinding.stock = list[absoluteAdapterPosition]
 
-            /*   val openPrice = list[adapterPosition].history?.first()?.stockHistoryOpen?.toInt() ?: 0
-            val closePrice = list[adapterPosition].history?.first()?.stockHistoryClose?.toInt() ?: 0
-            val totalPrice = openPrice.plus(closePrice)
-            val todayPrice = (totalPrice / 2)
-            var percentage=0;
-            val size=list[adapterPosition]?.history?.size?:0
-            if(size >1) {
-                val openPrice2 =
-                    list[adapterPosition].history?.get(1)?.stockHistoryOpen?.toInt() ?: 0
-                val closePrice2 =
-                    list[adapterPosition].history?.get(1)?.stockHistoryClose?.toInt() ?: 0
-                val totalPrice2 = openPrice2.plus(closePrice2)
-                val yesterdayPrice = (totalPrice2 / 2)
 
-                if(todayPrice !=0 && yesterdayPrice != 0 )
-                percentage = ((todayPrice-yesterdayPrice)/((todayPrice+yesterdayPrice)/2))*100;
-            }
-
-            list[adapterPosition].totalPrice = todayPrice
-            rowItemBinding.amountTv.text = todayPrice.toString()
-            rowItemBinding.perTv.text = "% "+percentage.toString()
-            if(percentage<0){
-                rowItemBinding.perTv.setTextColor(Color.RED);
-            }else if (percentage>0){
-                rowItemBinding.perTv.setTextColor(Color.GREEN);
-            }*/
             if (absoluteAdapterPosition % 2 == 0) {
                 if (list[absoluteAdapterPosition].history != null) {
                     drawChart(
@@ -108,7 +83,7 @@ class MarketListAdapter(var list: ArrayList<Stock>, private val listener: OnItem
 
 
         list.forEachIndexed { index, stockHistory ->
-            arrayList.add(Entry(index.toFloat(), (stockHistory.stockHistoryOpen + stockHistory.stockHistoryClose)/2))
+            arrayList.add(Entry(index.toFloat(), (stockHistory.stockHistoryHigh + stockHistory.stockHistoryLow)/2))
 
         }
 

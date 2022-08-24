@@ -31,6 +31,7 @@ class WatchlistViewModel @Inject constructor(private val repository: ApiReposito
     {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
+
             when (val result = repository.watchlist(filterModel)) {
                 is Result.Success -> {
                     _watchlistLiveData.postValue(result.data!!)

@@ -242,6 +242,11 @@
     <string name="bought_success">Successfully bought stock</string>
     <string name="sold_success">Successfully sold stock</string>
     <string name="validate_fields">"Fill all fields "</string>
+    <string name="added_to_watchlist">Successfully added to watchlist</string>
+    <string name="removed_to_watchlist">Successfully removed from watchlist</string>
+    <string name="modified_alert_price">Successfully modified alertprice</string>
+    <string name="delete_success">Sucessfully deleted</string>
+    <string name="internal_server_error">Internal server error</string>
 
 
 </resources>

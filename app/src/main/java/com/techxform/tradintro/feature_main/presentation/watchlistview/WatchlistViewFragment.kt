@@ -129,7 +129,7 @@ class WatchlistViewFragment :
         val size = watchList.market?.history?.size ?: 0;
         if (size > 0) {
             currentPrice =
-                (watchList.market?.history?.firstOrNull()?.stockHistoryOpen?.plus(watchList.market.history?.firstOrNull()!!.stockHistoryClose)
+                (watchList.market?.history?.firstOrNull()?.stockHistoryHigh?.plus(watchList.market.history?.firstOrNull()!!.stockHistoryLow)
                     ?.div(2) ?: 0) as Float
         }
         val gainLoss = currentPrice.minus(watchList.watchStockPrice)

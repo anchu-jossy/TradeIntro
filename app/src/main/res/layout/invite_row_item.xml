@@ -8,6 +8,8 @@
             name="data"
             type="com.techxform.tradintro.feature_main.data.remote.dto.InviteData" />
 
+        <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
+
 
     </data>
 
@@ -80,7 +82,7 @@
                 android:fontFamily="@font/open_sans"
                 android:gravity="end"
                 android:maxLines="1"
-                android:text="@{data.inviteDate}"
+                android:text="@{Utils.INSTANCE.formatDateTime(data.inviteDate).first}"
                 android:textSize="@dimen/_8ssp"
                 app:layout_constraintEnd_toEndOf="@+id/status"
                 app:layout_constraintStart_toStartOf="@+id/status"
