@@ -23,6 +23,8 @@ object Utils {
     fun formatPercentageWithoutDecimals(num :String): String {
        return num.split(".")[0]
     }
+
+
     fun formatBigDecimalIntoTwoDecimal(num :BigDecimal): BigDecimal {
      val df=   DecimalFormat("0.00")
         df.roundingMode = RoundingMode.DOWN;
