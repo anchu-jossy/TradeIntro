@@ -20,6 +20,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -125,10 +126,7 @@ class PortfoliosFragment :
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast( getString(R.string.no_internet_error))
                     )
                 }
                 else -> {}
@@ -138,10 +136,8 @@ class PortfoliosFragment :
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
+
                     )
                 }
                 else -> {}

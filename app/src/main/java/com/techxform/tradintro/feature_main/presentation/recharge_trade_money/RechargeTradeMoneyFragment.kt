@@ -18,6 +18,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.PaymentResponseActivity
 import com.techxform.tradintro.feature_main.presentation.profile.UpdateProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -125,10 +126,7 @@ class RechargeTradeMoneyFragment :
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
                     )
                 }
                 else -> {

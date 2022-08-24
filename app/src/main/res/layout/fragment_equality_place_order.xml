@@ -108,6 +108,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
                             android:fontFamily="@font/open_sans_medium"
+                            android:background="@color/dark_violate"
+                            android:textColor="@color/white"
                             android:paddingHorizontal="@dimen/_8sdp"
                             app:layout_constraintBottom_toBottomOf="@id/exchangeLbl"
                             app:layout_constraintStart_toEndOf="@+id/b"

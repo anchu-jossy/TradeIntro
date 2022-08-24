@@ -20,6 +20,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PriceType
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.BUY
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.ORDER_ID
@@ -154,20 +155,17 @@ class PortfolioViewFragment :
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(
-                    Toast.makeText(
-                        requireContext(), getString(R.string.no_internet_error),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    requireContext().showShortToast(getString(R.string.no_internet_error))
+
                 )
             }
             Failure.ServerError-> {
-                Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
+                requireContext().showShortToast(getString(R.string.server_error),)
 
             }
             else -> {
                 val errorMsg = (failure as Failure.FeatureFailure).message
-                Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
-                //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+                requireContext().showShortToast("Error: $errorMsg")
             }
         }
     }

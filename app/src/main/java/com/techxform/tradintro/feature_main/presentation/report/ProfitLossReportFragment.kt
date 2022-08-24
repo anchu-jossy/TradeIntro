@@ -17,6 +17,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.SummaryReport
 import com.techxform.tradintro.feature_main.data.remote.dto.TotalPrices
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -87,10 +88,8 @@ class ProfitLossReportFragment :
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
+
                     )
                 }
                 else -> {}

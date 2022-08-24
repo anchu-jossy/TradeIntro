@@ -52,22 +52,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rechargeTradeMoneyContainer" />
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/list_search_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/frame"
-                    android:layoutDirection="rtl"
-                    app:layout_constraintTop_toBottomOf="@+id/title1Tv" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listRv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
-                    android:layout_below="@+id/list_search_view"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@+id/list_search_view"
+                    app:layout_constraintTop_toBottomOf="@+id/title1Tv"
                     tools:listitem="@layout/invite_row_item" />
 
 

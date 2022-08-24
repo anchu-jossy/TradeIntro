@@ -247,6 +247,8 @@
     <string name="modified_alert_price">Successfully modified alertprice</string>
     <string name="delete_success">Sucessfully deleted</string>
     <string name="internal_server_error">Internal server error</string>
+    <string name="logout">Logout successfully</string>
+    <string name="updated_sucess">Successfully updated</string>
 
 
 </resources>

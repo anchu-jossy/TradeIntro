@@ -13,6 +13,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.RegistrationFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.RegisterRequest
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -82,20 +83,14 @@ class RegistrationFragment :
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
+
                     )
                 }
                 Failure.ServerError -> {
-                    (
-                            Toast.makeText(
-                                requireContext(), getString(R.string.server_error),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            )
+
+                            requireContext().showShortToast(getString(R.string.server_error))
+
                 }
 
                 else -> {

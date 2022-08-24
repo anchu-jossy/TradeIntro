@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +16,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -92,21 +92,17 @@ class NotificationFragment :
         viewModel.deleteNotificationLiveData.observe(viewLifecycleOwner) {
             adapter.list.removeAt(it)
             adapter.notifyItemRemoved(it)
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.notification_delete_msg),
-                Toast.LENGTH_SHORT
-            ).show()
+            requireContext().showShortToast(                getString(R.string.notification_delete_msg),
+            )
+
         }
 
         viewModel.notificationErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast( getString(R.string.no_internet_error))
+
                     )
                 }
                 else -> {}

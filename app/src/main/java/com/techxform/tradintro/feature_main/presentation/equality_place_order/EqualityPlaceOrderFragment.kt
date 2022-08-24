@@ -24,6 +24,7 @@ import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.util.Utils
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
 import java.util.*
@@ -189,11 +190,8 @@ class EqualityPlaceOrderFragment :
 
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
             it.data.orderId?.let {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.bought_success),
-                    Toast.LENGTH_LONG
-                ).show()
+                requireContext().showShortToast(getString(R.string.bought_success))
+
                 clearBackstack()
                 findNavController().navigate(R.id.nav_portfoliolist)
             }
@@ -201,11 +199,10 @@ class EqualityPlaceOrderFragment :
         }
         viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
             it.data.orderId?.let {
-                Toast.makeText(
-                    requireContext(),
+                requireContext().showShortToast(
                     getString(R.string.sold_success),
-                    Toast.LENGTH_LONG
-                ).show()
+                )
+
                 clearBackstack()
                 findNavController().navigate(R.id.nav_portfoliolist)
             }
@@ -343,12 +340,8 @@ class EqualityPlaceOrderFragment :
             R.id.buttonBuy -> {
                 if (quantity < 1 || orderValidity() == -1 || orderValidityDate() == String()
                 ) {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.validate_fields),
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                    requireContext().showShortToast(getString(R.string.validate_fields))
+
                 } else if (isBuyOrSell == BUY) {
                     viewModel.buyStock(
                         orderId,
@@ -416,20 +409,18 @@ class EqualityPlaceOrderFragment :
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(
-                    Toast.makeText(
-                        requireContext(), getString(R.string.no_internet_error),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    requireContext().showShortToast(getString(R.string.no_internet_error))
+
                 )
             }
             Failure.ServerError -> {
-                Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+                requireContext().showShortToast(getString(R.string.server_error))
 
             }
             else -> {
                 val errorMsg = (failure as Failure.FeatureFailure).message
-                Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
-                //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+                requireContext().showShortToast("Error: $errorMsg")
+
             }
         }
     }

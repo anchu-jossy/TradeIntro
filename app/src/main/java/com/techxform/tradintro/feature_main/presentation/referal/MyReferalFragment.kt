@@ -12,6 +12,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.MyReferalFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.AddUserRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -47,7 +48,7 @@ class MyReferalFragment :
             button.setOnClickListener {
                 with(binding.rechargeTradeMoneyContainer){
                     if(label1Et.text.isNullOrEmpty() || label2Et.text.isNullOrEmpty())
-                        Toast.makeText(requireContext(),getString(R.string.validate_fields),Toast.LENGTH_LONG).show()
+                        requireContext().showShortToast(getString(R.string.validate_fields))
 
                        else viewModel.addUser(
                             AddUserRequest(
@@ -69,11 +70,11 @@ class MyReferalFragment :
         }
 
         viewModel.addUseLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(
-                requireContext(),
-                it.status,
-                Toast.LENGTH_SHORT
-            ).show()
+            it.status?.let{it->
+                requireContext().showShortToast(it)
+
+            }
+
             viewModel.getUserInviteList()
         }
 
@@ -81,18 +82,13 @@ class MyReferalFragment :
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
+
                     )
                 }
                 Failure.ServerError ->
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.server_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(getString(R.string.server_error))
                     )
                 else -> {
                 }

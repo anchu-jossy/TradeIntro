@@ -6,17 +6,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.techxform.tradintro.R
 import com.techxform.tradintro.feature_account.presentation.signin.LoginFragment
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.landing.LandingFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,10 +45,11 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         val fragment = getFragment()
-        val type = intent?.getStringExtra(NOTIFICATION_TYPE)?: ""
+        val type = intent?.getStringExtra(NOTIFICATION_TYPE) ?: ""
 
         if (fragment is LoginFragment) {
             fragment.isNotification(true, type)
@@ -69,7 +68,7 @@ class SplashScreenActivity : AppCompatActivity() {
     @RequiresApi(33)
     private fun askNotificationPermission() {
         when {
-            ContextCompat.checkSelfPermission(this,  Manifest.permission.POST_NOTIFICATIONS) ==
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
                     PackageManager.PERMISSION_GRANTED -> {
                 // FCM SDK (and your app) can post notifications.
             }
@@ -81,7 +80,8 @@ class SplashScreenActivity : AppCompatActivity() {
             }
             else -> {
                 // Directly ask for the permission
-                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                requestPermissions(
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                     NOTIFICATION_REQUEST_CODE
                 )
             }
@@ -100,8 +100,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // FCM SDK (and your app) can post notifications.
                 } else {
-
-                    Toast.makeText(this, getString(R.string.notification_permission_denied_msg), Toast.LENGTH_SHORT).show()
+                    this.showShortToast(getString(R.string.notification_permission_denied_msg))
                 }
                 return
             }

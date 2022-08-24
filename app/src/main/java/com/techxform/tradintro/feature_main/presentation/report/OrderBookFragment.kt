@@ -19,6 +19,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.UpdatePortfolioRequest
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -84,7 +85,7 @@ class OrderBookFragment :
             })
         }
         viewModel.updatePortfolioLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "Successfully updated", Toast.LENGTH_LONG).show()
+            requireContext().showShortToast(getString(R.string.updated_sucess))
         }
         viewModel.deletePortfolioLiveData.observe(viewLifecycleOwner) {
             binding.titleTv.text = getString(R.string.trade_book_lbl)
@@ -98,9 +99,8 @@ class OrderBookFragment :
                     portfolioStatus = "0,1"
                 )
             )
+requireContext().showShortToast(getString(R.string.delete_success))
 
-
-            Toast.makeText(requireContext(), "Successfully deleted", Toast.LENGTH_LONG).show()
         }
 
 
@@ -108,20 +108,15 @@ class OrderBookFragment :
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
+
                     )
                 }
                 else -> {
                     val errorMsg = (it as Failure.FeatureFailure).message
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(),
-                            "Error: $errorMsg",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        requireContext().showShortToast( "Error: $errorMsg")
+
                     )
 
 

@@ -15,6 +15,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.Contants.IMAGE_URL
 import com.techxform.tradintro.databinding.UpdateProfileFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.EditUserProfileReq
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,7 +55,8 @@ class UpdateProfileFragment :
             }
         }
         viewModel.deleteAccountLiveData.observe(viewLifecycleOwner){
-            sequenceOf( Toast.makeText(requireContext(),getString(R.string.acc_delete),Toast.LENGTH_LONG).show())
+            sequenceOf(
+                requireContext().showShortToast(getString(R.string.acc_delete)))
             Handler(Looper.getMainLooper()).postDelayed({
                 findNavController().navigateUp()
                 findNavController().navigate(R.id.loginFragment)

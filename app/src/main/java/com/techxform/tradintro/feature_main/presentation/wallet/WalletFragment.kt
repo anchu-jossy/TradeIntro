@@ -9,6 +9,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.WalletFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,20 +38,17 @@ class WalletFragment : BaseFragment<WalletFragmentBinding>(WalletFragmentBinding
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showShortToast( getString(R.string.no_internet_error))
+
                     )
                 }
                 Failure.ServerError -> {
-                    Toast.makeText(requireContext(), " Server failed", Toast.LENGTH_LONG).show()
+                    requireContext().showShortToast(getString(R.string.server_error))
 
                 }
                 else -> {
                     val errorMsg = (it as Failure.FeatureFailure).message
-                    Toast.makeText(requireContext(), "Error: $errorMsg", Toast.LENGTH_LONG).show()
-                    //Toast.makeText(requireContext(), " Api failed", Toast.LENGTH_LONG).show()
+                    requireContext().showShortToast("Error: $errorMsg")
                 }
             }
         }

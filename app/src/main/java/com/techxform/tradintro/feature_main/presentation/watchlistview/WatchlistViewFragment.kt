@@ -26,6 +26,7 @@ import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.domain.util.Utils
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -106,7 +107,7 @@ class WatchlistViewFragment :
         builder.setPositiveButton(R.string.modify_alert_lbl
         ) { dialog, p1 ->
             if(amountEt.text.toString().isNullOrEmpty())
-                Toast.makeText(requireContext(),R.string.enter_alert_price_lbl, Toast.LENGTH_SHORT).show()
+                requireContext().showShortToast(getString(R.string.enter_alert_price_lbl))
             else {
                 viewModel.setAlertPrice(
                     watchlistId,

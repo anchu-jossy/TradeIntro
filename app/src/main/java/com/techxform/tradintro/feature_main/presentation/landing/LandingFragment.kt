@@ -37,7 +37,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.domain.model.DrawerItem
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
-import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.SplashScreenActivity
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment
 import com.techxform.tradintro.feature_main.presentation.notification.NotificationFragment.Companion.ALERT_TYPE
@@ -78,7 +78,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
         viewModel.logOutLiveData.observe(viewLifecycleOwner) {
             if (it.status) {
-                Toast.makeText(requireContext(), "logout Successfully", Toast.LENGTH_LONG).show()
+                requireContext().showShortToast("Logout successfully")
                 requireActivity().finish()
             }
         }
@@ -86,21 +86,12 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    )
+                        requireContext().showShortToast(getString(R.string.no_internet_error)))
                 }
-                Failure.ServerError -> {
-                    (
-                            Toast.makeText(
-                                requireContext(), getString(R.string.server_error),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            )
-                }
+                Failure.ServerError ->
+                    {
+                        requireContext().showShortToast(getString(R.string.server_error))
+                    }
                 else -> {
                 }
             }
@@ -134,7 +125,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 //                }
             }
         } catch (ex: Exception) {
-            Toast.makeText(requireContext(), ex.toString(), Toast.LENGTH_SHORT).show()
+            requireContext().showShortToast( ex.toString())
 
         }
 
