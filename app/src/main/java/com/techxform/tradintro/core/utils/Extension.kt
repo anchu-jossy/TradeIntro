@@ -54,5 +54,12 @@ fun TextView.setLock(userLevel: Int, currentLevel: Int) {
 }
 
 
+@BindingAdapter("enabledColorText")
+fun TextView.color(boolean: Boolean) {
+    if (boolean)
+        setTextColor(ContextCompat.getColor(context, R.color.black))
+    else setTextColor(ContextCompat.getColor(context, R.color.grey))
+}
+
 
 
