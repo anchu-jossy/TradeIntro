@@ -8,7 +8,7 @@
             name="portfolio"
             type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
         <import type="android.view.View"/>
-
+        <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,7 +95,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderIdTv"
-                    tools:itemCount="6"
+                    tools:itemCount="2"
                     tools:listitem="@layout/row_price" />
 
 
@@ -196,9 +196,8 @@
             android:id="@+id/executionDateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
             android:fontFamily="@font/open_sans"
-            android:text="@{portfolio.formatDateTime().first}"
+            android:text="@{Utils.INSTANCE.formatDateTime(portfolio.orderExecutedOn).first}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/executionTimeLbl"
             app:layout_constraintTop_toTopOf="@+id/executionTimeLbl" />
@@ -208,9 +207,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/open_sans"
-            android:text="@{portfolio.formatDateTime().second}"
+            android:text="@{Utils.INSTANCE.formatDateTime(portfolio.orderExecutedOn).second}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/executionDateTv"
+            app:layout_constraintStart_toEndOf="@+id/executionTimeLbl"
             app:layout_constraintTop_toBottomOf="@+id/executionDateTv" />
 
 

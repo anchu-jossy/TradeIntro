@@ -41,18 +41,24 @@ object Utils {
     fun View.setVisibiltyGone(){
         this.visibility=View.GONE
     }
-    fun formatDate(date: String): String {
-        if (date.isNotEmpty()) {
-            val d = SimpleDateFormat("dd/MM/yyyy").parse(date)
 
-            return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(d)
+    fun formatDateTime(formattedDate:String?): Pair<String, String> {
+        if(formattedDate.isNullOrEmpty())
+            return Pair("","")
+        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(formattedDate)
+        val date = SimpleDateFormat("yyyy-MM-dd").format(d)
+        val time = SimpleDateFormat("hh:mm aa").format(d)
 
-        }
-        return String()
+        return Pair(date, time)
     }
 
-
+    fun formatDateTimeString(formattedDate:String?): String {
+        if(formattedDate.isNullOrEmpty())
+            return ""
+        val pair = formatDateTime(formattedDate)
+        return pair.first + " " + pair.second
+    }
     fun formatCurrentDate(): String {
-      return  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(Date());
+        return  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(Date());
     }
 }

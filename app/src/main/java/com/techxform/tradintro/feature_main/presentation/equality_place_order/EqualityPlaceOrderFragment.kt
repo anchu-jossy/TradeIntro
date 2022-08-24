@@ -201,7 +201,7 @@ class EqualityPlaceOrderFragment :
 
         with(binding) {
             binding.stock = market
-            textdate.text = market.history[0].formatDate()
+            textdate.text = Utils.formatDateTimeString(market.history[0].stockHistoryDate)
             textCode.text = market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
             textName.text = market.stockName
             textName1.text = market.stockName
@@ -352,7 +352,7 @@ class EqualityPlaceOrderFragment :
                 return Utils.formatCurrentDate()
             binding.gtdRb.isChecked ->
                 return if(binding.orderDateEt.text.toString().isNotEmpty())
-                    Utils.formatDate(binding.orderDateEt.text.toString())
+                    Utils.formatDateTimeString(binding.orderDateEt.text.toString())
                 else String()
 
         }
