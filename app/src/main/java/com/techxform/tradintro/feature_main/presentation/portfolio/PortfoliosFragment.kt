@@ -51,13 +51,12 @@ class PortfoliosFragment :
         /*       val face: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.open_sans)
                val searchText = binding.searchView as TextView
                searchText.typeface = face*/
-
         binding.searchView.addTextChangedListener {
             if(binding.searchView.text.toString().length > 3)
             {
                 portfolioList.clear()
                 viewModel.portfolioList(SearchModel(binding.searchView.text.toString().trim(), limit, 0, 0))
-                binding.searchView.isEnabled = false
+                //binding.searchView.isEnabled = false
             }else if(binding.searchView.text.isNullOrEmpty())
             {
                 portfolioList.clear()

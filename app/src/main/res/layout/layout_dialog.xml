@@ -23,13 +23,27 @@
             android:layout_height="0dp"
             android:layout_weight=".2">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id = "@+id/closeIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="@dimen/_5sdp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:padding="@dimen/_5sdp"
+                app:srcCompat="@drawable/ic_baseline_close_24" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dateTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-
                 android:fontFamily="@font/open_sans_medium"
                 android:text="Enter the  Fields"
                 android:textColor="@color/black"
@@ -92,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="@{portfolio.isPriceEnabled == true   ? true : false}"
                 android:text="@{ String.valueOf(portfolio.orderPrice)}"
-                android:textColor="@color/grey" />
+                app:enabledColorText="@{portfolio.isPriceEnabled == true}"/>
 
             <TextView
                 android:layout_width="match_parent"

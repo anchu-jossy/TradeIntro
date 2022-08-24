@@ -59,6 +59,9 @@ class OrderBookFragment :
                     val dialog = Dialog(requireContext())
                     dialog.setContentView(binding.root)
                     dialog.show()
+                    binding.closeIv.setOnClickListener {
+                        dialog.dismiss()
+                    }
                     binding.sellBtn.setOnClickListener {
                         dialog.dismiss()
                         viewModel.updatePortfolio(
