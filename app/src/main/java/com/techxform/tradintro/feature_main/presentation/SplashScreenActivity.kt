@@ -13,7 +13,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.common.api.internal.LifecycleCallback.getFragment
 import com.techxform.tradintro.R
+import com.techxform.tradintro.core.base.BaseActivity
 import com.techxform.tradintro.feature_account.presentation.signin.LoginFragment
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.landing.LandingFragment
@@ -74,7 +76,6 @@ class SplashScreenActivity : AppCompatActivity() {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         return navHost?.childFragmentManager?.fragments?.get(0)
     }
-
 
     @RequiresApi(33)
     private fun askNotificationPermission() {

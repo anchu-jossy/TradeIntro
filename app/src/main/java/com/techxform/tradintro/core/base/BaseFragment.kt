@@ -1,15 +1,12 @@
 package com.techxform.tradintro.core.base
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.techxform.tradintro.R
 
 typealias Inflate<T> =(LayoutInflater,ViewGroup?,Boolean)->T
 open class BaseFragment<VB: ViewBinding>(private val inflate :Inflate<VB>): Fragment() {
@@ -30,6 +27,9 @@ open class BaseFragment<VB: ViewBinding>(private val inflate :Inflate<VB>): Frag
     override fun onDestroyView() {
         super.onDestroyView()
         _binding=null
+    }
+     fun getFragment(): Fragment? {
+         return parentFragmentManager.fragments[0]
     }
 
 fun clearBackstack() {
