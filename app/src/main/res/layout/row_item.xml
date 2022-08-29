@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="stock"
             type="com.techxform.tradintro.feature_main.data.remote.dto.Stock" />
@@ -15,6 +17,10 @@
         <variable
             name="watchlist"
             type="com.techxform.tradintro.feature_main.data.remote.dto.WatchList" />
+
+        <variable
+            name="isSelectionView"
+            type="Boolean" />
 
         <variable
             name="rowType"
@@ -76,6 +82,22 @@
                 app:layout_constraintWidth_percent="0.25" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_quantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:fontFamily="@font/open_sans_semibold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:visibility="@{isSelectionView?View.VISIBLE:View.GONE}"
+                android:gravity="center"
+                android:text="@{String.valueOf(portfolio.orderQty)}"
+                app:layout_constraintEnd_toStartOf="@+id/amountTv"
+                app:layout_constraintStart_toEndOf="@+id/titleTv"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.25" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/amountTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -100,7 +122,25 @@
                 android:maxLines="1"
                 android:text="@{rowType ==0 ?   @string/per_format(stock.perDiff):  (rowType == 1 ? @string/per_format(portfolio.perDiff): @string/per_format(watchlist.perDiff))}"
                 android:textSize="@dimen/_8ssp"
+                android:visibility="@{isSelectionView?View.INVISIBLE:View.VISIBLE}"
                 app:colorText="@{rowType ==0 ?  stock.perDiff :  (rowType == 1 ? portfolio.perDiff: watchlist.perDiff)}"
+                app:layout_constraintEnd_toEndOf="@+id/amountTv"
+                app:layout_constraintStart_toStartOf="@+id/amountTv"
+                app:layout_constraintTop_toBottomOf="@+id/amountTv"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/open_sans"
+                android:gravity="end"
+                android:maxLines="1"
+                android:text="@{portfolio.orderType==0 ? `BUY`:`SELL`   }"
+                android:textSize="@dimen/_8ssp"
+                android:visibility="@{isSelectionView?View.VISIBLE:View.GONE}"
+                app:colorTypeText="@{portfolio.orderType}"
                 app:layout_constraintEnd_toEndOf="@+id/amountTv"
                 app:layout_constraintStart_toStartOf="@+id/amountTv"
                 app:layout_constraintTop_toBottomOf="@+id/amountTv"

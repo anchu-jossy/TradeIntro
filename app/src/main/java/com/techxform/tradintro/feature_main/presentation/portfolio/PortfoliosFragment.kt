@@ -1,10 +1,10 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio
 
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -51,14 +51,18 @@ class PortfoliosFragment :
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    private var prevSearchTerm: String = ""
+    private lateinit var searchTextListener: TextWatcher;
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         /*       val face: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.open_sans)
                val searchText = binding.searchView as TextView
                searchText.typeface = face*/
-        binding.searchView.addTextChangedListener {
-            if (binding.searchView.text.toString().length > 3) {
+        searchTextListener = binding.searchView.addTextChangedListener {
+            if (binding.searchView.text.toString().isNotEmpty()) {
+                prevSearchTerm = binding.searchView.text.toString()
                 portfolioList.clear()
                 viewModel.portfolioListV2(
                     SearchModel(
@@ -67,17 +71,18 @@ class PortfoliosFragment :
                         viewModel.getSelectedPortfolio()?.orderStockId?.toString(),
                         0,
                         0
-                    )
+                    ), true
                 )
                 //binding.searchView.isEnabled = false
-            } else if (binding.searchView.text.isNullOrEmpty()) {
+            } else if (binding.searchView.text.isNullOrEmpty() && prevSearchTerm.isNotEmpty()) {
+                prevSearchTerm = ""
                 portfolioList.clear()
                 viewModel.portfolioListV2(
                     SearchModel(
                         null, limit,
                         viewModel.getSelectedPortfolio()?.orderStockId?.toString(),
                         0, 0
-                    )
+                    ), true
                 )
                 binding.searchView.isEnabled = false
             }
@@ -101,7 +106,7 @@ class PortfoliosFragment :
                                 viewModel.getSelectedPortfolio()?.orderStockId?.toString(),
                                 portfolioList.size,
                                 0
-                            )
+                            ), totalItemCount>8
                         )
                     }
 
@@ -109,34 +114,43 @@ class PortfoliosFragment :
             }
 
         })
-        adapter = null
-        viewModel.portfolioDashboard()
-        if (portfolioList.isEmpty())
-            viewModel.portfolioList(SearchModel("", limit, portfolioList.size, 0))
-        activity?.onBackPressedDispatcher?.addCallback(requireActivity(), object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (getFragment() is PortfoliosFragment)
-                    requireActivity().showShortToast("portfolio fragment")
-                    // you can execute the logic here
 
-                else findNavController().navigateUp()
-
-
-            }
-        })
+        activity?.onBackPressedDispatcher?.addCallback(
+            requireActivity(),
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (getFragment() is PortfoliosFragment) {
+                        if (viewModel.getSelectedPortfolio() != null) {
+                            viewModel.setSelectedPortfolioItem(null);
+                            reloadScreen();
+                        } else findNavController().navigateUp()
+                    } else findNavController().navigateUp()
+                }
+            })
 
 
-        reloadScreen();
+        reloadScreen(viewModel.isStockSelected(), viewModel.getSelectedPortfolio(), true);
         binding.sellBtn.setOnClickListener(this)
         binding.buyBtn.setOnClickListener(this)
+    }
+
+    private fun clearSearchView() {
+        binding.searchView.removeTextChangedListener(searchTextListener)
+        binding.searchView.text.clear()
+        binding.searchView.addTextChangedListener(searchTextListener)
     }
 
 
     private val rvListener = object : PortfolioAdapter.ClickListener {
         override fun onItemClick(portfolioItem: PortfolioItem, position: Int) {
-            if(viewModel.getSelectedPortfolio()==null){
-                reloadScreen(true,portfolioItem)
-            }else {
+            if (viewModel.getSelectedPortfolio() == null) {
+                noMorePages = false
+                prevSearchTerm = ""
+                clearSearchView()
+                reloadScreen(true, portfolioItem)
+            } else {
+                portfolioList.clear()
+                viewModel.clearPortfolioList()
                 val bundle = bundleOf(
                     "orderId" to portfolioItem.orderId,
                     "StockDashboard" to binding.stockDashboard,
@@ -150,18 +164,31 @@ class PortfoliosFragment :
     }
 
     private fun observers() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBar.progressOverlay.isVisible = it
-        }
-
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
             binding.searchView.isEnabled = true
-            if (it.data.isEmpty() || it.data.size < limit)
+            if (it.data.isEmpty() || it.data.size < limit) {
+                if (it.data.isEmpty() && viewModel.isStockSelected()) {
+                    // viewModel.dismissLoading()
+                    return@observe
+                }
                 noMorePages = true
+            }
             portfolioList.addAll(it.data)
-            isLoading = false
             setAdapter()
+            isLoading = false
+            viewModel.dismissLoading()
         }
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBar.progressOverlay.isVisible = it
+            binding.portfolioInProgress.progressOverlay.isVisible = false
+        }
+        viewModel.loadingSearchLiveData.observe(viewLifecycleOwner) {
+            binding.portfolioInProgress.progressOverlay.isVisible = it
+            if (it)
+                binding.noPortfoliosTv.setVisibiltyGone()
+        }
+
+
 
         viewModel.portfolioDashboardLiveData.observe(viewLifecycleOwner) {
             binding.portfolioDashboard = it.data
@@ -181,6 +208,7 @@ class PortfoliosFragment :
                 }
                 else -> {}
             }
+            viewModel.dismissLoading()
         }
         viewModel.portfolioDashboardErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -192,6 +220,7 @@ class PortfoliosFragment :
                 }
                 else -> {}
             }
+            viewModel.dismissLoading()
         }
     }
 
@@ -205,7 +234,7 @@ class PortfoliosFragment :
         }
 
         if (adapter == null) {
-            adapter = PortfolioAdapter(portfolioList, rvListener)
+            adapter = PortfolioAdapter(portfolioList, viewModel.isStockSelected(), rvListener)
             binding.portfolioRv.adapter = adapter
         } else {
             adapter?.list = portfolioList
@@ -213,23 +242,25 @@ class PortfoliosFragment :
         }
     }
 
-    fun onBackPressed(): Boolean {
-        if (viewModel.getSelectedPortfolio() != null) {
-            viewModel.setSelectedPortfolioItem(null);
-            reloadScreen();
-        }
-        return false;
-    }
 
-    private fun reloadScreen(isStockSelected:Boolean=false,selectedPortfolio:PortfolioItem?=null) {
-        binding.showPortfolioStockDashboard=isStockSelected;
-        binding.searchView.visibility=if(isStockSelected) View.GONE else View.VISIBLE
-        binding.lvBtn.visibility=if(isStockSelected) View.VISIBLE else View.GONE
+    private fun reloadScreen(
+        isStockSelected: Boolean = false,
+        selectedPortfolio: PortfolioItem? = null, isFirstTime: Boolean = false
+    ) {
+        binding.showPortfolioStockDashboard = isStockSelected;
+        binding.searchView.visibility = if (isStockSelected) View.GONE else View.VISIBLE
+        binding.lvBtn.visibility = if (isStockSelected) View.VISIBLE else View.GONE
+
+        binding.portfolioLbl.setText(
+            if (isStockSelected) R.string.transaction_list_lbl else
+                R.string.portfolio_list_lbl
+        )
+
         viewModel.setSelectedPortfolioItem(selectedPortfolio)
         adapter = null
-        if(isStockSelected && selectedPortfolio!=null) {
+        if (isStockSelected && selectedPortfolio != null) {
             viewModel.portfolioDashboardOfStock(selectedPortfolio.orderStockId)
-        }else{
+        } else {
             viewModel.portfolioDashboardV2()
         }
         portfolioList.clear()
@@ -239,7 +270,7 @@ class PortfoliosFragment :
                     "", limit,
                     viewModel.getSelectedPortfolio()?.orderStockId?.toString(),
                     portfolioList.size, 0
-                )
+                ), false
             )
     }
 

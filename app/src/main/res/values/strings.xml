@@ -30,6 +30,7 @@
 
     <string name="my_portfolio_lbl">My Portfolio</string>
     <string name="portfolio_list_lbl">Portfolio List</string>
+    <string name="transaction_list_lbl">Transaction List</string>
     <string name="holding_value_lbl">Holding Value</string>
     <string name="trade_money_balance_lbl">Trade Money Balance</string>
     <string name="total_investment_lbl">Total Investment</string>
@@ -220,6 +221,7 @@
     <string name="brokerage_lbl">Brokerage</string>
     <string name="other_charges_lbl">Other Charges</string>
     <string name="net_value_lbl">Net Value</string>
+    <string name="type_lbl">Type</string>
     <string name="realised_gain">Realised Gain</string>
     <string name="unrealised_gain">Unrealised Gain</string>
     <string name="transaction_details_lbl">Transaction Details</string>

@@ -72,7 +72,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardContainer" />
 
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <EditText
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,8 +84,11 @@
             android:fontFamily="@font/open_sans"
             android:hint="@string/search"
             android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             android:padding="@dimen/_8sdp"
-            app:layout_constraintTop_toBottomOf="@+id/portfolioLbl" />
+            app:layout_constraintTop_toBottomOf="@+id/portfolioLbl"
+            android:importantForAutofill="no" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -99,6 +102,17 @@
             android:layout_marginBottom="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/searchView"
             tools:listitem="@layout/row_item" />
+        <include
+            layout="@layout/progress_bar"
+            android:id="@+id/portfolioInProgress"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintBottom_toTopOf="@id/lv_btn"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/searchView"
+          />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lv_btn"
@@ -118,10 +132,10 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/violet_circular_bg"
                 android:text="@string/buy_lbl"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/sellBtn"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/priceRv"
                 app:layout_constraintWidth_percent="0.45" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -132,6 +146,7 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/pink_circular_bg"
                 android:text="@string/sell_lbl"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toEndOf="@+id/buyBtn"

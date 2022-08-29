@@ -40,6 +40,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_18sdp"
                 android:hint="@string/hint_username"
+                app:hintTextColor="@color/white"
+                app:helperTextTextColor="@color/white"
+                app:placeholderTextColor="@color/white"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -60,6 +63,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_18sdp"
+                app:helperTextTextColor="@color/white"
+                app:hintTextColor="@color/white"
+                app:placeholderTextColor="@color/white"
                 android:backgroundTint="@color/white"
                 android:hint="@string/hint_password"
                 app:layout_constraintTop_toBottomOf="@id/tl_edt_username">

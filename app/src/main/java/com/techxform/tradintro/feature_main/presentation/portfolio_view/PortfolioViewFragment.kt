@@ -111,6 +111,13 @@ class PortfolioViewFragment :
                 getString(R.string.net_value_lbl)
             )
         )
+        priceTypes.add(
+            PriceType(
+                0f,
+                getString(R.string.type_lbl),
+                if(portfolioItem.orderType==0) "BUY" else "SELL"
+            )
+        )
         return priceTypes
     }
 

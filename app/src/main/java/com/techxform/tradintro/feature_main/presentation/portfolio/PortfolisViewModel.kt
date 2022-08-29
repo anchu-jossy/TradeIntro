@@ -18,8 +18,7 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
     val portfolioLiveData: LiveData<BaseResponse<ArrayList<PortfolioItem>>> = _portfolioLiveData
 
 
-    private var selectedPortfolioItem:PortfolioItem?=null
-
+    private var selectedPortfolioItem: PortfolioItem? = null
 
 
     private var _portfolioDashboardLiveData = MutableLiveData<BaseResponse<PortfolioDashboard>>()
@@ -39,34 +38,16 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
+    private var _loadingSearchLiveData = MutableLiveData<Boolean>()
+    val loadingSearchLiveData: LiveData<Boolean> = _loadingSearchLiveData
+
     private lateinit var job: Job
     private lateinit var previousJob: Job
 
-    fun portfolioList(searchModel: SearchModel) {
 
-        if (::job.isInitialized && job.isActive)
-            runBlocking {
-                job.cancelAndJoin()
-            }
-        job = viewModelScope.launch(Dispatchers.Default) {
-            delay(1000L)
-            //_loadingLiveData.postValue(true)
-            when (val result = repository.portfolio(searchModel)) {
-                is Result.Success -> {
-                    _portfolioLiveData.postValue(result.data!!)
-                }
-                is Result.Error -> {
-                    _portfolioErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
+    fun portfolioListV2(searchModel: SearchModel, showLoading: Boolean) {
 
-
-    }
-
-    fun portfolioListV2(searchModel: SearchModel) {
-
+        _loadingSearchLiveData.postValue(showLoading)
         if (::job.isInitialized && job.isActive)
             runBlocking {
                 job.cancelAndJoin()
@@ -76,13 +57,13 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
             //_loadingLiveData.postValue(true)
             when (val result = repository.portfolioV2(searchModel)) {
                 is Result.Success -> {
-                    _portfolioLiveData.postValue(result.data!!)
+                    _portfolioLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _portfolioErrorLiveData.postValue(result.exception)
                 }
             }
-            _loadingLiveData.postValue(false)
+
         }
 
 
@@ -100,24 +81,23 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
                     _portfolioDashboardErrorLiveData.postValue(result.exception)
                 }
             }
-            _loadingLiveData.postValue(false)
+
         }
     }
 
-    fun portfolioDashboard() {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.portfolioDashboard()) {
-                is Result.Success -> {
-                    _portfolioDashboardLiveData.postValue(result.data)
-                }
-                is Result.Error -> {
-                    _portfolioDashboardErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
-    }
+    /*   fun portfolioDashboard() {
+           _loadingLiveData.postValue(true)
+           viewModelScope.launch(Dispatchers.Default) {
+               when (val result = repository.portfolioDashboard()) {
+                   is Result.Success -> {
+                       _portfolioDashboardLiveData.postValue(result.data)
+                   }
+                   is Result.Error -> {
+                       _portfolioDashboardErrorLiveData.postValue(result.exception)
+                   }
+               }
+           }
+       }*/
 
     fun portfolioDashboardOfStock(stockId: Int) {
         _loadingLiveData.postValue(true)
@@ -130,19 +110,31 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
                     _portfolioDashboardErrorLiveData.postValue(result.exception)
                 }
             }
-            _loadingLiveData.postValue(false)
+
         }
+    }
+
+    fun dismissLoading() {
+        _loadingLiveData.postValue(false)
+        _loadingSearchLiveData.postValue(false)
     }
 
     fun setSelectedPortfolioItem(portfolioItem: PortfolioItem?) {
         selectedPortfolioItem = portfolioItem
     }
 
-    fun getSelectedPortfolio():PortfolioItem?{
+    fun clearPortfolioList() {
+        _portfolioLiveData.value?.data?.clear()
+    }
+
+    fun getSelectedPortfolio(): PortfolioItem? {
         return selectedPortfolioItem;
     }
 
 
+    fun isStockSelected(): Boolean {
+        return selectedPortfolioItem != null;
+    }
 
 
 }

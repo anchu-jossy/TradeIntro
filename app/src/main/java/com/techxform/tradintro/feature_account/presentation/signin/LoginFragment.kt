@@ -31,11 +31,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
         observers()
         listeners()
-
-
     }
 
     private fun forgetPasswordDialog() {

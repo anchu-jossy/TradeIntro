@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio_view
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -19,13 +20,25 @@ class PriceAdapter(val list: ArrayList<PriceType>) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
         fun binding() {
             itemViewBinding.price = list[absoluteAdapterPosition]
-            if(absoluteAdapterPosition==2 && list[absoluteAdapterPosition].type==(itemViewBinding.root.resources.getString(R.string.quantity)) )
+            if( list[absoluteAdapterPosition].type==(itemViewBinding.root.resources.getString(R.string.quantity)) )
                 itemViewBinding.titleTv.text =  DecimalFormat("0.#").format( list[absoluteAdapterPosition].amount)
                    .toString()
-            else
-                itemViewBinding.titleTv.text = itemViewBinding.root.context.getString(R.string.rs_format_string, Utils.formatStringToTwoDecimals(list[absoluteAdapterPosition].amount.toString()))
+            else if( list[absoluteAdapterPosition].text.isNullOrEmpty()) {
+                itemViewBinding.titleTv.text = itemViewBinding.root.context.getString(
+                    R.string.rs_format_string,
+                    Utils.formatStringToTwoDecimals(list[absoluteAdapterPosition].amount.toString())
+                )
+            }else{
+                val text=list[absoluteAdapterPosition].text
+                itemViewBinding.titleTv.text=text
+                if(text.equals("BUY",true)){
+                    itemViewBinding.titleTv.setTextColor(Color.GREEN)
+                }else if(text.equals("SELL",true)){
+                    itemViewBinding.titleTv.setTextColor(Color.RED)
+                }
+            }
 
-            if (absoluteAdapterPosition == 6 || absoluteAdapterPosition == 7) {
+        /*    if (absoluteAdapterPosition == 6 || absoluteAdapterPosition == 7) {
                 itemViewBinding.titleTv.text = Utils.formatPercentageWithoutDecimals(list[absoluteAdapterPosition].amount.toString())
                 if (!isPositive(itemViewBinding.titleTv.text as String))
                     itemViewBinding.titleTv.setTextColor(
@@ -43,7 +56,7 @@ class PriceAdapter(val list: ArrayList<PriceType>) :
 
             }
 
-
+*/
         }
 
     }

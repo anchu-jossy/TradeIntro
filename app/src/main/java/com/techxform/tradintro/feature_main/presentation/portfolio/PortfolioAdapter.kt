@@ -16,7 +16,7 @@ import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 
-class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickListener) :
+class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val isSelectionView:Boolean=false, val listener: ClickListener) :
     RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
 
@@ -24,6 +24,7 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickLi
         RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
             rowItemBinding.rowType = 1
+            rowItemBinding.isSelectionView = isSelectionView
             rowItemBinding.portfolio = list[absoluteAdapterPosition]
 
             if (absoluteAdapterPosition % 2 == 0) {
