@@ -37,7 +37,7 @@ class OriginalHomeFragment :
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             cardContainerPortfolio.setOnClickListener {
-                findNavController().navigate(R.id.nav_home)
+                findNavController().navigate(R.id.nav_portfoliolist)
             }
             cardContainerMarket.setOnClickListener {
                 findNavController().navigate(R.id.nav_market)

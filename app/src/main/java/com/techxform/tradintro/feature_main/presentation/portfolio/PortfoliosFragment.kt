@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -88,6 +89,18 @@ class PortfoliosFragment :
         viewModel.portfolioDashboard()
         if (portfolioList.isEmpty())
             viewModel.portfolioList(SearchModel("", limit, portfolioList.size, 0))
+        activity?.onBackPressedDispatcher?.addCallback(requireActivity(), object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (getFragment() is PortfoliosFragment)
+                    requireActivity().showShortToast("portfolio fragment")
+                    // you can execute the logic here
+
+                else findNavController().navigateUp()
+
+
+            }
+        })
+
 
     }
 
