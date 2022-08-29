@@ -3,6 +3,7 @@ package com.techxform.tradintro.feature_main.domain.model
 data class SearchModel(
     var searchText: String? = null,
     var limit: Int = 10,
+    var stockId: String?=null,
     var offset: Int = 0,
     var skip: Int = 0,
     var type: String = "",

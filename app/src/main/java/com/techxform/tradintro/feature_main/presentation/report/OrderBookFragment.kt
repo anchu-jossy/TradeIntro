@@ -93,6 +93,7 @@ class OrderBookFragment :
                 SearchModel(
                     "",
                     limit,
+                    null,
                     0,
                     0,
                     orderStatus = "0,1,2,3,4",
@@ -144,11 +145,11 @@ requireContext().showShortToast(getString(R.string.delete_success))
 
         if (isTradeBook) {
             binding.titleTv.text = getString(R.string.trade_book_lbl)
-            viewModel.portfolioList(SearchModel("", limit, 0, 0, orderStatus = "0", portfolioStatus = "0,1"))
+            viewModel.portfolioList(SearchModel("", limit, null,0, 0, orderStatus = "0", portfolioStatus = "0,1"))
 
         } else {
             binding.titleTv.text = getString(R.string.order_book_lbl)
-            viewModel.portfolioList(SearchModel("", limit, 0, 0, orderStatus = "0,1,2,3,4", portfolioStatus = "0,1"))
+            viewModel.portfolioList(SearchModel("", limit, null,0, 0, orderStatus = "0,1,2,3,4", portfolioStatus = "0,1"))
         }
 
     }

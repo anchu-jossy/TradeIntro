@@ -17,9 +17,7 @@ import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
-import org.json.JSONObject
 import java.net.UnknownHostException
-import java.util.*
 import javax.inject.Inject
 
 class ApiDataRepositoryImpl @Inject constructor(
@@ -42,37 +40,20 @@ class ApiDataRepositoryImpl @Inject constructor(
                         gson.fromJson(apiCall.errorBody()!!.string(), ErrorResponse::class.java)
                     Result.Error(Failure.FeatureFailure(errorResponse.error.message))
                 }
-            }catch (e: UnknownHostException) {
+            } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
             } catch (e: JsonParseException) {
                 Result.Error(Failure.JsonParsing)
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 Result.Error(Failure.ServerError)
             }
         }
     }
 
     override suspend fun login(loginRequest: LoginRequest): Result<BaseResponse<LoginResponse>> {
-       return apiCall(apiService.login(loginRequest))
+        return apiCall(apiService.login(loginRequest))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                apiCall(apiService.login(loginRequest))
-                val response = apiService.login(loginRequest)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    val gson = Gson()
-                    val errorResponse = gson.fromJson(response.errorBody()!!.string(),ErrorResponse::class.java )
-                    Result.Error(Failure.FeatureFailure(errorResponse.error.message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 
     override suspend fun marketList(searchModel: SearchModel): Result<BaseResponse<ArrayList<Stock>>> {
@@ -87,53 +68,14 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall(apiService.marketList(reqMap))
 
-       /* return withContext(Dispatchers.Default)
-        {
-            try {
-                val reqMap = mutableMapOf(
-                    "limit" to searchModel.limit.toString(),
-                    "offset" to searchModel.offset.toString(),
-                    "skip" to searchModel.skip.toString()
-                )
 
-                if (!searchModel.searchText.isNullOrEmpty())
-                    reqMap["search"] = searchModel.searchText!!
-
-                val response = apiService.marketList(reqMap)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>> {
 
         return apiCall(apiService.marketDetails(marketId))
 
-       /* return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.marketDetails(marketId)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 
     override suspend fun buyStock(
@@ -143,24 +85,7 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall(apiService.buyStock(marketId, buySellStockReq))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.buyStock(marketId, buySellStockReq)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error123:", response.errorBody().toString())
-                    Result.Error(Failure.FeatureFailure(JSONObject(response.errorBody()?.string()).getString("message")))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 
     override suspend fun sellStock(
@@ -169,24 +94,6 @@ class ApiDataRepositoryImpl @Inject constructor(
     ): Result<BaseResponse<PortfolioItem>> {
         return apiCall(apiService.sellStock(marketId, buySellStockReq))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.sellStock(marketId, buySellStockReq)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun portfolio(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
@@ -203,168 +110,61 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall(apiService.portfolio(reqMap))
 
-
-       /* return withContext(Dispatchers.Default)
-        {
-            try {
-                var reqMap = mutableMapOf(
-                    "limit" to searchModel.limit.toString(),
-                    "offset" to searchModel.offset.toString(),
-                    "skip" to searchModel.skip.toString(),
-                    "order_execution_type" to searchModel.orderExecutionType,
-                    "order_status" to searchModel.orderStatus,
-                    "portfolio_status" to searchModel.portfolioStatus
-                )
-                if (!searchModel.searchText.isNullOrEmpty())
-                    reqMap["search"] = searchModel.searchText!!
-
-                val response = apiService.portfolio(reqMap)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
-    override suspend fun updatePortfolio(id:Int,updatePortFolioReq: UpdatePortfolioRequest): Result<BaseResponse<PortfolioItem>> {
 
-        return apiCall(apiService.updatePortfolio(id,updatePortFolioReq))
+    override suspend fun portfolioV2(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
+        val reqMap = mutableMapOf(
+            "limit" to searchModel.limit.toString(),
+            "offset" to searchModel.offset.toString(),
+            "skip" to searchModel.skip.toString(),
+            "order_execution_type" to searchModel.orderExecutionType,
 
+            "order_status" to searchModel.orderStatus,
+            "portfolio_status" to searchModel.portfolioStatus
+        )
+        if (!searchModel.searchText.isNullOrEmpty())
+            reqMap["search"] = searchModel.searchText!!
+        if (!searchModel.stockId.isNullOrEmpty())
+            reqMap["stockId"] = searchModel.stockId!!
 
+        return apiCall(apiService.portfolioV2(reqMap))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.updatePortfolio(id,updatePortFolioReq)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+    }
+
+    override suspend fun updatePortfolio(
+        id: Int,
+        updatePortFolioReq: UpdatePortfolioRequest
+    ): Result<BaseResponse<PortfolioItem>> {
+
+        return apiCall(apiService.updatePortfolio(id, updatePortFolioReq))
     }
 
     override suspend fun deletePortfolio(id: Int): Result<BaseResponse<Any>> {
 
         return apiCall(apiService.deletePortfolio(id))
-
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.deletePortfolio(id)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun portfolioDetails(
         orderId: Int,
         filterModel: FilterModel
     ): Result<BaseResponse<PortfolioItem>> {
-
         return apiCall(apiService.portfolioDetails(orderId, ""))
-
-
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-
-                *//* val reqMap = mapOf(
-                    "search" to searchModel.searchText,
-                    "limit" to searchModel.limit.toString(),
-                    "offset" to searchModel.offset.toString(),
-                    "skip" to searchModel.skip.toString()
-                )*//*
-
-                val response = apiService.portfolioDetails(orderId, "")
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun portfolioDashboard(): Result<BaseResponse<PortfolioDashboard>> {
         return apiCall(apiService.portfolioDashboard())
+    }
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.portfolioDashboard()
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+    override suspend fun portfolioDashboardV2(): Result<BaseResponse<PortfolioDashboard>> {
+        return apiCall(apiService.portfolioDashboardV2())
+    }
+
+    override suspend fun portfolioDashboardOfStockV2(stockId: Int): Result<BaseResponse<StockDashboard>> {
+        return apiCall(apiService.portfolioDashboardOfStockV2(stockId))
     }
 
     override suspend fun usersDashboard(): Result<BaseResponse<UserDashboard>> {
         return apiCall(apiService.usersDashboard())
-
-
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.usersDashboard()
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun notifications(searchModel: SearchModel): Result<BaseResponse<ArrayList<Notifications>>> {
@@ -413,26 +213,6 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     override suspend fun deleteNotification(notificationsId: Int): Result<BaseResponse<DeleteNotificationResponse>> {
         return apiCall(apiService.notifications(notificationsId))
-
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.notifications(notificationsId)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun watchlist(filterModel: FilterModel): Result<BaseResponse<ArrayList<WatchList>>> {
@@ -448,80 +228,19 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall(apiService.watchlist(reqMap))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                //  val reqString = Gson().toJson(filterModel)
-                val reqMap = mutableMapOf(
-                    "limit" to filterModel.limit.toString(),
-                    "offset" to filterModel.offset.toString(),
-                    "skip" to filterModel.skip.toString()
-                )
 
-                if (!filterModel.searchText.isNullOrEmpty())
-                    reqMap["search"] = filterModel.searchText!!
-
-                val response = apiService.watchlist(reqMap)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>> {
         return apiCall(apiService.watchlistDetail(watchlistId))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.watchlistDetail(watchlistId)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 
     override suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<WatchList>> {
         return apiCall(apiService.createWatchList(createWatchListRequest))
 
-       /* return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.createWatchList(createWatchListRequest)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 
     override suspend fun updateWatchList(
@@ -530,90 +249,21 @@ class ApiDataRepositoryImpl @Inject constructor(
     ): Result<BaseResponse<UpdateData>> {
         return apiCall(apiService.updateWatchList(id, req))
 
-/*
-        return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.updateWatchList(id, req)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun deleteWatchList(id: Number): Result<BaseResponse<DeleteWatchListResponse>> {
         return apiCall(apiService.deleteWatchList(id))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.deleteWatchList(id)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.errorBody().toString())
-                    Result.Error(Failure.ServerError)
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>> {
         return apiCall(apiService.getWalletSummary())
-        /*return try {
-            val response = apiService.getWalletSummary()
-            if (response.isSuccessful)
-                Result.Success(response.body()!!)
-            else {
-                Log.e("Error:", response.errorBody().toString())
-                Result.Error(Failure.ServerError)
-            }
-        } catch (e: UnknownHostException) {
-            Result.Error(Failure.NetworkConnection)
-        } catch (e: JsonParseException) {
-            Result.Error(Failure.JsonParsing)
-        } catch (e: Exception) {
-            Result.Error(Failure.ServerError)
-        }*/
+
     }
 
     override suspend fun userLevels(): Result<BaseResponse<UserLevels>> {
         return apiCall(apiService.userLevels())
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.userLevels()
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun userDetails(): Result<BaseResponse<UserDetailsResponse>> {
@@ -624,7 +274,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful) {
                     UserDetailsSingleton.setUserDetails(response.body()!!.data)
                     Result.Success(response.body()!!)
-                }else {
+                } else {
                     val gson = Gson()
                     val errorResponse =
                         gson.fromJson(response.errorBody()!!.string(), ErrorResponse::class.java)
@@ -642,26 +292,8 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun readNotification(id: Int): Result<BaseResponse<Int>> {
-       return apiCall(apiService.readNotification(id))
+        return apiCall(apiService.readNotification(id))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.readNotification(id)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun walletHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<WalletHistory>>> {
@@ -672,29 +304,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         )
 
         return apiCall(apiService.walletHistory(reqMap))
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val reqMap = mapOf(
-                    "type" to searchModel.type,
-                    "limit" to searchModel.limit.toString(),
-                    "offset" to searchModel.offset.toString()
-                )
-                val response = apiService.walletHistory(reqMap)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 
 
@@ -771,22 +381,6 @@ class ApiDataRepositoryImpl @Inject constructor(
     override suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>> {
         return apiCall(apiService.logOut(loginRequest))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.logOut(loginRequest)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
 
     }
 
@@ -798,31 +392,6 @@ class ApiDataRepositoryImpl @Inject constructor(
         )
         return apiCall(apiService.userInviteList(reqMap = reqMap))
 
-       /* return withContext(Dispatchers.Default)
-        {
-            try {
-                val reqMap = mapOf(
-                    "10" to "limit",
-                    "0" to "offset",
-                )
-                val response = apiService.userInviteList(reqMap = reqMap)
-                if (response.isSuccessful) {
-                    Result.Success(response.body()!!)
-                } else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                e.printStackTrace()
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                e.printStackTrace()
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
 
@@ -895,33 +464,7 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall(apiService.register(REGISTER, reqMap))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val reqMap = mapOf(
-                    "first_name" to request.firstName,
-                    "last_name" to (request.lastName ?: ""),
-                    "email" to request.email,
-                    "password" to request.password,
-                )
-                val response = apiService.register(REGISTER, reqMap)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                e.printStackTrace()
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                e.printStackTrace()
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 
     override suspend fun historicalReport(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
@@ -932,29 +475,6 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall(apiService.historicalReport(reqMap))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val reqMap = mapOf(
-                    "limit" to searchModel.limit.toString(),
-                    "offset" to searchModel.offset.toString(),
-                )
-
-                val response = apiService.historicalReport(reqMap)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun reportCurrent(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
@@ -965,52 +485,11 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall(apiService.reportCurrent(reqMap))
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val reqMap = mapOf(
-                    "limit" to searchModel.limit.toString(),
-                    "offset" to searchModel.offset.toString(),
-                )
-
-                val response = apiService.reportCurrent(reqMap)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun summaryReport(): Result<BaseResponse<SummaryReport>> {
         return apiCall(apiService.summaryReport())
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.summaryReport()
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun alertPrice(
@@ -1019,50 +498,15 @@ class ApiDataRepositoryImpl @Inject constructor(
     ): Result<BaseResponse<AlertPriceResponse>> {
 
         return apiCall(apiService.alertPrice(id, alertPriceRequest))
-       /* return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.alertPrice(id, alertPriceRequest)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 
     override suspend fun alertPriceWL(
         id: Int,
         alertPriceRequest: AlertPriceRequest
     ): Result<BaseResponse<AlertPriceResponse>> {
-       return apiCall(apiService.alertPriceWL(id, alertPriceRequest))
+        return apiCall(apiService.alertPriceWL(id, alertPriceRequest))
 
-       /* return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.alertPriceWL(id, alertPriceRequest)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
 
@@ -1081,62 +525,11 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall(apiService.editProfile(reqMap))
 
-        /*return withContext(Dispatchers.Default)
-        {
-
-            try {
-                val reqMap = hashMapOf<String, String>()
-                editUserProfileReq?.apply {
-                    if (this.image?.isNotEmpty() == true)
-                        reqMap["image"] = this.image!!
-                    if (this.userName?.isNotEmpty() == true)
-                        reqMap["user_name"] = this.userName!!
-                    if (this.lastName?.isNotEmpty() == true)
-                        reqMap["user_last_name"] = this.lastName!!
-                    if (this.userPhone?.isNotEmpty() == true)
-                        reqMap["user_phone"] = this.userPhone!!
-                }
-                val response = apiService.editProfile(reqMap)
-
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-
-
-        }*/
     }
 
     override suspend fun deleteProfile(): Result<BaseResponse<Any>> {
         return apiCall(apiService.deleteProfile())
-        /*
-        return withContext(Dispatchers.Default)
-        {
-            try {
-                val response = apiService.deleteProfile()
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
-            }
-        }*/
+
     }
 }
 

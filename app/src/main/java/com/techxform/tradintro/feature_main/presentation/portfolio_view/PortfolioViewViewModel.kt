@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.techxform.tradintro.feature_main.data.remote.dto.*
+import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
+import com.techxform.tradintro.feature_main.data.remote.dto.Result
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
-import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +16,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PortfolioViewViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
+class PortfolioViewViewModel @Inject constructor(private val repository: ApiRepository) :
+    ViewModel() {
 
     private var _portfolioLiveData = MutableLiveData<BaseResponse<PortfolioItem>>()
     val portfolioLiveData: LiveData<BaseResponse<PortfolioItem>> = _portfolioLiveData
@@ -37,14 +40,16 @@ class PortfolioViewViewModel @Inject constructor(private val repository: ApiRepo
     private var _sellStockErrorLiveData = MutableLiveData<Failure>()
     val sellStockErrorLiveData: LiveData<Failure> = _sellStockErrorLiveData
 
+    fun setPortfolioItem(item: PortfolioItem) {
+        _portfolioLiveData.postValue(BaseResponse("OK", true, 200, item))
+    }
 
-
-    fun portfolioDetails(id:Int,filterModel: FilterModel) {
+    fun portfolioDetails(id: Int, filterModel: FilterModel) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.portfolioDetails(id, filterModel)) {
                 is Result.Success -> {
-                    _portfolioLiveData.postValue(result.data!!)
+                    _portfolioLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _portfolioErrorLiveData.postValue(result.exception)
@@ -54,8 +59,6 @@ class PortfolioViewViewModel @Inject constructor(private val repository: ApiRepo
         }
 
     }
-
-
 
 
 }

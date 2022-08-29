@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -14,24 +12,21 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.ScreenType
 import com.techxform.tradintro.databinding.PortfolioViewFragmentBinding
-import com.techxform.tradintro.feature_main.data.remote.dto.BuySellStockReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
+import com.techxform.tradintro.feature_main.data.remote.dto.StockDashboard
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.BUY
-import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.ORDER_ID
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.SELL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class PortfolioViewFragment :
-    BaseFragment<PortfolioViewFragmentBinding>(PortfolioViewFragmentBinding::inflate),
-    View.OnClickListener {
+    BaseFragment<PortfolioViewFragmentBinding>(PortfolioViewFragmentBinding::inflate){
 
     companion object {
         fun newInstance() = PortfolioViewFragment()
@@ -57,32 +52,32 @@ class PortfolioViewFragment :
         super.onViewCreated(view, savedInstanceState)
 
         orderId = requireArguments().getInt("orderId")
-        requireArguments().getParcelable<PortfolioDashboard?>("portfolioDashboard")?.let {
-            binding.portfolioDashboard =it
+        requireArguments().getParcelable<StockDashboard?>("StockDashboard")?.let {
+            binding.stockDashboard = it
         }
 
-        viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
-
-        binding.sellBtn.setOnClickListener(this)
-        binding.buyBtn.setOnClickListener(this)
-
+        requireArguments().getParcelable<PortfolioItem?>("PortfolioItem")?.let {
+            viewModel.setPortfolioItem(it)
+        } ?: run {
+            viewModel.portfolioDetails(orderId, FilterModel("", 100, 0, 0, ""))
+        }
 
     }
 
     private fun createPriceType(portfolioItem: PortfolioItem): ArrayList<PriceType> {
         val priceTypes = arrayListOf<PriceType>()
         var currentPrice = 0.0f
-        val size= portfolioItem?.market?.history?.size ?:0;
-        if (size> 0) {
+        val size = portfolioItem.market.history.size ?: 0;
+        if (size > 0) {
             currentPrice = (portfolioItem.market.history.first().stockHistoryHigh +
                     portfolioItem.market.history.first().stockHistoryLow) / 2
         }
         val c = portfolioItem.market.currentValue()
-        priceTypes.add(PriceType(currentPrice, getString(R.string.current_price_lbl)))
+        //priceTypes.add(PriceType(currentPrice, getString(R.string.current_price_lbl)))
         priceTypes.add(
             PriceType(
                 portfolioItem.orderPrice,
-                getString(R.string.avg_purchase_price_lbl)
+                getString(R.string.purchase_price_lbl)
             )
         )
         priceTypes.add(
@@ -98,22 +93,25 @@ class PortfolioViewFragment :
                 getString(R.string.total_value_lbl)
             )
         )
-        priceTypes.add(PriceType(portfolioItem.orderPrice, getString(R.string.alert_price_lbl)))
-
         priceTypes.add(
             PriceType(
-                currentPrice.minus(portfolioItem.orderPrice),
-                getString(R.string.gain_loss_lbl)
+                portfolioItem.brokerage,
+                getString(R.string.brokerage_lbl)
             )
         )
         priceTypes.add(
             PriceType(
-                ((currentPrice - portfolioItem.orderPrice) / ((currentPrice + portfolioItem.orderPrice) / 2)) * 100,
-                getString(R.string.per_gain_loss_lbl)
+                portfolioItem.orderTotal - (portfolioItem.totalStockValue + portfolioItem.brokerage),
+                getString(R.string.other_charges_lbl)
+            )
+        )
+        priceTypes.add(
+            PriceType(
+                portfolioItem.orderTotal ,
+                getString(R.string.net_value_lbl)
             )
         )
         return priceTypes
-
     }
 
     private fun observers() {
@@ -122,12 +120,11 @@ class PortfolioViewFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            it.data?.let { data->
+            it.data.let { data ->
                 binding.portfolio = data
                 portfolioItem = data
                 binding.priceRv.adapter = PriceAdapter(createPriceType(data))
             }
-
         }
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
@@ -143,15 +140,18 @@ class PortfolioViewFragment :
 
         viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
-                    SELL, ScreenType.PORTFOLIO,portfolioItem.market!!))
+                findNavController().navigate(
+                    R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(
+                        portfolioItem.market.stockId,
+                        SELL, ScreenType.PORTFOLIO, portfolioItem.market
+                    )
+                )
 
             }
         }
     }
 
-    private fun handleError(failure: Failure)
-    {
+    private fun handleError(failure: Failure) {
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(
@@ -159,8 +159,8 @@ class PortfolioViewFragment :
 
                 )
             }
-            Failure.ServerError-> {
-                requireContext().showShortToast(getString(R.string.server_error),)
+            Failure.ServerError -> {
+                requireContext().showShortToast(getString(R.string.server_error))
 
             }
             else -> {
@@ -169,22 +169,6 @@ class PortfolioViewFragment :
             }
         }
     }
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-            R.id.buyBtn -> {
 
-                if (portfolioItem != null && portfolioItem?.market != null) {
-                    findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
-                        BUY, ScreenType.PORTFOLIO, portfolioItem.market))
-                }
-
-
-            }
-            R.id.sellBtn -> {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(portfolioItem.market!!.stockId,
-                    SELL, ScreenType.PORTFOLIO, portfolioItem.market))
-            }
-        }
-    }
 
 }

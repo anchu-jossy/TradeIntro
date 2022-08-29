@@ -39,6 +39,7 @@
     <string name="sell_lbl">Sell</string>
     <string name="current_price_lbl">Current Price</string>
     <string name="avg_purchase_price_lbl">Avg Purchase Price</string>
+    <string name="purchase_price_lbl">Purchase Price</string>
     <string name="avg_sell_price_lbl">Avg Sell Price</string>
     <string name="total_buy_value_lbl">Total Buy Value</string>
     <string name="total_sell_value_lbl">Total Sell Value</string>
@@ -217,6 +218,8 @@
     <string name="txn_type_price_lbl">Transaction  Price</string>
     <string name="txn_charges_lbl">Transaction Charges</string>
     <string name="brokerage_lbl">Brokerage</string>
+    <string name="other_charges_lbl">Other Charges</string>
+    <string name="net_value_lbl">Net Value</string>
     <string name="realised_gain">Realised Gain</string>
     <string name="unrealised_gain">Unrealised Gain</string>
     <string name="transaction_details_lbl">Transaction Details</string>

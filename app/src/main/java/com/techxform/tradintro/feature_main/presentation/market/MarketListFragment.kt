@@ -66,12 +66,12 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             if(binding.marketSearchView.text.toString().length > 3)
             {
                 marketList.clear()
-                viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, 0, 0))
+                viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, null,0, 0))
                 binding.marketSearchView.isEnabled = false
             }else if(binding.marketSearchView.text.isNullOrEmpty())
             {
                 marketList.clear()
-                viewModel.marketList(SearchModel(null, limit, 0, 0))
+                viewModel.marketList(SearchModel(null, limit, null,0, 0))
                 binding.marketSearchView.isEnabled = false
             }
         }
@@ -87,12 +87,12 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             ) {
                 if (!isLoading && !noMorePages) {
                     isLoading = true
-                    viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, marketList.size, 0))
+                    viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, null,marketList.size, 0))
                 }
             }
         })
         marketList.clear()
-        viewModel.marketList(SearchModel("", limit, marketList.size, 0))
+        viewModel.marketList(SearchModel("", limit,null, marketList.size, 0))
 
     }
 

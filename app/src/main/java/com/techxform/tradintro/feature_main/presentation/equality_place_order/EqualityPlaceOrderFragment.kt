@@ -117,14 +117,16 @@ class EqualityPlaceOrderFragment :
                 quantity = 1
                 binding.quantityEt.setText("1")
             } else quantity = it.toString().toInt()
+
+
             buyPrice =
-                ((market.history[0].stockHistoryHigh + market.history[0].stockHistoryLow) / 2)
+                 ((market.history!![0].stockHistoryHigh + market.history!![0].stockHistoryLow) / 2)
             val diff =
-                market.history[1].stockHistoryHigh.minus(market.history[1].stockHistoryLow)
+                market.history!![1].stockHistoryHigh.minus(market.history!![1].stockHistoryLow)
             binding.textDiff.text = diff.roundToInt().toString()
 
             val sum =
-                market.history[1].stockHistoryHigh.plus(market.history[1].stockHistoryLow)
+                market.history!![1].stockHistoryHigh.plus(market.history!![1].stockHistoryLow)
             val percent = (diff / sum) * 100
             (getString(
                 R.string.rs_format,
@@ -233,25 +235,28 @@ class EqualityPlaceOrderFragment :
 
         with(binding) {
             binding.stock = market
-            textdate.text = Utils.formatDateTimeString(market.history[0].stockHistoryDate)
-            textCode.text = market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
+
             textName.text = market.stockName
             textName1.text = market.stockName
-            ("${market.history[0].stockHistoryOpen}" + "," + "${market.history[0].stockHistoryClose}").also {
-                textopenClose.text = it
-            }
-            ("${market.history[0].stockHistoryHigh}" + "," + "${market.history[0].stockHistoryLow}").also {
-                texthighLow.text = it
-            }
-            exchangeTv.text =
-                market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
-            buyPrice =
-                (market.history[0].stockHistoryHigh + market.history[0].stockHistoryLow) / 2
+
+
             binding.limitPrizeEt.setText(
                 Utils.formatBigDecimalIntoTwoDecimal(buyPrice.toBigDecimal()).toPlainString()
             )
 
-            if (market.history.size > 1) {
+            if (market.history !=null && market.history.size > 1) {
+                textdate.text = Utils.formatDateTimeString(market.history[0].stockHistoryDate)
+                textCode.text = market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
+                ("${market.history[0].stockHistoryOpen}" + "," + "${market.history[0].stockHistoryClose}").also {
+                    textopenClose.text = it
+                }
+                ("${market.history[0].stockHistoryHigh}" + "," + "${market.history[0].stockHistoryLow}").also {
+                    texthighLow.text = it
+                }
+                exchangeTv.text =
+                    market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
+                buyPrice =
+                    (market.history[0].stockHistoryHigh + market.history[0].stockHistoryLow) / 2
                 val diff =
                     market.history[1].stockHistoryHigh.minus(market.history[1].stockHistoryLow)
                 binding.textDiff.text = diff.roundToInt().toString()

@@ -30,6 +30,7 @@ interface ApiRepository {
     ): Result<BaseResponse<PortfolioItem>>
 
     suspend fun portfolio(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>>
+    suspend fun portfolioV2(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>>
     suspend fun updatePortfolio(id:Int,searchModel: UpdatePortfolioRequest): Result<BaseResponse<PortfolioItem>>
     suspend fun deletePortfolio(id:Int): Result<BaseResponse<Any>>
 
@@ -39,6 +40,8 @@ interface ApiRepository {
     ): Result<BaseResponse<PortfolioItem>>
 
     suspend fun portfolioDashboard(): Result<BaseResponse<PortfolioDashboard>>
+    suspend fun portfolioDashboardV2(): Result<BaseResponse<PortfolioDashboard>>
+    suspend fun portfolioDashboardOfStockV2(stockId: Int): Result<BaseResponse<StockDashboard>>
 
     suspend fun usersDashboard(): Result<BaseResponse<UserDashboard>>
 

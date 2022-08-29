@@ -34,6 +34,17 @@ interface ApiService {
     @GET("api/portfolio")
     suspend fun portfolio(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<PortfolioItem>>>
 
+    @GET("api/v2/portfolio")
+    suspend fun portfolioV2(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<PortfolioItem>>>
+
+    @GET("api/v2/portfolio/dashboard")
+    suspend fun portfolioDashboardV2(): Response<BaseResponse<PortfolioDashboard>>
+
+    @GET("api/v2/portfolio/{stockId}/dashboard")
+    suspend fun portfolioDashboardOfStockV2(
+        @Path("stockId") stockId: Int,
+    ): Response<BaseResponse<StockDashboard>>
+
     @GET("api/portfolio/{id}/")
     suspend fun portfolioDetails(
         @Path("id") marketId: Int,

@@ -56,7 +56,7 @@ class NotificationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.notifications(SearchModel("", 10, 0, 0, type = notificationType ?: ""))
+        viewModel.notifications(SearchModel("", 10, null,0, 0, type = notificationType ?: ""))
     }
 
     private val listener = object : NotificationAdapter.OnClickListener {

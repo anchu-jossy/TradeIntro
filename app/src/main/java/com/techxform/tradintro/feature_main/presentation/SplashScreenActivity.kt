@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.window.OnBackInvokedDispatcher
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,6 +17,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.feature_account.presentation.signin.LoginFragment
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.landing.LandingFragment
+import com.techxform.tradintro.feature_main.presentation.portfolio.PortfoliosFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,8 +45,17 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+ /*       val fragment = getFragment()
+        var isHandled=false;
+        if (fragment is PortfoliosFragment){
+           isHandled= fragment.onBackPressed()
+        }
+        if(isHandled)*/
         super.onBackPressed()
     }
+
+
+
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)

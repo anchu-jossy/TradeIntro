@@ -7,8 +7,8 @@
     <data>
         <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
         <variable
-            name="portfolioDashboard"
-            type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioDashboard" />
+            name="stockDashboard"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.StockDashboard" />
 
         <variable
             name="portfolio"
@@ -22,7 +22,7 @@
 
         <include
             android:id="@+id/card"
-            layout="@layout/portfolio_card_view"
+            layout="@layout/portfolio_stock_dashboard_card_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/_16sdp"
@@ -30,29 +30,8 @@
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:portfolioDashboard="@{portfolioDashboard}" />
+            app:portfolioDashboard="@{stockDashboard}" />
 
-
-
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_16sdp"
-            android:visibility="gone"
-            android:background="@drawable/frame"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintTop_toBottomOf="@+id/card"
-            app:layout_constraintWidth_percent="0.55"
-            android:fontFamily="@font/open_sans"
-            android:hint ="@string/search"
-            android:drawableEnd="@drawable/ic_baseline_search_24"
-            android:drawablePadding="@dimen/_8sdp"
-            android:maxLines="1"
-            android:padding="@dimen/_8sdp"
-            app:queryHint="@string/search" />
 
 
         <androidx.core.widget.NestedScrollView
@@ -61,7 +40,7 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView">
+            app:layout_constraintTop_toBottomOf="@+id/card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -143,33 +122,7 @@
                     tools:listitem="@layout/price_row" />
 
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/buyBtn"
-                    style="@style/Theme.TradIntro.Button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:background="@drawable/violet_circular_bg"
-                    android:text="@string/buy_lbl"
-                    app:layout_constraintEnd_toStartOf="@+id/sellBtn"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/priceRv"
-                    app:layout_constraintWidth_percent="0.45" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/sellBtn"
-                    style="@style/Theme.TradIntro.Button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:background="@drawable/pink_circular_bg"
-                    android:text="@string/sell_lbl"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toEndOf="@+id/buyBtn"
-                    app:layout_constraintTop_toBottomOf="@+id/priceRv"
-                    app:layout_constraintWidth_percent="0.45" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>

@@ -17,9 +17,18 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
     private var _portfolioLiveData = MutableLiveData<BaseResponse<ArrayList<PortfolioItem>>>()
     val portfolioLiveData: LiveData<BaseResponse<ArrayList<PortfolioItem>>> = _portfolioLiveData
 
+
+    private var selectedPortfolioItem:PortfolioItem?=null
+
+
+
     private var _portfolioDashboardLiveData = MutableLiveData<BaseResponse<PortfolioDashboard>>()
     val portfolioDashboardLiveData: LiveData<BaseResponse<PortfolioDashboard>> =
         _portfolioDashboardLiveData
+
+    private var _portfolioDashboardOfStockLiveData = MutableLiveData<BaseResponse<StockDashboard>>()
+    val portfolioDashboardOfStockLiveData: LiveData<BaseResponse<StockDashboard>> =
+        _portfolioDashboardOfStockLiveData
 
     private var _portfolioErrorLiveData = MutableLiveData<Failure>()
     val portfolioErrorLiveData: LiveData<Failure> = _portfolioErrorLiveData
@@ -35,7 +44,7 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
 
     fun portfolioList(searchModel: SearchModel) {
 
-        if(::job.isInitialized && job.isActive)
+        if (::job.isInitialized && job.isActive)
             runBlocking {
                 job.cancelAndJoin()
             }
@@ -55,16 +64,22 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
 
 
     }
-//TODO: merge both API
-    fun portfolioDashboard() {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.portfolioDashboard()) {
+
+    fun portfolioListV2(searchModel: SearchModel) {
+
+        if (::job.isInitialized && job.isActive)
+            runBlocking {
+                job.cancelAndJoin()
+            }
+        job = viewModelScope.launch(Dispatchers.Default) {
+            delay(1000L)
+            //_loadingLiveData.postValue(true)
+            when (val result = repository.portfolioV2(searchModel)) {
                 is Result.Success -> {
-                    _portfolioDashboardLiveData.postValue(result.data!!)
+                    _portfolioLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
-                    _portfolioDashboardErrorLiveData.postValue(result.exception)
+                    _portfolioErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)
@@ -72,6 +87,62 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
 
 
     }
+
+
+    fun portfolioDashboardV2() {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.portfolioDashboardV2()) {
+                is Result.Success -> {
+                    _portfolioDashboardLiveData.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _portfolioDashboardErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun portfolioDashboard() {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.portfolioDashboard()) {
+                is Result.Success -> {
+                    _portfolioDashboardLiveData.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _portfolioDashboardErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun portfolioDashboardOfStock(stockId: Int) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.portfolioDashboardOfStockV2(stockId)) {
+                is Result.Success -> {
+                    _portfolioDashboardOfStockLiveData.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _portfolioDashboardErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun setSelectedPortfolioItem(portfolioItem: PortfolioItem?) {
+        selectedPortfolioItem = portfolioItem
+    }
+
+    fun getSelectedPortfolio():PortfolioItem?{
+        return selectedPortfolioItem;
+    }
+
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.portfolio
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
@@ -15,8 +16,8 @@ import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 
-class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
-
+class PortfolioAdapter(var list: ArrayList<PortfolioItem>, val listener: ClickListener) :
+    RecyclerView.Adapter<PortfolioAdapter.PortfolioVH>() {
 
 
     inner class PortfolioVH(private val rowItemBinding: RowItemBinding) :
@@ -47,7 +48,8 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
             LayoutInflater.from(parent.context),
             R.layout.row_item,
             parent,
-            false)
+            false
+        )
         return PortfolioVH(binding)
     }
 
@@ -56,31 +58,30 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
     }
 
     override fun getItemCount(): Int {
-       return list.size
+        return list.size
         //return 10
     }
 
-    private fun createData(list: MutableList<StockHistory>): ArrayList<Entry> {
-        val arrayList = arrayListOf<Entry>()
+    private fun createData(list: MutableList<StockHistory>?): ArrayList<Entry> {
 
-        /*list.clear()
-        //TODO: remove it
-        if (list.isNullOrEmpty()) {
-            *//* arrayList.add(Entry(1F, 20.45F))
-             arrayList.add(Entry(2F, 40.45F))
-             arrayList.add(Entry(3F, 10.45F))
-             arrayList.add(Entry(4F, 60.45F))
-             arrayList.add(Entry(5F, 20.45F))
-             arrayList.add(Entry(6F, 100.45F))*//*
-            return arrayList
-        }*/
-        list.forEachIndexed { index, stockHistory ->
-            arrayList.add(Entry(index.toFloat(), (stockHistory.stockHistoryLow + stockHistory.stockHistoryHigh)/2))
+        val arrayList = arrayListOf<Entry>()
+        list?.forEachIndexed { index, stockHistory ->
+            arrayList.add(
+                Entry(
+                    index.toFloat(),
+                    (stockHistory.stockHistoryLow + stockHistory.stockHistoryHigh) / 2
+                )
+            )
         }
         return arrayList
     }
 
     private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemBinding) {
+
+        if (values.isEmpty() || values.size < 3) {
+            binding.lineChart.visibility = View.INVISIBLE
+            return
+        }
         val set1 = LineDataSet(values, "Sample Data")
         set1.color = color
         set1.setDrawIcons(false)
@@ -110,7 +111,6 @@ class PortfolioAdapter(var list: ArrayList<PortfolioItem>,val listener:ClickList
 
         val data = LineData(dataSets)
         binding.lineChart.data = data
-
     }
 
     interface ClickListener {
