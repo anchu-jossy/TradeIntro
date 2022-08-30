@@ -107,8 +107,9 @@ class RechargeTradeMoneyFragment :
     }
 
     private fun observers() {
-
-
+        //1 lakh to 10 as tradmoney ->
+        //recharge amount= trademoney/margin+tax+other charges
+        //show net amount.
         viewModel.updateWalletLiveData.observe(viewLifecycleOwner) {
 
             it.paymentLink?.let { it1 ->
@@ -136,7 +137,7 @@ class RechargeTradeMoneyFragment :
     }
 
     private var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
             //if (result.resultCode == Activity.RESULT_OK) {
             binding.rechargeTradeMoneyContainer.label2Et.setText("0")
             //}
@@ -147,6 +148,7 @@ class RechargeTradeMoneyFragment :
         if (!binding.rechargeTradeMoneyContainer.label2Et.text.isNullOrEmpty()) {
             rechargeAmount = binding.rechargeTradeMoneyContainer.label2Et.text.toString().toInt()
         }
+        //fetch tax details from api
         val gst = (rechargeAmount * 18) / 100
         val otherChargeAmount = 0f
         val totalAmount = rechargeAmount + gst + otherChargeAmount

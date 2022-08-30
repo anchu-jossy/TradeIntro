@@ -24,13 +24,14 @@ class WalletFragment : BaseFragment<WalletFragmentBinding>(WalletFragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[WalletViewModel::class.java]
-        viewModel.walletSummary(PaymentType.VOUCHER)
+        viewModel.walletSummary(PaymentType.RECHARGE)
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
             with(binding) {
-                balanceLbl.text = it.data.balance.toString()
-                lastAllocationAmountTv.text = it.data.tradeMoneyBalance.toString()
-                lastAllocationDate.text = it.data.lastAllocatedOn
+                holdingAmountTv.text = it.data.tradeMoneyBalance.toString()
 
+                val s = "\u20B9 %.2f".format( it.data.lastRechargeAmount)
+                lastAllocationAmountTv.text =s
+                lastAllocationDate.text = it.data.lastRechargeOn
             }
         }
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner)

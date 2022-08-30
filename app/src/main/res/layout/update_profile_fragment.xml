@@ -52,8 +52,8 @@
                 android:id="@+id/cameraIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom = "@id/roundedimage"
                 android:layout_alignEnd="@id/roundedimage"
+                android:layout_alignBottom="@id/roundedimage"
                 android:padding="@dimen/_8sdp"
                 android:src="@drawable/ic_baseline_camera_alt_24" />
 
@@ -135,7 +135,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sellBtn"
+            android:id="@+id/deleteButton"
             style="@style/Theme.TradIntro.Button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"

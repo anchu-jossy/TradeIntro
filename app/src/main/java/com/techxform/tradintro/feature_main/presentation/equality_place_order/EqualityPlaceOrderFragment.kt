@@ -182,16 +182,14 @@ class EqualityPlaceOrderFragment :
 
         viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
             it.data.let { walletResponse ->
-
                 userId = walletResponse.userId!!
                 binding.balanceEt.setText(walletResponse.tradeMoneyBalance.toString())
-                binding.usableBalanceEt.setText(walletResponse.balance.toString())
+                binding.usableBalanceEt.setText(walletResponse.tradeMoneyBalance.toString())
             }
-
         }
 
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
-            it.data.orderId?.let {
+            it.data.orderId.let {
                 requireContext().showShortToast(getString(R.string.bought_success))
 
                 clearBackstack()

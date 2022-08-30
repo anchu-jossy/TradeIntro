@@ -3,7 +3,6 @@ package com.techxform.tradintro.feature_main.data.remote.dto
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import java.text.SimpleDateFormat
 
 
 @Parcelize
@@ -17,7 +16,7 @@ data class Stock(
     @SerializedName("watchlist") var watchList: WatchList?,
     var totalPrice: Int = 0
 
-):Parcelable {
+) : Parcelable {
     fun currentValue(): Float {
         return if (history.isEmpty()) 0f
         else (history.first().stockHistoryHigh +
@@ -30,15 +29,17 @@ data class Stock(
         val todayPrice = currentValue()
         val size = history.size ?: 0
         if (size > 1) {
-            val openPrice2 =
-                history[1].stockHistoryHigh
-            val closePrice2 =
-                history[1].stockHistoryLow
-            val totalPrice2 = (openPrice2 + closePrice2)
-            val yesterdayPrice = (totalPrice2 / 2)
+            /*     val openPrice2 =
+                     history[1].stockHistoryHigh
+                 val closePrice2 =
+                     history[1].stockHistoryLow
+                 val totalPrice2 = (openPrice2 + closePrice2)
+                 val yesterdayPrice = (totalPrice2 / 2)
 
-            if (todayPrice != 0.0f && yesterdayPrice != 0.0f)
-                return ((todayPrice - yesterdayPrice) / ((todayPrice + yesterdayPrice) / 2)) * 100;
+                 if (todayPrice != 0.0f && yesterdayPrice != 0.0f)
+                     return ((todayPrice - yesterdayPrice) / ((todayPrice + yesterdayPrice) / 2)) * 100;*/
+            val change = todayPrice - history.first().stockHistoryOpen
+            return (change / history.first().stockHistoryOpen) * 100
         }
         return 0.0f
     }
@@ -55,7 +56,7 @@ data class StockHistory(
     @SerializedName("stock_history_close") val stockHistoryClose: Float,
     @SerializedName("stock_history_high") val stockHistoryHigh: Float,
     @SerializedName("stock_history_low") val stockHistoryLow: Float,
-):Parcelable {
+) : Parcelable {
 
 }
 
@@ -67,7 +68,7 @@ data class WatchList(
     @SerializedName("watch_stock_price") val watchStockPrice: Float,
     @SerializedName("watchlist_date") val watchlistDate: String?,
     @SerializedName("market") val market: Stock?,
-) :Parcelable {
+) : Parcelable {
 
     fun perDiff(): Float? {
         val currentValue = market?.currentValue()
@@ -77,8 +78,9 @@ data class WatchList(
         }
         return null
     }
-    fun formatCode():String{
-      return  market?.stockApiCode?.split('.')?.get(1).toString()
+
+    fun formatCode(): String {
+        return market?.stockApiCode?.split('.')?.get(1).toString()
     }
 
 

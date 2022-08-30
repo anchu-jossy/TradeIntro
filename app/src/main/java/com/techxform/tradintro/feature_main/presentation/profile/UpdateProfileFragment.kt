@@ -37,7 +37,7 @@ class UpdateProfileFragment :
         viewModel.userDetails()
         isEnableDisable(false)
         viewModel.userDetailLiveData.observe(viewLifecycleOwner) { it ->
-            binding.sellBtn.text = getString(R.string.delete_acc)
+            binding.deleteButton.text = getString(R.string.delete_acc)
             isEnableDisable(false)
             it.data.let { data ->
                 binding.userDetail = data
@@ -65,10 +65,10 @@ class UpdateProfileFragment :
         }
         binding.editBtn.setOnClickListener {
             isEnableDisable(true)
-            binding.sellBtn.text = getString(R.string.save)
+            binding.deleteButton.text = getString(R.string.save)
         }
-        binding.sellBtn.setOnClickListener {
-            when (binding.sellBtn.text) {
+        binding.deleteButton.setOnClickListener {
+            when (binding.deleteButton.text) {
                 getString(R.string.save) ->
 
                     viewModel.editUser(
