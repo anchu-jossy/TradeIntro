@@ -18,11 +18,15 @@ import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
+
 
 class ApiDataRepositoryImpl @Inject constructor(
     @ApplicationContext val context:Context,
@@ -528,6 +532,16 @@ class ApiDataRepositoryImpl @Inject constructor(
                 reqMap["user_phone"] = it.userPhone!!
         }
 
+        var filePart :MultipartBody.Part? = null
+        if(editUserProfileReq.image != null) {
+            filePart = MultipartBody.Part.createFormData(
+                "image",
+                editUserProfileReq.image?.name,
+                //RequestBody.create("image/*".toMediaTypeOrNull(), editUserProfileReq.image!!)
+                editUserProfileReq.image!!.asRequestBody("image/*".toMediaTypeOrNull())
+            )
+        }
+
 
         val multipartBody = editUserProfileReq.image?.asRequestBody()?.let {
             MultipartBody.Builder()
@@ -536,7 +550,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                 .addFormDataPart("avatarUrl", editUserProfileReq.image?.name, it)
                 .build()
         }
-        return apiCall{apiService.editProfile(reqMap,multipartBody)}
+        return apiCall{apiService.editProfile(reqMap,filePart)}
 
     }
 
