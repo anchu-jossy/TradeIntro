@@ -8,7 +8,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.NotificationRowBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
 
-class NotificationAdapter(val list : ArrayList<Notifications>,val listener: OnClickListener) : RecyclerView.Adapter<NotificationAdapter.NotificationVH>() {
+class NotificationAdapter(var list : ArrayList<Notifications>, val listener: OnClickListener) : RecyclerView.Adapter<NotificationAdapter.NotificationVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationVH {
         val binding = DataBindingUtil.inflate<NotificationRowBinding>(

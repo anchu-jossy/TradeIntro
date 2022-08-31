@@ -16,6 +16,7 @@ import javax.inject.Inject
 class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepository) :
     ViewModel() {
 
+
     private var _userDetailLiveData = MutableLiveData<BaseResponse<UserDetailsResponse>>()
     val userDetailLiveData: LiveData<BaseResponse<UserDetailsResponse>> = _userDetailLiveData
 
@@ -35,6 +36,12 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
         _updateWalletLiveData
     private var _walletErrorLiveData = MutableLiveData<Failure>()
     val walletErrorLiveData: LiveData<Failure> = _walletErrorLiveData
+
+
+    var taxAmount=0
+
+    var otherCharges=0
+
     fun userDetails() {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {

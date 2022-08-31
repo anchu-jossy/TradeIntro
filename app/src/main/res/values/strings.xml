@@ -201,6 +201,18 @@
         <item>@string/order_book_lbl</item>
         <item>@string/trade_book_lbl</item>
     </string-array>
+    <string-array name="recharge_amount_options">
+        <item>1 Lakh</item>
+        <item>2 Lakh</item>
+        <item>3 Lakh</item>
+        <item>4 Lakh</item>
+        <item>5 Lakh</item>
+        <item>6 Lakh</item>
+        <item>7 Lakh</item>
+        <item>8 Lakh</item>
+        <item>9 Lakh</item>
+        <item>10 Lakh</item>
+    </string-array>
     <string-array name="profit_loss_gain">
         <item>@string/realised_gain</item>
         <item>@string/unrealised_gain</item>
@@ -230,6 +242,11 @@
     <string name="set_alert_price_lbl">Set Alert Price</string>
     <string name="mail_subject">Crash Report</string>
     <string name="mail_body">Cause</string>
+
+
+    <string name="net_amount_label">Net AMount</string>
+    <string name="net_amount_hint" />
+
 
     <string name="no_market_placeholder">No Markets</string>
     <string name="no_portfolios_placeholder">No Portfolio list</string>
