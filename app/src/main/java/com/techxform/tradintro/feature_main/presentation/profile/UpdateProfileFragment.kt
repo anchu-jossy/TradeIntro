@@ -3,17 +3,21 @@ package com.techxform.tradintro.feature_main.presentation.profile
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
+import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -44,6 +48,7 @@ class UpdateProfileFragment :
     }
 
     private lateinit var viewModel: UpdateProfileViewModel
+    private  var file: File? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -108,17 +113,18 @@ class UpdateProfileFragment :
                     binding.roundedimage.isDrawingCacheEnabled = true;
                     val bitmap = (binding.roundedimage.drawable as BitmapDrawable).bitmap
 
+                    if(validate()) {
 
-                    viewModel.editUser(
-                        EditUserProfileReq(
-                            persistImage(bitmap, "profileimage"),
-                            binding.userNameET.text.toString(),
-                            binding.userLastNameET.text.toString(),
-                            binding.userPhoneET.text.toString()
-                        ),
+                        viewModel.editUser(
+                            EditUserProfileReq(
+                                file,
+                                binding.userNameET.text.toString(),
+                                binding.userLastNameET.text.toString(),
+                                binding.userPhoneET.text.toString()
+                            ),
 
-                        )
-
+                            )
+                    }else requireContext().showShortToast(getString(R.string.validate_fields))
                 }
                 getString(R.string.delete_acc)
                 ->
@@ -132,14 +138,14 @@ class UpdateProfileFragment :
 
             val checkSelfPermission = ContextCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
             )
             if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
 
                 //Requests permissions to be granted to this application at runtime
                 ActivityCompat.requestPermissions(
                     requireActivity(),
-                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1
+                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1
                 )
             } else {
                 val galleryIntent = Intent(Intent.ACTION_PICK)
@@ -160,9 +166,40 @@ class UpdateProfileFragment :
 
     }
 
+    private fun validate():Boolean
+    {
+        if(file == null || binding.userNameET.text.toString().isNullOrEmpty() ||
+        binding.userLastNameET.text.toString().isNullOrEmpty() ||
+        binding.userPhoneET.text.toString().isNullOrEmpty())
+            return false
+        return true
+    }
+
     private fun persistImage(bitmap: Bitmap, name: String): File {
-        val filesDir: File = requireContext().filesDir
-        val imageFile = File(filesDir, "$name.jpg")
+        //val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val imageFile = File.createTempFile(
+            "JPEG_${name}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+           // currentPhotoPath = absolutePath
+        }
+        /*val extStorageDirectory = Environment.getExternalStorageDirectory().toString()
+       // val filesDir: File = requireContext().externalCacheDir
+        var imageFile = File(extStorageDirectory, "$name.jpg")
+        if (imageFile.exists()) {
+            imageFile.delete()
+            imageFile = File(extStorageDirectory, "$name.jpg")
+        }*/
+        imageFile?.also {
+            val photoURI: Uri = FileProvider.getUriForFile(
+                requireContext(),
+                "com.techxform.tradintro.provider",
+                it
+            )
+        }
         val os: OutputStream
         try {
             os = FileOutputStream(imageFile)
@@ -181,8 +218,23 @@ class UpdateProfileFragment :
             val image = data?.extras?.get("data") ?: data?.data
       Glide.with(requireContext())
                 .load(image)
-                .into(binding.roundedimage);
+                .into(binding.roundedimage)
+            if(image is Bitmap)
+            file = persistImage(image, "profileimage")
+            else {
+                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                val cursor: Cursor =
+                    requireContext().contentResolver.query(image as Uri, filePathColumn, null, null, null)
+                        ?: return
 
+                cursor.moveToFirst()
+
+                val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+                val filePath = cursor.getString(columnIndex)
+                cursor.close()
+
+                file = File(filePath)
+            }
 
         } else {
             super.onActivityResult(requestCode, resultCode, data)
