@@ -1,5 +1,9 @@
 package com.techxform.tradintro.feature_main.data.repository
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
@@ -14,6 +18,7 @@ import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -21,6 +26,7 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class ApiDataRepositoryImpl @Inject constructor(
+    @ApplicationContext val context:Context,
     private val apiService: ApiService
 ) : ApiRepository {
 
@@ -28,16 +34,17 @@ class ApiDataRepositoryImpl @Inject constructor(
         return apiService.getDataList()
     }
 
-    private suspend fun <T> apiCall(apiCall: Response<BaseResponse<T>>): Result<BaseResponse<T>> {
+    private suspend fun <T> apiCall(apiCall: suspend () -> Response<BaseResponse<T>>): Result<BaseResponse<T>> {
         return withContext(Dispatchers.Default)
         {
             try {
-                if (apiCall.isSuccessful) {
-                    Result.Success(apiCall.body()!!)
+                val response = apiCall()
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
                 } else {
                     val gson = Gson()
                     val errorResponse =
-                        gson.fromJson(apiCall.errorBody()!!.string(), ErrorResponse::class.java)
+                        gson.fromJson(response.errorBody()!!.string(), ErrorResponse::class.java)
                     Result.Error(Failure.FeatureFailure(errorResponse.error.message))
                 }
             } catch (e: UnknownHostException) {
@@ -51,7 +58,7 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun login(loginRequest: LoginRequest): Result<BaseResponse<LoginResponse>> {
-        return apiCall(apiService.login(loginRequest))
+        return apiCall{apiService.login(loginRequest)}
 
 
     }
@@ -66,14 +73,14 @@ class ApiDataRepositoryImpl @Inject constructor(
         if (!searchModel.searchText.isNullOrEmpty())
             reqMap["search"] = searchModel.searchText!!
 
-        return apiCall(apiService.marketList(reqMap))
+        return apiCall{apiService.marketList(reqMap)}
 
 
     }
 
     override suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>> {
 
-        return apiCall(apiService.marketDetails(marketId))
+        return apiCall{apiService.marketDetails(marketId)}
 
 
     }
@@ -83,7 +90,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         buySellStockReq: BuySellStockReq
     ): Result<BaseResponse<PortfolioItem>> {
 
-        return apiCall(apiService.buyStock(marketId, buySellStockReq))
+        return apiCall{apiService.buyStock(marketId, buySellStockReq)}
 
 
     }
@@ -92,7 +99,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         marketId: Int,
         buySellStockReq: BuySellStockReq
     ): Result<BaseResponse<PortfolioItem>> {
-        return apiCall(apiService.sellStock(marketId, buySellStockReq))
+        return apiCall{apiService.sellStock(marketId, buySellStockReq)}
 
     }
 
@@ -108,7 +115,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         if (!searchModel.searchText.isNullOrEmpty())
             reqMap["search"] = searchModel.searchText!!
 
-        return apiCall(apiService.portfolio(reqMap))
+        return apiCall{apiService.portfolio(reqMap)}
 
     }
 
@@ -127,7 +134,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         if (!searchModel.stockId.isNullOrEmpty())
             reqMap["stockId"] = searchModel.stockId!!
 
-        return apiCall(apiService.portfolioV2(reqMap))
+        return apiCall{apiService.portfolioV2(reqMap)}
 
     }
 
@@ -136,35 +143,35 @@ class ApiDataRepositoryImpl @Inject constructor(
         updatePortFolioReq: UpdatePortfolioRequest
     ): Result<BaseResponse<PortfolioItem>> {
 
-        return apiCall(apiService.updatePortfolio(id, updatePortFolioReq))
+        return apiCall{apiService.updatePortfolio(id, updatePortFolioReq)}
     }
 
     override suspend fun deletePortfolio(id: Int): Result<BaseResponse<Any>> {
 
-        return apiCall(apiService.deletePortfolio(id))
+        return apiCall{apiService.deletePortfolio(id)}
     }
 
     override suspend fun portfolioDetails(
         orderId: Int,
         filterModel: FilterModel
     ): Result<BaseResponse<PortfolioItem>> {
-        return apiCall(apiService.portfolioDetails(orderId, ""))
+        return apiCall{apiService.portfolioDetails(orderId, "")}
     }
 
     override suspend fun portfolioDashboard(): Result<BaseResponse<PortfolioDashboard>> {
-        return apiCall(apiService.portfolioDashboard())
+        return apiCall{apiService.portfolioDashboard()}
     }
 
     override suspend fun portfolioDashboardV2(): Result<BaseResponse<PortfolioDashboard>> {
-        return apiCall(apiService.portfolioDashboardV2())
+        return apiCall{apiService.portfolioDashboardV2()}
     }
 
     override suspend fun portfolioDashboardOfStockV2(stockId: Int): Result<BaseResponse<StockDashboard>> {
-        return apiCall(apiService.portfolioDashboardOfStockV2(stockId))
+        return apiCall{apiService.portfolioDashboardOfStockV2(stockId)}
     }
 
     override suspend fun usersDashboard(): Result<BaseResponse<UserDashboard>> {
-        return apiCall(apiService.usersDashboard())
+        return apiCall{apiService.usersDashboard()}
     }
 
     override suspend fun notifications(searchModel: SearchModel): Result<BaseResponse<ArrayList<Notifications>>> {
@@ -178,7 +185,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         if (!searchModel.searchText.isNullOrEmpty())
             reqMap["search"] = searchModel.searchText!!
 
-        return apiCall(apiService.notifications(reqMap))
+        return apiCall{apiService.notifications(reqMap)}
 
         /*return withContext(Dispatchers.Default)
         {
@@ -212,7 +219,7 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteNotification(notificationsId: Int): Result<BaseResponse<DeleteNotificationResponse>> {
-        return apiCall(apiService.notifications(notificationsId))
+        return apiCall{apiService.notifications(notificationsId)}
     }
 
     override suspend fun watchlist(filterModel: FilterModel): Result<BaseResponse<ArrayList<WatchList>>> {
@@ -226,19 +233,19 @@ class ApiDataRepositoryImpl @Inject constructor(
         if (filterModel.searchText.isNotEmpty())
             reqMap["search"] = filterModel.searchText!!
 
-        return apiCall(apiService.watchlist(reqMap))
+        return apiCall{apiService.watchlist(reqMap)}
 
 
     }
 
     override suspend fun watchlistDetail(watchlistId: Int): Result<BaseResponse<WatchList>> {
-        return apiCall(apiService.watchlistDetail(watchlistId))
+        return apiCall{apiService.watchlistDetail(watchlistId)}
 
 
     }
 
     override suspend fun createWatchList(createWatchListRequest: CreateWatchListRequest): Result<BaseResponse<WatchList>> {
-        return apiCall(apiService.createWatchList(createWatchListRequest))
+        return apiCall{apiService.createWatchList(createWatchListRequest)}
 
 
     }
@@ -247,22 +254,22 @@ class ApiDataRepositoryImpl @Inject constructor(
         id: Number,
         req: UpdateWatchListRequest
     ): Result<BaseResponse<UpdateData>> {
-        return apiCall(apiService.updateWatchList(id, req))
+        return apiCall{apiService.updateWatchList(id, req)}
 
     }
 
     override suspend fun deleteWatchList(id: Number): Result<BaseResponse<DeleteWatchListResponse>> {
-        return apiCall(apiService.deleteWatchList(id))
+        return apiCall{apiService.deleteWatchList(id)}
 
     }
 
     override suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>> {
-        return apiCall(apiService.getWalletSummary())
+        return apiCall{apiService.getWalletSummary()}
 
     }
 
     override suspend fun userLevels(): Result<BaseResponse<UserLevels>> {
-        return apiCall(apiService.userLevels())
+        return apiCall{apiService.userLevels()}
 
     }
 
@@ -292,7 +299,7 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun readNotification(id: Int): Result<BaseResponse<Int>> {
-        return apiCall(apiService.readNotification(id))
+        return apiCall{apiService.readNotification(id)}
 
     }
 
@@ -303,7 +310,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             "offset" to searchModel.offset.toString()
         )
 
-        return apiCall(apiService.walletHistory(reqMap))
+        return apiCall{apiService.walletHistory(reqMap)}
 
     }
 
@@ -379,7 +386,7 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logOut(loginRequest: LogOutRequest): Result<BaseResponse<Any>> {
-        return apiCall(apiService.logOut(loginRequest))
+        return apiCall{apiService.logOut(loginRequest)}
 
 
     }
@@ -390,7 +397,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             "10" to "limit",
             "0" to "offset",
         )
-        return apiCall(apiService.userInviteList(reqMap = reqMap))
+        return apiCall{apiService.userInviteList(reqMap = reqMap)}
 
     }
 
@@ -462,7 +469,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             "password" to request.password,
         )
 
-        return apiCall(apiService.register(REGISTER, reqMap))
+        return apiCall{apiService.register(REGISTER, reqMap)}
 
 
     }
@@ -473,7 +480,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             "offset" to searchModel.offset.toString(),
         )
 
-        return apiCall(apiService.historicalReport(reqMap))
+        return apiCall{apiService.historicalReport(reqMap)}
 
     }
 
@@ -483,12 +490,12 @@ class ApiDataRepositoryImpl @Inject constructor(
             "offset" to searchModel.offset.toString(),
         )
 
-        return apiCall(apiService.reportCurrent(reqMap))
+        return apiCall{apiService.reportCurrent(reqMap)}
 
     }
 
     override suspend fun summaryReport(): Result<BaseResponse<SummaryReport>> {
-        return apiCall(apiService.summaryReport())
+        return apiCall{apiService.summaryReport()}
 
     }
 
@@ -497,7 +504,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         alertPriceRequest: AlertPriceRequest
     ): Result<BaseResponse<AlertPriceResponse>> {
 
-        return apiCall(apiService.alertPrice(id, alertPriceRequest))
+        return apiCall{apiService.alertPrice(id, alertPriceRequest)}
 
     }
 
@@ -505,7 +512,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         id: Int,
         alertPriceRequest: AlertPriceRequest
     ): Result<BaseResponse<AlertPriceResponse>> {
-        return apiCall(apiService.alertPriceWL(id, alertPriceRequest))
+        return apiCall{apiService.alertPriceWL(id, alertPriceRequest)}
 
     }
 
@@ -523,12 +530,12 @@ class ApiDataRepositoryImpl @Inject constructor(
                 reqMap["user_phone"] = it.userPhone!!
         }
 
-        return apiCall(apiService.editProfile(reqMap))
+        return apiCall{apiService.editProfile(reqMap)}
 
     }
 
     override suspend fun deleteProfile(): Result<BaseResponse<Any>> {
-        return apiCall(apiService.deleteProfile())
+        return apiCall{apiService.deleteProfile()}
 
     }
 }
