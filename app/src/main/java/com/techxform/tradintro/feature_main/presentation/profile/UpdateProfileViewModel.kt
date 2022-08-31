@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.profile
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,12 +11,14 @@ import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepository) :
     ViewModel() {
 
+    var profileImageUri: Uri?=null
     private var _userDetailLiveData = MutableLiveData<BaseResponse<UserDetailsResponse>>()
     val userDetailLiveData: LiveData<BaseResponse<UserDetailsResponse>> = _userDetailLiveData
 
