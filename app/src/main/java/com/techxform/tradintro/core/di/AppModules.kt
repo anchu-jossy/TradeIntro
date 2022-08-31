@@ -1,7 +1,7 @@
 package com.techxform.tradintro.core.di
 
 
-import androidx.core.text.HtmlCompat
+import android.content.Context
 import com.google.gson.GsonBuilder
 import com.techxform.tradintro.feature_main.data.remote.service.ApiService
 import com.techxform.tradintro.feature_main.data.repository.ApiDataRepositoryImpl
@@ -10,6 +10,7 @@ import com.techxform.tradintro.core.utils.Contants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
@@ -32,8 +33,8 @@ object AppModules {
 
     @Provides
     @Singleton
-    fun provideCoinRepository(apiService: ApiService): ApiRepository =
-        ApiDataRepositoryImpl(apiService)
+    fun provideCoinRepository(@ApplicationContext context: Context, apiService: ApiService): ApiRepository =
+        ApiDataRepositoryImpl(context = context,apiService)
 
     @Provides
     @Singleton
