@@ -116,22 +116,24 @@ class PortfoliosFragment :
         })
 
         activity?.onBackPressedDispatcher?.addCallback(
-            requireActivity(),
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if (getFragment() is PortfoliosFragment) {
-                        if (viewModel.getSelectedPortfolio() != null) {
-                            viewModel.setSelectedPortfolioItem(null);
-                            reloadScreen();
-                        } else findNavController().navigateUp()
-                    } else findNavController().navigateUp()
-                }
-            })
+            viewLifecycleOwner,onBackPressedCallback
+           )
 
 
         reloadScreen(viewModel.isStockSelected(), viewModel.getSelectedPortfolio(), true);
         binding.sellBtn.setOnClickListener(this)
         binding.buyBtn.setOnClickListener(this)
+    }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (getFragment() is PortfoliosFragment) {
+                if (viewModel.getSelectedPortfolio() != null) {
+                    viewModel.setSelectedPortfolioItem(null)
+                    reloadScreen()
+                } else findNavController().navigateUp()
+            } else findNavController().navigateUp()
+        }
     }
 
     private fun clearSearchView() {
@@ -301,5 +303,11 @@ class PortfoliosFragment :
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+//unregister listener here
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+    }
 
 }

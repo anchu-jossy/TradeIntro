@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
+import java.io.File
 
 
 data class AddUserRequest(
@@ -18,7 +19,7 @@ data class AddUserResponse(
 )
 
 data class EditUserProfileReq(
-    @SerializedName("image") var image: String? = null,
+    @SerializedName("image") var image: File? = null,
     @SerializedName("user_name") var userName: String? = null,
     @SerializedName("user_last_name") var lastName: String? = null,
     @SerializedName("user_phone") var userPhone: String? = null

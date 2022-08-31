@@ -128,12 +128,12 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
     }
 
     fun getSelectedPortfolio(): PortfolioItem? {
-        return selectedPortfolioItem;
+        return selectedPortfolioItem
     }
 
 
     fun isStockSelected(): Boolean {
-        return selectedPortfolioItem != null;
+        return selectedPortfolioItem != null
     }
 
 
