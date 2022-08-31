@@ -5,10 +5,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
-import retrofit2.Response
-import retrofit2.http.PartMap
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+
 
 interface ApiRepository {
     suspend fun getDataList(): List<ApiData>

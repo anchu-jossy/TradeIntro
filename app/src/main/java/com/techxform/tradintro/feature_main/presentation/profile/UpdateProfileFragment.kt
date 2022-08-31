@@ -23,6 +23,7 @@ import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.Contants.IMAGE_URL
 import com.techxform.tradintro.databinding.UpdateProfileFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.EditUserProfileReq
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -68,6 +69,25 @@ class UpdateProfileFragment :
 
             }
         }
+        viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
+
+                    )
+                }
+                Failure.ServerError -> {
+                    requireContext().showShortToast(getString(R.string.server_error))
+
+                }
+                else -> {
+                    val errorMsg = (it as Failure.FeatureFailure).message
+                    requireContext().showShortToast("Error: $errorMsg")
+
+                }
+            }
+        }
         viewModel.deleteAccountLiveData.observe(viewLifecycleOwner) {
             sequenceOf(
                 requireContext().showShortToast(getString(R.string.acc_delete))
@@ -86,12 +106,12 @@ class UpdateProfileFragment :
             when (binding.deleteButton.text) {
                 getString(R.string.save) -> {
                     binding.roundedimage.isDrawingCacheEnabled = true;
-                    val bitmap = (binding.roundedimage.drawable as BitmapDrawable)?.bitmap
+                    val bitmap = (binding.roundedimage.drawable as BitmapDrawable).bitmap
 
-                    //  persistImage(binding.roundedimage.drawable.toBitmapOrNull(), "profileimage")
+
                     viewModel.editUser(
                         EditUserProfileReq(
-                            binding.roundedimage.drawable.toBitmap().toString(),
+                            persistImage(bitmap, "profileimage"),
                             binding.userNameET.text.toString(),
                             binding.userLastNameET.text.toString(),
                             binding.userPhoneET.text.toString()
@@ -140,7 +160,21 @@ class UpdateProfileFragment :
 
     }
 
+    private fun persistImage(bitmap: Bitmap, name: String): File {
+        val filesDir: File = requireContext().filesDir
+        val imageFile = File(filesDir, "$name.jpg")
+        val os: OutputStream
+        try {
+            os = FileOutputStream(imageFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            os.flush()
+            os.close()
+        } catch (e: Exception) {
+            Log.e(javaClass.simpleName, "Error writing bitmap", e)
+        }
+        return imageFile
 
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Companion.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 

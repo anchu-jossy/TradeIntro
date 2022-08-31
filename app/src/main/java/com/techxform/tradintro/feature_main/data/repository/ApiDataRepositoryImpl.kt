@@ -1,9 +1,6 @@
 package com.techxform.tradintro.feature_main.data.repository
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
@@ -21,6 +18,8 @@ import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -520,8 +519,7 @@ class ApiDataRepositoryImpl @Inject constructor(
     override suspend fun editProfile(editUserProfileReq: EditUserProfileReq): Result<BaseResponse<UserDetailsResponse>> {
         val reqMap = hashMapOf<String, String>()
         editUserProfileReq.let {
-            if (it.image?.isNotEmpty() == true)
-                reqMap["image"] = it.image!!
+
             if (it.userName?.isNotEmpty() == true)
                 reqMap["user_name"] = it.userName!!
             if (it.lastName?.isNotEmpty() == true)
@@ -530,7 +528,15 @@ class ApiDataRepositoryImpl @Inject constructor(
                 reqMap["user_phone"] = it.userPhone!!
         }
 
-        return apiCall{apiService.editProfile(reqMap)}
+
+        val multipartBody = editUserProfileReq.image?.asRequestBody()?.let {
+            MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("firstName", "")
+                .addFormDataPart("avatarUrl", editUserProfileReq.image?.name, it)
+                .build()
+        }
+        return apiCall{apiService.editProfile(reqMap,multipartBody)}
 
     }
 

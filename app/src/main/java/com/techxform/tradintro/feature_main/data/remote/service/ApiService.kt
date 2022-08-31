@@ -3,6 +3,7 @@ package com.techxform.tradintro.feature_main.data.remote.service
 
 import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -147,7 +148,7 @@ interface ApiService {
 
     @PATCH("api/users/me")
     @Multipart
-    suspend fun editProfile(@PartMap reqMap: Map<String, String>) : Response<BaseResponse<UserDetailsResponse>>
+    suspend fun editProfile(@PartMap reqMap: Map<String, String>, @Part image: MultipartBody?) : Response<BaseResponse<UserDetailsResponse>>
 
 
     @DELETE("api/users/me")
