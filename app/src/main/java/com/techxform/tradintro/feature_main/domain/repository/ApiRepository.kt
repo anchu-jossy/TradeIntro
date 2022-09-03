@@ -5,6 +5,8 @@ import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
+import retrofit2.Response
+import retrofit2.http.Body
 
 
 interface ApiRepository {
@@ -90,5 +92,7 @@ interface ApiRepository {
 
     suspend fun editProfile(editUserProfileReq: EditUserProfileReq) : Result<BaseResponse<UserDetailsResponse>>
     suspend fun deleteProfile() : Result<BaseResponse<Any>>
+
+    suspend fun changePassword(@Body reqBody:ChangePasswordRequest) : Result<BaseResponse<LoginResponse>>
 
 }

@@ -14,7 +14,6 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -43,8 +42,6 @@ class UpdateProfileFragment :
         fun newInstance() = UpdateProfileFragment()
         private const val UI_ANIMATION_DELAY = 2000
         const val REQUEST_CODE = 24
-
-
     }
 
     private lateinit var viewModel: UpdateProfileViewModel
@@ -70,8 +67,6 @@ class UpdateProfileFragment :
                         .load(R.drawable.profile)
                         .into(binding.roundedimage);
                 }
-
-
             }
         }
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {

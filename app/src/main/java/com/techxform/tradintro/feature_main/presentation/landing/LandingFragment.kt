@@ -201,7 +201,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                     )
                 }
                 6 -> navController.navigate(R.id.reportFragment)
-                7 -> {
+                /*7 -> {
                     navController.navigateUp()
                     navController.navigate(
                         R.id.notificationFragment,
@@ -209,9 +209,9 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                     )
 
 
-                }
-                8 -> navController.navigate(R.id.changePasswordFragment)
-                9 -> viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
+                }*/
+                7 -> navController.navigate(R.id.changePasswordFragment)
+                8 -> viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
             }
             binding.drawerLayout.close()
 

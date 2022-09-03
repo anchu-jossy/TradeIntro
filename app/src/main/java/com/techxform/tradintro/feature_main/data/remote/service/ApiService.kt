@@ -160,4 +160,7 @@ interface ApiService {
 
     @DELETE("api/portfolio/{id}/")
     suspend fun deletePortfolio(@Path("id") id: Int) : Response<BaseResponse<Any>>
+
+    @POST("api/users/change-password")
+    suspend fun changePassword(@Body reqBody:ChangePasswordRequest) : Response<BaseResponse<LoginResponse>>
 }

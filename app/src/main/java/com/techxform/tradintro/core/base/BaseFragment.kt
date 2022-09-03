@@ -1,9 +1,11 @@
 package com.techxform.tradintro.core.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
@@ -41,4 +43,10 @@ fun clearBackstack() {
         FragmentManager.POP_BACK_STACK_INCLUSIVE
     )
 }
+
+    fun hideKeyboard()
+    {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(binding.root?.windowToken, 0)
+    }
 }
