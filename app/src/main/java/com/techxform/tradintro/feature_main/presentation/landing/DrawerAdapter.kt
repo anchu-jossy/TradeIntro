@@ -16,7 +16,7 @@ class DrawerAdapter(val list: ArrayList<DrawerItem>, val listener:ClickListener)
         fun binding() {
             drawerRowBinding.item = list[adapterPosition]
             drawerRowBinding.root.setOnClickListener {
-                listener.onClick(adapterPosition)
+                listener.onClick(list[adapterPosition])
             }
         }
 
@@ -41,6 +41,6 @@ class DrawerAdapter(val list: ArrayList<DrawerItem>, val listener:ClickListener)
     }
 
     interface ClickListener{
-        fun onClick(position: Int)
+        fun onClick(position: DrawerItem)
     }
 }

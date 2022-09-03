@@ -90,5 +90,6 @@ interface ApiRepository {
 
     suspend fun editProfile(editUserProfileReq: EditUserProfileReq) : Result<BaseResponse<UserDetailsResponse>>
     suspend fun deleteProfile() : Result<BaseResponse<Any>>
+    suspend fun changePassword(emailId: ChangePasswordRequest): Result<Any>
 
 }
