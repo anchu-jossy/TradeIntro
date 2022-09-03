@@ -148,7 +148,7 @@ interface ApiService {
 
     @PATCH("api/users/me")
     @Multipart
-    suspend fun editProfile(@PartMap reqMap: Map<String, String>, @Part image: MultipartBody?) : Response<BaseResponse<UserDetailsResponse>>
+    suspend fun editProfile(@PartMap reqMap: Map<String, String>, @Part image: MultipartBody.Part?) : Response<BaseResponse<UserDetailsResponse>>
 
 
     @DELETE("api/users/me")
