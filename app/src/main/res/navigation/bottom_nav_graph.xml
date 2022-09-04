@@ -158,6 +158,12 @@
         android:name="com.techxform.tradintro.feature_main.presentation.myskills.MySkillsFragment"
         android:label="myskills_fragment"
         tools:layout="@layout/my_skills" />
+
+    <fragment
+        android:id="@+id/learnMoreFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.myskills.LearnMoreFragment"
+        android:label="learnmore_fragment"
+        tools:layout="@layout/learn_more" />
     <fragment
         android:id="@+id/mySkillsViewFragment"
         android:name="com.techxform.tradintro.feature_main.presentation.myskills.MySkillsViewFragment"

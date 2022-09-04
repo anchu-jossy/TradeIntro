@@ -52,6 +52,8 @@ class ChangePasswordFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[ChangePasswordViewModel::class.java]
+        binding.vm = viewModel
         observers()
         binding.label3Et.isEnabled = false
 
@@ -102,12 +104,7 @@ class ChangePasswordFragment :
             }
         }
     }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[ChangePasswordViewModel::class.java]
-        binding.vm = viewModel
 
-    }
 
     private fun observers() {
         viewModel.changePasswordLiveData.observe(viewLifecycleOwner) {

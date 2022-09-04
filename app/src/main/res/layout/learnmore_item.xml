@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+    <data>
+        <variable
+            name="level"
+            type="com.techxform.tradintro.feature_main.data.remote.dto.Level" />
+
+    </data>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_26sdp"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_10sdp"
+
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@{level.pointsDate.toString()}"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+           />
+
+        <TextView
+            android:id="@+id/tv_activity"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@{level.pointsType.toString()}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            />
+        <TextView
+            android:id="@+id/tv_points"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@{level.totalPoints.toString()}"
+
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            />
+        <TextView
+            android:id="@+id/tv_level"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@{level.pointsUserLevel.toString()}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            />
+
+
+
+
+        </LinearLayout>
+
+</layout>
