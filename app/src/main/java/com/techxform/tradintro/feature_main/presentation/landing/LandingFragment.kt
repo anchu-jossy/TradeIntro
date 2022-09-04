@@ -11,6 +11,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -100,7 +101,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         viewModel.userDetailLiveData.observe(viewLifecycleOwner) {
             (binding.bottomNav.menu as NavigationBarMenu).visibleItems[3].isVisible = it.data.treeLevel != 1
             drawerSetup()
-
+            binding.drawerLayout.close()
         }
 
     }
@@ -179,6 +180,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             }
         }
         mDrawerToggle.syncState()
+
         binding.drawerRv.adapter = DrawerAdapter(createDrawerItems(), listener)
         val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         navController.navigateUp(appBarConfiguration)
@@ -211,12 +213,32 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
                 }
                 8 -> navController.navigate(R.id.changePasswordFragment)
-                9 -> viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
+                9 -> showLogoutConformationDialog()
             }
             binding.drawerLayout.close()
 
         }
     }
+
+    private fun showLogoutConformationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Logout Account")
+        //set message for alert dialog
+        builder.setMessage("Are you sure want to logout the account?")
+        builder.setIcon(android.R.drawable.ic_menu_close_clear_cancel)
+        builder.setPositiveButton("Logout") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+            viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
+        }
+        //performing negative action
+        builder.setNegativeButton("Cancel") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+    }
+
 
     private fun createDrawerItems(): ArrayList<DrawerItem> {
         val list = arrayListOf<DrawerItem>()

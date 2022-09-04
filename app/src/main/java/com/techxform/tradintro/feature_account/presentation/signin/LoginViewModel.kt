@@ -71,4 +71,20 @@ class LoginViewModel @Inject constructor(
             _loadingLiveData.postValue(false)
         }
     }
+
+    fun resentEmail(email:String)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.resendEmail(email)) {
+                is Result.Success -> {
+                    _forgetPasswordLiveData.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _forgetPasswordErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
 }

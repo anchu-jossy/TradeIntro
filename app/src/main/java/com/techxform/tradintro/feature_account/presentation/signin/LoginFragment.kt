@@ -51,7 +51,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     private fun listeners() {
         binding.btnSignIn.setOnClickListener {
-            if (binding.userNameET.text.isNullOrEmpty() && binding.passwordET.text.isNullOrEmpty()) {
+            if (binding.userNameET.text.isNullOrEmpty() || binding.passwordET.text.isNullOrEmpty()) {
                 requireContext().showShortToast(getString(R.string.user_name_pass_required_msg))
                 return@setOnClickListener
             }

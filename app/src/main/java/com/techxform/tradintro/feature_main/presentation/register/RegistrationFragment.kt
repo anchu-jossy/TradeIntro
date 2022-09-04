@@ -3,7 +3,9 @@ package com.techxform.tradintro.feature_main.presentation.register
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -26,15 +28,22 @@ class RegistrationFragment :
 
     private lateinit var viewModel: RegistrationViewModel
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
         observers()
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.signInBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_to_LoginFragment)
+        }
 
         binding.tncTv.movementMethod = LinkMovementMethod.getInstance()
         binding.registerBtn.setOnClickListener {

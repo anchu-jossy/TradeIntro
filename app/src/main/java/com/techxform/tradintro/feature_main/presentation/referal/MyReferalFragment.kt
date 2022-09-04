@@ -68,13 +68,21 @@ class MyReferalFragment :
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
-
         viewModel.addUseLiveData.observe(viewLifecycleOwner) {
-            it.status?.let{it->
-                requireContext().showShortToast(it)
+            it.status?.let{
+                when(it){
+                    "success"->{
+                        requireContext().showShortToast("Success! User is invited.")
+                    }
+                    "failed"->{
+                        requireContext().showShortToast("Sorry! User invite failed, Please try again..")
+                    }
+                    else->{
+                        requireContext().showShortToast("Sorry, user is already invited.")
+                    }
+                }
 
             }
-
             viewModel.getUserInviteList()
         }
 

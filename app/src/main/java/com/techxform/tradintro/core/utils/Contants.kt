@@ -16,8 +16,9 @@ object Contants {
     const val RECHARGE_URL = DEV_URL+"index.php/api/update_wallet"
     const val ADD_USER_URL = DEV_URL+"index.php/api/add_invite_user"
     const val FORGOT_PASSWORD = DEV_URL + "index.php/api/forgot_password"
+    const val RESENT_PASSWORD = DEV_URL + "index.php/api/resend_email"
     const val REGISTER = DEV_URL + "index.php/api/register"
-    const val IMAGE_URL="https://www.tradintro.com/uploads/"
+    const val IMAGE_URL="https://stage.tradintro.com/uploads/"
     const val delete ="DELETE"
     const val update="UPDATE"
 

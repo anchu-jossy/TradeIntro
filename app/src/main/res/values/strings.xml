@@ -8,11 +8,14 @@
 
     <!--Texts-->
     <string name="hint_username">Username</string>
+    <string name="hint_full_name">Full Name</string>
     <string name="hint_password">Password</string>
     <string name="hint_sign_in">SIGN IN</string>
     <string name="hint_forgot_password">Forgot Password?</string>
     <string name="hint_don_t_have_an_account">Don\'t have an account?</string>
+    <string name="hint_already_have_an_account">Already a User?</string>
     <string name="hint_sign_up">Sign Up</string>
+    <string name="hint_sign_in_btn">Sign In</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -169,20 +172,20 @@
     <string name="voucher_code">Voucher code</string>
     <string name="notification_permission_denied_msg">You will not receive any notification from us because of no permission</string>
     <string name="channel_description">This channel is used to send the notification related to Trade Intro app</string>
-    <string name="enter_emailid">Enter your emailId</string>
-    <string name="enter_user_name">Enter user name</string>
+    <string name="enter_emailid">Enter your email id</string>
+    <string name="enter_user_name">Enter full name</string>
     <string name="enter_password">Enter password</string>
-    <string name="enter_confirm_password">Enter confirm password</string>
+    <string name="enter_confirm_password">Re-enter your password</string>
     <string name="password_not_match_msg">Password does not matched</string>
     <string name="ok">OK</string>
-    <string name="verify_email">Please verify the forgetPassword link that send to your entered email id</string>
+    <string name="verify_email">Please verify the reset password link that send to your registered email id</string>
     <string name="success">success</string>
     <string name="error">error</string>
     <string name="register_lbl">Register</string>
     <string name="full_name_lbl">Full Name</string>
     <string name="email_lbl">E-mail</string>
     <string name="tnc_lbl">By Signing up you agree to our <a href="https://www.tradintro.com/index.php/pages/terms_and_conditions">terms of conditions</a></string>
-    <string name="check_email">Please check your Email</string>
+    <string name="check_email">Please verify your email to continue, verification email has been sent to your registered email id.</string>
     <string name="profit_loss_report_lbl">Profit &amp; Loss Report</string>
     <string name="trade_book_lbl">Trade Book</string>
     <string name="order_book_lbl">Order Book</string>

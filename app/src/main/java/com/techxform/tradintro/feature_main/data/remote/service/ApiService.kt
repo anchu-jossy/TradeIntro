@@ -129,6 +129,10 @@ interface ApiService {
 
     @POST
     @FormUrlEncoded
+    suspend fun resendEmail(@Url url: String, @FieldMap reqMap: Map<String, String>) : Response<Any>
+
+    @POST
+    @FormUrlEncoded
     suspend fun register(@Url url: String, @FieldMap request: Map<String, String>): Response<BaseResponse<Any>>
 
     @GET("api/reports/historical")
