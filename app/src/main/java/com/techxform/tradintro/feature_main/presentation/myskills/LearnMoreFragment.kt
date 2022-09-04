@@ -30,10 +30,15 @@ class LearnMoreFragment :
     ): View? {
         viewModel = ViewModelProvider(this)[MySkillsViewModel::class.java]
         viewModel.userLevelsHistory(SearchModel(limit = 10,offset = 0))
+
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
 
 
     fun observers(){
@@ -42,7 +47,6 @@ class LearnMoreFragment :
         }
 
         viewModel.userLevelsHistoryLiveData.observe(viewLifecycleOwner) {
-it.data
             binding.mySkillsRV.adapter = LearnMoreAdapter(it.data)
 
         }
