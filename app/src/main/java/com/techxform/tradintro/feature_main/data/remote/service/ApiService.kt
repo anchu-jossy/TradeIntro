@@ -165,11 +165,11 @@ interface ApiService {
     @DELETE("api/portfolio/{id}/")
     suspend fun deletePortfolio(@Path("id") id: Int) : Response<BaseResponse<Any>>
 
-
     @POST("api/users/change-password")
-    suspend fun changePassword(@Body request: ChangePasswordRequest): Response<BaseResponse<Any>>
+    suspend fun changePassword(@Body reqBody:ChangePasswordRequest) : Response<BaseResponse<LoginResponse>>
 
     @GET("api/user-points/history")
     suspend fun userLevelHistory(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<Level>>>
+
 
 }

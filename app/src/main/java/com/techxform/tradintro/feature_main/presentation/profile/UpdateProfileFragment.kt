@@ -84,8 +84,6 @@ class UpdateProfileFragment :
                         .load(R.drawable.profile)
                         .into(binding.roundedimage);
                 }
-
-
             }
         }
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {

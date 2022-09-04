@@ -113,7 +113,7 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun portfolio(searchModel: SearchModel): Result<BaseResponse<ArrayList<PortfolioItem>>> {
-        var reqMap = mutableMapOf(
+        val reqMap = mutableMapOf(
             "limit" to searchModel.limit.toString(),
             "offset" to searchModel.offset.toString(),
             "skip" to searchModel.skip.toString(),
@@ -594,8 +594,8 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun changePassword(req: ChangePasswordRequest): Result<Any> {
-        return apiCall{apiService.changePassword(req)}
+    override suspend fun changePassword(reqBody: ChangePasswordRequest): Result<BaseResponse<LoginResponse>> {
+        return apiCall{apiService.changePassword(reqBody)}
     }
 
     override suspend fun userPointsHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<Level>>> {

@@ -27,8 +27,6 @@ class ChangePasswordViewModel @Inject constructor(
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
 
-
-
     fun changePassword(req:ChangePasswordRequest)
     {
         _loadingLiveData.postValue(true)
