@@ -32,5 +32,10 @@ data class Error (
     @SerializedName("message"    ) var message    : String? = null
 
 )
+data class ChangePasswordRequest(
+    @SerializedName("currentPassword") val currentPassword: String,
+    @SerializedName("newPassword") val newPassword: String,
+)
+
 
 

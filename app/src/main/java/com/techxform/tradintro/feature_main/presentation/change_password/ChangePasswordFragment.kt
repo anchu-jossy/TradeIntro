@@ -1,8 +1,8 @@
 package com.techxform.tradintro.feature_main.presentation.change_password
 
 import android.os.Bundle
-import android.text.method.PasswordTransformationMethod
 import android.view.View
+import android.text.method.PasswordTransformationMethod
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
@@ -15,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ChangePasswordFragment :
     BaseFragment<ChangePasswordFragmentBinding>(ChangePasswordFragmentBinding::inflate) {
-
     companion object {
         const val PASSWORD_LENGTH = 6
         fun newInstance() = ChangePasswordFragment()
@@ -24,11 +23,35 @@ class ChangePasswordFragment :
     private lateinit var viewModel: ChangePasswordViewModel
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[ChangePasswordViewModel::class.java]
-        binding.vm = viewModel
+/*    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rechargeTradeMoneyContainer.label1Et.inputType= InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
+
+        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD.apply {
+            binding.rechargeTradeMoneyContainer.label1Et.inputType =
+                this
+            binding.rechargeTradeMoneyContainer.label2Et.inputType =this
+            binding.rechargeTradeMoneyContainer.label3Et.inputType=this
+        }
+        binding.rechargeTradeMoneyContainer.button.setOnClickListener {
+        val  currentPass=  binding.rechargeTradeMoneyContainer.label1Et.text.toString()
+            val  newPass=  binding.rechargeTradeMoneyContainer.label3Et.text.toString()
+
+            viewModel.changePassword(ChangePasswordRequest(currentPass,newPass))
+
+        }
+
+        viewModel.changePasswordLiveData.observe(viewLifecycleOwner) {
+//            if (it.status) {
+//                requireContext().showShortToast("Logout successfully")
+//                requireActivity().finish()
+//            }
+        }
+    }*/
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         observers()
         binding.label3Et.isEnabled = false
 
@@ -79,11 +102,18 @@ class ChangePasswordFragment :
             }
         }
     }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this)[ChangePasswordViewModel::class.java]
+        binding.vm = viewModel
+
+    }
 
     private fun observers() {
         viewModel.changePasswordLiveData.observe(viewLifecycleOwner) {
             requireContext().showShortToast(getString(R.string.password_changed_msg))
         }
     }
+
 
 }

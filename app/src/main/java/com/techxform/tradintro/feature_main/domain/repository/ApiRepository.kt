@@ -93,6 +93,6 @@ interface ApiRepository {
     suspend fun editProfile(editUserProfileReq: EditUserProfileReq) : Result<BaseResponse<UserDetailsResponse>>
     suspend fun deleteProfile() : Result<BaseResponse<Any>>
 
-    suspend fun changePassword(@Body reqBody:ChangePasswordRequest) : Result<BaseResponse<LoginResponse>>
+    suspend fun changePassword(reqBody:ChangePasswordRequest) : Result<BaseResponse<LoginResponse>>
 
 }

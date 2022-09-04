@@ -101,7 +101,7 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/open_sans"
-                    android:hint="@{labelOneHint}"
+                                  android:hint="@{labelOneHint}"
                     android:singleLine="true"
                     android:text="@{labelOneValue}"
                     android:textSize="@dimen/_12ssp"
