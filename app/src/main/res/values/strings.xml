@@ -178,7 +178,10 @@
     <string name="enter_confirm_password">Re-enter your password</string>
     <string name="password_not_match_msg">Password does not matched</string>
     <string name="ok">OK</string>
-    <string name="verify_email">Please verify the reset password link that send to your registered email id</string>
+    <string name="verify_email">Success! Reset password link has been sent to your email. Please check your email.</string>
+    <string name="verify_account">Success! Email verification has been sent to your email. Please check your email.</string>
+    <string name="verify_account_fail">Sorry! Unable to sent email verification, please try again.</string>
+    <string name="verify_email_error">Error! Invalid email address.</string>
     <string name="success">success</string>
     <string name="error">error</string>
     <string name="register_lbl">Register</string>

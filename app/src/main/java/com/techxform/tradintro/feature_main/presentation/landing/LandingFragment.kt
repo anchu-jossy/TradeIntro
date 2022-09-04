@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.landing
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
@@ -21,6 +22,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
@@ -71,18 +73,22 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         bottomNavSetup()
-        viewModel.userDetails()
+        viewModel.userDetails(requireContext())
         pref = PreferenceHelper.customPreference(requireContext())
         if (!pref.fcmToken.isNullOrEmpty() && !pref.isFcmTokenSync) {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { t1 ->
                 sendRegistrationToServer(t1.result)
             }
         }
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBar.progressOverlay.isVisible = it
+        }
 
         viewModel.logOutLiveData.observe(viewLifecycleOwner) {
             if (it.status) {
+                PreferenceHelper.customPreference(requireContext()).edit().clear().apply()
                 requireContext().showShortToast("Logout successfully")
-                requireActivity().finish()
+                startActivity(Intent(requireContext(),SplashScreenActivity::class.java))
             }
         }
         viewModel.logOutErrorLiveData.observe(viewLifecycleOwner) {

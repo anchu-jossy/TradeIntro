@@ -1,9 +1,13 @@
 package com.techxform.tradintro.feature_main.presentation.landing
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.techxform.tradintro.core.utils.PreferenceHelper
+import com.techxform.tradintro.core.utils.PreferenceHelper.token
+import com.techxform.tradintro.core.utils.PreferenceHelper.userId
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,12 +48,14 @@ class LandingViewModel @Inject constructor(
         }
 
     }
-    fun userDetails() {
+    fun userDetails(context:Context) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.userDetails()) {
                 is Result.Success -> {
-                    _userDetailLiveData.postValue(result.data!!)
+                    val pref = PreferenceHelper.customPreference(context)
+                    pref.userId = result.data.data.userId!!
+                    _userDetailLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _logOutErrorLiveData.postValue(result.exception)

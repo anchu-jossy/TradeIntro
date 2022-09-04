@@ -44,7 +44,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
             getString(R.string.ok)
         ) { dialog, _ ->
             dialog.dismiss()
-            viewModel.forgetPassword(edittext.text.toString())
+            viewModel.forgetPassword(edittext.text.toString().trim())
         }
         alert.show()
     }
@@ -57,8 +57,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
             }
             viewModel.login(
                 LoginRequest(
-                    binding.userNameET.text.toString(),
-                    binding.passwordET.text.toString()
+                    binding.userNameET.text.toString().trim(),
+                    binding.passwordET.text.toString().trim()
                 ),
                 requireContext()
                 //TradSharedPreference.createGetPreference(requireContext())
@@ -91,9 +91,18 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 )
             else
                 sequenceOf(
-                    requireContext().showShortToast(getString(R.string.error)))
-
-
+                    requireContext().showShortToast(getString(R.string.verify_email_error))
+                )
+        }
+        viewModel.resendEmailLiveData.observe(viewLifecycleOwner) {
+            if (it.toString().contains(getString(R.string.success)))
+                sequenceOf(
+                    requireContext().showShortToast(getString(R.string.verify_account))
+                )
+            else
+                sequenceOf(
+                    requireContext().showShortToast(getString(R.string.verify_account_fail))
+                )
         }
 
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
@@ -120,9 +129,33 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
 
                 }
+
                 else -> {
+                    if ((it as Failure.FeatureFailure).message == "VerifyEmail") {
+                        showVerifyDialog();
+                    } else
+                        requireContext().showShortToast(
+                            it.message
+                        )
+
+
+                }
+            }
+        }
+
+        viewModel.forgetPasswordErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        requireContext().showShortToast(
+                            getString(R.string.no_internet_error)
+                        )
+                    )
+                }
+                Failure.ServerError -> {
+
                     requireContext().showShortToast(
-                        (it as Failure.FeatureFailure).message
+                        getString(R.string.server_error)
                     )
 
 
@@ -130,6 +163,48 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
             }
         }
 
+        viewModel.resentEmailErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        requireContext().showShortToast(
+                            getString(R.string.no_internet_error)
+                        )
+                    )
+                }
+                Failure.ServerError -> {
+
+                    requireContext().showShortToast(
+                        getString(R.string.server_error)
+                    )
+
+
+                }
+            }
+        }
+
+    }
+
+    private fun showVerifyDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Verify Email Id")
+        //set message for alert dialog
+        builder.setMessage(
+            "Error! Your email id has not been verified. " +
+                    "Please verify and try again. To sent verification mail again choose Resend."
+        )
+        builder.setIcon(android.R.drawable.ic_dialog_email)
+        builder.setPositiveButton("Resend") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+            viewModel.resentEmail( binding.userNameET.text.toString().trim())
+        }
+        //performing negative action
+        builder.setNegativeButton("Cancel") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(true)
+        alertDialog.show()
     }
 
 }

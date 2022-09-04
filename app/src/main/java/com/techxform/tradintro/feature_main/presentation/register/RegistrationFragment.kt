@@ -6,7 +6,6 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -48,17 +47,17 @@ class RegistrationFragment :
         binding.tncTv.movementMethod = LinkMovementMethod.getInstance()
         binding.registerBtn.setOnClickListener {
             if (validation()) {
-                val name = binding.fullNameEt.text.toString().split(" ")
+                val name = binding.fullNameEt.text.toString().trim().split(" ")
                 val fName = name[0]
                 var lName: String? = null
                 if (name.size > 1)
                     lName = name[1]
                 viewModel.register(
                     RegisterRequest(
-                        fName,
-                        lName,
-                        binding.emailEt.text.toString(),
-                        binding.passwordEt.text.toString()
+                        fName.trim(),
+                        lName?.trim(),
+                        binding.emailEt.text.toString().trim(),
+                        binding.passwordEt.text.toString().trim()
                     )
                 )
 
@@ -79,11 +78,12 @@ class RegistrationFragment :
         }
         alert.show()
     }
+
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
-        viewModel.registerLiveData.observe(viewLifecycleOwner){
+        viewModel.registerLiveData.observe(viewLifecycleOwner) {
             registrationDialog()
 
         }
@@ -98,7 +98,7 @@ class RegistrationFragment :
                 }
                 Failure.ServerError -> {
 
-                            requireContext().showShortToast(getString(R.string.server_error))
+                    requireContext().showShortToast(getString(R.string.server_error))
 
                 }
 
