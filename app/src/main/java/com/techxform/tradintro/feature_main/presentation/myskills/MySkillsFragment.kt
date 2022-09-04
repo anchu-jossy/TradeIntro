@@ -23,7 +23,7 @@ class MySkillsFragment :
     lateinit var userDetailsResponse: UserDetailsResponse
 
     private lateinit var viewModel: MySkillsViewModel
-    var level: Int? = 0
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,8 @@ class MySkillsFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[MySkillsViewModel::class.java]
-        viewModel.userLevels()
+        if (viewModel.userLevelsLiveData.value == null)
+            viewModel.userLevels()
         observers()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -70,15 +71,19 @@ class MySkillsFragment :
         }
 
         viewModel.userLevelsLiveData.observe(viewLifecycleOwner) {
-
             binding.textViewPoints.text = getString(R.string.current_point) + String.format(
                 getString(R.string.points_format),
                 it.data.myPoints
             )
-            binding.mySkillsRV.adapter = MySkillsAdapter(it.data.levels, rvListener, this.level)
-
+            for (level in it.data.levels) {
+                if (level.levelPosition == it.data.myLevel) {
+                    it.data.levels.remove(level)
+                    break
+                }
+            }
+            binding.mySkillsRV.adapter =
+                MySkillsAdapter(it.data.levels, rvListener, it.data.myLevel)
         }
-
 
         viewModel.userLevelsErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {

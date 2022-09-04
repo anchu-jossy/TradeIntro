@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -38,13 +39,21 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     private fun forgetPasswordDialog() {
         val alert = AlertDialog.Builder(requireContext())
         val edittext = EditText(requireContext())
-        alert.setMessage(getString(R.string.enter_emailid))
+        edittext.maxLines = 1;
+        edittext.setSingleLine()
+        alert.setMessage(getString(R.string.enter_reg_emailid))
         alert.setView(edittext)
+
         alert.setPositiveButton(
-            getString(R.string.ok)
+            "SEND"
         ) { dialog, _ ->
             dialog.dismiss()
             viewModel.forgetPassword(edittext.text.toString().trim())
+        }
+        alert.setNegativeButton(
+            "CANCEL"
+        ) { dialog, _ ->
+            dialog.dismiss()
         }
         alert.show()
     }
@@ -196,7 +205,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         builder.setIcon(android.R.drawable.ic_dialog_email)
         builder.setPositiveButton("Resend") { dialogInterface, _ ->
             dialogInterface.dismiss()
-            viewModel.resentEmail( binding.userNameET.text.toString().trim())
+            viewModel.resentEmail(binding.userNameET.text.toString().trim())
         }
         //performing negative action
         builder.setNegativeButton("Cancel") { dialogInterface, _ ->

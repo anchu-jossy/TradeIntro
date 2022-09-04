@@ -47,8 +47,8 @@ class LearnMoreFragment :
         }
 
         viewModel.userLevelsHistoryLiveData.observe(viewLifecycleOwner) {
-            binding.mySkillsRV.adapter = LearnMoreAdapter(it.data)
 
+            binding.mySkillsRV.adapter = LearnMoreAdapter(it.data)
         }
 
 

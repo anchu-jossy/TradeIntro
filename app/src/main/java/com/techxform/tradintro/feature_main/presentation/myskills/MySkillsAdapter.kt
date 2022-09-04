@@ -45,7 +45,7 @@ class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener, 
     }
 
     override fun getItemCount(): Int {
-         return list.size
+         return list.size;
         //return 10
     }
 

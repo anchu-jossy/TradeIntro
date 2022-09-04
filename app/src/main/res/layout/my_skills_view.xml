@@ -37,7 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent=".3" />
+                app:layout_constraintGuide_percent=".2" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardContainer"
@@ -100,6 +100,7 @@
                 android:text="@{Html.fromHtml(level.earnPoints)}"
                 android:textColor="@color/dark_most_grey"
                 android:textSize="@dimen/_12ssp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewDetailHeader1" />

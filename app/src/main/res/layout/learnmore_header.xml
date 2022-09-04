@@ -17,16 +17,15 @@
 
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_heading"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/open_sans_semibold"
-            android:gravity="center"
-            android:text="@string/detailed_points_summary"
-            android:textColor="@color/black"
 
-            android:textSize="@dimen/_12ssp" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_semibold"
+            android:padding="@dimen/_16ssp"
+            android:text="@string/detailed_points_summary"
+            android:textSize="@dimen/_16ssp" />
 
         <LinearLayout
             android:layout_width="match_parent"

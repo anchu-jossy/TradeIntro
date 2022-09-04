@@ -173,6 +173,7 @@
     <string name="notification_permission_denied_msg">You will not receive any notification from us because of no permission</string>
     <string name="channel_description">This channel is used to send the notification related to Trade Intro app</string>
     <string name="enter_emailid">Enter your email id</string>
+    <string name="enter_reg_emailid">Enter your registered email id</string>
     <string name="enter_user_name">Enter full name</string>
     <string name="enter_password">Enter password</string>
     <string name="enter_confirm_password">Re-enter your password</string>

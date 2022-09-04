@@ -9,6 +9,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.ChangePasswordFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.ChangePasswordRequest
+import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -108,7 +109,28 @@ class ChangePasswordFragment :
 
     private fun observers() {
         viewModel.changePasswordLiveData.observe(viewLifecycleOwner) {
+            binding.label1Et.text?.clear()
+            binding.label2Et.text?.clear()
+            binding.label3Et.text?.clear()
             requireContext().showShortToast(getString(R.string.password_changed_msg))
+        }
+
+        viewModel.changePasswordErrorLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                Failure.NetworkConnection -> {
+                    sequenceOf(
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
+                    )
+                }
+                Failure.ServerError -> {
+                    requireContext().showShortToast(getString(R.string.server_error))
+                }
+                else -> {
+                    requireContext().showShortToast(
+                       "Failed to change password. wrong current password."
+                    )
+                }
+            }
         }
     }
 

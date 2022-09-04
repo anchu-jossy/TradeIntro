@@ -59,6 +59,15 @@ fun TextView.setLock(userLevel: Int, currentLevel: Int) {
         setCompoundDrawablesWithIntrinsicBounds(null,null, ContextCompat.getDrawable(context,R.drawable.ic_lock), null)
 }
 
+@BindingAdapter(value =["userLevel","currentLevel","userLevelPoints"], requireAll = true)
+fun TextView.setLockText(userLevel: Int, currentLevel: Int,userLevelPoints:Float ) {
+    if (userLevel >= currentLevel)
+        text=("Earned Points : $userLevelPoints")
+    else
+        text=("Requited Points : $userLevelPoints")
+}
+
+
 
 @BindingAdapter("enabledColorText")
 fun TextView.color(boolean: Boolean) {
