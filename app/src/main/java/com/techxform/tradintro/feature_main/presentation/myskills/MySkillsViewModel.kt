@@ -36,7 +36,7 @@ class MySkillsViewModel @Inject constructor(private val repository: ApiRepositor
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.userLevels()) {
                 is Result.Success -> {
-                    _userLevelsLiveData.postValue(result.data!!)
+                    _userLevelsLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _userLevelsErrorLiveData.postValue(result.exception)

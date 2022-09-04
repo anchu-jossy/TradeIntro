@@ -20,12 +20,8 @@ class LearnMoreAdapter(var list: ArrayList<Level>) :
         RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
             with(rowItemBinding) {
-                level = list[adapterPosition]
-
-
+                level = list[absoluteAdapterPosition]
             }
-
-
         }
     }
 

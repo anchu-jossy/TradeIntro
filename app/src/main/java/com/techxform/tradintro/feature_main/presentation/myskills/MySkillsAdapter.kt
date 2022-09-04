@@ -16,10 +16,10 @@ class MySkillsAdapter(var list: ArrayList<Levels>, val listener: ClickListener, 
         RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
             with(rowItemBinding){
-                level = list[adapterPosition]
+                level = list[absoluteAdapterPosition]
                 userLevel=myLevel
                 root.setOnClickListener {
-                    listener.onItemClick(adapterPosition,  list[adapterPosition],myLevel)
+                    listener.onItemClick(absoluteAdapterPosition,  list[absoluteAdapterPosition],myLevel)
                     textViewHeader
                 }
 

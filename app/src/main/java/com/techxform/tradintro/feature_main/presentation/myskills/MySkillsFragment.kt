@@ -23,7 +23,7 @@ class MySkillsFragment :
     lateinit var userDetailsResponse: UserDetailsResponse
 
     private lateinit var viewModel: MySkillsViewModel
-    var level:Int?=0
+    var level: Int? = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,35 +40,42 @@ class MySkillsFragment :
         super.onViewCreated(view, savedInstanceState)
 
 
-        this.userDetailsResponse=UserDetailsSingleton.userDetailsResponse
-        with(userDetailsResponse){
+        this.userDetailsResponse = UserDetailsSingleton.userDetailsResponse
+        with(userDetailsResponse) {
             binding.levelImage = userLevel.user_level_image
-            binding.textViewLevelDesc.text = String.format(getString(R.string.level_desc), treeLevel)
+            binding.textViewLevelDesc.text =
+                String.format(getString(R.string.level_desc), treeLevel)
             binding.textViewLevel.text = String.format(getString(R.string.level_format), treeLevel)
 
         }
-binding.textViewLearn.setOnClickListener {
-    findNavController().navigate(R.id.learnMoreFragment)
-}
+        binding.textViewLearn.setOnClickListener {
+            findNavController().navigate(R.id.learnMoreFragment)
+        }
     }
 
     private val rvListener = object : MySkillsAdapter.ClickListener {
         override fun onItemClick(position: Int, levels: Levels, myLevel: Int?) {
-            levels.userLevel=myLevel
-            findNavController().navigate(R.id.mySkillsViewFragment, MySkillsViewFragment.navBundle(levels))
+            levels.userLevel = myLevel
+            findNavController().navigate(
+                R.id.mySkillsViewFragment,
+                MySkillsViewFragment.navBundle(levels)
+            )
         }
 
     }
 
-    fun observers(){
+    fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
 
         viewModel.userLevelsLiveData.observe(viewLifecycleOwner) {
 
-            binding.textViewPoints.text = getString(R.string.current_point) + String.format(getString(R.string.points_format), it.data.myPoints)
-            binding.mySkillsRV.adapter = MySkillsAdapter(it.data.levels, rvListener,this.level)
+            binding.textViewPoints.text = getString(R.string.current_point) + String.format(
+                getString(R.string.points_format),
+                it.data.myPoints
+            )
+            binding.mySkillsRV.adapter = MySkillsAdapter(it.data.levels, rvListener, this.level)
 
         }
 
