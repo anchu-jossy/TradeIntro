@@ -597,6 +597,15 @@ class ApiDataRepositoryImpl @Inject constructor(
     override suspend fun changePassword(req: ChangePasswordRequest): Result<Any> {
         return apiCall{apiService.changePassword(req)}
     }
+
+    override suspend fun userPointsHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<Level>>> {
+        var reqMap = mutableMapOf(
+            "limit" to searchModel.limit.toString(),
+            "offset" to searchModel.offset.toString(),
+
+        )
+
+        return apiCall{apiService.userLevelHistory(reqMap)}    }
 }
 
 

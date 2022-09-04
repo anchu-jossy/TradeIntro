@@ -277,6 +277,11 @@
     <string name="internal_server_error">Internal server error</string>
     <string name="logout">Logout successfully</string>
     <string name="updated_sucess">Successfully updated</string>
+    <string name="activity">Activity</string>
+    <string name="level">Level</string>
+    <string name="points_earned">Points Earned</string>
+    <string name="date">Date</string>
+    <string name="detailed_points_summary">Detailed Points Summary</string>
 
 
 </resources>
