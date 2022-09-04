@@ -165,5 +165,7 @@ interface ApiService {
     @POST("api/users/change-password")
     suspend fun changePassword(@Body request: ChangePasswordRequest): Response<BaseResponse<Any>>
 
+    @GET("api/user-points/history")
+    suspend fun userLevelHistory(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<Level>>>
 
 }

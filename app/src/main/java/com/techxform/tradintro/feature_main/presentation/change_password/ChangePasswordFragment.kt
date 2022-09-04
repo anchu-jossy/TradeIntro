@@ -6,7 +6,6 @@ import android.view.View
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.ChangePasswordFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.ChangePasswordRequest
-import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
