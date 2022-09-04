@@ -593,6 +593,10 @@ class ApiDataRepositoryImpl @Inject constructor(
         return apiCall{apiService.deleteProfile()}
 
     }
+
+    override suspend fun changePassword(req: ChangePasswordRequest): Result<Any> {
+        return apiCall{apiService.changePassword(req)}
+    }
 }
 
 

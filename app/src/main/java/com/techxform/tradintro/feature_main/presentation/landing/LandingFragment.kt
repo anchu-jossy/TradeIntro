@@ -8,14 +8,16 @@ import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.*
+import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -58,9 +60,10 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
     private lateinit var navController: NavController
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.IO + job)
+
     @Inject
     lateinit var repository: ApiRepository
-    private lateinit var pref : SharedPreferences
+    private lateinit var pref: SharedPreferences
 
     private lateinit var viewModel: LandingViewModel
 
@@ -70,8 +73,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         bottomNavSetup()
         viewModel.userDetails()
         pref = PreferenceHelper.customPreference(requireContext())
-        if(!pref.fcmToken.isNullOrEmpty() && !pref.isFcmTokenSync)
-        {
+        if (!pref.fcmToken.isNullOrEmpty() && !pref.isFcmTokenSync) {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { t1 ->
                 sendRegistrationToServer(t1.result)
             }
@@ -87,19 +89,20 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
-                        requireContext().showShortToast(getString(R.string.no_internet_error)))
+                        requireContext().showShortToast(getString(R.string.no_internet_error))
+                    )
                 }
-                Failure.ServerError ->
-                    {
-                        requireContext().showShortToast(getString(R.string.server_error))
-                    }
+                Failure.ServerError -> {
+                    requireContext().showShortToast(getString(R.string.server_error))
+                }
                 else -> {
                 }
             }
         }
 
         viewModel.userDetailLiveData.observe(viewLifecycleOwner) {
-            (binding.bottomNav.menu as NavigationBarMenu).visibleItems[3].isVisible = it.data.treeLevel != 1
+            (binding.bottomNav.menu as NavigationBarMenu).visibleItems[3].isVisible =
+                it.data.treeLevel != 1
             drawerSetup()
             binding.drawerLayout.close()
         }
@@ -126,7 +129,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 //                }
             }
         } catch (ex: Exception) {
-            requireContext().showShortToast( ex.toString())
+            requireContext().showShortToast(ex.toString())
 
         }
 
@@ -188,32 +191,33 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
     }
 
     private val listener = object : DrawerAdapter.ClickListener {
-        override fun onClick(position: Int) {
-            when (position) {
-                0 -> navController.navigate(R.id.nav_profile)
-                1 -> navController.navigate(R.id.myReferalFragment)
-                2 -> navController.navigate(R.id.mySkillsFragment)
-                3 -> navController.navigate(R.id.rechargeFragment)
-                4 -> navController.navigate(R.id.rechargeTradeMoneyFragment)
-                5 -> {
+        override fun onClick(item: DrawerItem) {
+            when (item.name) {
+                getString(R.string.my_profile_lbl) -> navController.navigate(R.id.nav_profile)
+                getString(R.string.my_referrals_lbl) -> navController.navigate(R.id.myReferalFragment)
+                getString(R.string.my_skill_board_lbl) -> navController.navigate(R.id.mySkillsFragment)
+                getString(R.string.recharge_summary_lbl) -> navController.navigate(R.id.rechargeFragment)
+                getString(R.string.recharge_trade_money_lbl) -> navController.navigate(R.id.rechargeTradeMoneyFragment)
+                getString(R.string.notification_lbl) -> {
                     navController.navigateUp()
                     navController.navigate(
                         R.id.notificationFragment,
                         NotificationFragment.navBundle(NEWS_TYPE)
                     )
                 }
-                6 -> navController.navigate(R.id.reportFragment)
-                7 -> {
+                getString(R.string.reports_lbl) -> navController.navigate(R.id.reportFragment)
+                getString(R.string.alerts_lbl) -> {
                     navController.navigateUp()
                     navController.navigate(
                         R.id.notificationFragment,
                         NotificationFragment.navBundle(ALERT_TYPE)
                     )
-
-
                 }
-                8 -> navController.navigate(R.id.changePasswordFragment)
-                9 -> showLogoutConformationDialog()
+                getString(R.string.change_password_lbl) ->
+                    navController.navigate(R.id.changePasswordFragment)
+                getString(R.string.logout_lbl) -> showLogoutConformationDialog()
+
+
             }
             binding.drawerLayout.close()
 
@@ -255,21 +259,25 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         )
         list.add(DrawerItem(getString(R.string.notification_lbl), R.drawable.ic_notification))
         list.add(DrawerItem(getString(R.string.reports_lbl), R.drawable.reports))
-        if(UserDetailsSingleton.userDetailsResponse.treeLevel != 1)
-        list.add(DrawerItem(getString(R.string.alerts_lbl), R.drawable.ic_alerts))
+        if (UserDetailsSingleton.userDetailsResponse.treeLevel != 1)
+            list.add(DrawerItem(getString(R.string.alerts_lbl), R.drawable.ic_alerts))
         list.add(DrawerItem(getString(R.string.change_password_lbl), R.drawable.change_pass))
         list.add(DrawerItem(getString(R.string.logout_lbl), R.drawable.ic_logout))
         return list
     }
 
-    fun redirectToNotification(type : String = "")
-    {
+    fun redirectToNotification(type: String = "") {
         val navGraph = navController.navInflater.inflate(R.navigation.bottom_nav_graph)
-        when(type.lowercase(Locale.getDefault()))
-        {
-            getString(R.string.nav_portfolio).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(R.id.nav_home)
-            getString(R.string.nav_market).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(R.id.nav_market)
-            getString(R.string.nav_watchlist).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(R.id.nav_watchlist)
+        when (type.lowercase(Locale.getDefault())) {
+            getString(R.string.nav_portfolio).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(
+                R.id.nav_home
+            )
+            getString(R.string.nav_market).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(
+                R.id.nav_market
+            )
+            getString(R.string.nav_watchlist).lowercase(Locale.getDefault()) -> navGraph.setStartDestination(
+                R.id.nav_watchlist
+            )
             else -> navGraph.setStartDestination(R.id.notificationFragment)
         }
         navController.graph = navGraph
@@ -375,8 +383,11 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                     true
                 }
                 R.id.action_notification -> {
-                    navController.navigate(R.id.notificationFragment,  NotificationFragment.navBundle(
-                        NEWS_TYPE))
+                    navController.navigate(
+                        R.id.notificationFragment, NotificationFragment.navBundle(
+                            NEWS_TYPE
+                        )
+                    )
                     true
                 }
                 else -> super.onOptionsItemSelected(item)
@@ -407,8 +418,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 Log.d("Installations", "Installation ID: " + task.result)
                 val req = FcmTokenRegReq(token, task.result, device)
                 scope.launch() {
-                    when(repository.fcmTokenRegistration(req))
-                    {
+                    when (repository.fcmTokenRegistration(req)) {
                         is Result.Success -> {
                             pref.isFcmTokenSync = true
                         }
