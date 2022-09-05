@@ -30,15 +30,15 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
     val portfolioErrorLiveData: LiveData<Failure> = _userDetailErrorLiveData
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
-    private var _walletSummaryLiveData = MutableLiveData<BaseResponse<WalletSummaryResponse>>()
-    val walletSummaryLiveData: LiveData<BaseResponse<WalletSummaryResponse>> =
-        _walletSummaryLiveData
+
     private var _updateWalletLiveData = MutableLiveData<UpdateWalletResponse>()
     val updateWalletLiveData: LiveData<UpdateWalletResponse> =
         _updateWalletLiveData
     private var _walletErrorLiveData = MutableLiveData<Failure>()
     val walletErrorLiveData: LiveData<Failure> = _walletErrorLiveData
-
+    private var _redeemVoucherLiveData = MutableLiveData<BaseResponse<RedeemResponse>>()
+    val redeemVoucherLiveData: LiveData<BaseResponse<RedeemResponse>> =
+        _redeemVoucherLiveData
 
     var taxAmount=0
 
@@ -61,20 +61,7 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
     }
 
 
-    fun walletSummary(type: PaymentType) {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.walletSummary(type)) {
-                is Result.Success -> {
-                    _walletSummaryLiveData.postValue(result.data!!)
-                }
-                is Result.Error -> {
-                    _walletErrorLiveData.postValue(result.exception)
-                }
-            }
-            _loadingLiveData.postValue(false)
-        }
-    }
+
 
     fun updateWallet(updateWalletRequest: UpdateWalletRequest) {
         _loadingLiveData.postValue(true)
@@ -116,6 +103,22 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
                 }
                 is Result.Error -> {
                     _userDetailErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+
+    fun redeemVoucher(code:String){
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.redeemVoucher(VoucherRequest(code))) {
+                is Result.Success -> {
+                   _redeemVoucherLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                   _walletErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)

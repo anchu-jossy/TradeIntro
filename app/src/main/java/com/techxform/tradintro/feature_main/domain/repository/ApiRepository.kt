@@ -97,5 +97,5 @@ interface ApiRepository {
      suspend fun userPointsHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<Level>>>
 
     suspend fun changePassword(reqBody:ChangePasswordRequest) : Result<BaseResponse<LoginResponse>>
-
+    suspend fun  redeemVoucher(code :VoucherRequest): Result<BaseResponse<RedeemResponse>>
 }

@@ -1,6 +1,5 @@
 package com.techxform.tradintro.feature_main.presentation.myskills
 
-import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.LearnmoreItemBindingImpl
 import com.techxform.tradintro.feature_main.data.remote.dto.Level
-import com.techxform.tradintro.feature_main.data.remote.dto.Levels
-import com.techxform.tradintro.feature_main.data.remote.dto.UserLevelHistoryResponse
 
 class LearnMoreAdapter(var list: ArrayList<Level>) :
     RecyclerView.Adapter<LearnMoreAdapter.LearnMoreVH>() {
@@ -54,9 +51,6 @@ class LearnMoreAdapter(var list: ArrayList<Level>) :
     }
 
 
-    interface ClickListener {
-      //  fun onItemClick(position: Int, levels: Levels, myLevel: Int?)
-    }
 
 
 }

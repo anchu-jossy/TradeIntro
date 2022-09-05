@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.recharge_trade_money
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -112,29 +113,7 @@ class RechargeTradeMoneyFragment :
 
         }
 
-        /*    binding.rechargeTradeMoneyContainer.label2Et.doAfterTextChanged { text ->
-                if (text.isNullOrEmpty()) {
-                    binding.rechargeTradeMoneyContainer.label1Et.setText("0")
-                } else
-                    binding.rechargeTradeMoneyContainer.label1Et.setText(
-                        (userMargin?.plus(
-                            text.toString().toInt()
-                        ).toString())
-                    )
 
-            }*/
-        /*  binding.redeemVoucherContainer.label2Et.doAfterTextChanged { text ->
-              if (text.isNullOrEmpty()) {
-                  binding.redeemVoucherContainer.label1Et.setText("0")
-              } else
-                  binding.redeemVoucherContainer.label1Et.setText(
-                      (userMargin?.plus(
-                          text.toString().toInt()
-                      ).toString())
-                  )
-
-
-          }*/
     }
 
     private fun calculateNetAmount(amount: Int) {
@@ -163,6 +142,30 @@ class RechargeTradeMoneyFragment :
 
             }
         }
+        viewModel.redeemVoucherLiveData.observe(viewLifecycleOwner){
+
+
+                if (it.data.voucherAmount != null) {
+
+                    val alert = AlertDialog.Builder(requireContext())
+                    alert.setMessage(
+                        "Congratulations!! You have  redeemed ${
+                            getString(
+                                R.string.rs_format_string,
+                                it.data.voucherAmount.toString()
+                            )
+                        }"
+                    )
+                    alert.setPositiveButton(
+                        getString(R.string.ok)
+                    ) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    alert.show()
+                }
+            }
+
+
 
 
         viewModel.walletErrorLiveData.observe(viewLifecycleOwner) {
@@ -173,6 +176,9 @@ class RechargeTradeMoneyFragment :
                     )
                 }
                 else -> {
+                    val errorMsg = (it as Failure.FeatureFailure).message
+                    requireContext().showShortToast("Error: $errorMsg")
+
                 }
             }
         }
@@ -216,16 +222,9 @@ class RechargeTradeMoneyFragment :
 
         }
         binding.redeemVoucherContainer.button.setOnClickListener {
-            calculation()
-//            viewModel.updateWallet(
-//                UpdateWalletRequest(
-//                    walletSummaryResponse.userId,
-//                    totalAmount,
-//                    rechargeAmount,
-//                    gst,
-//                    otherChargeAmount
-//                )
-//            )
+
+            viewModel.redeemVoucher(binding.redeemVoucherContainer.label1Et.text.toString())
+
         }
 
 
