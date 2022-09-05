@@ -44,7 +44,7 @@ class RechargeTradeMoneyFragment :
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[UpdateProfileViewModel::class.java]
-
+        viewModel.taxes()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

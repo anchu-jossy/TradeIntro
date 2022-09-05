@@ -22,7 +22,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
@@ -86,9 +85,13 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
         viewModel.logOutLiveData.observe(viewLifecycleOwner) {
             if (it.status) {
-                PreferenceHelper.customPreference(requireContext()).edit().clear().apply()
+                try {
+                    PreferenceHelper.customPreference(requireContext()).edit().clear().apply()
+                } catch (ignore: Exception) {
+
+                }
                 requireContext().showShortToast("Logout successfully")
-                startActivity(Intent(requireContext(),SplashScreenActivity::class.java))
+                startActivity(Intent(requireContext(), SplashScreenActivity::class.java))
             }
         }
         viewModel.logOutErrorLiveData.observe(viewLifecycleOwner) {

@@ -18,7 +18,7 @@ import javax.inject.Inject
 class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepository) :
     ViewModel() {
 
-    var profileImageUri: Uri?=null
+    var profileImageUri: Uri? = null
     private var _userDetailLiveData = MutableLiveData<BaseResponse<UserDetailsResponse>>()
     val userDetailLiveData: LiveData<BaseResponse<UserDetailsResponse>> = _userDetailLiveData
 
@@ -40,9 +40,9 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
     val walletErrorLiveData: LiveData<Failure> = _walletErrorLiveData
 
 
-    var taxAmount=0
+    var taxAmount = 0
 
-    var otherCharges=0
+    var otherCharges = 0
 
     fun userDetails() {
         _loadingLiveData.postValue(true)
@@ -76,6 +76,38 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
         }
     }
 
+    fun taxes() {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.taxes()) {
+                is Result.Success -> {
+                    if (result.data.data.isEmpty()) {
+                        taxAmount = 0
+                        otherCharges = 0
+                    } else {
+                        if (result.data.data.size == 1) {
+                            taxAmount = result.data.data[0].tax_value
+                        } else {
+                            for (tax in result.data.data) {
+                                if (tax.tax_name.contains("tax", true)) {
+                                    taxAmount = tax.tax_value
+                                } else {
+                                    otherCharges = tax.tax_value
+                                }
+                            }
+
+                        }
+                    }
+                }
+                is Result.Error -> {
+                    taxAmount = 0
+                    otherCharges = 0
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
     fun updateWallet(updateWalletRequest: UpdateWalletRequest) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
@@ -91,8 +123,7 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
         }
     }
 
-    fun editUser(editUserProfileReq: EditUserProfileReq)
-    {
+    fun editUser(editUserProfileReq: EditUserProfileReq) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.editProfile(editUserProfileReq)) {
@@ -106,8 +137,8 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
             _loadingLiveData.postValue(false)
         }
     }
-    fun deleteUser()
-    {
+
+    fun deleteUser() {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.deleteProfile()) {

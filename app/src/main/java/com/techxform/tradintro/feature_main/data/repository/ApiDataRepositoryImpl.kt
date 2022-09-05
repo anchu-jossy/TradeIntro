@@ -71,8 +71,10 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     override suspend fun login(loginRequest: LoginRequest): Result<BaseResponse<LoginResponse>> {
         return apiCall{apiService.login(loginRequest)}
+    }
 
-
+    override suspend fun taxes(): Result<BaseResponse<ArrayList<TaxModel>>>{
+        return apiCall{apiService.taxes()}
     }
 
     override suspend fun marketList(searchModel: SearchModel): Result<BaseResponse<ArrayList<Stock>>> {

@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_full_name"
+            app:helperText="@string/app_name"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:fontFamily="@font/open_sans_medium"
             app:boxBackgroundColor="@android:color/transparent"
@@ -41,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
+
                 android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:fontFamily="@font/open_sans_medium"

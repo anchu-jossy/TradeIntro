@@ -120,6 +120,9 @@ interface ApiService {
     @GET("api/users/invites/history")
     suspend fun userInviteList(@QueryMap reqMap: Map<String, String>): Response<BaseResponse<ArrayList<InviteData>>>
 
+    @GET("api/taxes")
+    suspend fun taxes(): Response<BaseResponse<ArrayList<TaxModel>>>
+
     @POST("api/users/fcm/token")
     suspend fun fcmTokenRegistration(@Body request: FcmTokenRegReq) : Response<Any>
 

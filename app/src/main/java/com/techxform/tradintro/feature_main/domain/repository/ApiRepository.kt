@@ -17,7 +17,7 @@ interface ApiRepository {
     suspend fun marketList(searchModel: SearchModel): Result<BaseResponse<ArrayList<Stock>>>
 
     suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>>
-
+    suspend fun taxes(): Result<BaseResponse<ArrayList<TaxModel>>>
     suspend fun buyStock(
         marketId: Int,
         buySellStockReq: BuySellStockReq

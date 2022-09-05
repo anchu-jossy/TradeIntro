@@ -1,6 +1,5 @@
 package com.techxform.tradintro.feature_main.presentation.myskills
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -35,9 +34,9 @@ class LearnMoreAdapter(var list: ArrayList<Level>) :
 
     override fun onBindViewHolder(holder: LearnMoreVH, position: Int) {
         if (position % 2 == 1) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                holder.itemView.setBackgroundColor(holder.itemView.rootView.context.getColor(R.color.light_ash_trans))
-            };
+            holder.itemView.setBackgroundColor(holder.itemView.rootView.context.getColor(R.color.light_ash_trans))
+        } else {
+            holder.itemView.setBackgroundColor(holder.itemView.rootView.context.getColor(R.color.white))
         }
         holder.binding()
     }
