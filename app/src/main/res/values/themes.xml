@@ -36,6 +36,12 @@
         <item name="colorOnSurface">#282626</item>
 
     </style>
+    <style name="Theme.TradIntro.Ext2" parent="Theme.TradIntro.NoActionbar">
+
+
+        <item name="colorOnSurface">#040404</item>
+
+    </style>
 
     <style name="ThemeOverlay.TradIntro.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>

@@ -1,10 +1,13 @@
 package com.techxform.tradintro.feature_main.presentation.recharge_trade_money
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -142,31 +145,26 @@ class RechargeTradeMoneyFragment :
 
             }
         }
-        viewModel.redeemVoucherLiveData.observe(viewLifecycleOwner){
-
-
-                if (it.data.voucherAmount != null) {
-
-                    val alert = AlertDialog.Builder(requireContext())
-                    alert.setMessage(
-                        "Congratulations!! You have  redeemed ${
-                            getString(
-                                R.string.rs_format_string,
-                                it.data.voucherAmount.toString()
-                            )
-                        }"
-                    )
-                    alert.setPositiveButton(
-                        getString(R.string.ok)
-                    ) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    alert.show()
+        viewModel.redeemVoucherLiveData.observe(viewLifecycleOwner) {
+            if (it.data.voucherAmount != null) {
+                binding.redeemVoucherContainer.label1Et.text?.clear()
+                val alert = AlertDialog.Builder(requireContext())
+                alert.setMessage(
+                    "Congratulations!! You have  redeemed ${
+                        getString(
+                            R.string.rs_format_string,
+                            it.data.voucherAmount.toString()
+                        )
+                    }"
+                )
+                alert.setPositiveButton(
+                    getString(R.string.ok)
+                ) { dialog, _ ->
+                    dialog.dismiss()
                 }
+                alert.show()
             }
-
-
-
+        }
 
         viewModel.walletErrorLiveData.observe(viewLifecycleOwner) {
             when (it) {
@@ -177,11 +175,16 @@ class RechargeTradeMoneyFragment :
                 }
                 else -> {
                     val errorMsg = (it as Failure.FeatureFailure).message
-                    requireContext().showShortToast("Error: $errorMsg")
-
+                    requireContext().showShortToast(errorMsg)
                 }
             }
         }
+    }
+
+    fun hideKeyboardFrom() {
+        val imm: InputMethodManager =
+            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private var resultLauncher =
@@ -222,9 +225,12 @@ class RechargeTradeMoneyFragment :
 
         }
         binding.redeemVoucherContainer.button.setOnClickListener {
-
-            viewModel.redeemVoucher(binding.redeemVoucherContainer.label1Et.text.toString())
-
+            if (binding.redeemVoucherContainer.label1Et.text.toString().trim().isEmpty()) {
+                binding.redeemVoucherContainer.label1Et.error="Enter voucher code"
+            } else {
+                viewModel.redeemVoucher(binding.redeemVoucherContainer.label1Et.text.toString().trim())
+            }
+            hideKeyboardFrom()
         }
 
 
