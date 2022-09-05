@@ -22,6 +22,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -49,7 +50,7 @@ class ApiDataRepositoryImpl @Inject constructor(
                     }?:run{
                         val gson = Gson()
                         val errorResponse =
-                            gson.fromJson(response.errorBody()!!.string(), ErrorResponse::class.java)
+                            gson.fromJson((response.errorBody() as ResponseBody).string(), ErrorResponse::class.java)
                         Result.Error(Failure.FeatureFailure(errorResponse.error.message))
                     }
 
@@ -617,6 +618,10 @@ class ApiDataRepositoryImpl @Inject constructor(
     override suspend fun changePassword(reqBody: ChangePasswordRequest): Result<BaseResponse<LoginResponse>> {
         return apiCall{apiService.changePassword(reqBody)}
     }
+
+    override suspend fun redeemVoucher(code: VoucherRequest): Result<BaseResponse<RedeemResponse>> {
+        return apiCall{apiService.redeemVoucher(code)}    }
+
 
     override suspend fun userPointsHistory(searchModel: SearchModel): Result<BaseResponse<ArrayList<Level>>> {
         var reqMap = mutableMapOf(

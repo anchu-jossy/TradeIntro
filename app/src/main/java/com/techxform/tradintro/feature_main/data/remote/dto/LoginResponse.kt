@@ -37,5 +37,8 @@ data class ChangePasswordRequest(
     @SerializedName("newPassword") val newPassword: String,
 )
 
+data class VoucherRequest(
+    @SerializedName("code") val code: String,
+)
 
 

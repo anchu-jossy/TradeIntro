@@ -71,14 +71,12 @@
                     tools:text="@string/my_profile_lbl" />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/label1Et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/open_sans"
-                    android:hint="@{labelOneHint}"
                     android:singleLine="true"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintTop_toBottomOf="@+id/label1Tv" />

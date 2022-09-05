@@ -175,4 +175,8 @@ interface ApiService {
     suspend fun userLevelHistory(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<Level>>>
 
 
+    @Headers("Content-Type: application/json")
+    @POST("api/voucher/redeem")
+    suspend fun redeemVoucher(@Body req: VoucherRequest) : Response<BaseResponse<RedeemResponse>>
+
 }
