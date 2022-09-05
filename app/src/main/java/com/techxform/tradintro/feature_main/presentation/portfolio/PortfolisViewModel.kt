@@ -57,7 +57,7 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
             //_loadingLiveData.postValue(true)
             when (val result = repository.portfolioV2(searchModel)) {
                 is Result.Success -> {
-                    _portfolioLiveData.postValue(result.data)
+                    _portfolioLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _portfolioErrorLiveData.postValue(result.exception)

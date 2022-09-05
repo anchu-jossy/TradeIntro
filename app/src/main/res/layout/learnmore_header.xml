@@ -13,8 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-
+        android:paddingTop="@dimen/_16sdp"
         android:orientation="vertical">
 
 
@@ -26,6 +25,7 @@
             android:padding="@dimen/_16ssp"
             android:text="@string/detailed_points_summary"
             android:textSize="@dimen/_16ssp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"

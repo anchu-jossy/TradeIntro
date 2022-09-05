@@ -202,26 +202,11 @@ class PortfoliosFragment :
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
             isLoading = false
             binding.searchView.isEnabled = true
-            when (it) {
-                Failure.NetworkConnection -> {
-                    sequenceOf(
-                        requireContext().showShortToast(getString(R.string.no_internet_error))
-                    )
-                }
-                else -> {}
-            }
+            handleError(it)
             viewModel.dismissLoading()
         }
         viewModel.portfolioDashboardErrorLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                Failure.NetworkConnection -> {
-                    sequenceOf(
-                        requireContext().showShortToast(getString(R.string.no_internet_error))
-
-                    )
-                }
-                else -> {}
-            }
+            handleError(it)
             viewModel.dismissLoading()
         }
     }
@@ -299,6 +284,26 @@ class PortfoliosFragment :
                         )
                     )
                 }
+            }
+        }
+    }
+
+    private fun handleError(failure: Failure)
+    {
+        when (failure) {
+            Failure.NetworkConnection -> {
+                sequenceOf(
+                    requireContext().showShortToast(getString(R.string.no_internet_error))
+
+                )
+            }
+            Failure.ServerError-> {
+                requireContext().showShortToast(getString(R.string.server_error))
+
+            }
+            else -> {
+                val errorMsg = (failure as Failure.FeatureFailure).message
+                requireContext().showShortToast("Error: $errorMsg")
             }
         }
     }

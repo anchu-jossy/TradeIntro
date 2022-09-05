@@ -15,6 +15,7 @@ import com.techxform.tradintro.databinding.MySkillsBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Levels
 import com.techxform.tradintro.feature_main.data.remote.dto.UserDetailsResponse
+import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -86,19 +87,29 @@ class MySkillsFragment :
         }
 
         viewModel.userLevelsErrorLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                Failure.NetworkConnection -> {
-                    sequenceOf(
-                        Toast.makeText(
-                            requireContext(), getString(R.string.no_internet_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    )
-                }
-                else -> {}
-            }
+           handleError(it)
         }
 
+    }
+
+    private fun handleError(failure: Failure)
+    {
+        when (failure) {
+            Failure.NetworkConnection -> {
+                sequenceOf(
+                    requireContext().showShortToast(getString(R.string.no_internet_error))
+
+                )
+            }
+            Failure.ServerError-> {
+                requireContext().showShortToast(getString(R.string.server_error))
+
+            }
+            else -> {
+                val errorMsg = (failure as Failure.FeatureFailure).message
+                requireContext().showShortToast("Error: $errorMsg")
+            }
+        }
     }
 
 
