@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.LearnMoreBinding
@@ -47,7 +48,7 @@ class LearnMoreFragment :
         }
 
         viewModel.userLevelsHistoryLiveData.observe(viewLifecycleOwner) {
-
+            binding.mySkillsRV.layoutManager=LinearLayoutManager(requireContext())
             binding.mySkillsRV.adapter = LearnMoreAdapter(it.data)
         }
 

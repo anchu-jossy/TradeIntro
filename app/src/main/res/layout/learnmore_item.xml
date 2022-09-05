@@ -7,7 +7,7 @@
         <variable
             name="level"
             type="com.techxform.tradintro.feature_main.data.remote.dto.Level" />
-
+        <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
     </data>
 
 
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@{level.pointsDate.toString()}"
+            android:text="@{Utils.INSTANCE.formatDateTimeString(level.pointsDate.toString()) }"
             android:gravity="center_horizontal"
             android:textColor="@color/black"
             android:textSize="@dimen/_10ssp"
@@ -44,23 +44,18 @@
             />
         <TextView
             android:id="@+id/tv_points"
-
             android:layout_width="0dp"
             android:layout_height="match_parent"
-
             android:layout_weight="1"
             android:gravity="center"
             android:text="@{level.totalPoints.toString()}"
-
             android:textColor="@color/black"
             android:textSize="@dimen/_10ssp"
             />
         <TextView
             android:id="@+id/tv_level"
-
             android:layout_width="0dp"
             android:layout_height="match_parent"
-
             android:layout_weight="1"
             android:gravity="center"
             android:text="@{level.pointsUserLevel.toString()}"

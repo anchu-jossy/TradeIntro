@@ -30,10 +30,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_26sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
             android:orientation="horizontal"
-
             android:weightSum="4">
 
             <TextView
@@ -43,6 +40,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/date"
+                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
@@ -53,29 +51,27 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/activity"
+                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/tv_points"
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-
+                android:textStyle="bold"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/points_earned"
-
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/tv_level"
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-
+                android:textStyle="bold"
                 android:gravity="center"
                 android:text="@string/level"
                 android:textColor="@color/black"

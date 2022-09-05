@@ -19,10 +19,8 @@ import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
 import java.net.UnknownHostException
@@ -57,11 +55,16 @@ class ApiDataRepositoryImpl @Inject constructor(
 
                 }
             } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
+                e.printStackTrace()
+                // Result.Error(Failure.NetworkConnection)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
+                e.printStackTrace()
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
+                e.printStackTrace()
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+                // Result.Error(Failure.ServerError)
             }
         }
     }
@@ -149,10 +152,10 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     override suspend fun updatePortfolio(
         id: Int,
-        updatePortFolioReq: UpdatePortfolioRequest
+        searchModel: UpdatePortfolioRequest
     ): Result<BaseResponse<PortfolioItem>> {
 
-        return apiCall{apiService.updatePortfolio(id, updatePortFolioReq)}
+        return apiCall{apiService.updatePortfolio(id, searchModel)}
     }
 
     override suspend fun deletePortfolio(id: Int): Result<BaseResponse<Any>> {
@@ -298,11 +301,16 @@ class ApiDataRepositoryImpl @Inject constructor(
 
                 }
             } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
+                e.printStackTrace()
+                // Result.Error(Failure.NetworkConnection)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
+                e.printStackTrace()
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: Exception) {
-                Result.Error(Failure.ServerError)
+                e.printStackTrace()
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+                // Result.Error(Failure.ServerError)
             }
         }
     }
@@ -351,13 +359,15 @@ class ApiDataRepositoryImpl @Inject constructor(
                 }
             } catch (e: UnknownHostException) {
                 e.printStackTrace()
-                Result.Error(Failure.NetworkConnection)
+                // Result.Error(Failure.NetworkConnection)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
                 e.printStackTrace()
-                Result.Error(Failure.JsonParsing)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: Exception) {
                 e.printStackTrace()
-                Result.Error(Failure.ServerError)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+                // Result.Error(Failure.ServerError)
             }
         }
     }
@@ -382,13 +392,15 @@ class ApiDataRepositoryImpl @Inject constructor(
                 }
             } catch (e: UnknownHostException) {
                 e.printStackTrace()
-                Result.Error(Failure.NetworkConnection)
+               // Result.Error(Failure.NetworkConnection)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
                 e.printStackTrace()
-                Result.Error(Failure.JsonParsing)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: Exception) {
                 e.printStackTrace()
-                Result.Error(Failure.ServerError)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+               // Result.Error(Failure.ServerError)
             }
         }
     }
@@ -426,13 +438,15 @@ class ApiDataRepositoryImpl @Inject constructor(
                 }
             } catch (e: UnknownHostException) {
                 e.printStackTrace()
-                Result.Error(Failure.NetworkConnection)
+                // Result.Error(Failure.NetworkConnection)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
                 e.printStackTrace()
-                Result.Error(Failure.JsonParsing)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: Exception) {
                 e.printStackTrace()
-                Result.Error(Failure.ServerError)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+                // Result.Error(Failure.ServerError)
             }
         }
     }
@@ -456,13 +470,15 @@ class ApiDataRepositoryImpl @Inject constructor(
                 }
             } catch (e: UnknownHostException) {
                 e.printStackTrace()
-                Result.Error(Failure.NetworkConnection)
+                // Result.Error(Failure.NetworkConnection)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
                 e.printStackTrace()
-                Result.Error(Failure.JsonParsing)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: Exception) {
                 e.printStackTrace()
-                Result.Error(Failure.ServerError)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+                // Result.Error(Failure.ServerError)
             }
         }
     }
@@ -487,13 +503,15 @@ class ApiDataRepositoryImpl @Inject constructor(
                 }
             } catch (e: UnknownHostException) {
                 e.printStackTrace()
-                Result.Error(Failure.NetworkConnection)
+                // Result.Error(Failure.NetworkConnection)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
                 e.printStackTrace()
-                Result.Error(Failure.JsonParsing)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: Exception) {
                 e.printStackTrace()
-                Result.Error(Failure.ServerError)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+                // Result.Error(Failure.ServerError)
             }
         }
     }
