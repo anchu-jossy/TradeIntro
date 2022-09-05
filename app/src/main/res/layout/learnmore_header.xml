@@ -13,8 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-
+        android:paddingTop="@dimen/_16sdp"
         android:orientation="vertical">
 
         <TextView
@@ -25,7 +24,6 @@
             android:gravity="center"
             android:text="@string/detailed_points_summary"
             android:textColor="@color/black"
-
             android:textSize="@dimen/_12ssp" />
 
         <LinearLayout
@@ -34,7 +32,6 @@
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_15sdp"
             android:orientation="horizontal"
-
             android:weightSum="4">
 
             <TextView
