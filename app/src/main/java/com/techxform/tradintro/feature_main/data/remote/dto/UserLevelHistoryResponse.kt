@@ -19,7 +19,7 @@ data class Level (
   @SerializedName("points_per_unit"   ) var pointsPerUnit   : Int?    = null,
   @SerializedName("unit"              ) var unit            : Int?    = null,
   @SerializedName("total_value"       ) var totalValue      : Int?    = null,
-  @SerializedName("total_points"      ) var totalPoints     : Int?    = null,
+  @SerializedName("total_points"      ) var totalPoints     : Float?    = null,
   @SerializedName("points_date"       ) var pointsDate      : String? = null
 
 )
