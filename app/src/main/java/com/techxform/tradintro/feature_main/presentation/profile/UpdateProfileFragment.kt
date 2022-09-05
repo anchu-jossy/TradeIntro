@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -13,7 +12,11 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -25,8 +28,10 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.Contants.IMAGE_URL
 import com.techxform.tradintro.databinding.UpdateProfileFragmentBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
 import com.techxform.tradintro.feature_main.data.remote.dto.EditUserProfileReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.UserDetailsResponse
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -45,7 +50,15 @@ class UpdateProfileFragment :
     }
 
     private lateinit var viewModel: UpdateProfileViewModel
-    private  var file: File? = null
+    private var file: File? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,6 +66,10 @@ class UpdateProfileFragment :
         viewModel = ViewModelProvider(this)[UpdateProfileViewModel::class.java]
         viewModel.userDetails()
         isEnableDisable(false)
+
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner, onBackPressedCallback
+        )
         viewModel.userDetailLiveData.observe(viewLifecycleOwner) { it ->
             binding.deleteButton.text = getString(R.string.delete_acc)
             isEnableDisable(false)
@@ -102,14 +119,12 @@ class UpdateProfileFragment :
             isEnableDisable(true)
             binding.deleteButton.text = getString(R.string.save)
         }
+
         binding.deleteButton.setOnClickListener {
             when (binding.deleteButton.text) {
                 getString(R.string.save) -> {
                     binding.roundedimage.isDrawingCacheEnabled = true;
-                    val bitmap = (binding.roundedimage.drawable as BitmapDrawable).bitmap
-
-                    if(validate()) {
-
+                    if (validate()) {
                         viewModel.editUser(
                             EditUserProfileReq(
                                 file,
@@ -119,11 +134,11 @@ class UpdateProfileFragment :
                             ),
 
                             )
-                    }else requireContext().showShortToast(getString(R.string.validate_fields))
+                    }
+                    //else requireContext().showShortToast(getString(R.string.validate_fields))
                 }
                 getString(R.string.delete_acc)
-                ->
-                    viewModel.deleteUser()
+                -> showDeletionConformationDialog()
 
 
             }
@@ -140,7 +155,10 @@ class UpdateProfileFragment :
                 //Requests permissions to be granted to this application at runtime
                 ActivityCompat.requestPermissions(
                     requireActivity(),
-                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1
+                    arrayOf(
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ), 1
                 )
             } else {
                 val galleryIntent = Intent(Intent.ACTION_PICK)
@@ -157,16 +175,69 @@ class UpdateProfileFragment :
                 startActivityForResult(chooser, REQUEST_CODE)
             }
         }
-
-
     }
 
-    private fun validate():Boolean
-    {
-        if(file == null || binding.userNameET.text.toString().isNullOrEmpty() ||
-        binding.userLastNameET.text.toString().isNullOrEmpty() ||
-        binding.userPhoneET.text.toString().isNullOrEmpty())
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (getFragment() is UpdateProfileFragment) {
+                if (viewModel.userDetailLiveData.value != null && binding.userNameET.isEnabled) {
+                    setDataFromLiveData(viewModel.userDetailLiveData.value)
+                } else findNavController().navigateUp()
+            } else findNavController().navigateUp()
+        }
+    }
+
+    private fun showDeletionConformationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Delete Account")
+        //set message for alert dialog
+        builder.setMessage("Are you sure want to delete the account? If you delete your account, " +
+            "you will permanently loose your profile, trading data and trade money balance in your wallet.")
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setPositiveButton("Proceed") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+            viewModel.deleteUser()
+        }
+        //performing negative action
+        builder.setNegativeButton("Cancel") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+    }
+
+    private fun setDataFromLiveData(value: BaseResponse<UserDetailsResponse>?) {
+        value?.let {
+            it.data.let { data ->
+                binding.userDetail = data
+                if (data.userImage?.isNotEmpty() == true)
+                    Glide.with(requireContext())
+                        .load(IMAGE_URL + data.userImage)
+                        .into(binding.roundedimage);
+                else {
+                    Glide.with(requireContext())
+                        .load(R.drawable.profile)
+                        .into(binding.roundedimage);
+                }
+                isEnableDisable(false)
+            }
+        }
+    }
+
+    private fun validate(): Boolean {
+        if (binding.userNameET.text.toString().isEmpty()) {
+            binding.userNameET.error = "First name is required."
             return false
+        }
+        if (binding.userLastNameET.text.toString().isEmpty()) {
+            binding.userLastNameET.error = "Last name is required."
+            return false
+        }
+        /*  if (binding.userPhoneET.text.toString().isEmpty()) {
+              binding.userPhoneET.error = "Mobile number is required."
+              return false
+          }*/
         return true
     }
 
@@ -179,7 +250,7 @@ class UpdateProfileFragment :
             storageDir /* directory */
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
-           // currentPhotoPath = absolutePath
+            // currentPhotoPath = absolutePath
         }
         /*val extStorageDirectory = Environment.getExternalStorageDirectory().toString()
        // val filesDir: File = requireContext().externalCacheDir
@@ -207,19 +278,27 @@ class UpdateProfileFragment :
         return imageFile
 
     }
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Companion.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
             val image = data?.extras?.get("data") ?: data?.data
-      Glide.with(requireContext())
+            Glide.with(requireContext())
                 .load(image)
                 .into(binding.roundedimage)
-            if(image is Bitmap)
-            file = persistImage(image, "profileimage")
+            if (image is Bitmap)
+                file = persistImage(image, "profileimage")
             else {
                 val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
                 val cursor: Cursor =
-                    requireContext().contentResolver.query(image as Uri, filePathColumn, null, null, null)
+                    requireContext().contentResolver.query(
+                        image as Uri,
+                        filePathColumn,
+                        null,
+                        null,
+                        null
+                    )
                         ?: return
 
                 cursor.moveToFirst()
@@ -238,12 +317,14 @@ class UpdateProfileFragment :
     }
 
     private fun isEnableDisable(isEnable: Boolean) {
+        binding.deleteButton.text =
+            if (isEnable) getString(R.string.save) else getString(R.string.delete_acc)
         var color = ContextCompat.getColor(requireContext(), R.color.grey)
         if (isEnable)
             color = ContextCompat.getColor(requireContext(), R.color.black)
 
         with(binding) {
-
+            userEmailET.isEnabled = false
             cameraIv.isVisible = isEnable
 
             userNameET.isEnabled = isEnable

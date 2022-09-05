@@ -3,8 +3,9 @@ package com.techxform.tradintro.feature_main.presentation.register
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -26,30 +27,37 @@ class RegistrationFragment :
 
     private lateinit var viewModel: RegistrationViewModel
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
         observers()
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.signInBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_to_LoginFragment)
+        }
 
         binding.tncTv.movementMethod = LinkMovementMethod.getInstance()
         binding.registerBtn.setOnClickListener {
             if (validation()) {
-                val name = binding.fullNameEt.text.toString().split(" ")
+                val name = binding.fullNameEt.text.toString().trim().split(" ")
                 val fName = name[0]
                 var lName: String? = null
                 if (name.size > 1)
                     lName = name[1]
                 viewModel.register(
                     RegisterRequest(
-                        fName,
-                        lName,
-                        binding.emailEt.text.toString(),
-                        binding.passwordEt.text.toString()
+                        fName.trim(),
+                        lName?.trim(),
+                        binding.emailEt.text.toString().trim(),
+                        binding.passwordEt.text.toString().trim()
                     )
                 )
 
@@ -70,11 +78,12 @@ class RegistrationFragment :
         }
         alert.show()
     }
+
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
-        viewModel.registerLiveData.observe(viewLifecycleOwner){
+        viewModel.registerLiveData.observe(viewLifecycleOwner) {
             registrationDialog()
 
         }
@@ -89,7 +98,7 @@ class RegistrationFragment :
                 }
                 Failure.ServerError -> {
 
-                            requireContext().showShortToast(getString(R.string.server_error))
+                    requireContext().showShortToast(getString(R.string.server_error))
 
                 }
 

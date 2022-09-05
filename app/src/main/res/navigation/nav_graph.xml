@@ -10,26 +10,26 @@
         android:id="@+id/splashFragment"
         android:name="com.techxform.tradintro.feature_main.presentation.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_landingFragment"
             app:destination="@id/landingFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.techxform.tradintro.feature_account.presentation.signin.LoginFragment"
         android:label="login_fragment"
-        tools:layout="@layout/login_fragment" >
+        tools:layout="@layout/login_fragment">
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -45,6 +45,12 @@
         android:id="@+id/registrationFragment"
         android:name="com.techxform.tradintro.feature_main.presentation.register.RegistrationFragment"
         android:label="registration_fragment"
-        tools:layout="@layout/registration_fragment" />
+        tools:layout="@layout/registration_fragment">
+        <action
+            android:id="@+id/action_to_LoginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/registrationFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

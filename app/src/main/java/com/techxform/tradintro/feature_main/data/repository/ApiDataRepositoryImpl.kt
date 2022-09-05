@@ -7,6 +7,7 @@ import com.techxform.tradintro.core.utils.Contants.ADD_USER_URL
 import com.techxform.tradintro.core.utils.Contants.FORGOT_PASSWORD
 import com.techxform.tradintro.core.utils.Contants.RECHARGE_URL
 import com.techxform.tradintro.core.utils.Contants.REGISTER
+import com.techxform.tradintro.core.utils.Contants.RESENT_PASSWORD
 import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.feature_main.data.remote.FcmTokenRegReq
 import com.techxform.tradintro.feature_main.data.remote.dto.*
@@ -45,10 +46,15 @@ class ApiDataRepositoryImpl @Inject constructor(
                 if (response.isSuccessful) {
                     Result.Success(response.body()!!)
                 } else {
-                    val gson = Gson()
-                    val errorResponse =
-                        gson.fromJson(response.errorBody()!!.string(), ErrorResponse::class.java)
-                    Result.Error(Failure.FeatureFailure(errorResponse.error.message))
+                    response.body()?.let {
+                        Result.Error(Failure.FeatureFailure(it.error!!.message))
+                    }?:run{
+                        val gson = Gson()
+                        val errorResponse =
+                            gson.fromJson(response.errorBody()!!.string(), ErrorResponse::class.java)
+                        Result.Error(Failure.FeatureFailure(errorResponse.error.message))
+                    }
+
                 }
             } catch (e: UnknownHostException) {
                 Result.Error(Failure.NetworkConnection)
@@ -364,7 +370,6 @@ class ApiDataRepositoryImpl @Inject constructor(
                     "user_id" to addUserRequest.userId.toString(),
                     "name" to addUserRequest.name.toString(),
                     "email" to addUserRequest.email.toString(),
-
                     )
                 val response = apiService.addUser(ADD_USER_URL, reqMap = reqMap)
                 if (response.isSuccessful) {
@@ -462,6 +467,36 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+
+    override suspend fun resendEmail(emailId: String): Result<Any> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val reqMap = mapOf(
+                    "email" to emailId
+                )
+                val response = apiService.resendEmail(RESENT_PASSWORD, reqMap)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                } else {
+                    val gson = Gson()
+                    val errorResponse =
+                        gson.fromJson(response.errorBody()!!.string(), ErrorResponse::class.java)
+                    Result.Error(Failure.FeatureFailure(errorResponse.error.message))
+
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                Result.Error(Failure.NetworkConnection)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.JsonParsing)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.ServerError)
+            }
+        }
+    }
 
     override suspend fun register(request: RegisterRequest): Result<BaseResponse<Any>> {
 

@@ -9,6 +9,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.PreferenceHelper
+import com.techxform.tradintro.core.utils.PreferenceHelper.userId
 import com.techxform.tradintro.databinding.MyReferalFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.AddUserRequest
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
@@ -49,12 +51,11 @@ class MyReferalFragment :
                 with(binding.rechargeTradeMoneyContainer){
                     if(label1Et.text.isNullOrEmpty() || label2Et.text.isNullOrEmpty())
                         requireContext().showShortToast(getString(R.string.validate_fields))
-
                        else viewModel.addUser(
                             AddUserRequest(
-                                10,
-                                binding.rechargeTradeMoneyContainer.label1Et.text.toString(),
-                                binding.rechargeTradeMoneyContainer.label2Et.text.toString()
+                                PreferenceHelper.customPreference(requireContext()).userId,
+                                binding.rechargeTradeMoneyContainer.label1Et.text.toString().trim(),
+                                binding.rechargeTradeMoneyContainer.label2Et.text.toString().trim()
                             )
                         )
                 }
@@ -68,13 +69,23 @@ class MyReferalFragment :
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
         }
-
         viewModel.addUseLiveData.observe(viewLifecycleOwner) {
-            it.status?.let{it->
-                requireContext().showShortToast(it)
+            it.status?.let{
+                when(it){
+                    "success"->{
+                        binding.rechargeTradeMoneyContainer.label1Et.text?.clear()
+                        binding.rechargeTradeMoneyContainer.label2Et.text?.clear()
+                        requireContext().showShortToast("Success! User is invited.")
+                    }
+                    "failed"->{
+                        requireContext().showShortToast("Sorry! User invite failed, Please try again..")
+                    }
+                    else->{
+                        requireContext().showShortToast("Sorry, user is already invited.")
+                    }
+                }
 
             }
-
             viewModel.getUserInviteList()
         }
 

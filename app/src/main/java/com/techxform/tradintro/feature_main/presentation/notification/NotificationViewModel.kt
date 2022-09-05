@@ -62,8 +62,12 @@ class NotificationViewModel @Inject constructor(private val repository: ApiRepos
                     _notificationErrorLiveData.postValue(result.exception)
                 }
             }
-            _loadingLiveData.postValue(false)
+
         }
+    }
+
+    fun dismissLoading(){
+        _loadingLiveData.postValue(false)
     }
 
 

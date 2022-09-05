@@ -24,12 +24,14 @@
             android:layout_marginTop="@dimen/_32sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/frame"
-            android:fontFamily="@font/open_sans"
-            android:hint ="@string/search"
             android:drawableEnd="@drawable/ic_baseline_search_24"
             android:drawablePadding="@dimen/_8sdp"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/search"
+            android:imeOptions="actionDone"
             android:maxLines="1"
             android:padding="@dimen/_8sdp"
+            android:singleLine="true"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView

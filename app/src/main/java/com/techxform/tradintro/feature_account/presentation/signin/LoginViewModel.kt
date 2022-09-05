@@ -29,8 +29,14 @@ class LoginViewModel @Inject constructor(
     private var _forgetPasswordLiveData = MutableLiveData<Any>()
     val forgetPasswordLiveData: LiveData<Any> = _forgetPasswordLiveData
 
+    private var _resendEmailLiveData = MutableLiveData<Any>()
+    val resendEmailLiveData: LiveData<Any> = _resendEmailLiveData
+
     private var _forgetPasswordErrorLiveData = MutableLiveData<Failure>()
     val forgetPasswordErrorLiveData: LiveData<Failure> = _forgetPasswordErrorLiveData
+
+    private var _resentEmailErrorLiveData = MutableLiveData<Failure>()
+    val resentEmailErrorLiveData: LiveData<Failure> = _resentEmailErrorLiveData
 
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
@@ -41,11 +47,14 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.login(request)) {
                 is Result.Success -> {
-                    val pref =  PreferenceHelper.customPreference(context)
-                    pref.token = result.data.data.token
-                    pref.refreshToken = result.data.data.refreshToken
-
-                    _loginLiveData.postValue(result.data!!)
+                    if(result.data.data.token.isEmpty()){
+                        _loginErrorLiveData.postValue(Failure.FeatureFailure("VerifyEmail"))
+                    }else {
+                        val pref = PreferenceHelper.customPreference(context)
+                        pref.token = result.data.data.token
+                        pref.refreshToken = result.data.data.refreshToken
+                        _loginLiveData.postValue(result.data)
+                    }
                 }
                 is Result.Error -> {
                     _loginErrorLiveData.postValue(result.exception)
@@ -66,6 +75,22 @@ class LoginViewModel @Inject constructor(
                 }
                 is Result.Error -> {
                     _forgetPasswordErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun resentEmail(email:String)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.resendEmail(email)) {
+                is Result.Success -> {
+                    _resendEmailLiveData.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _resentEmailErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)

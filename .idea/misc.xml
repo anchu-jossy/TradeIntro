@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../layout/custom_preview.xml" value="0.2635416666666667" />
         <entry key="..\:/Android/Techxform/TRADINTRO/app/src/main/res/layout/activity_main.xml" value="0.18518518518518517" />
         <entry key="..\:/Android/Techxform/TRADINTRO/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
         <entry key="..\:/Android/Techxform/TRADINTRO/app/src/main/res/layout/home_fragment.xml" value="0.40804597701149425" />
@@ -128,20 +127,42 @@
         <entry key="app/src/main/res/layout/watchlist_view_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.1" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/drawable/ic_baseline_camera_alt_24.xml" value="0.1525" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/activity_splash_screen.xml" value="0.21458333333333332" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/change_password_fragment.xml" value="0.11197916666666667" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/custom_et_btn.xml" value="0.2265625" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/fragment_landing.xml" value="0.12239583333333333" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/fragment_splash.xml" value="0.2265625" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/login_fragment.xml" value="0.3316708229426434" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/market_fragment.xml" value="0.25" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/my_referal_fragment.xml" value="0.13854166666666667" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/my_skills.xml" value="0.29322916666666665" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/notification_fragment.xml" value="0.2296875" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/original_home_fragment.xml" value="0.12239583333333333" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/portfolio_card_view.xml" value="0.28020833333333334" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/portfolio_stock_dashboard_card_view.xml" value="0.5" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/portfolio_view_fragment.xml" value="0.17" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/portfolis_fragment.xml" value="0.22291407222914073" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/price_row.xml" value="0.14427083333333332" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/progress_bar.xml" value="0.14427083333333332" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/recharge_trade_money_fragment.xml" value="0.2265625" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/recharge_wallet.xml" value="0.2265625" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/redeeem_voucher.xml" value="0.13854166666666667" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/registration_fragment.xml" value="0.31302083333333336" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/report_fragment.xml" value="0.2265625" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/row_item.xml" value="0.22" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/spinner_item.xml" value="0.2265625" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/update_profile_fragment.xml" value="0.33" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/wallet_fragment.xml" value="0.5" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/layout/watchlist_view_fragment.xml" value="0.1" />
+        <entry key="..\:/Freelance/Techxform/TradIntro/tradintro-android/app/src/main/res/menu/menu_bottom_nav.xml" value="0.14322916666666666" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.16666666666666666" />
-      </ProjectState>
-    </option>
   </component>
 </project>

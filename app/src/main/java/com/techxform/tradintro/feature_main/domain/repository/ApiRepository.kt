@@ -77,6 +77,7 @@ interface ApiRepository {
     suspend fun fcmTokenRegistration(request: FcmTokenRegReq): Result<Any>
 
     suspend fun forgetPassword(emailId: String): Result<Any>
+    suspend fun resendEmail(emailId: String): Result<Any>
 
     suspend fun register(request:RegisterRequest) : Result<BaseResponse<Any>>
 

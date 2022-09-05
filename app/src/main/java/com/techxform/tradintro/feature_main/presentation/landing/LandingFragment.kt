@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.landing
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +22,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
@@ -70,18 +73,22 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         bottomNavSetup()
-        viewModel.userDetails()
+        viewModel.userDetails(requireContext())
         pref = PreferenceHelper.customPreference(requireContext())
         if (!pref.fcmToken.isNullOrEmpty() && !pref.isFcmTokenSync) {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { t1 ->
                 sendRegistrationToServer(t1.result)
             }
         }
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBar.progressOverlay.isVisible = it
+        }
 
         viewModel.logOutLiveData.observe(viewLifecycleOwner) {
             if (it.status) {
+                PreferenceHelper.customPreference(requireContext()).edit().clear().apply()
                 requireContext().showShortToast("Logout successfully")
-                requireActivity().finish()
+                startActivity(Intent(requireContext(),SplashScreenActivity::class.java))
             }
         }
         viewModel.logOutErrorLiveData.observe(viewLifecycleOwner) {
@@ -103,7 +110,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             (binding.bottomNav.menu as NavigationBarMenu).visibleItems[3].isVisible =
                 it.data.treeLevel != 1
             drawerSetup()
-
+            binding.drawerLayout.close()
         }
 
     }
@@ -182,6 +189,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             }
         }
         mDrawerToggle.syncState()
+
         binding.drawerRv.adapter = DrawerAdapter(createDrawerItems(), listener)
         val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         navController.navigateUp(appBarConfiguration)
@@ -213,12 +221,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
                 }
                 getString(R.string.change_password_lbl) ->
                     navController.navigate(R.id.changePasswordFragment)
-                getString(R.string.logout_lbl) -> viewModel.logOut(
-                    LogOutRequest(
-                        "990719377109589",
-                        "mobile "
-                    )
-                )
+                getString(R.string.logout_lbl) -> showLogoutConformationDialog()
 
 
             }
@@ -226,6 +229,26 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
         }
     }
+
+    private fun showLogoutConformationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Logout Account")
+        //set message for alert dialog
+        builder.setMessage("Are you sure want to logout the account?")
+        builder.setIcon(android.R.drawable.ic_menu_close_clear_cancel)
+        builder.setPositiveButton("Logout") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+            viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
+        }
+        //performing negative action
+        builder.setNegativeButton("Cancel") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+    }
+
 
     private fun createDrawerItems(): ArrayList<DrawerItem> {
         val list = arrayListOf<DrawerItem>()

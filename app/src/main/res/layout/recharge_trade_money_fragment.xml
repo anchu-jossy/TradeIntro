@@ -4,59 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature_main.presentation.recharge_trade_money.RechargeTradeMoneyFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-       >
+        android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:id="@+id/tabLayout" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingVertical="@dimen/_16sdp">
+                android:layout_height="wrap_content" />
 
-                <include
-                    android:id="@+id/rechargeTradeMoneyContainer"
-                    layout="@layout/custom_et_btn"
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:isThirdVisible="@{false}"
-                    app:buttonLabel="@{@string/recharge_lbl}"
-                    app:labelOne="@{@string/trade_money_lbl}"
-                    app:labelOneHint="@{@string/trade_money_hint}"
-                    app:labelTwo="@{@string/recharge_amount_lbl}"
-                    app:labelTwoHint="@{@string/recharge_amount_hint}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:title="@{@string/recharge_trade_money_lbl}" />
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_16sdp">
 
-                <include
-                    android:id="@+id/redeemVoucherContainer"
-                    layout="@layout/custom_et_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:isThirdVisible="@{false}"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    app:buttonLabel="@{@string/redeem_lbl}"
-                    app:labelOne="@{@string/voucher_code_lbl}"
-                    app:labelOneHint="@{@string/voucher_code_hint}"
-                    app:labelTwo="@{@string/voucher_trade_money_lbl}"
-                    app:labelTwoHint="@{@string/recharge_amount_hint}"
-                    app:layout_constraintTop_toBottomOf="@+id/rechargeTradeMoneyContainer"
-                    app:title="@{@string/redeem_lbl}" />
+                    <include
+                        android:id="@+id/rechargeTradeMoneyContainer"
+                        layout="@layout/recharge_wallet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:buttonLabel="@{@string/recharge_lbl}"
+                        app:isThirdVisible="@{true}"
+                        app:labelOne="@{@string/trade_money_lbl}"
+                        app:labelOneHint="@{@string/trade_money_hint}"
+                        app:labelThree="@{@string/net_amount_label}"
+                        app:labelThreeHint="@{@string/net_amount_hint}"
+                        app:labelTwo="@{@string/recharge_amount_lbl}"
+                        app:labelTwoHint="@{@string/recharge_amount_hint}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:title="@{@string/recharge_trade_money_lbl}"
+                        tools:layout_editor_absoluteX="21dp" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <include
+                        android:id="@+id/redeemVoucherContainer"
+                        layout="@layout/redeeem_voucher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        app:buttonLabel="@{@string/redeem_lbl}"
+                        app:labelOne="@{@string/voucher_code_lbl}"
+                        app:labelOneHint="@{@string/voucher_code_hint}"
+                        app:layout_constraintTop_toBottomOf="@+id/rechargeTradeMoneyContainer"
+                        app:title="@{@string/redeem_lbl}" />
 
-        </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

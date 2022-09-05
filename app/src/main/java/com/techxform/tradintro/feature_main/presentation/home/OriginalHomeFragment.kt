@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,7 +14,9 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.databinding.OriginalHomeFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
+import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
+import com.techxform.tradintro.feature_main.presentation.portfolio.PortfoliosFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +34,37 @@ class OriginalHomeFragment :
         viewModel = ViewModelProvider(this)[OriginalHomeViewModel::class.java]
 
         observers()
+
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,onBackPressedCallback
+        )
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (getFragment() is OriginalHomeFragment) {
+               showCloseDialog()
+            } else findNavController().navigateUp()
+        }
+    }
+
+    private fun showCloseDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Exit TradIntro")
+        //set message for alert dialog
+        builder.setMessage("Are you sure want to close the application?")
+        builder.setIcon(android.R.drawable.ic_menu_close_clear_cancel)
+        builder.setPositiveButton("Yes") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+            activity?.finish()
+        }
+        //performing negative action
+        builder.setNegativeButton("Not now") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(true)
+        alertDialog.show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

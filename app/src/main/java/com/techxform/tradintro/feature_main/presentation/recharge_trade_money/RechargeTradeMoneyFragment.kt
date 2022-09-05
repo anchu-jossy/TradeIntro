@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.doAfterTextChanged
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -21,6 +22,7 @@ import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.PaymentResponseActivity
 import com.techxform.tradintro.feature_main.presentation.profile.UpdateProfileViewModel
+import com.techxform.tradintro.feature_main.presentation.report.SpinnerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -46,8 +48,37 @@ class RechargeTradeMoneyFragment :
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    private var rechargeAmount: Int? = 0;
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val options = resources.getStringArray(R.array.recharge_amount_options)
+
+        binding.rechargeTradeMoneyContainer.label1Et.adapter =
+            SpinnerAdapter(requireContext(), options)
+        binding.rechargeTradeMoneyContainer.label1Et.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    val chosen = options[p2];
+                    val value = chosen.split(" ")[0];
+                    rechargeAmount = (userMargin?.let {
+                        (value.toInt() * 100000).div(
+                            it
+                        )
+                    })
+                    rechargeAmount?.let {
+                        binding.rechargeTradeMoneyContainer.label2Et.text = it.toString()
+                        calculateNetAmount(it)
+                    }
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+            }
+
         binding.tabLayout.addTab(
             binding.tabLayout.newTab().setText(getString(R.string.recharge_lbl))
         );
@@ -77,36 +108,47 @@ class RechargeTradeMoneyFragment :
 
         with(UserDetailsSingleton.userDetailsResponse) {
             this@RechargeTradeMoneyFragment.userId = userId
-           this@RechargeTradeMoneyFragment.userMargin = userMargin
+            this@RechargeTradeMoneyFragment.userMargin = userMargin
 
         }
 
-        binding.rechargeTradeMoneyContainer.label2Et.doAfterTextChanged { text ->
-            if (text.isNullOrEmpty()) {
-                binding.rechargeTradeMoneyContainer.label1Et.setText("0")
-            } else
-                binding.rechargeTradeMoneyContainer.label1Et.setText(
-                    (userMargin?.plus(
-                        text.toString().toInt()
-                    ).toString())
-                )
+        /*    binding.rechargeTradeMoneyContainer.label2Et.doAfterTextChanged { text ->
+                if (text.isNullOrEmpty()) {
+                    binding.rechargeTradeMoneyContainer.label1Et.setText("0")
+                } else
+                    binding.rechargeTradeMoneyContainer.label1Et.setText(
+                        (userMargin?.plus(
+                            text.toString().toInt()
+                        ).toString())
+                    )
 
-        }
-        binding.redeemVoucherContainer.label2Et.doAfterTextChanged { text ->
-            if (text.isNullOrEmpty()) {
-                binding.redeemVoucherContainer.label1Et.setText("0")
-            } else
-                binding.redeemVoucherContainer.label1Et.setText(
-                    (userMargin?.plus(
-                        text.toString().toInt()
-                    ).toString())
-                )
+            }*/
+        /*  binding.redeemVoucherContainer.label2Et.doAfterTextChanged { text ->
+              if (text.isNullOrEmpty()) {
+                  binding.redeemVoucherContainer.label1Et.setText("0")
+              } else
+                  binding.redeemVoucherContainer.label1Et.setText(
+                      (userMargin?.plus(
+                          text.toString().toInt()
+                      ).toString())
+                  )
 
 
-        }
+          }*/
+    }
+
+    private fun calculateNetAmount(amount: Int) {
+        val gst = (amount * viewModel.taxAmount) / 100
+        val otherChargeAmount = viewModel.otherCharges
+        val totalAmount = amount + gst + otherChargeAmount
+        val s = "\u20B9 %.2f".format(totalAmount.toFloat())
+        binding.rechargeTradeMoneyContainer.label3Et.text = s
     }
 
     private fun observers() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBar.progressOverlay.isVisible = it
+        }
         //1 lakh to 10 as tradmoney ->
         //recharge amount= trademoney/margin+tax+other charges
         //show net amount.
@@ -144,23 +186,27 @@ class RechargeTradeMoneyFragment :
         }
 
     private fun calculation() {
-        var rechargeAmount = 0
-        if (!binding.rechargeTradeMoneyContainer.label2Et.text.isNullOrEmpty()) {
-            rechargeAmount = binding.rechargeTradeMoneyContainer.label2Et.text.toString().toInt()
-        }
-        //fetch tax details from api
-        val gst = (rechargeAmount * 18) / 100
-        val otherChargeAmount = 0f
-        val totalAmount = rechargeAmount + gst + otherChargeAmount
-        viewModel.updateWallet(
-            UpdateWalletRequest(
-                this.userId,
-                totalAmount,
-                rechargeAmount,
-                gst,
-                otherChargeAmount
+        rechargeAmount?.let {
+            //fetch tax details from api
+            val gst = (it * viewModel.taxAmount) / 100
+            val otherChargeAmount = viewModel.otherCharges
+            val totalAmount = it + gst + otherChargeAmount
+            viewModel.updateWallet(
+                UpdateWalletRequest(
+                    this.userId,
+                    totalAmount,
+                    rechargeAmount,
+                    gst,
+                    otherChargeAmount
+                )
             )
-        )
+        } ?: run {
+            Toast.makeText(
+                requireContext(),
+                "Select a valid Trade Money Value.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
     }
 

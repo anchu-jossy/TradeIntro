@@ -21,10 +21,7 @@ class LearnMoreAdapter(var list: ArrayList<Level>) :
         fun binding() {
             with(rowItemBinding) {
                 level = list[absoluteAdapterPosition]
-
             }
-
-
         }
     }
 
