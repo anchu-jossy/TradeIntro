@@ -76,6 +76,8 @@ class LearnMoreFragment :
             }
 
         })
+        val totalPoints = requireArguments().getFloat("totalPoints",0f)
+        binding.learnmpreHeader.tvTotalPoints.text= "Total Points : $totalPoints"
     }
 
 

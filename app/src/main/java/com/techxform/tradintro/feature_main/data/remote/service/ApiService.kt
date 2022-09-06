@@ -136,7 +136,7 @@ interface ApiService {
 
     @POST
     @FormUrlEncoded
-    suspend fun register(@Url url: String, @FieldMap request: Map<String, String>): Response<BaseResponse<Any>>
+    suspend fun register(@Url url: String, @FieldMap request: Map<String, String>): Response<AddUserResponse>
 
     @GET("api/reports/historical")
     suspend fun historicalReport(@QueryMap reqMap: Map<String, String>) : Response<BaseResponse<ArrayList<PortfolioItem>>>

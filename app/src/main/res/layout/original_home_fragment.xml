@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_medium"
-                    android:text="@string/welcome_user"
+                    android:text="@{@string/welcome_user_name(userDashboard.userName)}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintBottom_toTopOf="@+id/holdingValueLbl"

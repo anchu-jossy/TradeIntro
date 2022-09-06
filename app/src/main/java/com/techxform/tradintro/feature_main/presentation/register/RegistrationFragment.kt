@@ -34,6 +34,7 @@ class RegistrationFragment :
     ): View? {
         viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
         observers()
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -84,7 +85,20 @@ class RegistrationFragment :
             binding.progressBar.progressOverlay.isVisible = it
         }
         viewModel.registerLiveData.observe(viewLifecycleOwner) {
-            registrationDialog()
+            it.status?.let{
+                when(it){
+                    "success"->{
+                        registrationDialog()
+                    }
+                    "failed"->{
+                        requireContext().showShortToast("Sorry! User registration failed, Please try again.")
+                    }
+                    else->{
+                        requireContext().showShortToast("Alert! User already exists.")
+                    }
+                }
+
+            }
 
         }
 
@@ -93,16 +107,14 @@ class RegistrationFragment :
                 Failure.NetworkConnection -> {
                     sequenceOf(
                         requireContext().showShortToast(getString(R.string.no_internet_error))
-
                     )
                 }
                 Failure.ServerError -> {
-
                     requireContext().showShortToast(getString(R.string.server_error))
-
                 }
-
                 else -> {
+                    val errorMsg = (it as Failure.FeatureFailure).message
+                    requireContext().showShortToast(errorMsg)
                 }
             }
         }

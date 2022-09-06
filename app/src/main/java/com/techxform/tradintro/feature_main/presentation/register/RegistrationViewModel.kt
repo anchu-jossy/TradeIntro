@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.techxform.tradintro.feature_main.data.remote.dto.BaseResponse
-import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.RegisterRequest
-import com.techxform.tradintro.feature_main.data.remote.dto.Result
+import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +15,8 @@ import javax.inject.Inject
 class RegistrationViewModel @Inject constructor(
     private val repository: ApiRepository
 ) : ViewModel() {
-    private var _registerLiveData = MutableLiveData<BaseResponse<Any>>()
-    val registerLiveData: LiveData<BaseResponse<Any>> = _registerLiveData
+    private var _registerLiveData = MutableLiveData<AddUserResponse>()
+    val registerLiveData: LiveData<AddUserResponse> = _registerLiveData
 
     private var _registerErrorLiveData = MutableLiveData<Failure>()
     val registerErrorLiveData: LiveData<Failure> = _registerErrorLiveData
@@ -32,7 +29,8 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.register(request)) {
                 is Result.Success -> {
-                    _registerLiveData.postValue(result.data!!)
+                   // result.data.data.status
+                    _registerLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _registerErrorLiveData.postValue(result.exception)

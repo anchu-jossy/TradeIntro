@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -51,7 +52,8 @@ class MySkillsFragment :
 
         }
         binding.textViewLearn.setOnClickListener {
-            findNavController().navigate(R.id.learnMoreFragment)
+            val bundle = bundleOf("totalPoints" to viewModel.userLevelsLiveData.value?.data?.myPoints)
+            findNavController().navigate(R.id.learnMoreFragment,bundle)
         }
     }
 
@@ -72,7 +74,8 @@ class MySkillsFragment :
         }
 
         viewModel.userLevelsLiveData.observe(viewLifecycleOwner) {
-            binding.textViewPoints.text = getString(R.string.current_point) + String.format(
+
+            binding.textViewPoints.text = getString(R.string.current_point) +" "+ String.format(
                 getString(R.string.points_format),
                 it.data.myPoints
             )

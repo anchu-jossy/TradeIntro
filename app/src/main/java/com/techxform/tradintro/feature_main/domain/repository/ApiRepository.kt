@@ -79,7 +79,7 @@ interface ApiRepository {
     suspend fun forgetPassword(emailId: String): Result<Any>
     suspend fun resendEmail(emailId: String): Result<Any>
 
-    suspend fun register(request:RegisterRequest) : Result<BaseResponse<Any>>
+    suspend fun register(request:RegisterRequest) : Result<AddUserResponse>
 
     suspend fun historicalReport(searchModel: SearchModel) : Result<BaseResponse<ArrayList<PortfolioItem>>>
 

@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
+import com.techxform.tradintro.core.utils.PreferenceHelper
+import com.techxform.tradintro.core.utils.PreferenceHelper.userFullName
 import com.techxform.tradintro.databinding.OriginalHomeFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
@@ -86,6 +88,8 @@ class OriginalHomeFragment :
         }
         viewModel.userDashboard()
 
+       // binding.myPortfolioLbl.text="Welcome "+ PreferenceHelper.customPreference(requireContext()).userFullName
+
         /*       val face: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.open_sans)
                val searchText = binding.searchView as TextView
                searchText.typeface = face*/
@@ -106,7 +110,6 @@ class OriginalHomeFragment :
                 Failure.NetworkConnection -> {
                     sequenceOf(
                         requireContext().showShortToast(getString(R.string.no_internet_error))
-
                     )
                 }
                 else -> {}

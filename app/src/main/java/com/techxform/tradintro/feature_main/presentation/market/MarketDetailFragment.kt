@@ -60,9 +60,6 @@ class MarketDetailFragment :
         listeners()
         viewModel.marketDetail(stockId)
         binding.ediTextAddtoWatchList.setText("$totalPrice.00")
-
-
-
     }
 
     private fun listeners()

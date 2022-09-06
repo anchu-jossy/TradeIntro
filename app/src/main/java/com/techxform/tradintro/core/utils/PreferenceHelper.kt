@@ -10,6 +10,7 @@ import com.techxform.tradintro.core.utils.Contants.PREF_FCM_TOKEN_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_FCM_TOKEN_SYNC_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_REFRESH_TOKEN_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_TOKEN_KEY
+import com.techxform.tradintro.core.utils.Contants.PREF_USER_FULL_NAME_KEY
 import com.techxform.tradintro.core.utils.Contants.USER_ID_KEY
 
 object PreferenceHelper {
@@ -43,6 +44,14 @@ object PreferenceHelper {
         set(value) {
             editMe {
                 it.putString(PREF_REFRESH_TOKEN_KEY, value)
+            }
+        }
+
+    var SharedPreferences.userFullName
+        get() = getString(PREF_USER_FULL_NAME_KEY, "")
+        set(value) {
+            editMe {
+                it.putString(PREF_USER_FULL_NAME_KEY, value)
             }
         }
 

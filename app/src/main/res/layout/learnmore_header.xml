@@ -22,11 +22,23 @@
             android:padding="@dimen/_16ssp"
             android:text="@string/detailed_points_summary"
             android:textSize="@dimen/_16ssp" />
-
+        <TextView
+            android:id="@+id/tv_total_points"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:paddingBottom="@dimen/_10sdp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:textSize="@dimen/_12ssp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_26sdp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
             android:orientation="horizontal"
             android:weightSum="4">
 

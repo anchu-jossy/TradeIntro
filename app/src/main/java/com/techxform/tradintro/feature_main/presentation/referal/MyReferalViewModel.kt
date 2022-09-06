@@ -47,7 +47,7 @@ class MyReferalViewModel @Inject constructor(private val repository: ApiReposito
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.findUserInviteList()) {
                 is Result.Success -> {
-                    _updateUserListtLiveData.postValue(result.data!!)
+                    _updateUserListtLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _walletErrorLiveData.postValue(result.exception)

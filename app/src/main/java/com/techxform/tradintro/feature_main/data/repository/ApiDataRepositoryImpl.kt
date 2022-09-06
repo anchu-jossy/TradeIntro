@@ -70,6 +70,34 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
+    private suspend fun <T> apiCallRaw(apiCall: suspend () -> Response<T>): Result<T> {
+        return withContext(Dispatchers.Default)
+        {
+            try {
+                val response = apiCall()
+                if (response.isSuccessful) {
+                    Result.Success(response.body()!!)
+                } else {
+                        val gson = Gson()
+                        val errorResponse =
+                            gson.fromJson((response.errorBody() as ResponseBody).string(), ErrorResponse::class.java)
+                        Result.Error(Failure.FeatureFailure(errorResponse.error.message))
+                }
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                // Result.Error(Failure.NetworkConnection)
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
+                // Result.Error(Failure.ServerError)
+            }
+        }
+    }
+
     override suspend fun login(loginRequest: LoginRequest): Result<BaseResponse<LoginResponse>> {
         return apiCall{apiService.login(loginRequest)}
     }
@@ -519,7 +547,7 @@ class ApiDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun register(request: RegisterRequest): Result<BaseResponse<Any>> {
+    override suspend fun register(request: RegisterRequest): Result<AddUserResponse> {
 
         val reqMap = mapOf(
             "first_name" to request.firstName,
@@ -528,7 +556,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             "password" to request.password,
         )
 
-        return apiCall{apiService.register(REGISTER, reqMap)}
+        return apiCallRaw{apiService.register(REGISTER, reqMap)}
 
 
     }

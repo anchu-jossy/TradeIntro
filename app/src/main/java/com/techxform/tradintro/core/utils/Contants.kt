@@ -9,6 +9,7 @@ object Contants {
     const val PREF_FCM_TOKEN_KEY = "fcm_token"
     const val PREF_FCM_TOKEN_SYNC_KEY = "isFcmTokenSync"
     const val PREF_REFRESH_TOKEN_KEY = "refresh_token"
+    const val PREF_USER_FULL_NAME_KEY = "user_full_name"
    // private const val DEV_URL = "https://dev.tradintro.com/"
     //TODO() this is commented only for  testing the build
      private const val DEV_URL = "https://stage.tradintro.com/"
