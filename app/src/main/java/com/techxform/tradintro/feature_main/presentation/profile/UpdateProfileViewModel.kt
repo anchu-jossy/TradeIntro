@@ -59,6 +59,25 @@ class UpdateProfileViewModel @Inject constructor(private val repository: ApiRepo
         }
 
     }
+    private var _walletSummaryLiveData = MutableLiveData<BaseResponse<WalletSummaryResponse>>()
+    val walletSummaryLiveData: LiveData<BaseResponse<WalletSummaryResponse>> =
+        _walletSummaryLiveData
+
+    fun walletSummary(type: PaymentType?) {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.walletSummary(type)) {
+                is Result.Success -> {
+
+                    _walletSummaryLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _walletErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
 
 
 

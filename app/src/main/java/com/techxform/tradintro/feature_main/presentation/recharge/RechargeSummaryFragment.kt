@@ -17,12 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RechargeSummaryFragment :
-    BaseFragment<RechargeFragmentBinding>(RechargeFragmentBinding::inflate){
+    BaseFragment<RechargeFragmentBinding>(RechargeFragmentBinding::inflate) {
 
     companion object {
         const val LIMIT = 10
         fun newInstance() = RechargeSummaryFragment()
     }
+
     private lateinit var adapter: RechargeSummaryAdapter
     private lateinit var viewModel: RechargeViewModel
 
@@ -38,12 +39,11 @@ class RechargeSummaryFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.walletHistory(SearchModel(type = PaymentType.RECHARGE.name.lowercase(), limit = LIMIT))
+        viewModel.walletHistory(SearchModel(limit = LIMIT))
 
     }
 
-    private fun observer()
-    {
+    private fun observer() {
         viewModel.walletHistoryLiveData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 binding.titleTv.text = getString(R.string.transaction_details_lbl)

@@ -36,6 +36,7 @@
     <string name="transaction_list_lbl">Transaction List</string>
     <string name="holding_value_lbl">Holding Value</string>
     <string name="trade_money_balance_lbl">Trade Money Balance</string>
+    <string name="trade_money_balance_formatted">Trade Money Balance : <b>%s</b></string>
     <string name="total_investment_lbl">Total Investment</string>
     <string name="total_investment_value_lbl">Total Investment Value</string>
     <string name="plus_buy_lbl">+ Buy</string>
@@ -69,19 +70,21 @@
     <string name="trade_money_lbl">Trade Money</string>
     <string name="trade_money_hint">1234567890</string>
     <string name="voucher_code_hint">************</string>
-    <string name="recharge_amount_lbl">Recharge Amount</string>
-    <string name="recharge_amount_hint">\u20B9 00,000.00</string>
+    <string name="recharge_amount_lbl">Recharge Amount (Rs.)</string>
+    <string name="recharge_amount_hint"> </string>
     <string name="recharge_lbl">Recharge</string>
     <string name="redeem_lbl">Redeem</string>
+    <string name="redeem_form_lbl">Redeem Voucher</string>
     <string name="voucher_code_lbl">Voucher Code</string>
     <string name="voucher_trade_money_lbl">Voucher Trade Money</string>
     <string name="current_password_lbl">Current Password</string>
     <string name="new_password_lbl">New Password</string>
     <string name="confirm_password_lbl">Confirm New Password</string>
     <string name="balance_lbl">Wallet Balance</string>
+    <string name="balance_info_lbl">Wallet Info</string>
     <string name="last_allocation_on_lbl">Last Recharge On</string>
     <string name="last_allocation_amount_lbl">Last Recharge Amount</string>
-    <string name="user_name_pass_required_msg">Please fill email id and password.</string>
+    <string name="user_name_pass_required_msg">Enter your email id and password.</string>
     <string name="no_internet_error">No internet</string>
     <string name="rs_format">\u20B9 %.2f</string>
     <string name="rs_format_string">\u20B9 %1$S</string>
@@ -152,7 +155,7 @@
     <string name="mail_id">Mail Id</string>
     <string name="phone_num">Phone Number</string>
     <string name="delete_account">Delete Account</string>
-    <string name="level_desc">You are in the Level %d.Unlock next levels to enjoy \n new features and explore more on trading</string>
+    <string name="level_desc">You are in the Level %d. Unlock next levels to enjoy \n new features and explore more on trading</string>
     <string name="string_features_unlocked">Features Unlocked !!!</string>
     <string name="required_points">Required Points :  %.2f Pts</string>
     <string name="watchList"><b>WatchList</b></string>
@@ -210,6 +213,7 @@
         <item>@string/trade_book_lbl</item>
     </string-array>
     <string-array name="recharge_amount_options">
+        <item>Select Trade Money Points</item>
         <item>1 Lakh</item>
         <item>2 Lakh</item>
         <item>3 Lakh</item>
@@ -252,7 +256,7 @@
     <string name="mail_body">Cause</string>
 
 
-    <string name="net_amount_label">Net AMount</string>
+    <string name="net_amount_label">Net Amount</string>
     <string name="net_amount_hint" />
 
 
@@ -280,6 +284,8 @@
     <string name="logout">Logout successfully</string>
     <string name="updated_sucess">Successfully updated</string>
 
+    <string name="confirm_password_no_password">Please enter current password.</string>
+    <string name="confirm_password_no_new_password">Please enter new password.</string>
     <string name="confirm_password_not_matched">Confirm Password is not matched with new password</string>
     <string name="password_min_length_msg">Password must contain at-least  6 characters</string>
     <string name="password_changed_msg">Your password is successfully updated.</string>
@@ -288,6 +294,8 @@
     <string name="points_earned">Points Earned</string>
     <string name="date">Date</string>
     <string name="detailed_points_summary">Detailed Points Summary</string>
+    <string name="print_complete">Print Completed.</string>
+    <string name="print_failed">Printing Failed.</string>
 
 
 </resources>

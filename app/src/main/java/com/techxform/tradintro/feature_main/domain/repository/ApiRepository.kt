@@ -60,7 +60,7 @@ interface ApiRepository {
 
     suspend fun deleteWatchList(id: Number): Result<BaseResponse<DeleteWatchListResponse>>
 
-    suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>>
+    suspend fun walletSummary(type: PaymentType?): Result<BaseResponse<WalletSummaryResponse>>
 
     suspend fun userLevels(): Result<BaseResponse<UserLevels>>
     suspend fun userDetails(): Result<BaseResponse<UserDetailsResponse>>

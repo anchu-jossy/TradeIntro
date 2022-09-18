@@ -2,12 +2,11 @@ package com.techxform.tradintro.feature_main.presentation.recharge_trade_money
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,6 +20,7 @@ import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.RechargeTradeMoneyFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
+import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
@@ -52,29 +52,32 @@ class RechargeTradeMoneyFragment :
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private var rechargeAmount: Int? = 0;
+    private var rechargeAmount: Int? = null;
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val options = resources.getStringArray(R.array.recharge_amount_options)
-
         binding.rechargeTradeMoneyContainer.label1Et.adapter =
             SpinnerAdapter(requireContext(), options)
         binding.rechargeTradeMoneyContainer.label1Et.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    val chosen = options[p2];
-                    val value = chosen.split(" ")[0];
-                    rechargeAmount = (userMargin?.let {
-                        (value.toInt() * 100000).div(
-                            it
-                        )
-                    })
-                    rechargeAmount?.let {
-                        binding.rechargeTradeMoneyContainer.label2Et.text = it.toString()
-                        calculateNetAmount(it)
-                    }
+                    if (p2 == 0) {
+                        rechargeAmount = null
+                        calculateNetAmount(0)
+                        return
+                    } else {
+                        val chosen = options[p2];
+                        val value = chosen.split(" ")[0];
+                        rechargeAmount = (userMargin?.let {
+                            (value.toInt() * 100000).div(
+                                it
+                            )
+                        })
+                        rechargeAmount?.let {
 
+                            calculateNetAmount(it)
+                        }
+                    }
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -115,21 +118,44 @@ class RechargeTradeMoneyFragment :
             this@RechargeTradeMoneyFragment.userMargin = userMargin
 
         }
-
-
+        viewModel.walletSummary(null)
     }
 
     private fun calculateNetAmount(amount: Int) {
-        val gst = (amount * viewModel.taxAmount) / 100
-        val otherChargeAmount = viewModel.otherCharges
-        val totalAmount = amount + gst + otherChargeAmount
-        val s = "\u20B9 %.2f".format(totalAmount.toFloat())
-        binding.rechargeTradeMoneyContainer.label3Et.text = s
+        if (amount == 0) {
+            binding.rechargeTradeMoneyContainer.label3Et.text = ""
+            binding.rechargeTradeMoneyContainer.label3Et.setVisibiltyGone()
+            binding.rechargeTradeMoneyContainer.label3Tv.setVisibiltyGone()
+            binding.rechargeTradeMoneyContainer.label2Et.text = ""
+        } else {
+
+            if (viewModel.taxAmount > 0) {
+                val gst = (amount * viewModel.taxAmount) / 100
+                val otherChargeAmount = viewModel.otherCharges
+                val totalAmount = amount + gst + otherChargeAmount
+                val s = "\u20B9 %.2f".format(totalAmount.toFloat())
+                binding.rechargeTradeMoneyContainer.label3Et.text = s
+                binding.rechargeTradeMoneyContainer.label3Et.setVisible()
+                binding.rechargeTradeMoneyContainer.label3Tv.setVisible()
+            } else {
+                binding.rechargeTradeMoneyContainer.label3Et.setVisibiltyGone()
+                binding.rechargeTradeMoneyContainer.label3Tv.setVisibiltyGone()
+            }
+
+            binding.rechargeTradeMoneyContainer.label2Et.text = amount.toString()
+        }
     }
 
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
+        }
+        viewModel.walletSummaryLiveData.observe(viewLifecycleOwner) {
+            with(binding) {
+                val s =
+                    getString(R.string.trade_money_balance_formatted).format(it.data.tradeMoneyBalance.toString())
+                binding.tvBalance.text = s
+            }
         }
         //1 lakh to 10 as tradmoney ->
         //recharge amount= trademoney/margin+tax+other charges
@@ -142,12 +168,12 @@ class RechargeTradeMoneyFragment :
                     it1
                 )
                 resultLauncher.launch(i)
-
             }
         }
         viewModel.redeemVoucherLiveData.observe(viewLifecycleOwner) {
             if (it.data.voucherAmount != null) {
                 binding.redeemVoucherContainer.label1Et.text?.clear()
+                viewModel.walletSummary(null)
                 val alert = AlertDialog.Builder(requireContext())
                 alert.setMessage(
                     "Congratulations!! You have  redeemed ${
@@ -181,22 +207,23 @@ class RechargeTradeMoneyFragment :
         }
     }
 
-    fun hideKeyboardFrom() {
-        val imm: InputMethodManager =
-            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
-    }
 
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
-            //if (result.resultCode == Activity.RESULT_OK) {
-            binding.rechargeTradeMoneyContainer.label2Et.setText("0")
-            //}
+            viewModel.walletSummary(null)
+            binding.rechargeTradeMoneyContainer.label1Et.setSelection(0)
         }
 
     private fun calculation() {
         rechargeAmount?.let {
-            //fetch tax details from api
+            if (it == 0) {
+                Toast.makeText(
+                    requireContext(),
+                    "Select a valid Trade Money Value.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@let
+            }
             val gst = (it * viewModel.taxAmount) / 100
             val otherChargeAmount = viewModel.otherCharges
             val totalAmount = it + gst + otherChargeAmount
@@ -222,15 +249,16 @@ class RechargeTradeMoneyFragment :
     private fun clickListeners() {
         binding.rechargeTradeMoneyContainer.button.setOnClickListener {
             calculation()
-
         }
         binding.redeemVoucherContainer.button.setOnClickListener {
             if (binding.redeemVoucherContainer.label1Et.text.toString().trim().isEmpty()) {
-                binding.redeemVoucherContainer.label1Et.error="Enter voucher code"
+                binding.redeemVoucherContainer.label1Et.error = "Enter voucher code"
             } else {
-                viewModel.redeemVoucher(binding.redeemVoucherContainer.label1Et.text.toString().trim())
+                viewModel.redeemVoucher(
+                    binding.redeemVoucherContainer.label1Et.text.toString().trim()
+                )
             }
-            hideKeyboardFrom()
+            hideKeyboard()
         }
 
 

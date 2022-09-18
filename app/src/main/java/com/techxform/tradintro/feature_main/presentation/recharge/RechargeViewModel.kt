@@ -33,7 +33,7 @@ class RechargeViewModel @Inject constructor(private val repository: ApiRepositor
     private var _walletErrorLiveData = MutableLiveData<Failure>()
     val walletErrorLiveData: LiveData<Failure> = _walletErrorLiveData
 
-    fun walletSummary(type: PaymentType) {
+    fun walletSummary(type: PaymentType?) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.walletSummary(type)) {

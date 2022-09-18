@@ -64,7 +64,7 @@ fun TextView.setLockText(userLevel: Int, currentLevel: Int,userLevelPoints:Float
     if (userLevel >= currentLevel)
         text=("Earned Points : $userLevelPoints")
     else
-        text=("Requited Points : $userLevelPoints")
+        text=("Required Points : $userLevelPoints")
 }
 
 

@@ -306,14 +306,13 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>> {
+    override suspend fun walletSummary(type: PaymentType?): Result<BaseResponse<WalletSummaryResponse>> {
         return apiCall{apiService.getWalletSummary()}
 
     }
 
     override suspend fun userLevels(): Result<BaseResponse<UserLevels>> {
         return apiCall{apiService.userLevels()}
-
     }
 
     override suspend fun userDetails(): Result<BaseResponse<UserDetailsResponse>> {

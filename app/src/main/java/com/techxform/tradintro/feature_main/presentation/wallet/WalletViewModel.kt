@@ -26,7 +26,7 @@ class WalletViewModel @Inject constructor(private val repository: ApiRepository)
     val walletSummaryLiveData: LiveData<BaseResponse<WalletSummaryResponse>> =
         _walletSummaryLiveData
 
-    fun walletSummary(type: PaymentType) {
+    fun walletSummary(type: PaymentType?) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.walletSummary(type)) {
