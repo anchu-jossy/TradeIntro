@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -51,9 +50,24 @@ class MySkillsFragment :
             binding.textViewLevel.text = String.format(getString(R.string.level_format), treeLevel)
 
         }
+        binding.imageViewMainLevel.setOnClickListener {
+            showCurrentLevelDetails()
+        }
+        binding.textViewLevel.setOnClickListener {
+            showCurrentLevelDetails()
+        }
+
         binding.textViewLearn.setOnClickListener {
             val bundle = bundleOf("totalPoints" to viewModel.userLevelsLiveData.value?.data?.myPoints)
             findNavController().navigate(R.id.learnMoreFragment,bundle)
+        }
+    }
+    private fun  showCurrentLevelDetails(){
+        viewModel.getCurrentLevel()?.let {
+            findNavController().navigate(
+                R.id.mySkillsViewFragment,
+                MySkillsViewFragment.navBundle(it)
+            )
         }
     }
 
@@ -79,12 +93,7 @@ class MySkillsFragment :
                 getString(R.string.points_format),
                 it.data.myPoints
             )
-            for (level in it.data.levels) {
-                if (level.levelPosition == it.data.myLevel) {
-                    it.data.levels.remove(level)
-                    break
-                }
-            }
+
             binding.mySkillsRV.adapter =
                 MySkillsAdapter(it.data.levels, rvListener, it.data.myLevel)
         }

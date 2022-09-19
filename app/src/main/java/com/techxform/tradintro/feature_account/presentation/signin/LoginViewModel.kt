@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.techxform.tradintro.core.utils.PreferenceHelper
+import com.techxform.tradintro.core.utils.PreferenceHelper.password
 import com.techxform.tradintro.core.utils.PreferenceHelper.refreshToken
 import com.techxform.tradintro.core.utils.PreferenceHelper.token
+import com.techxform.tradintro.core.utils.PreferenceHelper.username
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,17 +43,23 @@ class LoginViewModel @Inject constructor(
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
+    fun loginRequestFromPref(context: Context, callback: (loginRequest: LoginRequest) -> Unit) {
+        val pref = PreferenceHelper.customPreference(context)
+        callback(LoginRequest(pref.username!!, pref.password!!))
+    }
 
     fun login(request: LoginRequest, context: Context) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.login(request)) {
                 is Result.Success -> {
-                    if(result.data.data.token.isEmpty()){
+                    if (result.data.data.token.isEmpty()) {
                         _loginErrorLiveData.postValue(Failure.FeatureFailure("VerifyEmail"))
-                    }else {
+                    } else {
                         val pref = PreferenceHelper.customPreference(context)
                         pref.token = result.data.data.token
+                        pref.username = request.username
+                        pref.password = request.password
                         pref.refreshToken = result.data.data.refreshToken
                         _loginLiveData.postValue(result.data)
                     }
@@ -65,8 +73,7 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    fun forgetPassword(email:String)
-    {
+    fun forgetPassword(email: String) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.forgetPassword(email)) {
@@ -81,8 +88,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun resentEmail(email:String)
-    {
+    fun resentEmail(email: String) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.resendEmail(email)) {

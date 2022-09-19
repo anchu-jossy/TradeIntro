@@ -82,7 +82,7 @@ class EqualityPlaceOrderFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.walletSummary(PaymentType.VOUCHER)
+        viewModel.walletSummary(null)
         orderId = requireArguments().getInt(ORDER_ID, 0)
         screenType = requireArguments().getInt(FROM_SCREEN, 0)
 

@@ -15,6 +15,7 @@ import com.techxform.tradintro.databinding.RegistrationFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.RegisterRequest
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
+import com.techxform.tradintro.feature_main.presentation.change_password.ChangePasswordFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -85,15 +86,15 @@ class RegistrationFragment :
             binding.progressBar.progressOverlay.isVisible = it
         }
         viewModel.registerLiveData.observe(viewLifecycleOwner) {
-            it.status?.let{
-                when(it){
-                    "success"->{
+            it.status?.let {
+                when (it) {
+                    "success" -> {
                         registrationDialog()
                     }
-                    "failed"->{
+                    "failed" -> {
                         requireContext().showShortToast("Sorry! User registration failed, Please try again.")
                     }
-                    else->{
+                    else -> {
                         requireContext().showShortToast("Alert! User already exists.")
                     }
                 }
@@ -123,25 +124,27 @@ class RegistrationFragment :
 
     private fun validation(): Boolean {
         var validation = true
-        if (binding.fullNameEt.text.toString().isNullOrEmpty()) {
+        if (binding.fullNameEt.text.toString().isEmpty()) {
             validation = false
             binding.fullNameEt.error = getString(R.string.enter_user_name)
-        }
-        if (binding.emailEt.text.toString().isNullOrEmpty()) {
-            validation = false
-            binding.emailEt.error = getString(R.string.enter_emailid)
-        }
-        if (binding.passwordEt.text.toString().isNullOrEmpty()) {
-            validation = false
-            binding.passwordEt.error = getString(R.string.enter_password)
-        }
-        if (binding.confirmPassEt.text.toString().isNullOrEmpty()) {
-            validation = false
-            binding.confirmPassEt.error = getString(R.string.enter_confirm_password)
-        } else if (binding.passwordEt.text.toString() != binding.confirmPassEt.text.toString()) {
-            validation = false
-            binding.confirmPassEt.error = getString(R.string.password_not_match_msg)
-        }
+
+        } else
+            if (binding.emailEt.text.toString().isEmpty()) {
+                validation = false
+                binding.emailEt.error = getString(R.string.enter_emailid)
+            } else if (binding.passwordEt.text.toString().isEmpty()) {
+                validation = false
+                binding.passwordEt.error = getString(R.string.enter_password)
+            } else if (binding.passwordEt.text.toString().length < ChangePasswordFragment.PASSWORD_LENGTH) {
+                validation = false
+                binding.passwordEt.error = getString(R.string.password_min_length_msg)
+            } else if (binding.confirmPassEt.text.toString().isEmpty()) {
+                validation = false
+                binding.confirmPassEt.error = getString(R.string.enter_confirm_password)
+            } else if (binding.passwordEt.text.toString() != binding.confirmPassEt.text.toString()) {
+                validation = false
+                binding.confirmPassEt.error = getString(R.string.password_not_match_msg)
+            }
 
         return validation
     }

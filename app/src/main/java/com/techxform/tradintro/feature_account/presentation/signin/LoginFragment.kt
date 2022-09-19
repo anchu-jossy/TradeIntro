@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -34,6 +33,13 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         observers()
         listeners()
+        
+        viewModel.loginRequestFromPref(requireContext()) {
+            requireActivity().runOnUiThread {
+                binding.userNameET.setText(it.username)
+                binding.passwordET.setText(it.password)
+            }
+        }
     }
 
     private fun forgetPasswordDialog() {
@@ -60,6 +66,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     private fun listeners() {
         binding.btnSignIn.setOnClickListener {
+            hideKeyboard()
             if (binding.userNameET.text.isNullOrEmpty() || binding.passwordET.text.isNullOrEmpty()) {
                 requireContext().showShortToast(getString(R.string.user_name_pass_required_msg))
                 return@setOnClickListener

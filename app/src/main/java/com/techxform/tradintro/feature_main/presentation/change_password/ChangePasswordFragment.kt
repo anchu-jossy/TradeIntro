@@ -3,6 +3,7 @@ package com.techxform.tradintro.feature_main.presentation.change_password
 import android.os.Bundle
 import android.view.View
 import android.text.method.PasswordTransformationMethod
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.techxform.tradintro.R
@@ -56,28 +57,40 @@ class ChangePasswordFragment :
         viewModel = ViewModelProvider(this)[ChangePasswordViewModel::class.java]
         binding.vm = viewModel
         observers()
-        binding.label3Et.isEnabled = false
+        // binding.label3Et.isEnabled = false
 
-        binding.label2Et.doAfterTextChanged {
-            binding.label3Et.isEnabled =
-                (binding.label2Et.text.toString().length >= PASSWORD_LENGTH)
-        }
+        /*  binding.label2Et.doAfterTextChanged {
+              binding.label3Et.isEnabled =
+                  (binding.label2Et.text.toString().length >= PASSWORD_LENGTH)
+          }
 
-        binding.label2Et.onFocusChangeListener = View.OnFocusChangeListener { view, b ->
-            if (binding.label2Et.text.toString().length < PASSWORD_LENGTH) {
-                requireContext().showShortToast(getString(R.string.password_min_length_msg))
-            }
-        }
+          binding.label2Et.onFocusChangeListener = View.OnFocusChangeListener { view, b ->
+              if (binding.label2Et.text.toString().length < PASSWORD_LENGTH) {
+                  requireContext().showShortToast(getString(R.string.password_min_length_msg))
+              }
+          }
 
-        binding.label3Et.doAfterTextChanged {
-            if (!binding.label2Et.text.toString().contains(binding.label3Et.text.toString(), false))
-                requireContext().showShortToast(getString(R.string.confirm_password_not_matched))
+          binding.label3Et.doAfterTextChanged {
+              if (!binding.label2Et.text.toString().contains(binding.label3Et.text.toString(), false))
+                  requireContext().showShortToast(getString(R.string.confirm_password_not_matched))
 
-        }
+          }*/
         binding.button.setOnClickListener {
-            if (!binding.label2Et.text.toString().contains(binding.label3Et.text.toString(), false))
-                requireContext().showShortToast(getString(R.string.confirm_password_not_matched))
-            else {
+            if (binding.label1Et.text!!.trim().isEmpty()) {
+                binding.label1Et.error = getString(R.string.confirm_password_no_password)
+                //  requireContext().showShortToast(getString(R.string.confirm_password_no_password))
+            } else if (binding.label2Et.text!!.trim().isEmpty()) {
+                binding.label2Et.error = getString(R.string.confirm_password_no_new_password)
+                //  requireContext().showShortToast(getString(R.string.confirm_password_no_new_password))
+            } else if (binding.label2Et.text.toString().length < PASSWORD_LENGTH) {
+                binding.label2Et.error = getString(R.string.password_min_length_msg)
+                //   requireContext().showShortToast(getString(R.string.password_min_length_msg))
+            } else if (!binding.label2Et.text.toString()
+                    .contains(binding.label3Et.text.toString(), false)
+            ) {
+                binding.label3Et.error = getString(R.string.confirm_password_not_matched)
+                // requireContext().showShortToast(getString(R.string.confirm_password_not_matched))
+            } else {
                 hideKeyboard()
                 viewModel.changePassword(
                     ChangePasswordRequest(
@@ -89,7 +102,7 @@ class ChangePasswordFragment :
         }
 
 
-        binding.showHidePassIv.setOnCheckedChangeListener { compoundButton, b ->
+        binding.showHidePassIv.setOnCheckedChangeListener { _, b ->
             binding.label2Et.transformationMethod = if (b) {
                 null
             } else {
@@ -108,6 +121,9 @@ class ChangePasswordFragment :
 
 
     private fun observers() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressBar.progressOverlay.isVisible = it
+        }
         viewModel.changePasswordLiveData.observe(viewLifecycleOwner) {
             binding.label1Et.text?.clear()
             binding.label2Et.text?.clear()
@@ -127,7 +143,7 @@ class ChangePasswordFragment :
                 }
                 else -> {
                     requireContext().showShortToast(
-                       "Failed to change password. wrong current password."
+                        "Failed to change password. wrong current password."
                     )
                 }
             }
