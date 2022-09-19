@@ -39,7 +39,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:buttonLabel="@{@string/recharge_lbl}"
-                        app:isThirdVisible="@{true}"
+                        app:isThirdVisible="@{false}"
                         app:labelOne="@{@string/trade_money_lbl}"
                         app:labelOneHint="@{@string/trade_money_hint}"
                         app:labelThree="@{@string/net_amount_label}"
@@ -48,7 +48,7 @@
                         app:labelTwoHint="@{@string/recharge_amount_hint}"
                         app:layout_constraintTop_toTopOf="parent"
                         app:title="@{@string/recharge_trade_money_lbl}"
-                        tools:layout_editor_absoluteX="21dp" />
+                        />
 
                     <include
                         android:id="@+id/redeemVoucherContainer"
@@ -60,7 +60,7 @@
                         app:labelOne="@{@string/voucher_code_lbl}"
                         app:labelOneHint="@{@string/voucher_code_hint}"
                         app:layout_constraintTop_toBottomOf="@+id/rechargeTradeMoneyContainer"
-                        app:title="@{@string/redeem_lbl}" />
+                        app:title="@{@string/redeem_voucher_lbl}" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

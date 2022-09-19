@@ -6,6 +6,4 @@ sealed class Failure {
     object JsonParsing : Failure()
     data class FeatureFailure(val message: String):Failure()
 
-    /** * Extend this class for feature specific failures.*/
-    //abstract class FeatureFailure(message: String) : Failure()
 }

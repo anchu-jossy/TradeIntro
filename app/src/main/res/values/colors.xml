@@ -31,6 +31,7 @@
 
     <color name="black_shade">#212529</color>
     <color name="magenta">#BE3170</color>
+    <color name="light_magenta">#FF4196</color>
     <color name="sky_blue">#326190</color>
     <color name="yellow">#FDBF2C</color>
     <color name="ash">#6C757D</color>

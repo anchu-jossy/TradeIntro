@@ -11,8 +11,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Stock
 import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,10 +27,18 @@ class MarketViewModel @Inject constructor(private val repository: ApiRepository)
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
+    private lateinit var job: Job
+
 
     fun marketList(searchModel: SearchModel) {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
+        if (::job.isInitialized && job.isActive)
+            runBlocking {
+                job.cancelAndJoin()
+            }
+        job = viewModelScope.launch(Dispatchers.Default) {
+            if(!searchModel.searchText.isNullOrEmpty())
+                delay(1000L)
+            _loadingLiveData.postValue(true)
             when (val result = repository.marketList(searchModel)) {
                 is Result.Success -> {
                     _marketListLiveData.postValue(result.data!!)

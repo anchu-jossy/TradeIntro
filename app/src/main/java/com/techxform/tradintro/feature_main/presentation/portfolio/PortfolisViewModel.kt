@@ -42,7 +42,6 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
     val loadingSearchLiveData: LiveData<Boolean> = _loadingSearchLiveData
 
     private lateinit var job: Job
-    private lateinit var previousJob: Job
 
 
     fun portfolioListV2(searchModel: SearchModel, showLoading: Boolean) {
@@ -75,7 +74,7 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.portfolioDashboardV2()) {
                 is Result.Success -> {
-                    _portfolioDashboardLiveData.postValue(result.data)
+                    _portfolioDashboardLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _portfolioDashboardErrorLiveData.postValue(result.exception)
@@ -104,7 +103,7 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.portfolioDashboardOfStockV2(stockId)) {
                 is Result.Success -> {
-                    _portfolioDashboardOfStockLiveData.postValue(result.data)
+                    _portfolioDashboardOfStockLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _portfolioDashboardErrorLiveData.postValue(result.exception)

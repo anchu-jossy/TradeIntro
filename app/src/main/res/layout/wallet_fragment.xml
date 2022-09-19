@@ -15,15 +15,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/wallet_info_lbl"
+            android:layout_margin="@dimen/_16sdp"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_16sdp"
-            app:cardBackgroundColor="@color/magenta"
+            app:cardBackgroundColor="@color/light_magenta"
             app:cardCornerRadius="@dimen/_5sdp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/titleTv">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -38,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_light"
-                    android:text="@string/balance_lbl"
+                    android:text="@string/trade_money_balance_lbl"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintTop_toTopOf="parent" />

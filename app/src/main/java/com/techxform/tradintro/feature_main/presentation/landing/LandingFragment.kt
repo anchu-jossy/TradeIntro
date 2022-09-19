@@ -235,16 +235,16 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
     private fun showLogoutConformationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Logout Account")
+        builder.setTitle(R.string.logout_account_lbl)
         //set message for alert dialog
-        builder.setMessage("Are you sure want to logout the account?")
+        builder.setMessage(R.string.logout_confirmation_lbl)
         builder.setIcon(android.R.drawable.ic_menu_close_clear_cancel)
-        builder.setPositiveButton("Logout") { dialogInterface, _ ->
+        builder.setPositiveButton(R.string.logout_lbl) { dialogInterface, _ ->
             dialogInterface.dismiss()
             viewModel.logOut(LogOutRequest("990719377109589", "mobile "))
         }
         //performing negative action
-        builder.setNegativeButton("Cancel") { dialogInterface, _ ->
+        builder.setNegativeButton(R.string.cancel_lbl) { dialogInterface, _ ->
             dialogInterface.dismiss()
         }
         val alertDialog: AlertDialog = builder.create()
@@ -340,7 +340,6 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
 
 
-        manageBottomNavVisiblity()
     }
 
 

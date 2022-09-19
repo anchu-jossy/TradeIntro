@@ -150,12 +150,11 @@ class RechargeTradeMoneyFragment :
                 binding.redeemVoucherContainer.label1Et.text?.clear()
                 val alert = AlertDialog.Builder(requireContext())
                 alert.setMessage(
-                    "Congratulations!! You have  redeemed ${
-                        getString(
-                            R.string.rs_format_string,
-                            it.data.voucherAmount.toString()
-                        )
-                    }"
+                    getString(R.string.voucher_redeemed_success_msg) +
+                            getString(
+                                R.string.rs_format_string,
+                                it.data.voucherAmount.toString()
+                            )
                 )
                 alert.setPositiveButton(
                     getString(R.string.ok)

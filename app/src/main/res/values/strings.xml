@@ -69,7 +69,7 @@
     <string name="trade_money_lbl">Trade Money</string>
     <string name="trade_money_hint">1234567890</string>
     <string name="voucher_code_hint">************</string>
-    <string name="recharge_amount_lbl">Recharge Amount</string>
+    <string name="recharge_amount_lbl">Recharge Amount (Rs.)</string>
     <string name="recharge_amount_hint">\u20B9 00,000.00</string>
     <string name="recharge_lbl">Recharge</string>
     <string name="redeem_lbl">Redeem</string>
@@ -103,7 +103,7 @@
     <string name="day_lbl">Day</string>
     <string name="gtd_lbl">GTD</string>
     <string name="gtc_lbl">GTC</string>
-    <string name="redeem_voucher_lbl">Redeem voucher</string>
+    <string name="redeem_voucher_lbl">Redeem Voucher</string>
 
     <!--    Market list Screen &#37;-->
     <string name="markets">Markets</string>
@@ -275,7 +275,7 @@
     <string name="added_to_watchlist">Successfully added to watchlist</string>
     <string name="removed_to_watchlist">Successfully removed from watchlist</string>
     <string name="modified_alert_price">Successfully modified alertprice</string>
-    <string name="delete_success">Sucessfully deleted</string>
+    <string name="delete_success">Successfully deleted</string>
     <string name="internal_server_error">Internal server error</string>
     <string name="logout">Logout successfully</string>
     <string name="updated_sucess">Successfully updated</string>
@@ -288,6 +288,13 @@
     <string name="points_earned">Points Earned</string>
     <string name="date">Date</string>
     <string name="detailed_points_summary">Detailed Points Summary</string>
+    <string name="voucher_redeemed_success_msg">Voucher Redeemed Successfully</string>
+    <string name="voucher_already_redeemed_msg">Voucher is already redeemed</string>
+    <string name="voucher_error_msg">Error! Invalid voucher code</string>
+    <string name="wallet_info_lbl">Wallet Info</string>
+    <string name="cancel_lbl">Cancel</string>
+    <string name="logout_confirmation_lbl">Are you sure want to logout the account?</string>
+    <string name="logout_account_lbl">Logout Account</string>
 
 
 </resources>
