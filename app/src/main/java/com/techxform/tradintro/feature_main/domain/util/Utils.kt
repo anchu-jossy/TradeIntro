@@ -58,6 +58,15 @@ object Utils {
         return Pair(date, time)
     }
 
+    fun formatDateTime24HrFormat(formattedDate:String?): Pair<String, String> {
+        if(formattedDate.isNullOrEmpty())
+            return Pair("","")
+        val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(formattedDate)
+        val date = SimpleDateFormat("yyyy-MM-dd").format(d)
+        val time = SimpleDateFormat("HH:mm:ss").format(d)
+
+        return Pair(date, time)
+    }
     fun formatDateTimeString(formattedDate:String?): String {
         if(formattedDate.isNullOrEmpty())
             return ""

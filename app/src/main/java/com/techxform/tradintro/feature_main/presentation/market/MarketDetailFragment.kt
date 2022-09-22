@@ -174,7 +174,8 @@ class MarketDetailFragment :
                 binding.amountTv.text = getString(R.string.rs_format, average)
                 binding.stock = it.data
                 binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
-
+                binding.exchangeTv.text =
+                    it.data.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
                 binding.addToWatchlistBtn.text = if (binding.stock?.watchList == null)
                     getString(R.string.add_to_watchlist_lbl)
                 else
