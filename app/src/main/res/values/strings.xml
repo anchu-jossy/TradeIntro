@@ -48,6 +48,7 @@
     <string name="avg_sell_price_lbl">Avg Sell Price</string>
     <string name="total_buy_value_lbl">Total Buy Value</string>
     <string name="total_sell_value_lbl">Total Sell Value</string>
+    <string name="total_current_value_lbl">Total Current Value</string>
     <string name="quantity_lbl">Quantity</string>
     <string name="total_price_lbl">Total Price</string>
     <string name="total_value_lbl">Total Value</string>
@@ -235,6 +236,8 @@
     <string name="total_realised_profit_loss_lbl">Total Realised Profit/Loss Value</string>
     <string name="total_unrealised_profit_loss_lbl">Total Unrealised Profit/Loss Value</string>
     <string name="unrealised_profit_loss_lbl">Unrealised Profit/Loss</string>
+    <string name="unrealised_profit_loss_lbl1">Unrealised \nProfit/Loss</string>
+    <string name="unrealised_per_profit_loss_lbl">Unrealised \n% Profit/Loss</string>
     <string name="realised_profit_loss_per_lbl">Realised % \nProfit/Loss</string>
 
     <string name="execution_time_lbl">Execution \nTime:</string>

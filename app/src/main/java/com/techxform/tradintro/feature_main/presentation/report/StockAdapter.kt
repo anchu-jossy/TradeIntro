@@ -9,13 +9,17 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.StockRowLayoutBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
 
-class StockAdapter(val list: ArrayList<PortfolioItem>) :
+class StockAdapter(
+    val type: @ProfitLossReportFragment.Companion.TYPE Int,
+    val list: ArrayList<PortfolioItem>
+) :
     RecyclerView.Adapter<StockAdapter.StockVH>() {
 
 
     inner class StockVH(private val stockRowLayoutBinding: StockRowLayoutBinding) :
         RecyclerView.ViewHolder(stockRowLayoutBinding.root) {
         fun bind() {
+            stockRowLayoutBinding.type = type
             stockRowLayoutBinding.portfolio = list[absoluteAdapterPosition]
             val lm = LinearLayoutManager(
                 stockRowLayoutBinding.root.context,
@@ -23,10 +27,11 @@ class StockAdapter(val list: ArrayList<PortfolioItem>) :
                 false
             )
             stockRowLayoutBinding.priceRv.layoutManager = lm
-            stockRowLayoutBinding.priceRv.adapter = PriceAdapter(createPricingList(list[absoluteAdapterPosition]))
+            stockRowLayoutBinding.priceRv.adapter =
+                PriceAdapter(createPricingList(list[absoluteAdapterPosition]))
         }
 
-        private fun createPricingList(portfolioItem: PortfolioItem) : ArrayList<Pair<String,String>> {
+        private fun createPricingList(portfolioItem: PortfolioItem): ArrayList<Pair<String, String>> {
             var priceList = arrayListOf<Pair<String, String>>()
             val context = stockRowLayoutBinding.root.context
 
@@ -42,18 +47,65 @@ class StockAdapter(val list: ArrayList<PortfolioItem>) :
                     portfolioItem.orderPrice.toString()
                 )
             )
-            priceList.add(
-                Pair(
-                    context.getString(R.string.total_buy_value_lbl),
-                    portfolioItem.totalStockValue.toString()
-                )
-            )
-            priceList.add(
-                Pair(
-                    context.getString(R.string.total_sell_value_lbl),
-                    portfolioItem.totalStockValue.toString()
-                )
-            )
+
+            when (type) {
+                0 -> {
+                    priceList.add(
+                        Pair(
+                            context.getString(R.string.current_price_lbl),
+                            portfolioItem.market.currentValue().toString()
+                        )
+                    )
+                    priceList.add(
+                        Pair(
+                            context.getString(R.string.avg_sell_price_lbl),
+                            portfolioItem.orderPrice.toString()
+                        )
+                    )
+                }
+                1 -> {
+                    priceList.add(
+                        Pair(
+                            context.getString(R.string.avg_sell_price_lbl),
+                            portfolioItem.orderPrice.toString()
+                        )
+                    )
+                    priceList.add(
+                        Pair(
+                            context.getString(R.string.total_buy_value_lbl),
+                            portfolioItem.totalStockValue.toString()
+                        )
+                    )
+                    priceList.add(
+                        Pair(
+                            context.getString(R.string.total_sell_value_lbl),
+                            portfolioItem.totalStockValue.toString()
+                        )
+                    )
+                }
+                2 -> {
+                    priceList.add(
+                        Pair(
+                            context.getString(R.string.total_buy_value_lbl),
+                            portfolioItem.totalStockValue.toString()
+                        )
+                    )
+                    priceList.add(
+                        Pair(
+                            context.getString(R.string.current_price_lbl),
+                            portfolioItem.market.currentValue().toString()
+                        )
+                    )
+                    priceList.add(
+                        Pair(
+                            context.getString(R.string.total_current_value_lbl),
+                            (portfolioItem.market.currentValue() * portfolioItem.orderQty).toString()
+                        )
+                    )
+                }
+            }
+
+
 
             return priceList
         }

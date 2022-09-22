@@ -66,11 +66,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:padding="@dimen/_8sdp"
                     android:text="@{portfolio.orderNo}"
                     app:fontFamily="@font/open_sans_medium"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/stockCodeTv"
                     app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
                     app:layout_constraintWidth_percent="0.6" />
 
@@ -80,11 +81,28 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:padding="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp"
                     android:text="@{portfolio.market.stockName}"
                     app:fontFamily="@font/open_sans_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
+                    app:layout_constraintWidth_percent="0.4" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stockCodeTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp"
+                    android:text="@{portfolio.market.stockCode}"
+                    app:fontFamily="@font/open_sans_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stockTv"
                     app:layout_constraintWidth_percent="0.4" />
 
 
@@ -94,7 +112,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderIdTv"
+                    app:layout_constraintTop_toBottomOf="@+id/stockCodeTv"
                     tools:itemCount="2"
                     tools:listitem="@layout/row_price" />
 

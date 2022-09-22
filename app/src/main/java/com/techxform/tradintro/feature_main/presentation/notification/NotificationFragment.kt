@@ -107,7 +107,7 @@ class NotificationFragment :
                 if (totalItemCount != null) {
                     if (!isLoading && totalItemCount <= (lastVisibleItem + 5) && !noMorePages) {
                         isLoading = true
-                        skipLoading = false;
+                        skipLoading = false
                         viewModel.notifications(
                             SearchModel(
                                 binding.searchView.text.toString().trim(),

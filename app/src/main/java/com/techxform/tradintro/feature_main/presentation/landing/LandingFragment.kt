@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.*
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -54,6 +55,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate),
     Toolbar.OnMenuItemClickListener {
@@ -70,7 +72,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+        menuSetup()
         bottomNavSetup()
         viewModel.userDetails(requireContext())
         pref = PreferenceHelper.customPreference(requireContext())
@@ -165,9 +167,22 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
         }
     }
 
+    private fun menuSetup() {
+        binding.toolbar.setOnMenuItemClickListener(this)
+        val notificationMenu = binding.toolbar.menu.findItem(R.id.action_notification)
+        val countTv = notificationMenu.actionView?.findViewById<TextView>(R.id.action_badge)
+        notificationMenu.actionView?.setOnClickListener {
+            navController.navigate(
+                R.id.notificationFragment, NotificationFragment.navBundle(
+                    NEWS_TYPE
+                )
+            )
+        }
+    }
+
     private fun drawerSetup() {
 
-        binding.toolbar.setOnMenuItemClickListener(this)
+
         binding.header.backTv.setOnClickListener {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
@@ -337,7 +352,6 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             it.isChecked = true
             return@setOnItemSelectedListener true
         }
-
 
 
     }

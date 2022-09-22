@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -30,7 +29,7 @@ class OrderBookFragment :
     private lateinit var viewModel: OrderBookViewModel
     private lateinit var portfolioList: ArrayList<PortfolioItem>
     private val limit = 10
-
+    private val isTradeBook :Boolean by lazy { requireArguments().getBoolean(IsTradeBook)}
 
 
     private fun observers() {
@@ -40,7 +39,7 @@ class OrderBookFragment :
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
             portfolioList = it.data
-            binding.orderBookRv.adapter = OrderBookAdapter(it.data, object :
+            binding.orderBookRv.adapter = OrderBookAdapter(isTradeBook =  isTradeBook,it.data, object :
                 OrderBookAdapter.ClickListener {
                 override fun onEditBtnClick(portfolio: PortfolioItem) {
 
@@ -100,7 +99,7 @@ class OrderBookFragment :
                     portfolioStatus = "0,1"
                 )
             )
-requireContext().showShortToast(getString(R.string.delete_success))
+            requireContext().showShortToast(getString(R.string.delete_success))
 
         }
 
@@ -116,7 +115,7 @@ requireContext().showShortToast(getString(R.string.delete_success))
                 else -> {
                     val errorMsg = (it as Failure.FeatureFailure).message
                     sequenceOf(
-                        requireContext().showShortToast( "Error: $errorMsg")
+                        requireContext().showShortToast("Error: $errorMsg")
 
                     )
 
@@ -141,15 +140,34 @@ requireContext().showShortToast(getString(R.string.delete_success))
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val isTradeBook = requireArguments().getBoolean(IsTradeBook)
 
         if (isTradeBook) {
             binding.titleTv.text = getString(R.string.trade_book_lbl)
-            viewModel.portfolioList(SearchModel("", limit, null,0, 0, orderStatus = "0", portfolioStatus = "0,1"))
+            viewModel.portfolioList(
+                SearchModel(
+                    "",
+                    limit,
+                    null,
+                    0,
+                    0,
+                    orderStatus = "0",
+                    portfolioStatus = "0,1"
+                )
+            )
 
         } else {
             binding.titleTv.text = getString(R.string.order_book_lbl)
-            viewModel.portfolioList(SearchModel("", limit, null,0, 0, orderStatus = "0,1,2,3,4", portfolioStatus = "0,1"))
+            viewModel.portfolioList(
+                SearchModel(
+                    "",
+                    limit,
+                    null,
+                    0,
+                    0,
+                    orderStatus = "0,1,2,3,4",
+                    portfolioStatus = "0,1"
+                )
+            )
         }
 
     }

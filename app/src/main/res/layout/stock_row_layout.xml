@@ -8,6 +8,9 @@
         <variable
             name="portfolio"
             type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
+        <variable
+            name="type"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,7 +132,7 @@
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:fontFamily="@font/open_sans"
-            android:text="@string/realised_profit_loss_lbl"
+            android:text="@{type == 0 ?  @string/gain_loss_lbl  : type == 1 ? @string/realised_profit_loss_lbl : @string/unrealised_profit_loss_lbl1}"
             app:layout_constraintEnd_toStartOf="@+id/realisePLTv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/priceContainer" />
@@ -161,7 +164,7 @@
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:fontFamily="@font/open_sans"
-            android:text="@string/realised_profit_loss_per_lbl"
+            android:text="@{type == 0 ? @string/per_gain_loss_lbl: type == 1 ? @string/realised_profit_loss_per_lbl : @string/unrealised_per_profit_loss_lbl }"
             app:layout_constraintEnd_toStartOf="@+id/realisePLPerTv"
             app:layout_constraintStart_toStartOf="@+id/g1"
             app:layout_constraintTop_toBottomOf="@+id/priceContainer" />
