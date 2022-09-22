@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -12,13 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
-import com.techxform.tradintro.core.utils.PreferenceHelper
-import com.techxform.tradintro.core.utils.PreferenceHelper.userFullName
 import com.techxform.tradintro.databinding.OriginalHomeFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
-import com.techxform.tradintro.feature_main.data.remote.dto.LogOutRequest
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
-import com.techxform.tradintro.feature_main.presentation.portfolio.PortfoliosFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,14 +33,15 @@ class OriginalHomeFragment :
         observers()
 
         activity?.onBackPressedDispatcher?.addCallback(
-            viewLifecycleOwner,onBackPressedCallback
+            viewLifecycleOwner, onBackPressedCallback
         )
         return super.onCreateView(inflater, container, savedInstanceState)
     }
+
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (getFragment() is OriginalHomeFragment) {
-               showCloseDialog()
+                showCloseDialog()
             } else findNavController().navigateUp()
         }
     }
@@ -88,7 +84,7 @@ class OriginalHomeFragment :
         }
         viewModel.userDashboard()
 
-       // binding.myPortfolioLbl.text="Welcome "+ PreferenceHelper.customPreference(requireContext()).userFullName
+        // binding.myPortfolioLbl.text="Welcome "+ PreferenceHelper.customPreference(requireContext()).userFullName
 
         /*       val face: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.open_sans)
                val searchText = binding.searchView as TextView

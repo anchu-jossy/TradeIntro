@@ -67,12 +67,12 @@
                 android:fontFamily="@font/open_sans_semibold"
                 android:gravity="end"
                 android:maxLines="1"
-                android:text='@{data.inviteStatus==0 ? "PENDING" : data.inviteStatus==1 ? "ACCEPTED" : data.inviteStatus ==2 ? "REJECTED" : ""}'
+                android:text='@{data.inviteStatus==0 ? "Not Registered" : data.inviteStatus==1 ? "Registered" : data.inviteStatus ==2 ? "Rejected" : ""}'
                 app:inviteColor="@{data.inviteStatus}"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/_10ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.4" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/perTv"

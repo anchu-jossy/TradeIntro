@@ -53,6 +53,7 @@
                     android:background="#00000000"
                     android:backgroundTint="@color/white"
                     android:singleLine="true"
+                    android:inputType="textEmailAddress"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp" />
 

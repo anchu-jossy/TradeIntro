@@ -8,8 +8,10 @@ import androidx.security.crypto.MasterKey
 import com.techxform.tradintro.core.utils.Contants.PREFERENCE
 import com.techxform.tradintro.core.utils.Contants.PREF_FCM_TOKEN_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_FCM_TOKEN_SYNC_KEY
+import com.techxform.tradintro.core.utils.Contants.PREF_PASSWORD_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_REFRESH_TOKEN_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_TOKEN_KEY
+import com.techxform.tradintro.core.utils.Contants.PREF_USERNAME_KEY
 import com.techxform.tradintro.core.utils.Contants.PREF_USER_FULL_NAME_KEY
 import com.techxform.tradintro.core.utils.Contants.USER_ID_KEY
 
@@ -60,6 +62,20 @@ object PreferenceHelper {
         set(value) {
             editMe {
                 it.putString(PREF_TOKEN_KEY, value)
+            }
+        }
+    var SharedPreferences.username
+        get() = getString(PREF_USERNAME_KEY, "")
+        set(value) {
+            editMe {
+                it.putString(PREF_USERNAME_KEY, value)
+            }
+        }
+    var SharedPreferences.password
+        get() = getString(PREF_PASSWORD_KEY, "")
+        set(value) {
+            editMe {
+                it.putString(PREF_PASSWORD_KEY, value)
             }
         }
     var SharedPreferences.userId

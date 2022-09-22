@@ -57,9 +57,7 @@ class PortfoliosFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        /*       val face: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.open_sans)
-               val searchText = binding.searchView as TextView
-               searchText.typeface = face*/
+
         searchTextListener = binding.searchView.addTextChangedListener {
             if (binding.searchView.text.toString().isNotEmpty()) {
                 prevSearchTerm = binding.searchView.text.toString()

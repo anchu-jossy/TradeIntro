@@ -18,6 +18,7 @@ data class Levels(
     @SerializedName("user_level_name") var userLevelName: String? = null,
     @SerializedName("user_level_image") var userLevelImage: String? = null,
     @SerializedName("user_level_points") var userLevelPoints: Float? = null,
+    @SerializedName("totalEarnedPointsByUser") var totalEarnedPointsByUser: Float? = null,
     @SerializedName("user_level_feature") var userLevelFeature: String? = null,
     @SerializedName("earn_points") var earnPoints: String? = null,
     @SerializedName("level_position") var levelPosition: Int? = null,
@@ -37,6 +38,7 @@ data class Levels(
     @SerializedName("max_pts_per_referal") var maxPtsPerReferal: Int? = null,
     @SerializedName("pts_per_watchlist") var ptsPerWatchlist: Int? = null,
     @SerializedName("max_pts_per_watchlist") var maxPtsPerWatchlist: Int? = null,
+
     var userLevel: Int? = null,
 
 ):Parcelable{
@@ -44,6 +46,7 @@ data class Levels(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
         parcel.readString(),
+        parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readString(),
         parcel.readString(),
@@ -73,6 +76,7 @@ data class Levels(
         parcel.writeString(userLevelName)
         parcel.writeString(userLevelImage)
         parcel.writeValue(userLevelPoints)
+        parcel.writeValue(totalEarnedPointsByUser)
         parcel.writeString(userLevelFeature)
         parcel.writeString(earnPoints)
         parcel.writeValue(levelPosition)

@@ -8,8 +8,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.repository.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,11 +26,18 @@ class WatchlistViewModel @Inject constructor(private val repository: ApiReposito
     private var _deleteWatchlistLiveData = MutableLiveData<BaseResponse<DeleteWatchListResponse>>()
     val deleteWatchlistLiveData: LiveData<BaseResponse<DeleteWatchListResponse>> = _deleteWatchlistLiveData
 
+    private lateinit var job: Job
+
     fun watchlist(filterModel: FilterModel)
     {
-        _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.Default) {
-
+        if (::job.isInitialized && job.isActive)
+            runBlocking {
+                job.cancelAndJoin()
+            }
+        job = viewModelScope.launch(Dispatchers.Default) {
+            if(!filterModel.searchText.isNullOrEmpty())
+                delay(1000L)
+            _loadingLiveData.postValue(true)
             when (val result = repository.watchlist(filterModel)) {
                 is Result.Success -> {
                     _watchlistLiveData.postValue(result.data!!)

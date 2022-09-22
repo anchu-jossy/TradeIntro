@@ -5,6 +5,8 @@ object Contants {
     const val IMAGE_BASE_URL = "https://www.tradintro.com//uploads/"
     const val PREFERENCE = "Trade"
     const val PREF_TOKEN_KEY = "token"
+    const val PREF_USERNAME_KEY = "username"
+    const val PREF_PASSWORD_KEY = "password"
     const val USER_ID_KEY = "USER_ID"
     const val PREF_FCM_TOKEN_KEY = "fcm_token"
     const val PREF_FCM_TOKEN_SYNC_KEY = "isFcmTokenSync"

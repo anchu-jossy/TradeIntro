@@ -37,7 +37,7 @@ class EqualityPlaceOrderViewModel @Inject constructor(private val repository: Ap
 
 
 
-    fun walletSummary(type:PaymentType)
+    fun walletSummary(type:PaymentType?)
     {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {

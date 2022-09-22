@@ -36,7 +36,6 @@ class SplashScreenActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         setContentView(R.layout.activity_splash_screen)
-
         if (Build.VERSION.SDK_INT >= 33) {
             askNotificationPermission()
         }
@@ -68,10 +67,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 // FCM SDK (and your app) can post notifications.
             }
             shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-                // TODO: display an educational UI explaining to the user the features that will be enabled
-                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
-                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
-                //       If the user selects "No thanks," allow the user to continue without notifications.
+
             }
             else -> {
                 // Directly ask for the permission

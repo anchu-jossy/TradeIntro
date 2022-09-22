@@ -85,7 +85,7 @@
                 android:fontFamily="@font/open_sans_semibold"
                 app:userLevel="@{userLevel}"
                 app:currentLevel="@{level.levelPosition}"
-                app:userLevelPoints="@{level.userLevelPoints}"
+                app:userLevelPoints="@{ userLevel >= level.levelPosition?  level.totalEarnedPointsByUser : level.userLevelPoints}"
                 android:textColor="@color/dark_most_grey"
                 android:textSize="@dimen/_9ssp"
                 android:layout_marginTop="@dimen/_3ssp"

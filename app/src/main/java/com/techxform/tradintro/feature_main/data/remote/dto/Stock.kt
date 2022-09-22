@@ -18,18 +18,18 @@ data class Stock(
 
 ) : Parcelable {
     fun currentValue(): Float {
-        return if (history.isEmpty()) 0f
+        return if (history.isNullOrEmpty()) 0f
         else (history.first().stockHistoryHigh +
                 history.first().stockHistoryLow) / 2
 
     }
 
     fun perDiff(): Float {
-
-        val todayPrice = currentValue()
-        val size = history.size ?: 0
-        if (size > 1) {
-            /*     val openPrice2 =
+        if (!history.isNullOrEmpty()) {
+            val todayPrice = currentValue()
+            val size = history.size ?: 0
+            if (size > 1) {
+                /*     val openPrice2 =
                      history[1].stockHistoryHigh
                  val closePrice2 =
                      history[1].stockHistoryLow
@@ -38,8 +38,9 @@ data class Stock(
 
                  if (todayPrice != 0.0f && yesterdayPrice != 0.0f)
                      return ((todayPrice - yesterdayPrice) / ((todayPrice + yesterdayPrice) / 2)) * 100;*/
-            val change = todayPrice - history.first().stockHistoryOpen
-            return (change / history.first().stockHistoryOpen) * 100
+                val change = todayPrice - history.first().stockHistoryOpen
+                return (change / history.first().stockHistoryOpen) * 100
+            }
         }
         return 0.0f
     }

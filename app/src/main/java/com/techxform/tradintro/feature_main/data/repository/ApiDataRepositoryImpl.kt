@@ -47,17 +47,15 @@ class ApiDataRepositoryImpl @Inject constructor(
                 } else {
                     response.body()?.let {
                         Result.Error(Failure.FeatureFailure(it.error!!.message))
-                    }?:run{
+                    }?:response.errorBody()?.let{
                         val gson = Gson()
                         val errorResponse =
                             gson.fromJson((response.errorBody() as ResponseBody).string(), ErrorResponse::class.java)
                         Result.Error(Failure.FeatureFailure(errorResponse.error.message))
-                    }
-
+                    }?: Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
                 }
             } catch (e: UnknownHostException) {
                 e.printStackTrace()
-                // Result.Error(Failure.NetworkConnection)
                 Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
                 e.printStackTrace()
@@ -65,7 +63,6 @@ class ApiDataRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
-                // Result.Error(Failure.ServerError)
             }
         }
     }
@@ -85,7 +82,6 @@ class ApiDataRepositoryImpl @Inject constructor(
                 }
             } catch (e: UnknownHostException) {
                 e.printStackTrace()
-                // Result.Error(Failure.NetworkConnection)
                 Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
                 e.printStackTrace()
@@ -93,7 +89,6 @@ class ApiDataRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
-                // Result.Error(Failure.ServerError)
             }
         }
     }
@@ -230,35 +225,7 @@ class ApiDataRepositoryImpl @Inject constructor(
 
         return apiCall{apiService.notifications(reqMap)}
 
-        /*return withContext(Dispatchers.Default)
-        {
-            try {
-                val reqMap = mutableMapOf(
-                    "limit" to searchModel.limit.toString(),
-                    "offset" to searchModel.offset.toString(),
-                    "skip" to searchModel.skip.toString(),
-                    "type" to searchModel.type.toString(),
-                )
 
-                if (!searchModel.searchText.isNullOrEmpty())
-                    reqMap["search"] = searchModel.searchText!!
-
-                val response = apiService.notifications(reqMap)
-                if (response.isSuccessful)
-                    Result.Success(response.body()!!)
-                else {
-                    Log.e("Error:", response.raw().message)
-                    Result.Error(Failure.FeatureFailure(response.raw().message))
-                }
-            } catch (e: UnknownHostException) {
-                Result.Error(Failure.NetworkConnection)
-            } catch (e: JsonParseException) {
-                Result.Error(Failure.JsonParsing)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Result.Error(Failure.ServerError)
-            }
-        }*/
     }
 
     override suspend fun deleteNotification(notificationsId: Int): Result<BaseResponse<DeleteNotificationResponse>> {
@@ -306,14 +273,13 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun walletSummary(type: PaymentType): Result<BaseResponse<WalletSummaryResponse>> {
+    override suspend fun walletSummary(type: PaymentType?): Result<BaseResponse<WalletSummaryResponse>> {
         return apiCall{apiService.getWalletSummary()}
 
     }
 
     override suspend fun userLevels(): Result<BaseResponse<UserLevels>> {
         return apiCall{apiService.userLevels()}
-
     }
 
     override suspend fun userDetails(): Result<BaseResponse<UserDetailsResponse>> {
@@ -333,7 +299,6 @@ class ApiDataRepositoryImpl @Inject constructor(
                 }
             } catch (e: UnknownHostException) {
                 e.printStackTrace()
-                // Result.Error(Failure.NetworkConnection)
                 Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
             } catch (e: JsonParseException) {
                 e.printStackTrace()
@@ -341,7 +306,6 @@ class ApiDataRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 Result.Error(Failure.FeatureFailure("Unable to process the request, please try again."))
-                // Result.Error(Failure.ServerError)
             }
         }
     }

@@ -28,14 +28,29 @@ class MySkillsViewModel @Inject constructor(private val repository: ApiRepositor
 
 
     private var _userLevelsHistoryLiveData = MutableLiveData<BaseResponse<ArrayList<Level>>>()
-    val userLevelsHistoryLiveData: LiveData<BaseResponse<ArrayList<Level>>> = _userLevelsHistoryLiveData
+    val userLevelsHistoryLiveData: LiveData<BaseResponse<ArrayList<Level>>> =
+        _userLevelsHistoryLiveData
 
-    fun userLevels()
-    {
+    private var myLevel: Int = 0
+    private var myCurrentLevel: Levels? = null;
+    fun userLevels() {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.userLevels()) {
                 is Result.Success -> {
+                    result.data.data.myLevel?.let {
+                        myLevel = it
+                    }
+
+                    for (level in result.data.data.levels) {
+                        if (level.levelPosition == myLevel) {
+                            level.userLevel = myLevel
+                            myCurrentLevel = level
+                            result.data.data.levels.remove(level)
+                            break
+                        }
+                    }
+
                     _userLevelsLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
@@ -46,8 +61,8 @@ class MySkillsViewModel @Inject constructor(private val repository: ApiRepositor
         }
 
     }
-    fun userLevelsHistory(searchModel: SearchModel)
-    {
+
+    fun userLevelsHistory(searchModel: SearchModel) {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.userPointsHistory(searchModel)) {
@@ -61,6 +76,10 @@ class MySkillsViewModel @Inject constructor(private val repository: ApiRepositor
             _loadingLiveData.postValue(false)
         }
 
+    }
+
+    fun getCurrentLevel(): Levels? {
+        return myCurrentLevel;
     }
 
 

@@ -6,8 +6,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:theme="@style/Theme.TradIntro.Ext2"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:theme="@style/Theme.TradIntro.Ext2">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -16,10 +16,10 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
-                app:tabTextColor="@color/shade_grey"
-                app:tabSelectedTextColor="@color/purple"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:tabSelectedTextColor="@color/purple"
+                app:tabTextColor="@color/shade_grey" />
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -32,23 +32,33 @@
                     android:paddingHorizontal="@dimen/_16sdp"
                     android:paddingVertical="@dimen/_16sdp">
 
+                    <TextView
+                        android:id="@+id/tv_balance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:textStyle="bold"
+                        android:text="@string/trade_money_balance_lbl"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <include
                         android:id="@+id/rechargeTradeMoneyContainer"
                         layout="@layout/recharge_wallet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="36dp"
                         app:buttonLabel="@{@string/recharge_lbl}"
-                        app:isThirdVisible="@{true}"
+                        app:isThirdVisible="@{false}"
                         app:labelOne="@{@string/trade_money_lbl}"
                         app:labelOneHint="@{@string/trade_money_hint}"
                         app:labelThree="@{@string/net_amount_label}"
                         app:labelThreeHint="@{@string/net_amount_hint}"
                         app:labelTwo="@{@string/recharge_amount_lbl}"
                         app:labelTwoHint="@{@string/recharge_amount_hint}"
+                        app:layout_constraintTop_toBottomOf="@id/tv_balance"
                         app:layout_constraintTop_toTopOf="parent"
                         app:title="@{@string/recharge_trade_money_lbl}"
-                        tools:layout_editor_absoluteX="21dp" />
+                        />
 
                     <include
                         android:id="@+id/redeemVoucherContainer"
@@ -56,11 +66,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
+                        android:visibility="gone"
                         app:buttonLabel="@{@string/redeem_lbl}"
                         app:labelOne="@{@string/voucher_code_lbl}"
                         app:labelOneHint="@{@string/voucher_code_hint}"
-                        app:layout_constraintTop_toBottomOf="@+id/rechargeTradeMoneyContainer"
-                        app:title="@{@string/redeem_lbl}" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_balance"
+                        app:title="@{@string/redeem_form_lbl}" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
