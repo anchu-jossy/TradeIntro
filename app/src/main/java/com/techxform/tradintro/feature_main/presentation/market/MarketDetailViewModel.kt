@@ -89,23 +89,6 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
         }
     }
 
-//
-//    fun buyStock(marketId: Int, buySellStockReq: BuySellStockReq)
-//    {
-//        _loadingLiveData.postValue(true)
-//        viewModelScope.launch(Dispatchers.Default) {
-//            when (val result = repository.buyStock(marketId, buySellStockReq)) {
-//                is Result.Success -> {
-//                    _buyStockLiveData.postValue(result.data!!)
-//                }
-//                is Result.Error -> {
-//                    _buyStockErrorLiveData.postValue(result.exception)
-//                }
-//            }
-//            _loadingLiveData.postValue(false)
-//        }
-//    }
-
 
 
     fun modifyAlertPrice(stockId:Int, alertPriceRequest: AlertPriceRequest)

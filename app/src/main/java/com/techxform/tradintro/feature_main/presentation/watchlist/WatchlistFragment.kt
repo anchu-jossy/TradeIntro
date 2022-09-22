@@ -127,7 +127,7 @@ class WatchlistFragment :
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 if (it.data.isEmpty() || it.data.size < limit)
                     noMorePages = true
-                watchList.addAll(it.data)
+                watchList= it.data
                 isLoading = false
                 binding.watchListRv.adapter = WatchListAdapter(watchList, listener)
                 val itemTouchHelperCallback =
@@ -180,7 +180,7 @@ class WatchlistFragment :
         }
         viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner) {
             requireContext().showShortToast(getString(R.string.delete_success))
-            viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
+            viewModel.watchlist(FilterModel("", limit, 0, 0, ""))
 
         }
     }

@@ -123,7 +123,7 @@
                     android:fontFamily="@font/open_sans"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:text="@{Utils.INSTANCE.formatDateTime(watchlist.watchlistDate).second}"
+                    android:text="@{Utils.INSTANCE.formatDateTime24HrFormat(watchlist.watchlistDate).second}"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/subTitleTv"

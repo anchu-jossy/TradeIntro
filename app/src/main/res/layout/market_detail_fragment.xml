@@ -29,7 +29,7 @@
             android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:drawableStart="@drawable/ic_back_action"
             android:drawablePadding="@dimen/_8sdp"
             android:ellipsize="end"
@@ -65,13 +65,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/open_sans_semibold"
             android:maxLines="1"
             android:text="@{stock.stockName}"
             android:textColor="@color/black"
             android:textSize="@dimen/_16ssp"
             app:layout_constraintTop_toBottomOf="@+id/subTitleTv" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subtitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:maxLines="1"
+            android:text="@{stock.stockCode}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/amountTv"
@@ -82,21 +94,33 @@
             android:text="00,000.00"
             android:textColor="@color/black"
             android:textSize="@dimen/_20ssp"
-            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
+            app:layout_constraintTop_toBottomOf="@+id/subtitleTv" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/dateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_8sdp"
             android:fontFamily="@font/open_sans_medium"
-            android:text="@{Utils.INSTANCE.formatDateTimeString(stock.history.get(0).stockHistoryDate) }"
+            android:textColor="@color/black"
+            android:text="@{Utils.INSTANCE.formatDateTime(stock.history.get(0).stockHistoryDate).first}"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toTopOf="@+id/exchangeTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/exchangeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginStart="28dp"
+            android:fontFamily="@font/open_sans_medium"
             android:textColor="@color/black"
             android:textSize="@dimen/_10ssp"
-            app:layout_constraintBottom_toTopOf="@+id/g1"
+            app:layout_constraintBottom_toTopOf="@+id/summaryTv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
+            app:layout_constraintTop_toBottomOf="@+id/dateTv" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/g1"
@@ -113,8 +137,8 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/summaryTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="33dp"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:text="@string/summary"
             android:textColor="@color/magenta"

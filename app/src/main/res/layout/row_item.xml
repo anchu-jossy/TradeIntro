@@ -137,7 +137,7 @@
                 android:fontFamily="@font/open_sans"
                 android:gravity="end"
                 android:maxLines="1"
-                android:text="@{portfolio.orderType==0 ? `BUY`:`SELL`   }"
+                android:text="@{portfolio.orderType==0 ? `BUY`:`SELL`}"
                 android:textSize="@dimen/_8ssp"
                 android:visibility="@{isSelectionView?View.VISIBLE:View.GONE}"
                 app:colorTypeText="@{portfolio.orderType}"
