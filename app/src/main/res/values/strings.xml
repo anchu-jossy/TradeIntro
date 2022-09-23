@@ -306,6 +306,8 @@
     <string name="cancel_lbl">Cancel</string>
     <string name="logout_confirmation_lbl">Are you sure want to logout the account?</string>
     <string name="logout_account_lbl">Logout Account</string>
+    <string name="stock_code_api_code_format">%s(%1$s)</string>
+    <string name="no_report_data_placeholder">No report data available</string>
 
 
 </resources>

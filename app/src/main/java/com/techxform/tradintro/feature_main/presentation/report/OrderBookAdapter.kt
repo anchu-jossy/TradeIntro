@@ -25,14 +25,13 @@ class OrderBookAdapter(
             orderBookRowBinding.priceRv.adapter = PriceAdapter(createPricingList(list[absoluteAdapterPosition]))
             if (isTradeBook) {
                 orderBookRowBinding.btnEdit.visibility = View.GONE
-                orderBookRowBinding.btnDelete.visibility = View.GONE
             } else {
                 orderBookRowBinding.btnEdit.setOnClickListener {
                     listener.onEditBtnClick(list[absoluteAdapterPosition])
                 }
-                orderBookRowBinding.btnDelete.setOnClickListener {
+               /* orderBookRowBinding.btnDelete.setOnClickListener {
                     listener.onDeleteBtnClick(list[absoluteAdapterPosition])
-                }
+                }*/
             }
         }
 

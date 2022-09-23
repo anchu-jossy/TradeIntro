@@ -15,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ReportViewModel  @Inject constructor(private val repository: ApiRepository) : ViewModel() {
 
-    private var _portfolioLiveData = MutableLiveData<BaseResponse<ArrayList<PortfolioItem>>>()
-    val portfolioLiveData: LiveData<BaseResponse<ArrayList<PortfolioItem>>> = _portfolioLiveData
+    private var _portfolioLiveData = MutableLiveData<BaseResponse<ArrayList<PortfolioItem>>?>()
+    val portfolioLiveData: LiveData<BaseResponse<ArrayList<PortfolioItem>>?> = _portfolioLiveData
 
     private var _portfolioErrorLiveData = MutableLiveData<Failure>()
     val portfolioErrorLiveData: LiveData<Failure> = _portfolioErrorLiveData
@@ -33,7 +33,8 @@ class ReportViewModel  @Inject constructor(private val repository: ApiRepository
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.historicalReport(searchModel)) {
                 is Result.Success -> {
-                    _portfolioLiveData.postValue(result.data!!)
+                    result.data.data.sortByDescending { it.orderExecutedOn }
+                    _portfolioLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _portfolioErrorLiveData.postValue(result.exception)
@@ -49,7 +50,8 @@ class ReportViewModel  @Inject constructor(private val repository: ApiRepository
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.reportCurrent(searchModel)) {
                 is Result.Success -> {
-                    _portfolioLiveData.postValue(result.data!!)
+                    result.data.data.sortByDescending { it.orderExecutedOn }
+                    _portfolioLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _portfolioErrorLiveData.postValue(result.exception)

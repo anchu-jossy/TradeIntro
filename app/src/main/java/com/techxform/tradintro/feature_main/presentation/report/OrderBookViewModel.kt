@@ -32,6 +32,7 @@ class OrderBookViewModel @Inject constructor(private val repository: ApiReposito
         viewModelScope.launch(Dispatchers.Default) {
             when (val result = repository.portfolio(searchModel)) {
                 is Result.Success -> {
+                    result.data.data.sortByDescending { it.orderExecutedOn }
                     _portfolioLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
