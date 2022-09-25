@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -30,7 +29,7 @@ class OrderBookFragment :
     private lateinit var viewModel: OrderBookViewModel
     private lateinit var portfolioList: ArrayList<PortfolioItem>
     private val limit = 10
-
+    private val isTradeBook :Boolean by lazy { requireArguments().getBoolean(IsTradeBook)}
 
 
     private fun observers() {
@@ -39,50 +38,65 @@ class OrderBookFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            portfolioList = it.data
-            binding.orderBookRv.adapter = OrderBookAdapter(it.data, object :
-                OrderBookAdapter.ClickListener {
-                override fun onEditBtnClick(portfolio: PortfolioItem) {
+
+            if(it != null && !it.data.isNullOrEmpty()) {
+                binding.noReportDataTv.isVisible = false
+                binding.orderBookRv.isVisible = true
+                portfolioList = it.data
+                binding.orderBookRv.adapter =
+                    OrderBookAdapter(isTradeBook = isTradeBook, it.data, object :
+                        OrderBookAdapter.ClickListener {
+                        override fun onEditBtnClick(portfolio: PortfolioItem) {
 
 
-                    val displayRectangle = Rect()
-                    val window: Window = requireActivity().window
-                    window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
+                            val displayRectangle = Rect()
+                            val window: Window = requireActivity().window
+                            window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
 
 
-                    val binding: LayoutDialogBinding = DataBindingUtil
-                        .inflate(LayoutInflater.from(context), R.layout.layout_dialog, null, false)
-                    binding.root.minimumWidth = ((displayRectangle.width() * 1f).toInt());
-                    binding.root.minimumHeight = (((displayRectangle.height() * 1f).toInt()));
+                            val binding: LayoutDialogBinding = DataBindingUtil
+                                .inflate(
+                                    LayoutInflater.from(context),
+                                    R.layout.layout_dialog,
+                                    null,
+                                    false
+                                )
+                            binding.root.minimumWidth = ((displayRectangle.width() * 1f).toInt());
+                            binding.root.minimumHeight =
+                                (((displayRectangle.height() * 1f).toInt()));
 
 
-                    binding.portfolio = portfolio
-                    val dialog = Dialog(requireContext())
-                    dialog.setContentView(binding.root)
-                    dialog.show()
-                    binding.closeIv.setOnClickListener {
-                        dialog.dismiss()
-                    }
-                    binding.sellBtn.setOnClickListener {
-                        dialog.dismiss()
-                        viewModel.updatePortfolio(
-                            portfolio.orderId,
-                            UpdatePortfolioRequest(
-                                binding.TransPriceET.text.toString().toFloat(),
-                                binding.quantityET.text.toString().toFloat()
-                            )
-                        )
-                    }
+                            binding.portfolio = portfolio
+                            val dialog = Dialog(requireContext())
+                            dialog.setContentView(binding.root)
+                            dialog.show()
+                            binding.closeIv.setOnClickListener {
+                                dialog.dismiss()
+                            }
+                            binding.sellBtn.setOnClickListener {
+                                dialog.dismiss()
+                                viewModel.updatePortfolio(
+                                    portfolio.orderId,
+                                    UpdatePortfolioRequest(
+                                        binding.TransPriceET.text.toString().toFloat(),
+                                        binding.quantityET.text.toString().toFloat()
+                                    )
+                                )
+                            }
 
 
-                }
+                        }
 
-                override fun onDeleteBtnClick(portfolio: PortfolioItem) {
-                    viewModel.deletePortfolio(portfolio.orderId)
+                        override fun onDeleteBtnClick(portfolio: PortfolioItem) {
+                            viewModel.deletePortfolio(portfolio.orderId)
 
-                }
+                        }
 
-            })
+                    })
+            }else {
+                binding.noReportDataTv.isVisible = true
+                binding.orderBookRv.isVisible = false
+            }
         }
         viewModel.updatePortfolioLiveData.observe(viewLifecycleOwner) {
             requireContext().showShortToast(getString(R.string.updated_sucess))
@@ -100,7 +114,7 @@ class OrderBookFragment :
                     portfolioStatus = "0,1"
                 )
             )
-requireContext().showShortToast(getString(R.string.delete_success))
+            requireContext().showShortToast(getString(R.string.delete_success))
 
         }
 
@@ -116,7 +130,7 @@ requireContext().showShortToast(getString(R.string.delete_success))
                 else -> {
                     val errorMsg = (it as Failure.FeatureFailure).message
                     sequenceOf(
-                        requireContext().showShortToast( "Error: $errorMsg")
+                        requireContext().showShortToast("Error: $errorMsg")
 
                     )
 
@@ -141,15 +155,34 @@ requireContext().showShortToast(getString(R.string.delete_success))
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val isTradeBook = requireArguments().getBoolean(IsTradeBook)
 
         if (isTradeBook) {
             binding.titleTv.text = getString(R.string.trade_book_lbl)
-            viewModel.portfolioList(SearchModel("", limit, null,0, 0, orderStatus = "0", portfolioStatus = "0,1"))
+            viewModel.portfolioList(
+                SearchModel(
+                    "",
+                    limit,
+                    null,
+                    0,
+                    0,
+                    orderStatus = "0",
+                    portfolioStatus = "0,1"
+                )
+            )
 
         } else {
             binding.titleTv.text = getString(R.string.order_book_lbl)
-            viewModel.portfolioList(SearchModel("", limit, null,0, 0, orderStatus = "0,1,2,3,4", portfolioStatus = "0,1"))
+            viewModel.portfolioList(
+                SearchModel(
+                    "",
+                    limit,
+                    null,
+                    0,
+                    0,
+                    orderStatus = "0,1,2,3,4",
+                    portfolioStatus = "0,1"
+                )
+            )
         }
 
     }

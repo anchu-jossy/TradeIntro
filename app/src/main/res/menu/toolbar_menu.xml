@@ -14,9 +14,11 @@
         android:title="@string/wallet"
         app:showAsAction="always" />
 
+
     <item
         android:id="@+id/action_notification"
-        android:icon="@drawable/ic_baseline_notifications_none_24"
         android:title="@string/notification_lbl"
-        app:showAsAction="ifRoom" />
+        app:actionLayout="@layout/feed_update_count"
+        app:showAsAction="always"
+        android:clickable="false"/>
 </menu>

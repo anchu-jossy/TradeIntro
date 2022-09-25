@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.IntDef
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +27,8 @@ class ProfitLossReportFragment :
 
     private lateinit var viewModel: ReportViewModel
 
+    private var type : @TYPE Int = HISTORICAL
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,6 +46,7 @@ class ProfitLossReportFragment :
         val isHistorical = requireArguments().getBoolean(IS_HISTORICAL)
         binding.profitLossRv.isVisible = !isHistorical
         if (isHistorical) {
+            type = HISTORICAL
             binding.reportsSelectionSpinner.isVisible = false
             binding.titleTv.text = getString(R.string.historical_holdings_lbl)
             viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
@@ -58,9 +62,11 @@ class ProfitLossReportFragment :
                     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                         when (reports[p2]) {
                             getString(R.string.realised_gain) -> {
+                                type = REALISED_GAIN
                                 viewModel.historicalReport(SearchModel(limit = 10, offset = 0))
                             }
                             getString(R.string.unrealised_gain) -> {
+                                type = UNREALISED_GAIN
                                 viewModel.reportCurrent(SearchModel(limit = 10, offset = 0))
                             }
                         }
@@ -81,7 +87,16 @@ class ProfitLossReportFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            binding.stockRv.adapter = StockAdapter(it.data)
+
+            if(it != null && !it.data.isNullOrEmpty())
+            {
+                binding.noReportDataTv.isVisible = false
+                binding.stockRv.isVisible = true
+                binding.stockRv.adapter = StockAdapter(type, it.data)
+            }else {
+                binding.noReportDataTv.isVisible = true
+                binding.stockRv.isVisible = false
+            }
         }
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
@@ -135,6 +150,15 @@ class ProfitLossReportFragment :
     companion object {
 
         private const val IS_HISTORICAL = "is_historical"
+
+        @Target(AnnotationTarget.TYPE)
+        @IntDef(HISTORICAL, REALISED_GAIN, UNREALISED_GAIN)
+        @Retention(AnnotationRetention.SOURCE)
+        annotation class TYPE
+
+        const val HISTORICAL = 0
+        const val REALISED_GAIN = 1
+        const val UNREALISED_GAIN = 2
 
         @JvmStatic
         fun newInstance(isHistorical: Boolean) =
