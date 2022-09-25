@@ -120,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/open_sans_medium"
-                            android:text="@string/stock_name_lbl"
+                            android:text="@string/stock_info_lbl"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/stockNameEt"
                             app:layout_constraintStart_toStartOf="parent"

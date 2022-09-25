@@ -77,7 +77,7 @@ class PortfolioViewFragment :
         priceTypes.add(
             PriceType(
                 portfolioItem.orderPrice,
-                getString(R.string.purchase_price_lbl)
+                getString(R.string.txn_type_price_lbl)
             )
         )
         priceTypes.add(
