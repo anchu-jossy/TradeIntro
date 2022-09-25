@@ -515,7 +515,7 @@
                             app:layout_constraintTop_toTopOf="@id/balanceEt" />
 
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/balanceEt"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -523,7 +523,6 @@
                             android:layout_marginTop="@dimen/_16sdp"
                             android:background="@drawable/edittext_bg"
                             android:fontFamily="@font/open_sans"
-                            android:hint=""
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon9"
@@ -551,7 +550,7 @@
                             app:layout_constraintTop_toTopOf="@id/usableBalanceEt" />
 
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/usableBalanceEt"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -559,7 +558,6 @@
                             android:layout_marginTop="@dimen/_8sdp"
                             android:background="@drawable/edittext_bg"
                             android:fontFamily="@font/open_sans"
-                            android:hint=""
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon10"
@@ -572,7 +570,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
-                            android:text="@string/stock_name_lbl"
+                            android:text="@string/stock_info_lbl"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/stockInfoContainer" />

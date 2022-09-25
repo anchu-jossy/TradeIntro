@@ -184,7 +184,7 @@ class EqualityPlaceOrderFragment :
 
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
             it.data.orderId.let {
-                requireContext().showShortToast(getString(R.string.bought_success))
+                requireContext().showShortToast(getString(R.string.update_success))
 
                 clearBackstack()
                 findNavController().navigate(R.id.nav_portfoliolist)
@@ -194,7 +194,7 @@ class EqualityPlaceOrderFragment :
         viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
             it.data.orderId?.let {
                 requireContext().showShortToast(
-                    getString(R.string.sold_success),
+                    getString(R.string.update_success),
                 )
 
                 clearBackstack()
