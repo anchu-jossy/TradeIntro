@@ -63,7 +63,7 @@ class WatchlistFragment :
         }
 
         binding.searchView.addTextChangedListener {
-            if (binding.searchView.text.toString().length > 3) {
+            if (binding.searchView.text.toString().isNotEmpty()) {
                 isSearch = true
                 watchList.clear()
                 viewModel.watchlist(
@@ -75,12 +75,12 @@ class WatchlistFragment :
                         ""
                     )
                 )
-                binding.searchView.isEnabled = false
+
             } else if (binding.searchView.text.isNullOrEmpty() && isSearch) {
                 isSearch = false
                 watchList.clear()
                 viewModel.watchlist(FilterModel("", limit, 0, 0, ""))
-                binding.searchView.isEnabled = false
+
             }
         }
 
