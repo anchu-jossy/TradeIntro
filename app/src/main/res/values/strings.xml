@@ -62,7 +62,7 @@
     <string name="back_lbl">Back</string>
     <string name="add_stock_lbl">Add Stock</string>
     <string name="exchange_lbl">Exchange </string>
-    <string name="stock_name_lbl">Stock Name </string>
+    <string name="stock_info_lbl">Stock Info </string>
     <string name="watchlist_price_lbl">Watchlist Price</string>
     <string name="high_lbl">High</string>
     <string name="low_lbl">Low</string>
@@ -283,8 +283,7 @@
     <string name="edit">Edit</string>
     <string name="stock_name">StockName</string>
     <string name="stock_id">StockId</string>
-    <string name="bought_success">Successfully bought stock</string>
-    <string name="sold_success">Successfully sold stock</string>
+    <string name="update_success">Success! Your order is successfully placed</string>
     <string name="validate_fields">"Fill all fields "</string>
     <string name="added_to_watchlist">Successfully added to watchlist</string>
     <string name="removed_to_watchlist">Successfully removed from watchlist</string>
@@ -316,6 +315,8 @@
     <string name="cancel_lbl">Cancel</string>
     <string name="logout_confirmation_lbl">Are you sure want to logout the account?</string>
     <string name="logout_account_lbl">Logout Account</string>
+    <string name="stock_code_api_code_format">%s(%1$s)</string>
+    <string name="no_report_data_placeholder">No report data available</string>
 
 
 </resources>

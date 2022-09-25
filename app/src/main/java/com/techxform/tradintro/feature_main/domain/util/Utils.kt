@@ -87,7 +87,10 @@ object Utils {
         val d = SimpleDateFormat("dd/MM/yyyy").parse(formattedDate)
         return SimpleDateFormat(    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(d)
 
-
-
+    }
+     fun getAfterMonthsTime(cal: Calendar, afterMonth: Int): Long {
+        cal.time = Date()
+        cal.add(Calendar.MONTH, afterMonth)
+        return cal.time.time
     }
 }

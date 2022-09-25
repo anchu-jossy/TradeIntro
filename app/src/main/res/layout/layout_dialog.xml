@@ -80,7 +80,6 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/open_sans_semibold"
                 android:text="@string/stock_id"
-
                 android:textColor="@color/modest_grey" />
 
             <TextView
@@ -104,9 +103,9 @@
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="@{portfolio.isPriceEnabled == true   ? true : false}"
+                android:enabled="@{portfolio.isPriceEnabled}"
                 android:text="@{ String.valueOf(portfolio.orderPrice)}"
-                app:enabledColorText="@{portfolio.isPriceEnabled == true}"/>
+                app:enabledColorText="@{portfolio.isPriceEnabled}"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -121,7 +120,9 @@
                 style="@style/App_EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{ String.valueOf(portfolio.orderQty)}"
+                android:maxLines="1"
+                android:inputType="number"
+                android:text="@{String.valueOf(portfolio.orderQty)}"
                 android:textColor="@color/black" />
 
 
@@ -132,14 +133,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_gravity="center"
-
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/open_sans"
                 android:text="@string/update"
                 android:textColor="@color/light_blue_900"
                 android:textSize="@dimen/_10sdp"
-                android:visibility="@{portfolio.isEditEnabled == true   ? View.VISIBLE : View.GONE}"
+                android:visibility="@{portfolio.isEditEnabled ? View.VISIBLE : View.GONE}"
                 app:strokeColor="@color/light_blue_900"
              />
 

@@ -87,7 +87,16 @@ class ProfitLossReportFragment :
         }
 
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            binding.stockRv.adapter = StockAdapter(type, it.data)
+
+            if(it != null && !it.data.isNullOrEmpty())
+            {
+                binding.noReportDataTv.isVisible = false
+                binding.stockRv.isVisible = true
+                binding.stockRv.adapter = StockAdapter(type, it.data)
+            }else {
+                binding.noReportDataTv.isVisible = true
+                binding.stockRv.isVisible = false
+            }
         }
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {

@@ -1,10 +1,11 @@
 package com.techxform.tradintro.feature_main.presentation.watchlist
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -22,6 +23,8 @@ import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
+
 
 @AndroidEntryPoint
 class WatchlistFragment :
@@ -127,7 +130,7 @@ class WatchlistFragment :
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 if (it.data.isEmpty() || it.data.size < limit)
                     noMorePages = true
-                watchList= it.data
+                watchList = it.data
                 isLoading = false
                 binding.watchListRv.adapter = WatchListAdapter(watchList, listener)
                 val itemTouchHelperCallback =
@@ -150,14 +153,52 @@ class WatchlistFragment :
                             viewModel.removeWatchlist(watchList[position].watchlistId)
                         }
 
+                        override fun onChildDraw(
+                            c: Canvas,
+                            recyclerView: RecyclerView,
+                            viewHolder: RecyclerView.ViewHolder,
+                            dX: Float,
+                            dY: Float,
+                            actionState: Int,
+                            isCurrentlyActive: Boolean
+                        ) {
+                            RecyclerViewSwipeDecorator.Builder(
+                                c,
+                                recyclerView,
+                                viewHolder,
+                                dX,
+                                dY,
+                                actionState,
+                                isCurrentlyActive
+                            )
+                                .addBackgroundColor(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.red
+                                    )
+                                )
+                                .addActionIcon(R.drawable.ic_delete)
+                                .create()
+                                .decorate()
+                            super.onChildDraw(
+                                c,
+                                recyclerView,
+                                viewHolder,
+                                dX,
+                                dY,
+                                actionState,
+                                isCurrentlyActive
+                            )
+                        }
+
                     }
 
                 val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
                 itemTouchHelper.attachToRecyclerView(binding.watchListRv)
                 binding.watchListRv.adapter?.notifyItemRemoved(position)
+
             }
         }
-
         viewModel.watchlistErrorLiveData.observe(viewLifecycleOwner) {
             isLoading = false
             when (it) {
@@ -175,7 +216,8 @@ class WatchlistFragment :
                     viewModel.watchlist(FilterModel("", limit, watchList.size, 0, ""))
 
                 }
-                else -> {}
+                else -> {
+                }
             }
         }
         viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner) {
@@ -184,4 +226,22 @@ class WatchlistFragment :
 
         }
     }
+//    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton {
+//        toast("click received $position")
+//        return SwipeHelper.UnderlayButton(
+//            requireContext(),
+//            "Delete",
+//            14.0f,
+//            android.R.color.holo_red_light,
+//            object : SwipeHelper.UnderlayButtonClickListener {
+//                override fun onClick() {
+//                    toast("Deleted item $position")
+//                    viewModel.removeWatchlist(watchList[position].watchlistId)
+//                }
+//            })
+//    }
+//    private fun toast(text: String) {
+//         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+//
+//    }
 }

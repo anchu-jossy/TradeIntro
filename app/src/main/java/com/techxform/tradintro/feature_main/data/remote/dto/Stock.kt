@@ -21,6 +21,17 @@ data class Stock(
     var totalPrice: Int = 0
 
 ) : Parcelable {
+
+    fun apiCode(): String {
+        if (stockApiCode.isNullOrEmpty())
+            return ""
+        val arr = stockApiCode.split(".")
+        return if (arr.size > 1)
+            arr[0] + "(" + arr[1] + ")"
+        else
+            arr[0]
+    }
+
     fun currentValue(): Float {
 
         val amount = if (history.isEmpty()) 0f

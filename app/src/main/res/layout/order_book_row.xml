@@ -4,17 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="portfolio"
             type="com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem" />
-        <import type="android.view.View"/>
-        <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
+
+        <import type="android.view.View" />
+
+        <import type="com.techxform.tradintro.feature_main.domain.util.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_16sdp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans_semibold"
+            android:maxLines="1"
+            android:text="@{portfolio.market.stockName}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subTitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans"
+            android:maxLines="1"
+            android:text='@{portfolio.market.apiCode()}'
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
 
 
         <com.google.android.material.card.MaterialCardView
@@ -25,7 +54,7 @@
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="0dp"
             app:cardPreventCornerOverlap="true"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subTitleTv"
             app:strokeColor="@color/shade_grey"
             app:strokeWidth="1dp">
 
@@ -66,12 +95,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:padding="@dimen/_8sdp"
                     android:text="@{portfolio.orderNo}"
                     app:fontFamily="@font/open_sans_medium"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/stockCodeTv"
                     app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
                     app:layout_constraintWidth_percent="0.6" />
 
@@ -81,28 +109,11 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_8sdp"
-                    android:paddingEnd="@dimen/_8sdp"
-                    android:text="@{portfolio.market.stockName}"
-                    app:fontFamily="@font/open_sans_medium"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
-                    app:layout_constraintWidth_percent="0.4" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/stockCodeTv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:paddingBottom="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_8sdp"
-                    android:paddingEnd="@dimen/_8sdp"
+                    android:padding="@dimen/_8sdp"
                     android:text="@{portfolio.market.stockCode}"
                     app:fontFamily="@font/open_sans_medium"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/stockTv"
+                    app:layout_constraintTop_toBottomOf="@+id/orderIdLbl"
                     app:layout_constraintWidth_percent="0.4" />
 
 
@@ -112,7 +123,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/stockCodeTv"
+                    app:layout_constraintTop_toBottomOf="@+id/orderIdTv"
                     tools:itemCount="2"
                     tools:listitem="@layout/row_price" />
 
@@ -164,7 +175,7 @@
             app:layout_constraintEnd_toStartOf="@+id/btn_delete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txnTypeLbl"
-            android:visibility="@{portfolio.isEditEnabled == true   ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{portfolio.isEditEnabled ? View.VISIBLE : View.INVISIBLE}"
             app:strokeColor="@color/light_blue_900"
             app:strokeWidth="@dimen/_1sdp" />
 
@@ -176,7 +187,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/open_sans"
-            android:visibility="@{portfolio.isEditEnabled == true   ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="gone"
             android:text="@string/delete_text"
             android:textColor="@color/light_blue_900"
             android:textSize="@dimen/_10sdp"
@@ -185,10 +196,7 @@
             app:layout_constraintStart_toEndOf="@+id/g1"
             app:layout_constraintTop_toTopOf="@+id/btn_edit"
             app:strokeColor="@color/light_blue_900"
-            app:strokeWidth="@dimen/_1sdp"
-
-
-            />
+            app:strokeWidth="@dimen/_1sdp" />
 
 
         <androidx.constraintlayout.widget.Guideline

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
@@ -20,13 +19,14 @@ import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.BuySellStockReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.Stock
-import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.util.Utils
+import com.techxform.tradintro.feature_main.domain.util.Utils.getAfterMonthsTime
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.properties.Delegates
@@ -44,7 +44,7 @@ class EqualityPlaceOrderFragment :
     lateinit var market: Stock
     private var userId by Delegates.notNull<Int>()
     private var screenType: Int = 0
-    private var buyPrice = 0.0f
+    private var orderPrice = 0.0f
 
     companion object {
         const val IS_BUY_OR_ORDER = "IsBuyOrOrderButtonClicked"
@@ -119,8 +119,8 @@ class EqualityPlaceOrderFragment :
             } else quantity = it.toString().toInt()
 
 
-            buyPrice =
-                 ((market.history!![0].stockHistoryHigh + market.history!![0].stockHistoryLow) / 2)
+            orderPrice =
+                ((market.history!![0].stockHistoryHigh + market.history!![0].stockHistoryLow) / 2)
             val diff =
                 market.history!![1].stockHistoryHigh.minus(market.history!![1].stockHistoryLow)
             binding.textDiff.text = diff.roundToInt().toString()
@@ -130,7 +130,7 @@ class EqualityPlaceOrderFragment :
             val percent = (diff / sum) * 100
             (getString(
                 R.string.rs_format,
-                buyPrice
+                orderPrice
             ) + "(" + percent.roundToInt() + "%)").also { rate ->
                 binding.textRate.text = rate
             }
@@ -151,19 +151,13 @@ class EqualityPlaceOrderFragment :
                 myCalendar[Calendar.YEAR], myCalendar[Calendar.MONTH],
                 myCalendar[Calendar.DAY_OF_MONTH]
             )
-            dialog.datePicker.maxDate = getAfterMonthsTime(myCalendar)
-
+            dialog.datePicker.maxDate = getAfterMonthsTime(myCalendar, 3)
             dialog.show()
         }
 
 
     }
 
-    private fun getAfterMonthsTime(cal: Calendar): Long {
-        cal.time = Date()
-        cal.add(Calendar.MONTH, 3)
-        return cal.time.time
-    }
 
     private fun observer() {
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
@@ -190,7 +184,7 @@ class EqualityPlaceOrderFragment :
 
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
             it.data.orderId.let {
-                requireContext().showShortToast(getString(R.string.bought_success))
+                requireContext().showShortToast(getString(R.string.update_success))
 
                 clearBackstack()
                 findNavController().navigate(R.id.nav_portfoliolist)
@@ -200,7 +194,7 @@ class EqualityPlaceOrderFragment :
         viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
             it.data.orderId?.let {
                 requireContext().showShortToast(
-                    getString(R.string.sold_success),
+                    getString(R.string.update_success),
                 )
 
                 clearBackstack()
@@ -212,71 +206,84 @@ class EqualityPlaceOrderFragment :
 
 
     private fun setChargesAndBuyAmount() {
-        val totalCharge = getTotalCharge(buyPrice, quantity)
+        val totalCharge = getTotalCharge(orderPrice, quantity)
         binding.chargesEt.text =
             Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString()
 
-
         binding.buyAmountEt.text = if (binding.limitRb.isChecked) {
-            Utils.formatBigDecimalIntoTwoDecimal(
-                (binding.limitPrizeEt.text.toString().toBigDecimal()
-                    .multiply(quantity.toBigDecimal()))
-                    .plus(totalCharge)
-            ).toPlainString()
-        } else
-            Utils.formatBigDecimalIntoTwoDecimal(
-                (buyPrice * quantity).toBigDecimal().plus(totalCharge)
-            ).toPlainString()
+            //here limit edited price is converting to float only to use common method
+            val totalStockValue =
+                getTotalStockValue(binding.limitPrizeEt.text.toString().toFloat(), quantity)
+            getOrderTotal(totalStockValue = totalStockValue, totalCharge = totalCharge)
+        } else {
+            val totalStockValue = getTotalStockValue(orderPrice, quantity)
+            getOrderTotal(totalStockValue = totalStockValue, totalCharge = totalCharge)
+        }
+    }
+
+    /**
+     * Ordertotal= total stockvalue+charges
+     */
+    private fun getOrderTotal(totalStockValue: BigDecimal, totalCharge: BigDecimal): String? {
+        return Utils.formatBigDecimalIntoTwoDecimal(
+            totalStockValue.plus(totalCharge)
+        ).toPlainString()
     }
 
     private fun setData(market: Stock) {
 
         with(binding) {
             binding.stock = market
-
             textName.text = market.stockName
             textName1.text = market.stockName
 
-
             binding.limitPrizeEt.setText(
-                Utils.formatBigDecimalIntoTwoDecimal(buyPrice.toBigDecimal()).toPlainString()
+                Utils.formatBigDecimalIntoTwoDecimal(orderPrice.toBigDecimal()).toPlainString()
             )
 
-            if (market.history !=null && market.history.size > 1) {
-                textdate.text = Utils.formatDateTimeString(market.history[0].stockHistoryDate)
-                textCode.text = market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
-                ("${market.history[0].stockHistoryOpen}" + "," + "${market.history[0].stockHistoryClose}").also {
+            with(market.history[0]) {
+                textdate.text = Utils.formatDateTimeString(stockHistoryDate)
+                textCode.text = stockHistoryCode?.split(".")?.get(1) ?: ""
+                ("$stockHistoryOpen,$stockHistoryClose").also {
                     textopenClose.text = it
                 }
-                ("${market.history[0].stockHistoryHigh}" + "," + "${market.history[0].stockHistoryLow}").also {
+                ("$stockHistoryHigh,$stockHistoryLow").also {
                     texthighLow.text = it
                 }
                 exchangeTv.text =
-                    market.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
-                buyPrice =
-                    (market.history[0].stockHistoryHigh + market.history[0].stockHistoryLow) / 2
-                val diff =
-                    market.history[1].stockHistoryHigh.minus(market.history[1].stockHistoryLow)
-                binding.textDiff.text = diff.roundToInt().toString()
+                    stockHistoryCode?.split(".")?.get(1) ?: ""
 
+                orderPrice =
+                    (stockHistoryHigh + stockHistoryLow) / 2
+            }
+            with(market.history[1]) {
+                val diff =
+                    stockHistoryHigh.minus(stockHistoryLow)
+                binding.textDiff.text = diff.roundToInt().toString()
                 val sum =
-                    market.history[1].stockHistoryHigh.plus(market.history[1].stockHistoryLow)
+                    stockHistoryHigh.plus(stockHistoryLow)
+
                 val percent = (diff / sum) * 100
                 (getString(
                     R.string.rs_format,
-                    buyPrice
+                    orderPrice
                 ) + "(" + percent.roundToInt() + "%)").also { binding.textRate.text = it }
+
             }
-
-
-            val totalCharge = getTotalCharge(buyPrice, quantity)
+            val totalCharge = getTotalCharge(orderPrice, quantity)
             binding.chargesEt.text =
                 Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString()
 
-
-
             stockNameEt.setText(market.stockName)
 
+            setClickListeners()
+
+
+        }
+    }
+
+    private fun setClickListeners() {
+        with(binding) {
             marketRb.setOnClickListener {
                 isLimitVisible(false)
             }
@@ -284,13 +291,9 @@ class EqualityPlaceOrderFragment :
             limitRb.setOnClickListener {
                 isLimitVisible(true)
             }
-
-
             gtdRb.setOnCheckedChangeListener(checkListener)
             dayRb.setOnCheckedChangeListener(checkListener)
             gtcRb.setOnCheckedChangeListener(checkListener)
-
-
         }
     }
 
@@ -328,13 +331,32 @@ class EqualityPlaceOrderFragment :
 
     }
 
+    /**
+     * To getTotalStockValue Stock price we need to multiply order price ana quantity
+     */
+    private fun getTotalStockValue(orderPrice: Float, quantity: Int): BigDecimal {
+        return orderPrice.toBigDecimal() * quantity.toBigDecimal()
+    }
 
+
+    /**
+     * To getTotalStockValue total  charge is trans value +brokageValue
+     */
     private fun getTotalCharge(orderPrice: Float, quantity: Int): BigDecimal {
+        val totalStockValue = getTotalStockValue(orderPrice, quantity)
+        val brokageValue = find5Percentage(totalStockValue)
+        val transValue = find5Percentage(brokageValue)
+        return (brokageValue + transValue)
 
-        val brokageValue = ((quantity * orderPrice) / 10) / 2
-        val transValue = (brokageValue / 10) / 2
+    }
 
-        return (brokageValue + transValue).toBigDecimal()
+    /**
+     * this calculation is used to find the 5 % of the value given
+     */
+
+    private fun find5Percentage(value: BigDecimal): BigDecimal {
+        "2".toBigDecimal()
+        return (value.divide(BigDecimal.TEN)).divide("2".toBigDecimal(), RoundingMode.DOWN)
 
     }
 
@@ -353,7 +375,7 @@ class EqualityPlaceOrderFragment :
                             if (binding.marketRb.isChecked) 0 else 1,
                             binding.stock!!.stockCode!!,
                             orderValidity(),
-                            buyPrice,
+                            orderPrice,
                             orderValidityDate()
                         )
                     )
@@ -367,7 +389,7 @@ class EqualityPlaceOrderFragment :
                             if (binding.marketRb.isChecked) 0 else 1,
                             binding.stock!!.stockCode!!,
                             orderValidity(),
-                            buyPrice,
+                            orderPrice,
                             orderValidityDate()
                         )
                     )
