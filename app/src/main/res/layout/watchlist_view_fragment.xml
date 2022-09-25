@@ -45,8 +45,8 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/exchange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="15dp"
             android:layout_marginStart="@dimen/_8sdp"
             android:background="@color/dark_violate"
             android:fontFamily="@font/open_sans_medium"

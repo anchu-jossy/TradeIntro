@@ -2,12 +2,14 @@ package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +21,9 @@ import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.MarketDetailFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.*
 import com.techxform.tradintro.feature_main.domain.model.PriceType
+import com.techxform.tradintro.feature_main.domain.util.Utils.formatStringToTwoDecimals
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
+import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.presentation.portfolio_view.PriceAdapter
@@ -36,7 +41,8 @@ class MarketDetailFragment :
 
     private lateinit var viewModel: MarketDetailViewModel
     private var stockId by Delegates.notNull<Int>()
-    private var totalPrice by Delegates.notNull<Int>()
+    private var watchListId: Int? = null;
+    private var totalPrice :Float?=null;
 
 
     override fun onCreateView(
@@ -54,47 +60,81 @@ class MarketDetailFragment :
         super.onViewCreated(view, savedInstanceState)
 
         stockId = requireArguments().getInt("stockId")
-        totalPrice = requireArguments().getInt("totalPrice")
+        //totalPrice = requireArguments().getInt("totalPrice")
 
         binding.buttonGroup.isVisible = (UserDetailsSingleton.userDetailsResponse.treeLevel != 1)
         listeners()
         viewModel.marketDetail(stockId)
-        binding.ediTextAddtoWatchList.setText("$totalPrice.00")
+       // binding.ediTextAddtoWatchList.setText("$totalPrice.00")
     }
 
-    private fun listeners()
-    {
+    private fun listeners() {
         binding.buyBtn.setOnClickListener {
-            if(binding.stock !=null)
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(stockId,EqualityPlaceOrderFragment.BUY, ScreenType.MARKET, binding.stock!!))
+            if (binding.stock != null)
+                findNavController().navigate(
+                    R.id.equalityPlaceOrderFragment,
+                    EqualityPlaceOrderFragment.navBundle(
+                        stockId,
+                        EqualityPlaceOrderFragment.BUY,
+                        ScreenType.MARKET,
+                        binding.stock!!
+                    )
+                )
 
         }
 
         binding.addToWatchlistBtn.setOnClickListener {
-            if (binding.stock?.watchList == null)
-                viewModel.createWatchList(CreateWatchListRequest(stockId,  totalPrice))
-            else viewModel.removeWatchlist(binding.stock?.watchList?.watchlistId?:0)
+            if (binding.stock?.watchList == null) {
+                Log.e("totalPrice", totalPrice.toString())
+                totalPrice?.let {
+                    viewModel.createWatchList(CreateWatchListRequest(stockId, it))
+                }
+            }
+            else removeWatchListConformation()
         }
         binding.sellBtn.setOnClickListener {
-            if(binding.stock !=null)
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(stockId,EqualityPlaceOrderFragment.SELL, ScreenType.MARKET,binding.stock!!))
+            if (binding.stock != null)
+                findNavController().navigate(
+                    R.id.equalityPlaceOrderFragment,
+                    EqualityPlaceOrderFragment.navBundle(
+                        stockId,
+                        EqualityPlaceOrderFragment.SELL,
+                        ScreenType.MARKET,
+                        binding.stock!!
+                    )
+                )
         }
 
+
         binding.setAlertPriceBtn.setOnClickListener {
-            //TODO: Open Dialog
             alertPriceSetDialog()
         }
     }
 
-
-    private fun alertPriceSetDialog()
-    {
+    private fun removeWatchListConformation(){
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(R.string.alert_price_lbl)
+        builder.setTitle(R.string.delete_watch_list_ttl)
+        builder.setMessage(R.string.delete_watch_list_desc)
+        builder.setIcon(android.R.drawable.stat_sys_warning)
+        builder.setPositiveButton("Yes") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+            viewModel.removeWatchlist(binding.stock?.watchList?.watchlistId ?: 0)
+        }
+        //performing negative action
+        builder.setNegativeButton("Not now") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+    }
 
+
+    private fun alertPriceSetDialog() {
+
+        val builder = AlertDialog.Builder(requireContext())
         val amountEt = EditText(requireContext())
         amountEt.hint = getString(R.string.alert_price_lbl)
-
 
         val container = LinearLayout(requireContext())
         container.orientation = LinearLayout.VERTICAL
@@ -112,23 +152,40 @@ class MarketDetailFragment :
         container.addView(amountEt, lp)
 
         builder.setView(container)
-        builder.setPositiveButton(R.string.modify_alert_lbl
-        ) { dialog, _ ->
-            if(amountEt.text.toString().isNullOrEmpty())
-                requireContext().showShortToast(getString(R.string.enter_alert_price_lbl))
-            else {
-                viewModel.modifyAlertPrice(
-                    stockId,
-                    AlertPriceRequest(amountEt.text.toString().toDouble())
+
+        watchListAlert?.let {
+            builder.setTitle(R.string.modify_alert_price_lbl)
+            amountEt.setText(it.notificationPrice.toString())
+            builder.setNegativeButton(
+                R.string.remove_alert_lbl
+            ) { dialog, _ ->
+                viewModel.deleteAlertPrice(
+                    notificationId = it.notificationId
                 )
+                dialog.dismiss()
+            }
+        } ?: run {
+            builder.setTitle(R.string.add_alert_price_lbl)
+        }
+        builder.setPositiveButton(
+            if (watchListAlert == null) R.string.add_alert_lbl else R.string.modify_alert_lbl
+        ) { dialog, _ ->
+            if (amountEt.text.toString().isEmpty()) {
+                amountEt.error = (getString(R.string.enter_alert_price_lbl))
+                return@setPositiveButton
+            } else {
+                watchListId?.let {
+                    viewModel.modifyWatchListAlertPrice(
+                        it,
+                        AlertPriceRequest(amountEt.text.toString().toDouble())
+                    )
+                }
                 dialog.dismiss()
             }
         }
 
-        builder.setNegativeButton(R.string.remove_alert_lbl
-        ) { dialog, _->
-            dialog.dismiss()
-        }
+
+
         builder.show()
 
     }
@@ -160,6 +217,7 @@ class MarketDetailFragment :
 
     }
 
+    private var watchListAlert: Notifications? = null
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
@@ -167,46 +225,170 @@ class MarketDetailFragment :
 
         viewModel.marketDetailLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                var average = 0.0f
-                if (it.data.history != null)
-                    average =
-                        (it.data.history[0].stockHistoryHigh.plus(it.data.history[0].stockHistoryLow) / 2)
-                binding.amountTv.text = getString(R.string.rs_format, average)
+
+                val diffPer = it.data.perDiff()
+                val symbol = if (diffPer > 0) {
+                    binding.amountTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.green
+                        )
+                    )
+                    "+"
+                } else if (diffPer < 0) {
+                    binding.amountTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
+                    )
+                    ""
+                } else {
+                    binding.amountTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.black
+                        )
+                    )
+                    ""
+                }
+
+                val formatted = formatStringToTwoDecimals(diffPer.toString())
+                binding.amountTv.text =
+                    "${getString(R.string.rs_format, it.data.currentValue())} " +
+                            "($symbol $formatted%)"
+
                 binding.stock = it.data
-                binding.priceRv.adapter = PriceAdapter(createPriceType(it.data?.history?.get(0)))
+                totalPrice=it.data.currentValue()
+                setWatchListAlertPrice(it.data.watchListAlert)
+
+                it.data.watchList?.let { wl ->
+                    watchListId = wl.watchlistId
+                    binding.setAlertPriceBtn.setVisible()
+                } ?: run {
+                    watchListId = null
+                    binding.setAlertPriceBtn.setVisibiltyGone()
+                }
+
+                it.data.portfolioItems?.let { items ->
+                    var buyQuantity = 0
+                    var buyAmount = 0.0f
+                    var sellQuantity = 0
+                    var sellAmount = 0.0f
+                    items.forEach { item ->
+                        if (item.orderType == 0) {
+                            buyQuantity += item.orderQty
+                            buyAmount += item.orderTotal
+                        } else {
+                            sellQuantity += item.orderQty
+                            sellAmount += item.orderTotal
+                        }
+                    }
+                    val qty = buyQuantity - sellQuantity
+                    val totalPrice = buyAmount - sellAmount;
+                    val totalValue = it.data.currentValue() * qty;
+                    val gainLossValue = totalValue - totalPrice;
+                    val gainLossPercentage = ((gainLossValue / totalPrice) * 100)
+                    binding.tvPortfolioQty.text = "$qty Qty in Portfolio"
+
+                    val pSymbol = if (gainLossPercentage > 0) {
+                        binding.tvPortfolioChange.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.green
+                            )
+                        )
+                        "+"
+                    } else if (gainLossPercentage < 0) {
+                        binding.tvPortfolioChange.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+                        )
+                        ""
+                    } else {
+                        binding.tvPortfolioChange.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.black
+                            )
+                        )
+                        ""
+                    }
+                    val pFormatted = formatStringToTwoDecimals(gainLossPercentage.toString())
+                    binding.tvPortfolioChange.text = "($pSymbol $pFormatted%)"
+                }
+                binding.priceRv.adapter = PriceAdapter(createPriceType(it.data.history[0]))
+                val code = it.data.history[0].stockHistoryCode?.split(".")?.get(1)
                 binding.exchangeTv.text =
-                    it.data.history[0].stockHistoryCode?.split(".")?.get(1) ?: ""
-                binding.addToWatchlistBtn.text = if (binding.stock?.watchList == null)
-                    getString(R.string.add_to_watchlist_lbl)
-                else
-                    getString(R.string.remove_watchlist_lbl)
+                    code?.replaceFirstChar { char -> char.lowercase() }
+                //binding.addToWatchlistBtn.text =
+                if (binding.stock?.watchList == null) {
+                    binding.addToWatchlistBtn.setCompoundDrawablesWithIntrinsicBounds(
+                        resources.getDrawable(
+                            R.drawable.ic_round_add_circle_outline_24,
+                        ), null, null, null
+                    )
+                    //getString(R.string.add_to_watchlist_lbl)
+                } else {
+                    binding.addToWatchlistBtn.setCompoundDrawablesWithIntrinsicBounds(
+                        resources.getDrawable(
+                            R.drawable.ic_round_remove_circle_outline_24,
+                        ), null, null, null
+                    )
+                    //getString(R.string.remove_watchlist_lbl)
+                }
             }
         }
         viewModel.createWatchListLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 requireContext().showShortToast(getString(R.string.added_to_watchlist))
-                binding.addToWatchlistBtn.text = getString(R.string.remove_watchlist_lbl)
+                //binding.addToWatchlistBtn.text = getString(R.string.remove_watchlist_lbl)
+                binding.addToWatchlistBtn.setCompoundDrawablesWithIntrinsicBounds(
+                    resources.getDrawable(
+                        R.drawable.ic_round_remove_circle_outline_24,
+                    ), null, null, null
+                )
                 binding.stock?.watchList = it.data
+                watchListId = it.data.watchlistId
+                setWatchListAlertPrice(null)
+                binding.setAlertPriceBtn.setVisible()
             }
         }
 
 
-        viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner){
+        viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 requireContext().showShortToast(getString(R.string.removed_to_watchlist))
                 binding.stock?.watchList = null
-                binding.addToWatchlistBtn.text = getString(R.string.add_to_watchlist_lbl)
+                //binding.addToWatchlistBtn.text = getString(R.string.add_to_watchlist_lbl)
+                binding.addToWatchlistBtn.setCompoundDrawablesWithIntrinsicBounds(
+                    resources.getDrawable(
+                        R.drawable.ic_round_add_circle_outline_24,
+                    ), null, null, null
+                )
+                binding.setAlertPriceBtn.setVisibiltyGone()
+                watchListId = null
+                setWatchListAlertPrice(null)
             }
         }
 
-        viewModel.modifyAlertPriceLiveData.observe(viewLifecycleOwner){
+        viewModel.deleteAlertPriceLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                requireContext().showShortToast(   getString(R.string.modified_alert_price),)
-
+                requireContext().showShortToast(getString(R.string.watch_list_alert_price_removed))
+                setWatchListAlertPrice(null)
             }
         }
 
-        viewModel.deleteWatchListErrorLiveData.observe(viewLifecycleOwner){
+        viewModel.modifyAlertPriceLiveData.observe(viewLifecycleOwner) {
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                requireContext().showShortToast(getString(R.string.modified_watch_list_alert_price))
+                viewModel.marketDetail(stockId)
+            }
+        }
+
+        viewModel.deleteWatchListErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
@@ -218,11 +400,26 @@ class MarketDetailFragment :
         }
 
 
-
     }
 
-    private fun handleError(failure: Failure)
-    {
+    private fun setWatchListAlertPrice(alertPrice: Notifications? = null) {
+        this.watchListAlert = alertPrice;
+        alertPrice?.let {
+            binding.setAlertPriceBtn.setCompoundDrawablesWithIntrinsicBounds(
+                resources.getDrawable(
+                    R.drawable.ic_baseline_alarm_on_24,
+                ), null, null, null
+            )
+        } ?: run {
+            binding.setAlertPriceBtn.setCompoundDrawablesWithIntrinsicBounds(
+                resources.getDrawable(
+                    R.drawable.ic_baseline_add_alarm_24,
+                ), null, null, null
+            )
+        }
+    }
+
+    private fun handleError(failure: Failure) {
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(
@@ -230,7 +427,7 @@ class MarketDetailFragment :
 
                 )
             }
-            Failure.ServerError-> {
+            Failure.ServerError -> {
                 requireContext().showShortToast(getString(R.string.server_error))
 
             }

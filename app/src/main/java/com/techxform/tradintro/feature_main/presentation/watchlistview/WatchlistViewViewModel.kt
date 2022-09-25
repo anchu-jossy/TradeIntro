@@ -60,7 +60,7 @@ class WatchlistViewViewModel @Inject constructor(private val repository: ApiRepo
     {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.alertPriceWL(id, alertPriceRequest)) {
+            when (val result = repository.modifyWatchListAlertPrice(id, alertPriceRequest)) {
                 is Result.Success -> {
                     _modifyAlertPriceLiveData.postValue(result.data!!)
                 }

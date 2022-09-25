@@ -5,6 +5,7 @@
     tools:context=".feature_main.presentation.portfolio.PortfoliosFragment">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.techxform.tradintro.feature_main.presentation.market.MarketDetailViewModel" />
@@ -13,7 +14,7 @@
             name="stock"
             type="com.techxform.tradintro.feature_main.data.remote.dto.Stock" />
 
-        <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
+        <import type="com.techxform.tradintro.feature_main.domain.util.Utils" />
 
     </data>
 
@@ -26,7 +27,6 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toolbarTitleTv"
             android:layout_width="0dp"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_10sdp"
@@ -36,53 +36,57 @@
             android:fontFamily="@font/open_sans_semibold"
             android:foreground="?selectableItemBackground"
             android:maxLines="1"
-            app:layout_constraintWidth_percent="0.8"
-            android:text="@{stock.stockName}"
+            android:text="@{stock.stockCode}"
             android:textColor="@color/black"
             android:textSize="@dimen/_14ssp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.8" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subTitleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:drawableStart="@drawable/ic_back_action"
             android:drawablePadding="@dimen/_8sdp"
             android:drawableTint="@android:color/transparent"
             android:ellipsize="end"
             android:fontFamily="@font/open_sans"
             android:maxLines="1"
-            android:text="@{stock.stockCode}"
+            android:text="@{stock.stockName}"
             android:textSize="@dimen/_8ssp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/toolbarTitleTv"
             app:layout_constraintTop_toBottomOf="@+id/toolbarTitleTv" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/titleTv"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/open_sans_semibold"
+            android:fontFamily="@font/open_sans_bold"
             android:maxLines="1"
-            android:text="@{stock.stockName}"
+            android:text="@{stock.stockCode}"
             android:textColor="@color/black"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@+id/exchangeTv"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subTitleTv" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subtitleTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/open_sans_semibold"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/open_sans"
             android:maxLines="1"
-            android:text="@{stock.stockCode}"
+            android:text="@{stock.stockName}"
             android:textColor="@color/black"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintTop_toBottomOf="@+id/titleTv" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -90,10 +94,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/open_sans_bold"
             android:text="00,000.00"
             android:textColor="@color/black"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintTop_toBottomOf="@+id/subtitleTv" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -102,32 +107,57 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:fontFamily="@font/open_sans_medium"
-            android:textColor="@color/black"
             android:text="@{Utils.INSTANCE.formatDateTime(stock.history.get(0).stockHistoryDate).first}"
-            android:textSize="@dimen/_10ssp"
-            app:layout_constraintBottom_toTopOf="@+id/exchangeTv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amountTv" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/amountTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/amountTv" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/exchangeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginStart="28dp"
+            android:background="@color/dark_violate"
+            android:fontFamily="@font/open_sans_medium"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/titleTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/titleTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPortfolioQty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/open_sans_medium"
             android:textColor="@color/black"
-            android:textSize="@dimen/_10ssp"
-            app:layout_constraintBottom_toTopOf="@+id/summaryTv"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@id/tvPortfolioChange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dateTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPortfolioChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:fontFamily="@font/open_sans_medium"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPortfolioQty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvPortfolioQty" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/g1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.35" />
+            app:layout_constraintGuide_percent="0.30" />
 
         <View
             android:layout_width="match_parent"
@@ -159,6 +189,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/_5sdp"
             app:layout_constraintTop_toBottomOf="@+id/g1">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -193,14 +224,14 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginEnd="20dp"
-                    app:lowAmount="@{String.valueOf(stock.history.get(0).stockHistoryHigh)}"
-                    app:lowLbl="@{@string/high_lbl}"
+                    app:highAmount="@{String.valueOf(stock.history.get(0).stockHistoryLow)}"
+                    app:highLbl="@{@string/low_lbl}"
                     app:isYellow="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/priceRv"
-                    app:highAmount="@{String.valueOf(stock.history.get(0).stockHistoryLow)}"
-                    app:highLbl="@{@string/low_lbl}" />
+                    app:lowAmount="@{String.valueOf(stock.history.get(0).stockHistoryHigh)}"
+                    app:lowLbl="@{@string/high_lbl}" />
 
                 <include
                     android:id="@+id/ashHighLow"
@@ -226,9 +257,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/violet_circular_bg"
                     android:shadowRadius="0"
-                    android:layout_marginBottom="@dimen/_8sdp"
                     android:text="@string/buy_lbl"
                     app:layout_constraintEnd_toStartOf="@+id/sellBtn"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -253,7 +284,6 @@
                     app:layout_constraintWidth_percent="0.45" />
 
 
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/addToWatchlistBtn"
                     style="@style/Theme.TradIntro.Button"
@@ -262,12 +292,14 @@
                     android:layout_marginTop="@dimen/_30sdp"
                     android:background="@drawable/pink_circular_bg"
                     android:clickable="true"
+                    app:drawableStartCompat="@drawable/ic_round_add_circle_outline_24"
+                    app:drawableTint="@color/white"
                     android:gravity="center"
                     android:padding="@dimen/_8sdp"
-                    android:text= "@string/add_to_watchlist_lbl"
+                    android:text="@string/watch_list_label"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/buyBtn"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintWidth_percent="0.5" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -280,16 +312,19 @@
                     android:clickable="true"
                     android:gravity="center"
                     android:padding="@dimen/_8sdp"
-                    android:text= "@string/set_alert_price_lbl"
+                    app:drawableStartCompat="@drawable/ic_baseline_add_alarm_24"
+                    app:drawableTint="@color/white"
+                    android:text="@string/alert_price_label"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/buyBtn"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintWidth_percent="0.45" />
+
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/buttonGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="setAlertPriceBtn,addToWatchlistBtn"/>
+                    app:constraint_referenced_ids="setAlertPriceBtn,addToWatchlistBtn" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/ediTextAddtoWatchList"
@@ -301,8 +336,8 @@
                     android:hint="@string/alert_price_lbl"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:visibility="gone"
                     android:padding="@dimen/_3sdp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/watchlistPlusBtn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/watchlistPlusBtn"
@@ -316,13 +351,13 @@
                     android:layout_marginTop="@dimen/_40sdp"
                     android:background="@drawable/violet_circular_bg"
                     android:clickable="true"
-                    android:visibility="gone"
                     android:gravity="center"
                     android:padding="@dimen/_2sdp"
                     android:text='@{stock.watchList == null ? @string/save : @string/update}'
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/buyBtn"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

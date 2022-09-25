@@ -36,6 +36,12 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
     private var _modifyAlertPriceLiveData = MutableLiveData<BaseResponse<AlertPriceResponse>>()
     val modifyAlertPriceLiveData: LiveData<BaseResponse<AlertPriceResponse>> = _modifyAlertPriceLiveData
 
+    private var _deleteAlertPriceLiveData = MutableLiveData<BaseResponse<DeleteAlertPriceResponse>>()
+    val deleteAlertPriceLiveData: LiveData<BaseResponse<DeleteAlertPriceResponse>> = _deleteAlertPriceLiveData
+
+    private var _deleteAlertPriceErrorLiveData = MutableLiveData<Failure>()
+    val deleteAlertPriceErrorLiveData: LiveData<Failure> = _deleteAlertPriceErrorLiveData
+
     private var _modifyAlertPriceErrorLiveData = MutableLiveData<Failure>()
     val modifyAlertPriceErrorLiveData: LiveData<Failure> = _modifyAlertPriceErrorLiveData
 
@@ -91,16 +97,32 @@ class MarketDetailViewModel @Inject constructor(private val repository: ApiRepos
 
 
 
-    fun modifyAlertPrice(stockId:Int, alertPriceRequest: AlertPriceRequest)
+    fun modifyWatchListAlertPrice(watchListId:Int, alertPriceRequest: AlertPriceRequest)
     {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
-            when (val result = repository.alertPrice(stockId, alertPriceRequest)) {
+            when (val result = repository.modifyWatchListAlertPrice(watchListId, alertPriceRequest)) {
                 is Result.Success -> {
                     _modifyAlertPriceLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _modifyAlertPriceErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun deleteAlertPrice(notificationId:Int)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.deleteWatchListAlert(notificationId)) {
+                is Result.Success -> {
+                    _deleteAlertPriceLiveData.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _deleteAlertPriceErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)

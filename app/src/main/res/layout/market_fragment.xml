@@ -85,7 +85,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -100,16 +100,29 @@
                     android:text="@string/no_market_placeholder"
                     android:textSize="@dimen/_16ssp" />
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/marketListRv"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:nestedScrollingEnabled="false"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/row_item" />
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_16sdp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/marketListRv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/row_item" />
+
+                    <include
+                        android:id="@+id/marketInProgress"
+                        layout="@layout/progress_bar"
+                        android:layout_width="match_parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="0dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

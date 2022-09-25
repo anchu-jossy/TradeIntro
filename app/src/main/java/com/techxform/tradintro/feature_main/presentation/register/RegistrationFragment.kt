@@ -35,10 +35,8 @@ class RegistrationFragment :
     ): View? {
         viewModel = ViewModelProvider(this)[RegistrationViewModel::class.java]
         observers()
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,10 +60,8 @@ class RegistrationFragment :
                         binding.passwordEt.text.toString().trim()
                     )
                 )
-
             }
         }
-
     }
 
     private fun registrationDialog() {
@@ -121,7 +117,6 @@ class RegistrationFragment :
         }
     }
 
-
     private fun validation(): Boolean {
         var validation = true
         if (binding.fullNameEt.text.toString().isEmpty()) {
@@ -148,6 +143,5 @@ class RegistrationFragment :
 
         return validation
     }
-
 
 }

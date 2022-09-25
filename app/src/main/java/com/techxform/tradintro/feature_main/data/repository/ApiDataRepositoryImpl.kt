@@ -117,11 +117,10 @@ class ApiDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>> {
-
         return apiCall{apiService.marketDetails(marketId)}
-
-
     }
+
+
 
     override suspend fun buyStock(
         marketId: Int,
@@ -559,7 +558,15 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun alertPriceWL(
+    override suspend fun deleteWatchListAlert(alertId: Int): Result<BaseResponse<DeleteAlertPriceResponse>> {
+        return apiCall{apiService.deleteWatchListAlert(alertId)}
+    }
+
+    override suspend fun deletePortfolioAlert(alertId: Int): Result<BaseResponse<DeleteAlertPriceResponse>> {
+        return apiCall{apiService.deletePortfolioAlert(alertId)}
+    }
+
+    override suspend fun modifyWatchListAlertPrice(
         id: Int,
         alertPriceRequest: AlertPriceRequest
     ): Result<BaseResponse<AlertPriceResponse>> {
