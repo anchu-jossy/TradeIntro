@@ -78,19 +78,13 @@
             android:orientation="vertical">
 
             <com.aitsuki.swipe.SwipeMenuRecyclerView
-                android:id="@+id/recycle_view"
+                android:id="@+id/watchListRv"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/watchListRv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/row_item" />
+
 
 
 

@@ -13,8 +13,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
+import com.techxform.tradintro.feature_main.presentation.utils.BaseItem
 
-class WatchListItem(val selection: (action:Action, watchList: WatchList, position: Int) -> Unit) : BaseItem<RowItemBinding,WatchList>() {
+class WatchListItem(val selection: (action:Action, watchList: WatchList, position: Int) -> Unit) : BaseItem<RowItemBinding, WatchList>() {
 
     enum class Action{
         SELECT, DELETE

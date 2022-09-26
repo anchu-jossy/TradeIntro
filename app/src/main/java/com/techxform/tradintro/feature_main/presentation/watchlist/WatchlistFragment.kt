@@ -21,6 +21,7 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
+import com.techxform.tradintro.feature_main.presentation.utils.SwipeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -158,7 +159,7 @@ class WatchlistFragment :
             requireContext().showShortToast(getString(R.string.removed_to_watchlist))
             previousDeletedWatchlistPosition?.let { it1 ->
                     watchList.removeAt(it1)
-                    binding.recycleView.adapter?.notifyItemRemoved(it1)
+                    binding.watchListRv.adapter?.notifyItemRemoved(it1)
             }
             previousDeletedWatchlistPosition=null
             // viewModel.watchlist(FilterModel("", limit, 0, 0, ""))
@@ -170,7 +171,7 @@ class WatchlistFragment :
 
     private fun setupAdaptor(_watchList: ArrayList<WatchList>) {
         //binding.watchListRv.adapter = WatchListAdapter(_watchList, listener)
-        binding.recycleView.adapter = SwipeAdapter(WatchListItem { action, item, pos ->
+        binding.watchListRv.adapter = SwipeAdapter(WatchListItem { action, item, pos ->
             when (action) {
                 WatchListItem.Action.SELECT -> listener.onClick(item, pos)
                 WatchListItem.Action.DELETE -> showDeleteConformation(item, pos)
@@ -178,7 +179,6 @@ class WatchlistFragment :
             Log.e("action", "$action.name $pos.toString()")
 
         }, _watchList)
-        //binding.recycleView.adapter=WatchListAdapter(_watchList, listener)
     }
 
     private fun showDeleteConformation(item: WatchList, pos: Int) {
@@ -199,22 +199,5 @@ class WatchlistFragment :
         alertDialog.setCancelable(true)
         alertDialog.show()
     }
-//    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton {
-//        toast("click received $position")
-//        return SwipeHelper.UnderlayButton(
-//            requireContext(),
-//            "Delete",
-//            14.0f,
-//            android.R.color.holo_red_light,
-//            object : SwipeHelper.UnderlayButtonClickListener {
-//                override fun onClick() {
-//                    toast("Deleted item $position")
-//                    viewModel.removeWatchlist(watchList[position].watchlistId)
-//                }
-//            })
-//    }
-//    private fun toast(text: String) {
-//         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
-//
-//    }
+
 }

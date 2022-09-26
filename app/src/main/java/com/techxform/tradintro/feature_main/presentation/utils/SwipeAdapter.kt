@@ -1,20 +1,19 @@
-package com.techxform.tradintro.feature_main.presentation.watchlist
+package com.techxform.tradintro.feature_main.presentation.utils
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 
-class SwipeAdapter<T : ViewBinding,I>(private val itemVB: BaseItem<T,I>,private val items:ArrayList<I>) :
-    RecyclerView.Adapter<SimpleViewHolder<T,I>>() {
+class SwipeAdapter<T : ViewBinding,I>(private val itemVB: BaseItem<T, I>, private val items:ArrayList<I>) :
+    RecyclerView.Adapter<SimpleViewHolder<T, I>>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder<T,I> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder<T, I> {
         return SimpleViewHolder(itemVB.onCreate(parent), itemVB.bindFun)
     }
 
-    override fun onBindViewHolder(holder: SimpleViewHolder<T,I>, position: Int) {
+    override fun onBindViewHolder(holder: SimpleViewHolder<T, I>, position: Int) {
         holder.bindFun(holder.binding, position, items[position])
     }
 
