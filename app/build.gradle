@@ -118,6 +118,7 @@ dependencies {
     implementation("ch.acra:acra-mail:$acraVersion")
     kapt("com.google.auto.service:auto-service:1.0.1")
     compileOnly("com.google.auto.service:auto-service-annotations:1.0.1")
-    implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.4'
+
+    implementation 'com.github.aitsuki:SwipeMenuRecyclerView:2.1.5'
 
 }

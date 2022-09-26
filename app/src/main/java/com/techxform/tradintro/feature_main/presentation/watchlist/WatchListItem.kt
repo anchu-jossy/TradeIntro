@@ -1,12 +1,11 @@
 package com.techxform.tradintro.feature_main.presentation.watchlist
 
-
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -15,50 +14,42 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 
+class WatchListItem(val selection: (action:Action, watchList: WatchList, position: Int) -> Unit) : BaseItem<RowItemBinding,WatchList>() {
 
-class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListener) :
-    RecyclerView.Adapter<WatchListAdapter.PortfolioVH>() {
+    enum class Action{
+        SELECT, DELETE
+    }
+    private var context:Context?=null
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): RowItemBinding {
+        context=parent.context
+        return RowItemBinding.inflate(inflater, parent, false)
+    }
 
-
-    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) :
-        RecyclerView.ViewHolder(rowItemBinding.root) {
-        fun binding() {
-            rowItemBinding.rowType = -1
-            rowItemBinding.watchlist = list[absoluteAdapterPosition]
-            if (absoluteAdapterPosition % 2 == 0) {
+    override val bindFun = fun(binding: RowItemBinding, position: Int,item:WatchList) {
+        binding.rowType = -1
+        binding.watchlist = item
+        if (position % 2 == 0) {
+            context?.let {
                 drawChart(
-                    ContextCompat.getColor(itemView.context, R.color.dark_pink),
+                    ContextCompat.getColor(it, R.color.dark_pink),
                     createData(),
-                    rowItemBinding
+                    binding
                 )
-            } else drawChart(
-                ContextCompat.getColor(itemView.context, R.color.light_blue_900),
-                createData(),
-                rowItemBinding
-            )
-            rowItemBinding.root.setOnClickListener {
-                listener.onClick(list[absoluteAdapterPosition], absoluteAdapterPosition)
             }
+        } else  context?.let { drawChart(
+
+            ContextCompat.getColor(it, R.color.light_blue_900),
+            createData(),
+            binding
+        )}
+        binding.constraintContainer.setOnClickListener {
+            Log.e("delete",position.toString())
+            selection(Action.SELECT,item, position)
         }
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PortfolioVH {
-        val binding = DataBindingUtil.inflate<RowItemBinding>(
-            LayoutInflater.from(parent.context),
-            R.layout.row_item,
-            parent,
-            false
-        )
-        return PortfolioVH(binding)
-    }
-
-    override fun onBindViewHolder(holder: PortfolioVH, position: Int) {
-        holder.binding()
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
-        //return 10
+        binding.btnDelete.setOnClickListener {
+            selection(Action.DELETE,item, position)
+        }
     }
 
     private fun createData(): ArrayList<Entry> {
@@ -105,9 +96,6 @@ class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListen
 
     }
 
-    interface ClickListener {
-        fun onClick(watchList: WatchList, position: Int)
-    }
-
 
 }
+

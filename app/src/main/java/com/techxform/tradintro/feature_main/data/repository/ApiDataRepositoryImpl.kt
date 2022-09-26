@@ -239,7 +239,7 @@ class ApiDataRepositoryImpl @Inject constructor(
             "skip" to filterModel.skip.toString()
         )
 
-        if (filterModel.searchText.isNotEmpty())
+        if (filterModel.searchText?.isNotEmpty() == true)
             reqMap["search"] = filterModel.searchText!!
 
         return apiCall{apiService.watchlist(reqMap)}
