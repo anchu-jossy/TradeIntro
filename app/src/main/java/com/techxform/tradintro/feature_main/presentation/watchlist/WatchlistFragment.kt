@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -144,13 +146,13 @@ class WatchlistFragment :
                             viewHolder: RecyclerView.ViewHolder,
                             target: RecyclerView.ViewHolder
                         ): Boolean {
-
+Toast.makeText(requireContext(),"testing",Toast.LENGTH_LONG).show()
                             return false
                         }
 
                         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            position = viewHolder.absoluteAdapterPosition
-                            viewModel.removeWatchlist(watchList[position].watchlistId)
+
+                            showDeleteDialog(viewHolder.absoluteAdapterPosition)
                         }
 
                         override fun onChildDraw(
@@ -226,22 +228,25 @@ class WatchlistFragment :
 
         }
     }
-//    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton {
-//        toast("click received $position")
-//        return SwipeHelper.UnderlayButton(
-//            requireContext(),
-//            "Delete",
-//            14.0f,
-//            android.R.color.holo_red_light,
-//            object : SwipeHelper.UnderlayButtonClickListener {
-//                override fun onClick() {
-//                    toast("Deleted item $position")
-//                    viewModel.removeWatchlist(watchList[position].watchlistId)
-//                }
-//            })
-//    }
-//    private fun toast(text: String) {
-//         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
-//
-//    }
+    private fun showDeleteDialog(absoluteAdapterPosition: Int) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Are you sure do you want to delete the item")
+        //set message for alert dialog
+
+        builder.setIcon(android.R.drawable.ic_menu_delete)
+        builder.setPositiveButton("Yes") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+
+            viewModel.removeWatchlist(watchList[absoluteAdapterPosition].watchlistId)
+        }
+        //performing negative action
+        builder.setNegativeButton("Not now") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+            viewModel.watchlist(FilterModel("", limit, 0, 0, ""))
+
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+    }
 }
