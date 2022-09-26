@@ -5,7 +5,9 @@
     tools:context=".feature_main.presentation.watchlistview.WatchlistViewFragment">
 
     <data>
-        <import type="com.techxform.tradintro.feature_main.domain.util.Utils"/>
+
+        <import type="com.techxform.tradintro.feature_main.domain.util.Utils" />
+
         <variable
             name="watchlist"
             type="com.techxform.tradintro.feature_main.data.remote.dto.WatchList" />
@@ -21,41 +23,75 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/titleTv"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:fontFamily="@font/open_sans_semibold"
-            android:text="@{watchlist.market.stockName}"
-            android:textSize="@dimen/_16ssp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/open_sans_bold"
+            android:maxLines="1"
+            android:text="@{watchlist.market.stockCode}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@id/exchange"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/exchangeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:fontFamily="@font/open_sans_medium"
-            android:text="@string/exchange_lbl"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/exchange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
             android:background="@color/dark_violate"
             android:fontFamily="@font/open_sans_medium"
             android:paddingHorizontal="@dimen/_8sdp"
             android:text="@{watchlist.formatCode()}"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@id/exchangeTv"
-            app:layout_constraintStart_toEndOf="@+id/exchangeTv"
-            app:layout_constraintTop_toTopOf="@id/exchangeTv" />
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toBottomOf="@id/titleTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/titleTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/stockTitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/open_sans"
+            android:maxLines="1"
+            android:text="@{watchlist.market.stockName}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{Utils.INSTANCE.formatDateTime(watchlist.watchlistDate).first}"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@id/timeTv"
+            app:layout_constraintTop_toTopOf="@id/timeTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timeTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{Utils.INSTANCE.formatDateTime24HrFormat(watchlist.watchlistDate).second}"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stockTitleTv" />
+
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -63,85 +99,25 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_16sdp"
-            app:layout_constraintTop_toBottomOf="@+id/exchange"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timeTv">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                app:layout_constraintBottom_toBottomOf="@+id/exchange"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/_16sdp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/stockTitleTv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/open_sans_semibold"
-                    android:maxLines="1"
-                    android:text="@{watchlist.market.stockCode}"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.7" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/subTitleTv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/open_sans"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textSize="@dimen/_12ssp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/stockTitleTv"
-                    app:layout_constraintWidth_percent="0.7" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/dateTv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/open_sans"
-                    android:gravity="end"
-                    android:maxLines="1"
-                    android:text="@{Utils.INSTANCE.formatDateTime(watchlist.watchlistDate).first}"
-                    android:textSize="@dimen/_10ssp"
-                    app:layout_constraintBottom_toTopOf="@+id/timeTv"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/subTitleTv"
-                    app:layout_constraintWidth_percent="0.3" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/timeTv"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/open_sans"
-                    android:gravity="end"
-                    android:maxLines="1"
-                    android:text="@{Utils.INSTANCE.formatDateTime24HrFormat(watchlist.watchlistDate).second}"
-                    android:textSize="@dimen/_10ssp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/subTitleTv"
-                    app:layout_constraintTop_toBottomOf="@+id/stockTitleTv"
-                    app:layout_constraintWidth_percent="0.3" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/watchlistPriceTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/open_sans_semibold"
                     android:text="@{@string/rs_format(watchlist.watchStockPrice)}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subTitleTv"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.45" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -159,14 +135,13 @@
                     android:id="@+id/currentPriceTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/open_sans_semibold"
                     android:gravity="end"
                     android:text="@{String.valueOf(watchlist.market.currentValue)}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14ssp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subTitleTv"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.45" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -187,12 +162,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
-                    app:lowAmount="@{String.valueOf(watchlist.market.history[0].stockHistoryHigh)}"
-                    app:lowLbl="@{@string/high_lbl}"
+                    app:highAmount="@{String.valueOf(watchlist.market.history[0].stockHistoryLow)}"
+                    app:highLbl="@{@string/low_lbl}"
                     app:isYellow="@{true}"
                     app:layout_constraintTop_toBottomOf="@+id/watchlistPriceLbl"
-                    app:highAmount="@{String.valueOf(watchlist.market.history[0].stockHistoryLow)}"
-                    app:highLbl="@{@string/low_lbl}" />
+                    app:lowAmount="@{String.valueOf(watchlist.market.history[0].stockHistoryHigh)}"
+                    app:lowLbl="@{@string/high_lbl}" />
 
                 <include
                     android:id="@+id/ashHighLow"
@@ -279,11 +254,11 @@
                     android:layout_marginTop="@dimen/_30sdp"
                     android:background="@drawable/pink_circular_bg"
                     android:clickable="true"
-                    app:drawableStartCompat="@drawable/ic_round_remove_circle_outline_24"
-                    app:drawableTint="@color/white"
                     android:gravity="center"
                     android:padding="@dimen/_8sdp"
                     android:text="@string/watch_list_label"
+                    app:drawableStartCompat="@drawable/ic_round_remove_circle_outline_24"
+                    app:drawableTint="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/buyBtn"
@@ -299,9 +274,9 @@
                     android:clickable="true"
                     android:gravity="center"
                     android:padding="@dimen/_8sdp"
+                    android:text="@string/alert_price_label"
                     app:drawableStartCompat="@drawable/ic_baseline_add_alarm_24"
                     app:drawableTint="@color/white"
-                    android:text="@string/alert_price_label"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/buyBtn"

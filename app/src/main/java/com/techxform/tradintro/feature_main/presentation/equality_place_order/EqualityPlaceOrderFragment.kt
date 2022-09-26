@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
 import com.techxform.tradintro.core.utils.UserDetailsSingleton
+import com.techxform.tradintro.core.utils.divideToPercent
 import com.techxform.tradintro.databinding.FragmentEqualityPlaceOrderBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.BuySellStockReq
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
@@ -120,13 +121,13 @@ class EqualityPlaceOrderFragment :
 
 
             orderPrice =
-                ((market.history!![0].stockHistoryHigh + market.history!![0].stockHistoryLow) / 2)
+                ((market.history[0].stockHistoryHigh + market.history[0].stockHistoryLow) / 2)
             val diff =
-                market.history!![1].stockHistoryHigh.minus(market.history!![1].stockHistoryLow)
+                market.history[1].stockHistoryHigh.minus(market.history[1].stockHistoryLow)
             binding.textDiff.text = diff.roundToInt().toString()
 
             val sum =
-                market.history!![1].stockHistoryHigh.plus(market.history!![1].stockHistoryLow)
+                market.history[1].stockHistoryHigh.plus(market.history[1].stockHistoryLow)
             val percent = (diff / sum) * 100
             (getString(
                 R.string.rs_format,
@@ -344,10 +345,9 @@ class EqualityPlaceOrderFragment :
      */
     private fun getTotalCharge(orderPrice: Float, quantity: Int): BigDecimal {
         val totalStockValue = getTotalStockValue(orderPrice, quantity)
-        val brokageValue = find5Percentage(totalStockValue)
-        val transValue = find5Percentage(brokageValue)
+        val brokageValue = find5PercentageV2(totalStockValue)
+        val transValue = find5PercentageV2(brokageValue)
         return (brokageValue + transValue)
-
     }
 
     /**
@@ -357,8 +357,11 @@ class EqualityPlaceOrderFragment :
     private fun find5Percentage(value: BigDecimal): BigDecimal {
         "2".toBigDecimal()
         return (value.divide(BigDecimal.TEN)).divide("2".toBigDecimal(), RoundingMode.DOWN)
-
     }
+    private fun find5PercentageV2(value: BigDecimal): BigDecimal {
+       return 0.5.toBigDecimal().divideToPercent(value)
+    }
+
 
     override fun onClick(p0: View?) {
         when (p0?.id) {

@@ -89,14 +89,21 @@ data class WatchList(
     fun perDiff(): Float {
         // watchlist price - current price (instead of open)
         market?.let {
-            val change = watchStockPrice - market.currentValue()
+            val change = gainLossDiffAmount()
             return (change / market.currentValue()) * 100
         }
         return 0.0f
     }
 
+    fun gainLossDiffAmount():Float{
+        market?.let {
+            return watchStockPrice - it.currentValue()
+        }
+        return 0.0f
+    }
+
     fun asPercentageText(): String {
-        val diff = perDiff()
+        val diff = gainLossDiffAmount()
         return "${Utils.formatStringToTwoDecimals(diff.toString())}%"
     }
 

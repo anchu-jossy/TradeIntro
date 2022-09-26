@@ -24,9 +24,8 @@ import com.techxform.tradintro.feature_main.data.remote.dto.Notifications
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.domain.util.Utils
-import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
-import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
+import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
@@ -45,7 +44,7 @@ class WatchlistViewFragment :
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         viewModel = ViewModelProvider(this)[WatchlistViewViewModel::class.java]
         observers()
@@ -56,14 +55,12 @@ class WatchlistViewFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         watchlistId = requireArguments().getInt("watchlistId")
-        binding.alertPriceType = PriceType(63.2f, getString(R.string.alert_price_lbl))
-
+        binding.alertPriceType = PriceType(0.0f, getString(R.string.alert_price_lbl))
         listeners()
         viewModel.watchlistDetails(watchlistId)
     }
 
-    private fun listeners()
-    {
+    private fun listeners() {
         binding.setAlertPriceBtn.setOnClickListener {
             alertPriceSetDialog()
         }
@@ -71,19 +68,22 @@ class WatchlistViewFragment :
             removeWatchListConformation()
         }
         binding.buyBtn.setOnClickListener {
-            if (watchList != null && watchList.market != null) {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
-                    EqualityPlaceOrderFragment.BUY, ScreenType.WATCHLIST,watchList.market!!))
+            if (watchList.market != null) {
+                findNavController().navigate(R.id.equalityPlaceOrderFragment,
+                    EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
+                        EqualityPlaceOrderFragment.BUY, ScreenType.WATCHLIST, watchList.market!!))
 
             }
         }
         binding.sellBtn.setOnClickListener {
-            if(watchList != null && watchList.market!! != null)
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
-                    EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST,watchList.market!!))
+            if (watchList.market != null)
+                findNavController().navigate(R.id.equalityPlaceOrderFragment,
+                    EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
+                        EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST, watchList.market!!))
         }
     }
-    private fun removeWatchListConformation(){
+
+    private fun removeWatchListConformation() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.delete_watch_list_ttl)
         builder.setMessage(R.string.delete_watch_list_desc)
@@ -100,8 +100,6 @@ class WatchlistViewFragment :
         alertDialog.setCancelable(true)
         alertDialog.show()
     }
-
-
 
 
     private fun alertPriceSetDialog() {
@@ -180,18 +178,16 @@ class WatchlistViewFragment :
     }
 
     private fun setGainProfit(watchList: WatchList) {
-        var currentPrice = 0.0f
-        val size = watchList.market?.history?.size ?: 0;
-        if (size > 0) {
-            currentPrice =watchList.market?.currentValue() ?: 0.0f
-        }
-        val gainLoss = currentPrice.minus(watchList.watchStockPrice)
-        val per =
-            ((currentPrice - watchList.watchStockPrice) / ((currentPrice + watchList.watchStockPrice) / 2)) * 100
+
+
         with(binding) {
-            alertPrice.titleTv.text =Utils.formatStringToTwoDecimals(watchList.watchStockPrice.toString())
-            gainLossPrice.titleTv.text = Utils.formatStringToTwoDecimals(gainLoss.toString())
-            gainLossPerPrice.titleTv.text = getString(R.string.per_format_string,Utils.formatPercentageWithoutDecimals(per.toString()))
+            val per = watchList.gainLossDiffAmount()
+            alertPrice.titleTv.text =
+                Utils.formatStringToTwoDecimals(watchList.alert?.notificationPrice.toString()
+                    ?: "0")
+            gainLossPrice.titleTv.text =
+                Utils.formatStringToTwoDecimals(watchList.gainLossDiffAmount().toString())
+            gainLossPerPrice.titleTv.text = watchList.asPercentageText()
             gainLossPrice.subTitleTv.text = getString(R.string.gain_loss_lbl)
             gainLossPerPrice.subTitleTv.text = getString(R.string.per_gain_loss_lbl)
 
@@ -208,8 +204,6 @@ class WatchlistViewFragment :
                         R.color.red
                     )
                 )
-            }
-            if (gainLoss < 0) {
                 gainLossPrice.titleTv.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -222,7 +216,58 @@ class WatchlistViewFragment :
                         R.color.red
                     )
                 )
+            } else if (per > 0) {
+                gainLossPerPrice.titleTv.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.green
+                    )
+                )
+                gainLossPerPrice.subTitleTv.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.green
+                    )
+                )
+                gainLossPrice.titleTv.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.green
+                    )
+                )
+                gainLossPrice.subTitleTv.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.green
+                    )
+                )
+            } else {
+                gainLossPerPrice.titleTv.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.black
+                    )
+                )
+                gainLossPerPrice.subTitleTv.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.black
+                    )
+                )
+                gainLossPrice.titleTv.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.black
+                    )
+                )
+                gainLossPrice.subTitleTv.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.black
+                    )
+                )
             }
+
         }
     }
 
@@ -243,7 +288,7 @@ class WatchlistViewFragment :
         }
 
         viewModel.watchlistViewErrorLiveData.observe(viewLifecycleOwner) {
-           handleError(it)
+            handleError(it)
         }
 
         viewModel.deleteAlertPriceLiveData.observe(viewLifecycleOwner) {
@@ -277,8 +322,7 @@ class WatchlistViewFragment :
         }
     }
 
-    private fun handleError(failure: Failure)
-    {
+    private fun handleError(failure: Failure) {
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(
@@ -288,8 +332,10 @@ class WatchlistViewFragment :
                     ).show()
                 )
             }
-            Failure.ServerError-> {
-                Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
+            Failure.ServerError -> {
+                Toast.makeText(requireContext(),
+                    getString(R.string.server_error),
+                    Toast.LENGTH_LONG).show()
 
             }
             else -> {
