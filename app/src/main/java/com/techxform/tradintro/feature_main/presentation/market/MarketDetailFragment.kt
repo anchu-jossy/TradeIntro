@@ -398,6 +398,9 @@ class MarketDetailFragment :
         viewModel.modifyAlertPriceErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
+        viewModel.deleteAlertPriceErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
 
 
     }

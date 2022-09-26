@@ -135,25 +135,7 @@ class WatchlistFragment :
         }
         viewModel.watchlistErrorLiveData.observe(viewLifecycleOwner) {
             isLoading = false
-            when (it) {
-                Failure.NetworkConnection -> {
-                    sequenceOf(
-                        requireContext().showShortToast(getString(R.string.no_internet_error))
-
-                    )
-                }
-                Failure.ServerError -> {
-                    sequenceOf(
-                        requireContext().showShortToast(getString(R.string.internal_server_error))
-
-                    )
-                }
-                else -> {
-                    val errorMsg = (it as Failure.FeatureFailure).message
-                    requireContext().showShortToast("Error: $errorMsg")
-                }
-
-            }
+            handleError(it)
         }
         viewModel.deleteWatchlistLiveData.observe(viewLifecycleOwner) {
             requireContext().showShortToast(getString(R.string.removed_to_watchlist))
@@ -164,8 +146,9 @@ class WatchlistFragment :
             previousDeletedWatchlistPosition=null
             // viewModel.watchlist(FilterModel("", limit, 0, 0, ""))
         }
-
-
+        viewModel.deleteWatchListErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
     }
 
 
@@ -198,6 +181,25 @@ class WatchlistFragment :
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(true)
         alertDialog.show()
+    }
+
+    private fun handleError(failure: Failure) {
+        when (failure) {
+            Failure.NetworkConnection -> {
+                sequenceOf(
+                    requireContext().showShortToast(getString(R.string.no_internet_error))
+
+                )
+            }
+            Failure.ServerError -> {
+                requireContext().showShortToast(getString(R.string.server_error))
+
+            }
+            else -> {
+                val errorMsg = (failure as Failure.FeatureFailure).message
+                requireContext().showShortToast("Error: $errorMsg")
+            }
+        }
     }
 
 }
