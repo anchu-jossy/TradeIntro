@@ -153,6 +153,13 @@ interface ApiService {
     @POST("api/watch-lists/{id}/alert")
     suspend fun alertPriceWL(@Path("id") id: Int, @Body  alertPriceRequest: AlertPriceRequest) : Response<BaseResponse<AlertPriceResponse>>
 
+
+    @DELETE("api/watch-lists/alert/{alertId}")
+    suspend fun deleteWatchListAlert(@Path("alertId") alertId: Int): Response<BaseResponse<DeleteAlertPriceResponse>>
+
+    @DELETE("api/portfolio/alert/{alertId}")
+    suspend fun deletePortfolioAlert(@Path("alertId") alertId: Int): Response<BaseResponse<DeleteAlertPriceResponse>>
+
     @PATCH("api/users/me")
     @Multipart
     suspend fun editProfile(@PartMap reqMap: Map<String, String>, @Part image: MultipartBody.Part?) : Response<BaseResponse<UserDetailsResponse>>

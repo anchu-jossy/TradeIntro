@@ -36,7 +36,7 @@ class WatchlistViewModel @Inject constructor(private val repository: ApiReposito
             }
         job = viewModelScope.launch(Dispatchers.Default) {
             if(!filterModel.searchText.isNullOrEmpty())
-                delay(1000L)
+                delay(300L)
             _loadingLiveData.postValue(true)
             when (val result = repository.watchlist(filterModel)) {
                 is Result.Success -> {

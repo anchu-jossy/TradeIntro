@@ -29,9 +29,15 @@ object Utils {
 
     fun formatBigDecimalIntoTwoDecimal(num :BigDecimal): BigDecimal {
      val df=   DecimalFormat("0.00")
-        df.roundingMode = RoundingMode.DOWN;
+        df.roundingMode = RoundingMode.UP;
+        df.minimumFractionDigits=2
         return df.format(num).toBigDecimal()
+    }
 
+    fun roundOffDecimal(number: Double): Double {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.UP
+        return df.format(number).toDouble()
     }
 
 

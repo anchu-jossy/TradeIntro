@@ -52,7 +52,7 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
                 job.cancelAndJoin()
             }
         job = viewModelScope.launch(Dispatchers.Default) {
-            delay(1000L)
+            delay(500L)
             //_loadingLiveData.postValue(true)
             when (val result = repository.portfolioV2(searchModel)) {
                 is Result.Success -> {

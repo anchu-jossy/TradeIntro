@@ -88,8 +88,10 @@ interface ApiRepository {
     suspend fun summaryReport() : Result<BaseResponse<SummaryReport>>
 
     suspend fun alertPrice(id: Int, alertPriceRequest: AlertPriceRequest) : Result<BaseResponse<AlertPriceResponse>>
+    suspend fun deleteWatchListAlert(alertId: Int) : Result<BaseResponse<DeleteAlertPriceResponse>>
+    suspend fun deletePortfolioAlert(alertId: Int) : Result<BaseResponse<DeleteAlertPriceResponse>>
 
-    suspend fun alertPriceWL(id: Int, alertPriceRequest: AlertPriceRequest) : Result<BaseResponse<AlertPriceResponse>>
+    suspend fun modifyWatchListAlertPrice(id: Int, alertPriceRequest: AlertPriceRequest) : Result<BaseResponse<AlertPriceResponse>>
 
     suspend fun editProfile(editUserProfileReq: EditUserProfileReq) : Result<BaseResponse<UserDetailsResponse>>
     suspend fun deleteProfile() : Result<BaseResponse<Any>>
