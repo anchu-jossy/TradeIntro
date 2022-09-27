@@ -12,57 +12,72 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.presentation.utils.BaseItem
 
-class WatchListItem(val selection: (action:Action, watchList: WatchList, position: Int) -> Unit) : BaseItem<RowItemBinding, WatchList>() {
+class WatchListItem(val selection: (action: Action, watchList: WatchList, position: Int) -> Unit) :
+    BaseItem<RowItemBinding, WatchList>() {
 
-    enum class Action{
+    enum class Action {
         SELECT, DELETE
     }
-    private var context:Context?=null
+
+    private var context: Context? = null
     override fun inflate(inflater: LayoutInflater, parent: ViewGroup): RowItemBinding {
-        context=parent.context
+        context = parent.context
         return RowItemBinding.inflate(inflater, parent, false)
     }
 
-    override val bindFun = fun(binding: RowItemBinding, position: Int,item:WatchList) {
+    override val bindFun = fun(binding: RowItemBinding, position: Int, item: WatchList) {
         binding.rowType = -1
         binding.watchlist = item
         if (position % 2 == 0) {
             context?.let {
                 drawChart(
                     ContextCompat.getColor(it, R.color.dark_pink),
-                    createData(),
+                    createData(item.market!!.history),
                     binding
                 )
             }
-        } else  context?.let { drawChart(
-
-            ContextCompat.getColor(it, R.color.light_blue_900),
-            createData(),
-            binding
-        )}
+        } else context?.let {
+            drawChart(
+                ContextCompat.getColor(it, R.color.light_blue_900),
+                createData(item.market!!.history),
+                binding
+            )
+        }
         binding.constraintContainer.setOnClickListener {
-            Log.e("delete",position.toString())
-            selection(Action.SELECT,item, position)
+            Log.e("delete", position.toString())
+            selection(Action.SELECT, item, position)
         }
 
         binding.btnDelete.setOnClickListener {
-            selection(Action.DELETE,item, position)
+            selection(Action.DELETE, item, position)
         }
     }
 
-    private fun createData(): ArrayList<Entry> {
-        var arrayList = arrayListOf<Entry>()
-        arrayList.add(Entry(1F, 20.45F))
-        arrayList.add(Entry(2F, 40.45F))
-        arrayList.add(Entry(3F, 10.45F))
-        arrayList.add(Entry(4F, 60.45F))
-        arrayList.add(Entry(5F, 20.45F))
-        arrayList.add(Entry(6F, 100.45F))
+    private fun createData(
+        list: MutableList<StockHistory>,
+
+        ): ArrayList<Entry> {
+        val arrayList = arrayListOf<Entry>()
+
+
+        list.forEachIndexed { index, stockHistory ->
+            arrayList.add(
+                Entry(
+                    index.toFloat(),
+                    (stockHistory.stockHistoryHigh + stockHistory.stockHistoryLow) / 2
+                )
+            )
+
+        }
+
+
         return arrayList
     }
+
 
     private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemBinding) {
         var set1 = LineDataSet(values, "Sample Data")
