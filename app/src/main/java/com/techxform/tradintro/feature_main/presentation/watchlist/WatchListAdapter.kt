@@ -12,21 +12,40 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
+import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 
 class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListener) :
     RecyclerView.Adapter<WatchListAdapter.PortfolioVH>() {
 
 
-    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root) {
+    inner class PortfolioVH(private val rowItemBinding: RowItemBinding) :
+        RecyclerView.ViewHolder(rowItemBinding.root) {
         fun binding() {
             rowItemBinding.rowType = -1
             rowItemBinding.watchlist = list[absoluteAdapterPosition]
-            if(absoluteAdapterPosition %2 == 0 ) {
-                drawChart(ContextCompat.getColor(itemView.context, R.color.dark_pink),createData(), rowItemBinding)
-            }else drawChart(ContextCompat.getColor(itemView.context, R.color.light_blue_900), createData(), rowItemBinding)
+
+            if (absoluteAdapterPosition % 2 == 0) {
+                if (list[absoluteAdapterPosition].market != null) {
+                    drawChart(
+                        ContextCompat.getColor(itemView.context, R.color.dark_pink),
+                        createData(list[absoluteAdapterPosition].market!!.history),
+                        rowItemBinding
+                    )
+                }
+
+            } else {
+                if (list[absoluteAdapterPosition].market != null) {
+                    drawChart(
+                        ContextCompat.getColor(itemView.context, R.color.light_blue_900),
+                        createData(list[absoluteAdapterPosition].market!!.history),
+                        rowItemBinding
+                    )
+                }
+
+            }
             rowItemBinding.root.setOnClickListener {
-                listener.onClick(list[absoluteAdapterPosition],absoluteAdapterPosition)
+                listener.onClick(list[absoluteAdapterPosition], absoluteAdapterPosition)
             }
         }
     }
@@ -46,19 +65,28 @@ class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListen
     }
 
     override fun getItemCount(): Int {
-         return list.size
+        return list.size
         //return 10
     }
 
-    private fun createData():ArrayList<Entry>
-    {
-        var arrayList = arrayListOf<Entry>()
-        arrayList.add(Entry(1F, 20.45F))
-        arrayList.add(Entry(2F, 40.45F))
-        arrayList.add(Entry(3F, 10.45F))
-        arrayList.add(Entry(4F, 60.45F))
-        arrayList.add(Entry(5F, 20.45F))
-        arrayList.add(Entry(6F, 100.45F))
+    private fun createData(
+        list: MutableList<StockHistory>,
+
+        ): ArrayList<Entry> {
+        val arrayList = arrayListOf<Entry>()
+
+
+        list.forEachIndexed { index, stockHistory ->
+            arrayList.add(
+                Entry(
+                    index.toFloat(),
+                    (stockHistory.stockHistoryHigh + stockHistory.stockHistoryLow) / 2
+                )
+            )
+
+        }
+
+
         return arrayList
     }
 
@@ -96,7 +124,7 @@ class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListen
     }
 
     interface ClickListener {
-        fun onClick(watchList: WatchList,position: Int)
+        fun onClick(watchList: WatchList, position: Int)
     }
 
 }

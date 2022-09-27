@@ -67,12 +67,12 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             {
                 marketList.clear()
                 viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, null,0, 0))
-                binding.marketSearchView.isEnabled = false
+                //binding.marketSearchView.isEnabled = false
             }else if(binding.marketSearchView.text.isNullOrEmpty())
             {
                 marketList.clear()
                 viewModel.marketList(SearchModel(null, limit, null,0, 0))
-                binding.marketSearchView.isEnabled = false
+                //binding.marketSearchView.isEnabled = false
             }
         }
 

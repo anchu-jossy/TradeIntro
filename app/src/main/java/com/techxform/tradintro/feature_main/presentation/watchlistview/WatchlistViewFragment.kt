@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.watchlistview
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -62,28 +63,42 @@ class WatchlistViewFragment :
         viewModel.watchlistDetails(watchlistId)
     }
 
-    private fun listeners()
-    {
+    private fun listeners() {
         binding.setAlertPriceBtn.setOnClickListener {
-            alertPriceSetDialog()
+            alertPriceSetDialog(watchList.alert,::posListener ,  ::negListener)
         }
         binding.buyBtn.setOnClickListener {
             if (watchList != null && watchList.market != null) {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
-                    EqualityPlaceOrderFragment.BUY, ScreenType.WATCHLIST,watchList.market!!))
+                findNavController().navigate(
+                    R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(
+                        watchList.market!!.stockId,
+                        EqualityPlaceOrderFragment.BUY, ScreenType.WATCHLIST, watchList.market!!
+                    )
+                )
 
             }
         }
         binding.sellBtn.setOnClickListener {
-            if(watchList != null && watchList.market!! != null)
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
-                    EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST,watchList.market!!))
+            if (watchList != null && watchList.market!! != null)
+                findNavController().navigate(
+                    R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(
+                        watchList.market!!.stockId,
+                        EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST, watchList.market!!
+                    )
+                )
         }
     }
+    private fun posListener(amount: Double) {
+        viewModel.setAlertPrice(
+            watchlistId,
+            AlertPriceRequest(amount)
+        )
+    }
+    private fun negListener(){}
+    private fun alertPriceSetDialog() {
 
-    private fun alertPriceSetDialog()
-    {
-        val builder = AlertDialog.Builder(requireContext())
+
+        /*val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.alert_price_lbl)
 
         val amountEt = EditText(requireContext())
@@ -98,15 +113,23 @@ class WatchlistViewFragment :
         lp.setMargins(20, 0, 20, 0)
 
         amountEt.layoutParams = lp
-        //amountEt.gravity = Gravity.TOP or Gravity.LEFT
         amountEt.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER
         amountEt.setLines(1)
         amountEt.maxLines = 1
+        amountEt.setText((watchList.alert?.notificationPrice ?: 0.0f).toString())
         container.addView(amountEt, lp)
         builder.setView(container)
-        builder.setPositiveButton(R.string.modify_alert_lbl
+        var posBtn = getString(R.string.set_alert_lbl)
+        var negBtn = getString(R.string.dismiss_lbl)
+
+        if (watchList.alert != null) {
+            posBtn = getString(R.string.modify_alert_lbl)
+            negBtn = getString(R.string.remove_alert_lbl)
+        }
+        builder.setPositiveButton(
+            posBtn
         ) { dialog, p1 ->
-            if(amountEt.text.toString().isNullOrEmpty())
+            if (amountEt.text.toString().isNullOrEmpty())
                 requireContext().showShortToast(getString(R.string.enter_alert_price_lbl))
             else {
                 viewModel.setAlertPrice(
@@ -117,12 +140,13 @@ class WatchlistViewFragment :
             }
         }
 
-        builder.setNegativeButton(R.string.remove_alert_lbl
+        builder.setNegativeButton(
+            negBtn
         ) { dialog, p1 ->
             dialog.dismiss()
         }
         builder.show()
-
+*/
     }
 
     private fun setGainProfit(watchList: WatchList) {
@@ -137,9 +161,13 @@ class WatchlistViewFragment :
         val per =
             ((currentPrice - watchList.watchStockPrice) / ((currentPrice + watchList.watchStockPrice) / 2)) * 100
         with(binding) {
-            alertPrice.titleTv.text =Utils.formatStringToTwoDecimals(watchList.watchStockPrice.toString())
+            alertPrice.titleTv.text =
+                Utils.formatStringToTwoDecimals(watchList.watchStockPrice.toString())
             gainLossPrice.titleTv.text = Utils.formatStringToTwoDecimals(gainLoss.toString())
-            gainLossPerPrice.titleTv.text = getString(R.string.per_format_string,Utils.formatPercentageWithoutDecimals(per.toString()))
+            gainLossPerPrice.titleTv.text = getString(
+                R.string.per_format_string,
+                Utils.formatPercentageWithoutDecimals(per.toString())
+            )
             gainLossPrice.subTitleTv.text = getString(R.string.gain_loss_lbl)
             gainLossPerPrice.subTitleTv.text = getString(R.string.per_gain_loss_lbl)
 
@@ -179,8 +207,9 @@ class WatchlistViewFragment :
             binding.progressBar.progressOverlay.isVisible = it
         }
 
-        viewModel.modifyAlertPriceLiveData.observe(viewLifecycleOwner){
+        viewModel.modifyAlertPriceLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                //TODO: on success modify watchlist
                 Toast.makeText(
                     requireContext(),
                     "Successfully modified alert price",
@@ -198,10 +227,13 @@ class WatchlistViewFragment :
             binding.watchlist = it.data
             watchList = it.data
             setGainProfit(it.data)
+            if (watchList.alert != null && watchList.alert!!.notificationPrice != 0.0f) {
+                binding.setAlertPriceBtn.setText(R.string.edit_alert_price_lbl)
+            }
         }
 
         viewModel.watchlistViewErrorLiveData.observe(viewLifecycleOwner) {
-           handleError(it)
+            handleError(it)
         }
         viewModel.buyStockErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
@@ -211,21 +243,28 @@ class WatchlistViewFragment :
         }
         viewModel.buyStockLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
-                    EqualityPlaceOrderFragment.BUY, ScreenType.WATCHLIST, watchList.market!!))
+                findNavController().navigate(
+                    R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(
+                        watchList.market!!.stockId,
+                        EqualityPlaceOrderFragment.BUY, ScreenType.WATCHLIST, watchList.market!!
+                    )
+                )
             }
         }
         viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,  EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
-                    EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST,watchList.market!!))
+                findNavController().navigate(
+                    R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(
+                        watchList.market!!.stockId,
+                        EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST, watchList.market!!
+                    )
+                )
 
             }
         }
     }
 
-    private fun handleError(failure: Failure)
-    {
+    private fun handleError(failure: Failure) {
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(
@@ -235,8 +274,12 @@ class WatchlistViewFragment :
                     ).show()
                 )
             }
-            Failure.ServerError-> {
-                Toast.makeText(requireContext(), getString(R.string.server_error), Toast.LENGTH_LONG).show()
+            Failure.ServerError -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.server_error),
+                    Toast.LENGTH_LONG
+                ).show()
 
             }
             else -> {

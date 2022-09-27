@@ -80,6 +80,7 @@ data class WatchList(
     @SerializedName("watch_stock_price") val watchStockPrice: Float,
     @SerializedName("watchlist_date") val watchlistDate: String?,
     @SerializedName("market") val market: Stock?,
+    @SerializedName("alert") val alert: Notifications?,
 ) : Parcelable {
 
     fun perDiff(): Float? {

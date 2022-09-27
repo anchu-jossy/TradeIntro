@@ -42,10 +42,10 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/frame"
-            android:fontFamily="@font/open_sans"
-            android:hint ="@string/search"
             android:drawableEnd="@drawable/ic_baseline_search_24"
             android:drawablePadding="@dimen/_8sdp"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/search"
             android:maxLines="1"
             android:padding="@dimen/_8sdp"
             android:visibility="gone" />
@@ -107,10 +107,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
-                            android:fontFamily="@font/open_sans_medium"
                             android:background="@color/dark_violate"
-                            android:textColor="@color/white"
+                            android:fontFamily="@font/open_sans_medium"
                             android:paddingHorizontal="@dimen/_8sdp"
+                            android:textColor="@color/white"
                             app:layout_constraintBottom_toBottomOf="@id/exchangeLbl"
                             app:layout_constraintStart_toEndOf="@+id/b"
                             app:layout_constraintTop_toTopOf="@id/exchangeLbl" />
@@ -181,9 +181,7 @@
                             android:fontFamily="@font/open_sans"
                             android:hint=""
                             android:inputType="number"
-                            android:text="1"
                             android:maxLength="10"
-
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon3"
@@ -337,10 +335,10 @@
                             android:orientation="horizontal"
                             android:textSize="@dimen/_12ssp"
                             android:visibility="gone"
+                            app:drawableEndCompat="@drawable/ic_calender"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon20"
-                            app:layout_constraintTop_toBottomOf="@id/flow"
-                            app:drawableEndCompat="@drawable/ic_calender" />
+                            app:layout_constraintTop_toBottomOf="@id/flow" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/limitedPrizeLbl"
@@ -372,6 +370,7 @@
                             android:background="@drawable/edittext_bg"
                             android:fontFamily="@font/open_sans"
                             android:hint=""
+                            android:inputType="numberDecimal"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/colon6"
@@ -415,7 +414,7 @@
                             android:id="@+id/chargesGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:constraint_referenced_ids="chargesLbl,colon7,chargesEt"/>
+                            app:constraint_referenced_ids="chargesLbl,colon7,chargesEt" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/buyAmountLbl"
@@ -468,12 +467,11 @@
                             android:layout_marginVertical="@dimen/_20sdp"
                             android:background="@drawable/pink_circular_bg"
                             android:clickable="true"
-                            app:layout_constraintWidth_percent="0.35"
                             android:text="@string/plus_buy_lbl"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/buyAmountEt"
-                           />
+                            app:layout_constraintWidth_percent="0.35" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -572,7 +570,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_16sdp"
                             android:fontFamily="@font/open_sans_medium"
-                            android:text="@string/stock_name_lbl"
+                            android:text="@string/stock_info_lbl"
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/stockInfoContainer" />

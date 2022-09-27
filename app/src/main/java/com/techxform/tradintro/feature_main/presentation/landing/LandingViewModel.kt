@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.techxform.tradintro.core.utils.PreferenceHelper
-import com.techxform.tradintro.core.utils.PreferenceHelper.token
 import com.techxform.tradintro.core.utils.PreferenceHelper.userFullName
 import com.techxform.tradintro.core.utils.PreferenceHelper.userId
 import com.techxform.tradintro.feature_main.data.remote.dto.*
@@ -57,7 +56,7 @@ class LandingViewModel @Inject constructor(
                     val pref = PreferenceHelper.customPreference(context)
                     pref.userId = result.data.data.userId!!
                     pref.userFullName = result.data.data.userName
-                    _userDetailLiveData.postValue(result.data)
+                    _userDetailLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
                     _logOutErrorLiveData.postValue(result.exception)

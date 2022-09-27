@@ -72,12 +72,12 @@ class WatchlistFragment :
                         ""
                     )
                 )
-                binding.searchView.isEnabled = false
+                //binding.searchView.isEnabled = false
             } else if (binding.searchView.text.isNullOrEmpty() && isSearch) {
                 isSearch = false
                 watchList.clear()
                 viewModel.watchlist(FilterModel("", limit, 0, 0, ""))
-                binding.searchView.isEnabled = false
+                //binding.searchView.isEnabled = false
             }
         }
 
@@ -125,6 +125,7 @@ class WatchlistFragment :
 
         viewModel.watchlistLiveData.observe(viewLifecycleOwner) {
             if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+               // binding.searchView.isEnabled = true
                 if (it.data.isEmpty() || it.data.size < limit)
                     noMorePages = true
                 watchList= it.data
@@ -160,6 +161,7 @@ class WatchlistFragment :
 
         viewModel.watchlistErrorLiveData.observe(viewLifecycleOwner) {
             isLoading = false
+           // binding.searchView.isEnabled = true
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(

@@ -81,13 +81,23 @@ class MarketDetailFragment :
         }
 
         binding.setAlertPriceBtn.setOnClickListener {
-            //TODO: Open Dialog
-            alertPriceSetDialog()
+            alertPriceSetDialog( binding.stock!!.watchList?.alert,::posListener ,  ::negListener)
         }
     }
 
+    private fun negListener() {
+        TODO("Not yet implemented")
+    }
 
-    private fun alertPriceSetDialog()
+    private fun posListener(amount: Double) {
+        viewModel.modifyAlertPrice(
+            stockId,
+            AlertPriceRequest(amount)
+        )
+    }
+
+
+    /*private fun alertPriceSetDialog()
     {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.alert_price_lbl)
@@ -132,7 +142,7 @@ class MarketDetailFragment :
         builder.show()
 
     }
-
+*/
 
     private fun createPriceType(stockHistory: StockHistory?): ArrayList<PriceType> {
         val priceTypes = arrayListOf<PriceType>()
