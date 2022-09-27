@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.techxform.tradintro.R
+import java.math.BigDecimal
 
 @BindingAdapter("imageUrl")
 fun ImageView.loadImage(url: String?) {
@@ -74,6 +75,11 @@ fun TextView.color(boolean: Boolean) {
     if (boolean)
         setTextColor(ContextCompat.getColor(context, R.color.black))
     else setTextColor(ContextCompat.getColor(context, R.color.grey))
+}
+
+fun BigDecimal.divideToPercent(divideTo: BigDecimal?): BigDecimal {
+    return if (divideTo == null || divideTo.toDouble().equals(0.0)) 0.0f.toBigDecimal()
+    else (this / divideTo)
 }
 
 

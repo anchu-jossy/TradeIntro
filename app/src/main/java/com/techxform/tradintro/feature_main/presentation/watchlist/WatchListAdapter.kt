@@ -1,5 +1,6 @@
 package com.techxform.tradintro.feature_main.presentation.watchlist
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
@@ -14,6 +15,7 @@ import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
+
 
 class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListener) :
     RecyclerView.Adapter<WatchListAdapter.PortfolioVH>() {
@@ -126,5 +128,6 @@ class WatchListAdapter(var list: ArrayList<WatchList>, val listener: ClickListen
     interface ClickListener {
         fun onClick(watchList: WatchList, position: Int)
     }
+
 
 }

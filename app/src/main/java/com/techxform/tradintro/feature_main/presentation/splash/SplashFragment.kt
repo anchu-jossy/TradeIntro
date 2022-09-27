@@ -24,21 +24,16 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
         isLoggedIn = pref.token!!.isNotEmpty()
 
 
-
-
         Handler(Looper.getMainLooper()).postDelayed({
             if (isLoggedIn)
                 findNavController(this).navigate(R.id.action_splashFragment_to_loginFragment)
             else findNavController(this).navigate(R.id.action_splashFragment_to_loginFragment)
 
         }, UI_ANIMATION_DELAY.toLong())
-
     }
 
-
-
     companion object {
-        private const val UI_ANIMATION_DELAY = 2000
+        private const val UI_ANIMATION_DELAY = 1000
     }
 
 

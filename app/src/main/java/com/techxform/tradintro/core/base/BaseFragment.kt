@@ -48,7 +48,6 @@ open class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fr
     fun clearBackstack() {
         val fragmentManager: FragmentManager? = fragmentManager
         // this will clear the back stack and displays no animation on the screen
-        // this will clear the back stack and displays no animation on the screen
         fragmentManager?.popBackStack(
             null,
             FragmentManager.POP_BACK_STACK_INCLUSIVE
@@ -65,10 +64,10 @@ open class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fr
     fun alertPriceSetDialog(
         notifications: Notifications?,
         posCall: (amount: Double) -> Unit,
-        negCall: () -> Unit
+        negCall: (id: Int) -> Unit
     ) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(R.string.alert_price_lbl)
+        builder.setTitle(R.string.add_alert_price_lbl)
 
         val amountEt = EditText(requireContext())
         amountEt.hint = getString(R.string.alert_price_lbl)
@@ -92,6 +91,7 @@ open class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fr
         var negBtn = getString(R.string.dismiss_lbl)
 
         if (notifications != null) {
+            builder.setTitle(R.string.modify_alert_price_lbl)
             posBtn = getString(R.string.modify_alert_lbl)
             negBtn = getString(R.string.remove_alert_lbl)
         }
@@ -109,7 +109,7 @@ open class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fr
         builder.setNegativeButton(
             negBtn
         ) { dialog, p1 ->
-            negCall.invoke()
+            notifications?.notificationId?.let { negCall.invoke(it) }
             dialog.dismiss()
         }
         builder.show()

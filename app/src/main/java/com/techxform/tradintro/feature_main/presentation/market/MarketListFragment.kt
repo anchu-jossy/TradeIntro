@@ -1,6 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.market
 
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,8 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
-
+    private var prevSearchTerm: String = ""
+    private lateinit var searchTextListener: TextWatcher;
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,17 +64,16 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
         binding.catagorySpinner.adapter = adapter
         binding.catagorySpinner.onItemSelectedListener = this
 
-        binding.marketSearchView.addTextChangedListener {
-            if(binding.marketSearchView.text.toString().length > 3)
-            {
+        searchTextListener = binding.marketSearchView.addTextChangedListener {
+            noMorePages=false;
+            if (binding.marketSearchView.text.toString().isNotEmpty()) {
+                prevSearchTerm = binding.marketSearchView.text.toString()
                 marketList.clear()
-                viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, null,0, 0))
-                //binding.marketSearchView.isEnabled = false
-            }else if(binding.marketSearchView.text.isNullOrEmpty())
-            {
+                viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, null,0, 0),true)
+            } else if (binding.marketSearchView.text.isNullOrEmpty() && prevSearchTerm.isNotEmpty()) {
+                prevSearchTerm = ""
                 marketList.clear()
-                viewModel.marketList(SearchModel(null, limit, null,0, 0))
-                //binding.marketSearchView.isEnabled = false
+                viewModel.marketList(SearchModel(null, limit, null,0, 0),true)
             }
         }
 
@@ -87,13 +88,19 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             ) {
                 if (!isLoading && !noMorePages) {
                     isLoading = true
-                    viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, null,marketList.size, 0))
+                    viewModel.marketList(SearchModel(binding.marketSearchView.text.toString().trim(), limit, null,marketList.size, 0),true)
                 }
             }
         })
         marketList.clear()
-        viewModel.marketList(SearchModel("", limit,null, marketList.size, 0))
+        viewModel.marketList(SearchModel("", limit,null, marketList.size, 0),false)
 
+    }
+
+    private fun clearSearchView() {
+        binding.marketSearchView.removeTextChangedListener(searchTextListener)
+        binding.marketSearchView.text?.clear()
+        binding.marketSearchView.addTextChangedListener(searchTextListener)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -107,6 +114,12 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
     private fun observers() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
+            binding.marketInProgress.progressOverlay.isVisible = false
+        }
+        viewModel.loadingSearchLiveData.observe(viewLifecycleOwner) {
+            binding.marketInProgress.progressOverlay.isVisible = it
+            if (it)
+                binding.noMarketsTv.setVisibiltyGone()
         }
 
         viewModel.marketListLiveData.observe(viewLifecycleOwner) {
@@ -116,11 +129,14 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
             marketList.addAll(it.data)
             isLoading = false
             setAdapter()
+            viewModel.dismissLoading()
+
         }
 
         viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
             binding.marketSearchView.isEnabled = true
             isLoading = false
+            viewModel.dismissLoading()
             when (it) {
                 Failure.NetworkConnection -> {
                     sequenceOf(
@@ -136,19 +152,22 @@ class MarketListFragment : BaseFragment<MarketFragmentBinding>(MarketFragmentBin
     }
 
     private fun setAdapter() {
-        if(marketList.isNullOrEmpty())
+        if(marketList.isNotEmpty())
         {
-            binding.noMarketsTv.setVisible()
-            binding.marketListRv.setVisibiltyGone()
-        }else if(!marketList.isNullOrEmpty() && binding.marketListRv.visibility == View.GONE)
-        {
-            binding.marketListRv.setVisible()
             binding.noMarketsTv.setVisibiltyGone()
+            binding.marketListRv.setVisible()
+        }else
+        {
+            binding.marketListRv.setVisibiltyGone()
+            binding.noMarketsTv.setVisible()
         }
 
         binding.marketListRv.adapter =
             MarketListAdapter(marketList, object : MarketListAdapter.OnItemClickListner {
                 override fun onItemClick(stock: Stock, position: Int) {
+                    noMorePages = false
+                    prevSearchTerm = ""
+                    clearSearchView()
                     val bundle = bundleOf("stockId" to stock.stockId,"totalPrice" to stock.totalPrice)
                     findNavController().navigate(R.id.action_nav_market_to_marketDetailFragment, bundle)
                 }

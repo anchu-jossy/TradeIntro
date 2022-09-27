@@ -27,21 +27,27 @@ class MarketViewModel @Inject constructor(private val repository: ApiRepository)
     private var _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
+    private var _loadingSearchLiveData = MutableLiveData<Boolean>()
+    val loadingSearchLiveData: LiveData<Boolean> = _loadingSearchLiveData
+
+
     private lateinit var job: Job
 
 
-    fun marketList(searchModel: SearchModel) {
+    fun marketList(searchModel: SearchModel,showLoading:Boolean) {
+        _loadingSearchLiveData.postValue(showLoading)
+
         if (::job.isInitialized && job.isActive)
             runBlocking {
                 job.cancelAndJoin()
             }
         job = viewModelScope.launch(Dispatchers.Default) {
-            if(!searchModel.searchText.isNullOrEmpty())
-                delay(1000L)
-            _loadingLiveData.postValue(true)
+            if (!searchModel.searchText.isNullOrEmpty())
+                delay(500L)
+            _loadingLiveData.postValue(!showLoading)
             when (val result = repository.marketList(searchModel)) {
                 is Result.Success -> {
-                    _marketListLiveData.postValue(result.data!!)
+                    _marketListLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
                     _marketErrorLiveData.postValue(result.exception)
@@ -51,5 +57,11 @@ class MarketViewModel @Inject constructor(private val repository: ApiRepository)
         }
 
     }
+
+    fun dismissLoading() {
+        _loadingLiveData.postValue(false)
+        _loadingSearchLiveData.postValue(false)
+    }
+
 
 }

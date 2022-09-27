@@ -38,25 +38,7 @@ class PriceAdapter(val list: ArrayList<PriceType>) :
                 }
             }
 
-        /*    if (absoluteAdapterPosition == 6 || absoluteAdapterPosition == 7) {
-                itemViewBinding.titleTv.text = Utils.formatPercentageWithoutDecimals(list[absoluteAdapterPosition].amount.toString())
-                if (!isPositive(itemViewBinding.titleTv.text as String))
-                    itemViewBinding.titleTv.setTextColor(
-                        ContextCompat.getColor(
-                            itemViewBinding.root.context,
-                            R.color.red
-                        )
-                    )
-                else itemViewBinding.titleTv.setTextColor(
-                    ContextCompat.getColor(
-                        itemViewBinding.root.context,
-                        R.color.green
-                    )
-                )
 
-            }
-
-*/
         }
 
     }

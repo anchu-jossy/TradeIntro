@@ -3,6 +3,7 @@ package com.techxform.tradintro.feature_main.data.remote.dto
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.techxform.tradintro.feature_main.domain.util.Utils
 
 data class PortfolioItem(
     @SerializedName("order_id") val orderId: Int,
@@ -63,6 +64,11 @@ data class PortfolioItem(
 
     fun perDiff(): Float {
        return gainLossPercentage ?: orderQty.toFloat()
+    }
+
+    fun asPercentageText():String{
+        val diff=perDiff()
+        return "${Utils.formatStringToTwoDecimals(diff.toString())}%"
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

@@ -25,6 +25,8 @@ class WatchlistViewModel @Inject constructor(private val repository: ApiReposito
 
     private var _deleteWatchlistLiveData = MutableLiveData<BaseResponse<DeleteWatchListResponse>>()
     val deleteWatchlistLiveData: LiveData<BaseResponse<DeleteWatchListResponse>> = _deleteWatchlistLiveData
+    private var _deleteWatchListErrorLiveData = MutableLiveData<Failure>()
+    val deleteWatchListErrorLiveData: LiveData<Failure> = _deleteWatchListErrorLiveData
 
     private lateinit var job: Job
 
@@ -36,7 +38,7 @@ class WatchlistViewModel @Inject constructor(private val repository: ApiReposito
             }
         job = viewModelScope.launch(Dispatchers.Default) {
             if(!filterModel.searchText.isNullOrEmpty())
-                delay(1000L)
+                delay(300L)
             _loadingLiveData.postValue(true)
             when (val result = repository.watchlist(filterModel)) {
                 is Result.Success -> {
@@ -50,7 +52,7 @@ class WatchlistViewModel @Inject constructor(private val repository: ApiReposito
         }
     }
 
-    fun removeWatchlist(id: Number)
+    fun removeWatchlist(id: Int)
     {
         _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.Default) {
@@ -60,7 +62,7 @@ class WatchlistViewModel @Inject constructor(private val repository: ApiReposito
                     _deleteWatchlistLiveData.postValue(result.data!!)
                 }
                 is Result.Error -> {
-                    _watchlistErrorLiveData.postValue(result.exception)
+                    _deleteWatchListErrorLiveData.postValue(result.exception)
                 }
             }
             _loadingLiveData.postValue(false)

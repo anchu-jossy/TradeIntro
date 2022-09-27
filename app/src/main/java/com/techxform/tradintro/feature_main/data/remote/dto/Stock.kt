@@ -1,7 +1,9 @@
 package com.techxform.tradintro.feature_main.data.remote.dto
 
 import android.os.Parcelable
+import com.bumptech.glide.util.Util
 import com.google.gson.annotations.SerializedName
+import com.techxform.tradintro.feature_main.domain.util.Utils
 import kotlinx.parcelize.Parcelize
 
 
@@ -14,6 +16,8 @@ data class Stock(
     @SerializedName("stock_type") val stockType: Int,
     @SerializedName("history") val history: ArrayList<StockHistory>,
     @SerializedName("watchlist") var watchList: WatchList?,
+    @SerializedName("alert") var watchListAlert: Notifications?,
+    @SerializedName("portfolioItems") var portfolioItems: ArrayList<PortfolioItem>?,
     var totalPrice: Int = 0
 
 ) : Parcelable {
@@ -29,9 +33,12 @@ data class Stock(
     }
 
     fun currentValue(): Float {
-        return if (history.isNullOrEmpty()) 0f
+
+        val amount = if (history.isEmpty()) 0f
         else (history.first().stockHistoryHigh +
                 history.first().stockHistoryLow) / 2
+
+        return Utils.formatBigDecimalIntoTwoDecimal(amount.toBigDecimal()).toFloat()
 
     }
 
@@ -40,20 +47,16 @@ data class Stock(
             val todayPrice = currentValue()
             val size = history.size ?: 0
             if (size > 1) {
-                /*     val openPrice2 =
-                     history[1].stockHistoryHigh
-                 val closePrice2 =
-                     history[1].stockHistoryLow
-                 val totalPrice2 = (openPrice2 + closePrice2)
-                 val yesterdayPrice = (totalPrice2 / 2)
-
-                 if (todayPrice != 0.0f && yesterdayPrice != 0.0f)
-                     return ((todayPrice - yesterdayPrice) / ((todayPrice + yesterdayPrice) / 2)) * 100;*/
                 val change = todayPrice - history.first().stockHistoryOpen
                 return (change / history.first().stockHistoryOpen) * 100
             }
         }
         return 0.0f
+    }
+
+    fun asPercentageText(): String {
+        val diff = perDiff()
+        return "${Utils.formatStringToTwoDecimals(diff.toString())}%"
     }
 
 
@@ -80,20 +83,33 @@ data class WatchList(
     @SerializedName("watch_stock_price") val watchStockPrice: Float,
     @SerializedName("watchlist_date") val watchlistDate: String?,
     @SerializedName("market") val market: Stock?,
-    @SerializedName("alert") val alert: Notifications?,
+    @SerializedName("alert") var alert: Notifications?,
 ) : Parcelable {
 
-    fun perDiff(): Float? {
-        val currentValue = market?.currentValue()
-        if (currentValue != null) {
-            return (((currentValue - watchStockPrice) /
-                    ((currentValue + watchStockPrice) / 2)) * 100)
+    fun perDiff(): Float {
+        // watchlist price - current price (instead of open)
+        market?.let {
+            val change = gainLossDiffAmount()
+            return (change / market.currentValue()) * 100
         }
-        return null
+        return 0.0f
+    }
+
+    fun gainLossDiffAmount():Float{
+        market?.let {
+            return watchStockPrice - it.currentValue()
+        }
+        return 0.0f
+    }
+
+    fun asPercentageText(): String {
+        val diff = gainLossDiffAmount()
+        return "${Utils.formatStringToTwoDecimals(diff.toString())}%"
     }
 
     fun formatCode(): String {
-        return market?.stockApiCode?.split('.')?.get(1).toString()
+        val code = market?.stockApiCode?.split('.')?.get(1).toString()
+        return code.replaceFirstChar { char -> char.lowercase() }
     }
 
 

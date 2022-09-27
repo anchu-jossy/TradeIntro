@@ -53,6 +53,10 @@
     <string name="total_price_lbl">Total Price</string>
     <string name="total_value_lbl">Total Value</string>
     <string name="alert_price_lbl">Alert Price</string>
+    <string name="add_alert_price_lbl">Set Alert Price</string>
+    <string name="modify_alert_price_lbl">Modify Alert Price</string>
+    <string name="delete_watch_list_ttl">Remove Watch List</string>
+    <string name="delete_watch_list_desc">Do you want to remove this stock from watch list?</string>
     <string name="gain_loss_lbl">Gain/Loss</string>
     <string name="per_gain_loss_lbl">% Gain/Loss</string>
     <string name="back_lbl">Back</string>
@@ -161,6 +165,8 @@
     <string name="string_features_unlocked">Features Unlocked !!!</string>
     <string name="required_points">Required Points :  %.2f Pts</string>
     <string name="watchList"><b>WatchList</b></string>
+    <string name="watch_list_label">Watch List</string>
+    <string name="alert_price_label">Alert Price</string>
     <string name="order_stock">Order Stock</string>
     <string name="equity_place_order_lbl">Equity Place Order</string>
     <string name="sell_stock">Sell Stock</string>
@@ -271,8 +277,10 @@
     <string name="remove_watchlist_lbl">Remove Watchlist</string>
     <string name="remove_alert_lbl">Remove Alert</string>
     <string name="modify_alert_lbl">Modify Alert</string>
+    <string name="add_alert_lbl">Add Alert</string>
+    <string name="enter_alert_price_lbl">Enter Valid Alert Price</string>
     <string name="set_alert_lbl">Set Alert</string>
-    <string name="enter_alert_price_lbl">Enter Alert Price</string>
+<!--    <string name="enter_alert_price_lbl">Enter Alert Price</string>-->
     <string name="delete_acc">Delete Account</string>
     <string name="acc_delete">Account deleted successfully</string>
 
@@ -280,12 +288,14 @@
     <string name="edit">Edit</string>
     <string name="stock_name">StockName</string>
     <string name="stock_id">StockId</string>
-    <string name="bought_success">Success! Your order is successfully placed.</string>
-    <string name="sold_success">Successfully sold stock</string>
+   <string name="update_success">Success! Your order is successfully placed</string>
     <string name="validate_fields">"Fill all fields "</string>
     <string name="added_to_watchlist">Successfully added to watchlist</string>
     <string name="removed_to_watchlist">Successfully removed from watchlist</string>
-    <string name="modified_alert_price">Successfully modified alertprice</string>
+    <string name="alert_price_removed">Alert price removed successfully.</string>
+    <string name="watch_list_alert_price_removed">Successfully removed watch list  alert price.</string>
+    <string name="modified_alert_price">Successfully updated alert price.</string>
+    <string name="modified_watch_list_alert_price">Successfully updated watch list  alert price.</string>
     <string name="delete_success">Successfully deleted</string>
     <string name="internal_server_error">Internal server error</string>
     <string name="logout">Logout successfully</string>

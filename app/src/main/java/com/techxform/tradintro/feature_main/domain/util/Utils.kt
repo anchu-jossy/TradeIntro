@@ -22,35 +22,41 @@ object Utils {
             num
         }
     }
-    fun formatPercentageWithoutDecimals(num :String): String {
-       return num.split(".")[0]
+
+    fun formatPercentageWithoutDecimals(num: String): String {
+        return num.split(".")[0]
     }
 
 
-    fun formatBigDecimalIntoTwoDecimal(num :BigDecimal): BigDecimal {
-     val df=   DecimalFormat("0.00")
-        df.roundingMode = RoundingMode.DOWN;
+    fun formatBigDecimalIntoTwoDecimal(num: BigDecimal): BigDecimal {
+        val df = DecimalFormat("0.00")
+        df.roundingMode = RoundingMode.UP;
+        df.minimumFractionDigits = 2
         return df.format(num).toBigDecimal()
+    }
 
+    fun roundOffDecimal(number: Double): Double {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.UP
+        return df.format(number).toDouble()
     }
 
 
-
-
-    fun View.setVisible(){
-        this.visibility=View.VISIBLE
+    fun View.setVisible() {
+        this.visibility = View.VISIBLE
     }
-    fun View.setVisibiltyGone(){
-        this.visibility=View.GONE
+
+    fun View.setVisibiltyGone() {
+        this.visibility = View.GONE
     }
 
     fun Context.showShortToast(message: CharSequence) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun formatDateTime(formattedDate:String?): Pair<String, String> {
-        if(formattedDate.isNullOrEmpty())
-            return Pair("","")
+    fun formatDateTime(formattedDate: String?): Pair<String, String> {
+        if (formattedDate.isNullOrEmpty())
+            return Pair("", "")
         val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(formattedDate)
         val date = SimpleDateFormat("yyyy-MM-dd").format(d)
         val time = SimpleDateFormat("hh:mm aa").format(d)
@@ -58,30 +64,37 @@ object Utils {
         return Pair(date, time)
     }
 
-    fun formatDateTime24HrFormat(formattedDate:String?): Pair<String, String> {
-        if(formattedDate.isNullOrEmpty())
-            return Pair("","")
+    fun formatDateTime24HrFormat(formattedDate: String?): Pair<String, String> {
+        if (formattedDate.isNullOrEmpty())
+            return Pair("", "")
         val d = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(formattedDate)
         val date = SimpleDateFormat("yyyy-MM-dd").format(d)
         val time = SimpleDateFormat("HH:mm:ss").format(d)
 
         return Pair(date, time)
     }
-    fun formatDateTimeString(formattedDate:String?): String {
-        if(formattedDate.isNullOrEmpty())
+
+    fun formatDateTimeString(formattedDate: String?): String {
+        if (formattedDate.isNullOrEmpty())
             return ""
         val pair = formatDateTime(formattedDate)
         return pair.first + " " + pair.second
     }
+
     fun formatCurrentDate(): String {
-        return  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(Date());
+        return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(Date());
     }
-    fun formatDateString(formattedDate:String?): String {
+
+    fun formatDateString(formattedDate: String?): String {
 
         val d = SimpleDateFormat("dd/MM/yyyy").parse(formattedDate)
-        return SimpleDateFormat(    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(d)
+        return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(d)
 
+    }
 
-
+    fun getAfterMonthsTime(cal: Calendar, afterMonth: Int): Long {
+        cal.time = Date()
+        cal.add(Calendar.MONTH, afterMonth)
+        return cal.time.time
     }
 }

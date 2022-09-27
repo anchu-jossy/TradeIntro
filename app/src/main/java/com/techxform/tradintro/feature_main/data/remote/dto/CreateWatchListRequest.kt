@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
  data class CreateWatchListRequest(
     @SerializedName("watchlist_stock_id") val watchListStockId: Int,
-    @SerializedName("watch_stock_price") val watchListStockPrice: Number,
+    @SerializedName("watch_stock_price") val watchListStockPrice: Float,
 ) {
 }
 /*
