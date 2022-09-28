@@ -16,7 +16,7 @@ interface ApiRepository {
 
     suspend fun marketList(searchModel: SearchModel): Result<BaseResponse<ArrayList<Stock>>>
 
-    suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>>
+    suspend fun marketDetails(marketId: Int,query:Map<String, String?>?=null): Result<BaseResponse<Stock>>
     suspend fun taxes(): Result<BaseResponse<ArrayList<TaxModel>>>
     suspend fun buyStock(
         marketId: Int,
@@ -87,7 +87,7 @@ interface ApiRepository {
 
     suspend fun summaryReport() : Result<BaseResponse<SummaryReport>>
 
-    suspend fun alertPrice(id: Int, alertPriceRequest: AlertPriceRequest) : Result<BaseResponse<AlertPriceResponse>>
+    suspend fun modifyPortfolioAlertPrice(id: Int, alertPriceRequest: AlertPriceRequest) : Result<BaseResponse<AlertPriceResponse>>
     suspend fun deleteWatchListAlert(alertId: Int) : Result<BaseResponse<DeleteAlertPriceResponse>>
     suspend fun deletePortfolioAlert(alertId: Int) : Result<BaseResponse<DeleteAlertPriceResponse>>
 

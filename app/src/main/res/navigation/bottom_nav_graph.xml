@@ -38,8 +38,8 @@
             android:id="@+id/action_nav_home_to_nav_trade"
             app:destination="@id/nav_trade" />
         <action
-            android:id="@+id/action_nav_home_to_portfolioViewFragment"
-            app:destination="@id/portfolioViewFragment" />
+            android:id="@+id/action_nav_to_portfolioTransactionFragment"
+            app:destination="@id/portfolioTransactionFragment" />
         <!-- <action
              android:id="@+id/action_nav_home_self"
              app:destination="@id/nav_home"
@@ -82,6 +82,15 @@
         android:name="com.techxform.tradintro.feature_main.presentation.trade.TradeFragment"
         android:label="@string/nav_trade"
         tools:layout="@layout/trade_fragment" />
+    <fragment
+        android:id="@+id/portfolioTransactionFragment"
+        android:name="com.techxform.tradintro.feature_main.presentation.portfolio.PortfolioTransactionsFragment"
+        android:label="portfolio_transaction_fragment"
+        tools:layout="@layout/portfolio_fragment" >
+        <action
+            android:id="@+id/action_nav_to_portfolioViewFragment"
+            app:destination="@id/portfolioViewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/portfolioViewFragment"
         android:name="com.techxform.tradintro.feature_main.presentation.portfolio_view.PortfolioViewFragment"

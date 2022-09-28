@@ -9,7 +9,7 @@ data class PortfolioDashboard(
     @SerializedName("holding_value_diff") val holdingValueDiff: Float?,
     @SerializedName("holding_value_diff_percentage") val holdingValueDiffPer: Float?,
     @SerializedName("trade_money_balance") val tradeMoneyBalance: Float?,
-    @SerializedName("total_investment") val totalInvestment: Float?,
+    @SerializedName("total_investment") val totalInvestment: Float?=0.0f,
     @SerializedName("user_id") val userId: Int,
 ) :Parcelable{
     constructor(parcel: Parcel) : this(

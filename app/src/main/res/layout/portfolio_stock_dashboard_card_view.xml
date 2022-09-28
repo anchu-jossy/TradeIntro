@@ -206,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/open_sans_light"
                 android:gravity="center"
-                android:text='@{stockDashboard.alertPrice!= null ? @string/rs_format(stockDashboard.alertPrice  ): "N/A"}'
+                android:text='@{stockDashboard.alertPrice!= null ? @string/rs_format(stockDashboard.alertPrice  ): "0"}'
                 android:textColor="@color/white"
                 android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"

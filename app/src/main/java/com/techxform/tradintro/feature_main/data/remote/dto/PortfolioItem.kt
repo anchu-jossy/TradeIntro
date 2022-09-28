@@ -27,6 +27,7 @@ data class PortfolioItem(
     @SerializedName("order_validity_date") val orderValidityDate: String,
     @SerializedName("order_email_status") val orderEmailStatus: Int,
     @SerializedName("market") val market: Stock,
+    @SerializedName("alert") val alert: Notifications?,
     @SerializedName("isEditEnabled") val isEditEnabled: Boolean,
     @SerializedName("isPriceEditEnabled") val isPriceEnabled: Boolean,
     @SerializedName("gainLossPercentage") val gainLossPercentage: Float?,
@@ -55,6 +56,7 @@ data class PortfolioItem(
         parcel.readString()!!,
         parcel.readInt(),
         parcel.readParcelable(Stock::class.java.classLoader)!!,
+        parcel.readParcelable(Notifications::class.java.classLoader)!!,
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
         parcel.readValue(Float::class.java.classLoader) as? Float,
@@ -93,6 +95,7 @@ data class PortfolioItem(
         parcel.writeString(orderValidityDate)
         parcel.writeInt(orderEmailStatus)
         parcel.writeParcelable(market, flags)
+        parcel.writeParcelable(alert, flags)
         parcel.writeByte(if (isEditEnabled) 1 else 0)
         parcel.writeByte(if (isPriceEnabled) 1 else 0)
         parcel.writeValue(gainLossPercentage)

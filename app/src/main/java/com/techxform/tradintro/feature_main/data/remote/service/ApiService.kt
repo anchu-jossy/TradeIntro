@@ -18,7 +18,7 @@ interface ApiService {
     suspend fun marketList(@QueryMap reqMap: Map<String, String?>): Response<BaseResponse<ArrayList<Stock>>>
 
     @GET("api/market/{id}")
-    suspend fun marketDetails(@Path("id") marketId: Int): Response<BaseResponse<Stock>>
+    suspend fun marketDetails(@Path("id") marketId: Int,@QueryMap reqMap: Map<String, String?>?=null): Response<BaseResponse<Stock>>
 
     @POST("/api/market/{id}/buy")
     suspend fun buyStock(

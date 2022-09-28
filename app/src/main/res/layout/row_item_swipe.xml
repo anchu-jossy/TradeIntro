@@ -41,6 +41,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.aitsuki.swipe.SwipeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:autoClose="true"
+                app:designer="@string/parallax_designer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:preview="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@color/red">
+
+                    <ImageView
+                        android:id="@+id/btn_delete"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="match_parent"
+                        app:tint="@color/white"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_delete" />
+
+                </LinearLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintContainer"
                     android:layout_width="match_parent"
@@ -62,7 +86,7 @@
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.5" />
+                        app:layout_constraintWidth_percent="0.4" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/subTitleTv"
@@ -117,7 +141,7 @@
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.45" />
+                        app:layout_constraintWidth_percent="0.3" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/perTv"
@@ -154,7 +178,7 @@
                         app:layout_constraintWidth_percent="0.3" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+            </com.aitsuki.swipe.SwipeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

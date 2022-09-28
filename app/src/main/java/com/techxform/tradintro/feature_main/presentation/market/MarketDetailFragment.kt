@@ -154,7 +154,7 @@ class MarketDetailFragment :
         builder.setView(container)
 
         watchListAlert?.let {
-            builder.setTitle(R.string.modify_alert_price_lbl)
+            builder.setTitle(R.string.watchlist_modify_alert_price_lbl)
             amountEt.setText(it.notificationPrice.toString())
             builder.setNegativeButton(
                 R.string.remove_alert_lbl
@@ -165,7 +165,7 @@ class MarketDetailFragment :
                 dialog.dismiss()
             }
         } ?: run {
-            builder.setTitle(R.string.add_alert_price_lbl)
+            builder.setTitle(R.string.add_watchlist_alert_price_lbl)
         }
         builder.setPositiveButton(
             if (watchListAlert == null) R.string.add_alert_lbl else R.string.modify_alert_lbl
@@ -387,20 +387,23 @@ class MarketDetailFragment :
                 viewModel.marketDetail(stockId)
             }
         }
-
-        viewModel.deleteWatchListErrorLiveData.observe(viewLifecycleOwner) {
-            handleError(it)
-        }
-        viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
-            handleError(it)
-        }
-
         viewModel.modifyAlertPriceErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
         viewModel.deleteAlertPriceErrorLiveData.observe(viewLifecycleOwner) {
             handleError(it)
         }
+
+        viewModel.deleteWatchListErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+
+
+
+        viewModel.marketErrorLiveData.observe(viewLifecycleOwner) {
+            handleError(it)
+        }
+
 
 
     }

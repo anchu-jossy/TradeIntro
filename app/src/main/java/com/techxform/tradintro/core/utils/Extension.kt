@@ -78,7 +78,7 @@ fun TextView.color(boolean: Boolean) {
 }
 
 fun BigDecimal.divideToPercent(divideTo: BigDecimal?): BigDecimal {
-    return if (divideTo ==null || divideTo.equals(0)) 0.0f.toBigDecimal()
+    return if (divideTo == null || divideTo.equals(0) || divideTo.toInt() ==0 ) 0.0f.toBigDecimal()
     else (this / divideTo)
 }
 

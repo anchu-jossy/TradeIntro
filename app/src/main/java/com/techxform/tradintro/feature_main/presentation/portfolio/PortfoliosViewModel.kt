@@ -12,10 +12,13 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
-class PortfolisViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
+class PortfoliosViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
 
     private var _portfolioLiveData = MutableLiveData<BaseResponse<ArrayList<PortfolioItem>>>()
     val portfolioLiveData: LiveData<BaseResponse<ArrayList<PortfolioItem>>> = _portfolioLiveData
+
+    private var _portfolioTransactionLiveData = MutableLiveData<BaseResponse<ArrayList<PortfolioItem>>>()
+    val portfolioTransactionLiveData: LiveData<BaseResponse<ArrayList<PortfolioItem>>> = _portfolioTransactionLiveData
 
 
     private var selectedPortfolioItem: PortfolioItem? = null
@@ -41,7 +44,55 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
     private var _loadingSearchLiveData = MutableLiveData<Boolean>()
     val loadingSearchLiveData: LiveData<Boolean> = _loadingSearchLiveData
 
+    private var _modifyAlertPriceLiveData = MutableLiveData<BaseResponse<AlertPriceResponse>>()
+    val modifyAlertPriceLiveData: LiveData<BaseResponse<AlertPriceResponse>> = _modifyAlertPriceLiveData
+
+    private var _modifyAlertPriceErrorLiveData = MutableLiveData<Failure>()
+    val modifyAlertPriceErrorLiveData: LiveData<Failure> = _modifyAlertPriceErrorLiveData
+
+    private var _deleteAlertPriceLiveData = MutableLiveData<BaseResponse<DeleteAlertPriceResponse>>()
+    val deleteAlertPriceLiveData: LiveData<BaseResponse<DeleteAlertPriceResponse>> = _deleteAlertPriceLiveData
+
+    private var _deleteAlertPriceErrorLiveData = MutableLiveData<Failure>()
+    val deleteAlertPriceErrorLiveData: LiveData<Failure> = _deleteAlertPriceErrorLiveData
+
     private lateinit var job: Job
+
+    fun clearTransactionList(){
+        _portfolioTransactionLiveData.postValue(null)
+    }
+
+    fun modifyPortfolioAlertPrice(orderId:Int, alertPriceRequest: AlertPriceRequest)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.modifyPortfolioAlertPrice(orderId, alertPriceRequest)) {
+                is Result.Success -> {
+                    _modifyAlertPriceLiveData.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _modifyAlertPriceErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
+
+    fun deleteAlertPrice(notificationId:Int)
+    {
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.Default) {
+            when (val result = repository.deletePortfolioAlert(notificationId)) {
+                is Result.Success -> {
+                    _deleteAlertPriceLiveData.postValue(result.data)
+                }
+                is Result.Error -> {
+                    _deleteAlertPriceErrorLiveData.postValue(result.exception)
+                }
+            }
+            _loadingLiveData.postValue(false)
+        }
+    }
 
 
     fun portfolioListV2(searchModel: SearchModel, showLoading: Boolean) {
@@ -68,6 +119,30 @@ class PortfolisViewModel @Inject constructor(private val repository: ApiReposito
 
     }
 
+
+    fun portfolioListV2Transaction(searchModel: SearchModel, showLoading: Boolean) {
+
+        _loadingSearchLiveData.postValue(showLoading)
+        if (::job.isInitialized && job.isActive)
+            runBlocking {
+                job.cancelAndJoin()
+            }
+        job = viewModelScope.launch(Dispatchers.Default) {
+            delay(500L)
+            //_loadingLiveData.postValue(true)
+            when (val result = repository.portfolioV2(searchModel)) {
+                is Result.Success -> {
+                    _portfolioTransactionLiveData.postValue(result.data!!)
+                }
+                is Result.Error -> {
+                    _portfolioErrorLiveData.postValue(result.exception)
+                }
+            }
+
+        }
+
+
+    }
 
     fun portfolioDashboardV2() {
         _loadingLiveData.postValue(true)

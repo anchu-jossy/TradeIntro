@@ -116,8 +116,8 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun marketDetails(marketId: Int): Result<BaseResponse<Stock>> {
-        return apiCall{apiService.marketDetails(marketId)}
+    override suspend fun marketDetails(marketId: Int,query:Map<String, String?>?): Result<BaseResponse<Stock>> {
+        return apiCall{apiService.marketDetails(marketId,query)}
     }
 
 
@@ -549,7 +549,7 @@ class ApiDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun alertPrice(
+    override suspend fun modifyPortfolioAlertPrice(
         id: Int,
         alertPriceRequest: AlertPriceRequest
     ): Result<BaseResponse<AlertPriceResponse>> {

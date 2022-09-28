@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/open_sans_medium"
                 android:gravity="end"
-                android:text="@{@string/rs_format(portfolioDashboard.totalInvestment)}"
+                android:text='@{portfolioDashboard.totalInvestment != null ? @string/rs_format(portfolioDashboard.totalInvestment) : ""}'
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintEnd_toEndOf="parent"

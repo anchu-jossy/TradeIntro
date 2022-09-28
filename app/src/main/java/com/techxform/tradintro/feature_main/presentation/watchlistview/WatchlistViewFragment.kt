@@ -126,7 +126,7 @@ class WatchlistViewFragment :
         builder.setView(container)
 
         watchList.alert?.let {
-            builder.setTitle(R.string.modify_alert_price_lbl)
+            builder.setTitle(R.string.watchlist_modify_alert_price_lbl)
             amountEt.setText(it.notificationPrice.toString())
             builder.setNegativeButton(
                 R.string.remove_alert_lbl
@@ -138,7 +138,7 @@ class WatchlistViewFragment :
                 dialog.dismiss()
             }
         } ?: run {
-            builder.setTitle(R.string.add_alert_price_lbl)
+            builder.setTitle(R.string.add_watchlist_alert_price_lbl)
         }
         builder.setPositiveButton(
             if (watchList.alert == null) R.string.add_alert_lbl else R.string.modify_alert_lbl

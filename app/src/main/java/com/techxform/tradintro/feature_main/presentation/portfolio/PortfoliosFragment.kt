@@ -5,17 +5,15 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.techxform.tradintro.R
 import com.techxform.tradintro.core.base.BaseFragment
-import com.techxform.tradintro.core.utils.ScreenType
 import com.techxform.tradintro.databinding.PortfolisFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.PortfolioItem
@@ -23,16 +21,14 @@ import com.techxform.tradintro.feature_main.domain.model.SearchModel
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
-import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PortfoliosFragment :
-    BaseFragment<PortfolisFragmentBinding>(PortfolisFragmentBinding::inflate),
-    View.OnClickListener {
+    BaseFragment<PortfolisFragmentBinding>(PortfolisFragmentBinding::inflate) {
 
 
-    private lateinit var viewModel: PortfolisViewModel
+    private val viewModel: PortfoliosViewModel by activityViewModels()
     private var portfolioList: ArrayList<PortfolioItem> = arrayListOf()
 
     private var adapter: PortfolioAdapter? = null
@@ -44,10 +40,9 @@ class PortfoliosFragment :
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
-        viewModel = ViewModelProvider(this)[PortfolisViewModel::class.java]
-        observers()
+        portfolioList.clear()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -61,12 +56,12 @@ class PortfoliosFragment :
         searchTextListener = binding.searchView.addTextChangedListener {
             if (binding.searchView.text.toString().isNotEmpty()) {
                 prevSearchTerm = binding.searchView.text.toString()
-                portfolioList.clear()
+                clearItemList()
                 viewModel.portfolioListV2(
                     SearchModel(
                         binding.searchView.text.toString().trim(),
                         limit,
-                        viewModel.getSelectedPortfolio()?.orderStockId?.toString(),
+                        null,
                         0,
                         0
                     ), true
@@ -78,7 +73,7 @@ class PortfoliosFragment :
                 viewModel.portfolioListV2(
                     SearchModel(
                         null, limit,
-                        viewModel.getSelectedPortfolio()?.orderStockId?.toString(),
+                        null,
                         0, 0
                     ), true
                 )
@@ -101,10 +96,10 @@ class PortfoliosFragment :
                             SearchModel(
                                 binding.searchView.text.toString().trim(),
                                 limit,
-                                viewModel.getSelectedPortfolio()?.orderStockId?.toString(),
+                                null,
                                 portfolioList.size,
                                 0
-                            ), totalItemCount>8
+                            ), totalItemCount > 8
                         )
                     }
 
@@ -112,27 +107,35 @@ class PortfoliosFragment :
             }
 
         })
-
-        activity?.onBackPressedDispatcher?.addCallback(
-            viewLifecycleOwner,onBackPressedCallback
-           )
-
-
-        reloadScreen(viewModel.isStockSelected(), viewModel.getSelectedPortfolio(), true);
-        binding.sellBtn.setOnClickListener(this)
-        binding.buyBtn.setOnClickListener(this)
+        reloadScreen()
+        setAdapter()
+        observers()
     }
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (getFragment() is PortfoliosFragment) {
-                if (viewModel.getSelectedPortfolio() != null) {
-                    viewModel.setSelectedPortfolioItem(null)
-                    reloadScreen()
-                } else findNavController().navigateUp()
-            } else findNavController().navigateUp()
-        }
+    private fun reloadScreen() {
+        binding.showPortfolioStockDashboard = false;
+        binding.searchView.visibility = View.VISIBLE
+        binding.lvBtn.visibility = View.GONE
+
+        binding.portfolioLbl.setText(
+            R.string.portfolio_list_lbl
+        )
+
+        viewModel.setSelectedPortfolioItem(null)
+
+        adapter = null
+        viewModel.portfolioDashboardV2()
+        //portfolioList.clear()
+        if (portfolioList.isEmpty())
+            viewModel.portfolioListV2(
+                SearchModel(
+                    "", limit,
+                    null,
+                    portfolioList.size, 0
+                ), false
+            )
     }
+
 
     private fun clearSearchView() {
         binding.searchView.removeTextChangedListener(searchTextListener)
@@ -143,40 +146,30 @@ class PortfoliosFragment :
 
     private val rvListener = object : PortfolioAdapter.ClickListener {
         override fun onItemClick(portfolioItem: PortfolioItem, position: Int) {
-            if (viewModel.getSelectedPortfolio() == null) {
-                noMorePages = false
-                prevSearchTerm = ""
-                clearSearchView()
-                reloadScreen(true, portfolioItem)
-            } else {
-                portfolioList.clear()
-                viewModel.clearPortfolioList()
-                val bundle = bundleOf(
-                    "orderId" to portfolioItem.orderId,
-                    "StockDashboard" to binding.stockDashboard,
-                    "PortfolioItem" to portfolioItem
-                )
-                findNavController().navigate(R.id.action_nav_home_to_portfolioViewFragment, bundle)
-            }
-
+            prevSearchTerm = ""
+            clearSearchView()
+            viewModel.setSelectedPortfolioItem(portfolioItem)
+            viewModel.clearTransactionList()
+            findNavController().navigate(R.id.action_nav_to_portfolioTransactionFragment)
         }
-
     }
 
     private fun observers() {
         viewModel.portfolioLiveData.observe(viewLifecycleOwner) {
-            binding.searchView.isEnabled = true
-            if (it.data.isEmpty() || it.data.size < limit) {
-                if (it.data.isEmpty() && viewModel.isStockSelected()) {
-                    // viewModel.dismissLoading()
-                    return@observe
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                binding.searchView.isEnabled = true
+                if (it.data.isEmpty() || it.data.size < limit) {
+                    if (it.data.isEmpty() && viewModel.isStockSelected()) {
+                        // viewModel.dismissLoading()
+                        return@observe
+                    }
+                    noMorePages = true
                 }
-                noMorePages = true
+                portfolioList.addAll(it.data)
+                setAdapter()
+                isLoading = false
+                viewModel.dismissLoading()
             }
-            portfolioList.addAll(it.data)
-            setAdapter()
-            isLoading = false
-            viewModel.dismissLoading()
         }
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.progressOverlay.isVisible = it
@@ -193,9 +186,6 @@ class PortfoliosFragment :
         viewModel.portfolioDashboardLiveData.observe(viewLifecycleOwner) {
             binding.portfolioDashboard = it.data
         }
-        viewModel.portfolioDashboardOfStockLiveData.observe(viewLifecycleOwner) {
-            binding.stockDashboard = it.data
-        }
 
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
             isLoading = false
@@ -207,7 +197,9 @@ class PortfoliosFragment :
             handleError(it)
             viewModel.dismissLoading()
         }
+
     }
+
 
     private fun setAdapter() {
         if (portfolioList.isEmpty()) {
@@ -227,67 +219,16 @@ class PortfoliosFragment :
         }
     }
 
-
-    private fun reloadScreen(
-        isStockSelected: Boolean = false,
-        selectedPortfolio: PortfolioItem? = null, isFirstTime: Boolean = false
-    ) {
-        binding.showPortfolioStockDashboard = isStockSelected;
-        binding.searchView.visibility = if (isStockSelected) View.GONE else View.VISIBLE
-        binding.lvBtn.visibility = if (isStockSelected) View.VISIBLE else View.GONE
-
-        binding.portfolioLbl.setText(
-            if (isStockSelected) R.string.transaction_list_lbl else
-                R.string.portfolio_list_lbl
-        )
-
-        viewModel.setSelectedPortfolioItem(selectedPortfolio)
-        adapter = null
-        if (isStockSelected && selectedPortfolio != null) {
-            viewModel.portfolioDashboardOfStock(selectedPortfolio.orderStockId)
-        } else {
-            viewModel.portfolioDashboardV2()
-        }
+    private fun clearItemList() {
         portfolioList.clear()
-        if (portfolioList.isEmpty())
-            viewModel.portfolioListV2(
-                SearchModel(
-                    "", limit,
-                    viewModel.getSelectedPortfolio()?.orderStockId?.toString(),
-                    portfolioList.size, 0
-                ), false
-            )
-    }
-
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-            R.id.buyBtn -> {
-                viewModel.getSelectedPortfolio()?.let {
-                    findNavController().navigate(
-                        R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(
-                            it.market.stockId,
-                            EqualityPlaceOrderFragment.BUY, ScreenType.PORTFOLIO, it.market
-                        )
-                    )
-                }
-            }
-            R.id.sellBtn -> {
-                viewModel.getSelectedPortfolio()?.let {
-                    findNavController().navigate(
-                        R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(
-                            it.market.stockId,
-                            EqualityPlaceOrderFragment.SELL,
-                            ScreenType.PORTFOLIO,
-                            it.market
-                        )
-                    )
-                }
-            }
+        adapter?.let {
+            it.list.clear()
+            it.notifyDataSetChanged()
         }
     }
 
-    private fun handleError(failure: Failure)
-    {
+
+    private fun handleError(failure: Failure) {
         when (failure) {
             Failure.NetworkConnection -> {
                 sequenceOf(
@@ -295,7 +236,7 @@ class PortfoliosFragment :
 
                 )
             }
-            Failure.ServerError-> {
+            Failure.ServerError -> {
                 requireContext().showShortToast(getString(R.string.server_error))
 
             }
@@ -304,13 +245,6 @@ class PortfoliosFragment :
                 requireContext().showShortToast("Error: $errorMsg")
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-//unregister listener here
-        onBackPressedCallback.isEnabled = false
-        onBackPressedCallback.remove()
     }
 
 }
