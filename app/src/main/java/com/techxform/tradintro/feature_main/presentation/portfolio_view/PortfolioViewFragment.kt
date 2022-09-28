@@ -19,7 +19,6 @@ import com.techxform.tradintro.feature_main.domain.model.FilterModel
 import com.techxform.tradintro.feature_main.domain.model.PriceType
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment
-import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.BUY
 import com.techxform.tradintro.feature_main.presentation.equality_place_order.EqualityPlaceOrderFragment.Companion.SELL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
