@@ -271,7 +271,7 @@ class EqualityPlaceOrderFragment :
                     texthighLow.text = it
                 }
                 exchangeTv.text =
-                    stockHistoryCode?.split(".")?.get(1) ?: ""
+                   formatCode()
 
                 orderPrice =
                     (stockHistoryHigh + stockHistoryLow) / 2
