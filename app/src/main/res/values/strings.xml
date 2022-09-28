@@ -68,6 +68,7 @@
     <string name="back_lbl">Back</string>
     <string name="add_stock_lbl">Add Stock</string>
     <string name="exchange_lbl">Exchange </string>
+    <string name="stock_name_lbl">Stock Name </string>
     <string name="stock_info_lbl">Stock Info </string>
     <string name="watchlist_price_lbl">Watchlist Price</string>
     <string name="high_lbl">High</string>
@@ -91,7 +92,7 @@
     <string name="current_password_lbl">Current Password</string>
     <string name="new_password_lbl">New Password</string>
     <string name="confirm_password_lbl">Confirm New Password</string>
-    <string name="balance_lbl">Wallet Balance</string>
+    <string name="balance_lbl">Balance</string>
     <string name="balance_info_lbl">Wallet Info</string>
     <string name="last_allocation_on_lbl">Last Recharge On</string>
     <string name="last_allocation_amount_lbl">Last Recharge Amount</string>
@@ -109,7 +110,7 @@
     <string name="order_validity_lbl">Order Validity</string>
     <string name="order_validity_date_lbl">Validity Date</string>
 
-    <string name="limited_prize_lbl">Limit Prize</string>
+    <string name="limited_prize_lbl">Limit Price</string>
     <string name="charges_lbl">Charges</string>
     <string name="buy_amount_lbl">Buy Amount</string>
     <string name="colon_lbl">:</string>
@@ -173,6 +174,7 @@
     <string name="watch_list_label">Watch List</string>
     <string name="alert_price_label">Alert Price</string>
     <string name="order_stock">Order Stock</string>
+    <string name="equity_place_order_lbl">Equity Place Order</string>
     <string name="sell_stock">Sell Stock</string>
     <string name="usable_balance">Usable Balance</string>
     <string name="nodata">No data available</string>
@@ -267,6 +269,7 @@
     <string name="quantity">Quantity</string>
     <string name="add_to_watchlist_lbl">Add to Watchlist</string>
     <string name="set_alert_price_lbl">Set Alert Price</string>
+    <string name="edit_alert_price_lbl">Edit Alert Price</string>
     <string name="mail_subject">Crash Report</string>
     <string name="mail_body">Cause</string>
 
@@ -282,6 +285,8 @@
     <string name="modify_alert_lbl">Modify Alert</string>
     <string name="add_alert_lbl">Add Alert</string>
     <string name="enter_alert_price_lbl">Enter Valid Alert Price</string>
+    <string name="set_alert_lbl">Set Alert</string>
+<!--    <string name="enter_alert_price_lbl">Enter Alert Price</string>-->
     <string name="delete_acc">Delete Account</string>
     <string name="acc_delete">Account deleted successfully</string>
 
@@ -289,7 +294,7 @@
     <string name="edit">Edit</string>
     <string name="stock_name">StockName</string>
     <string name="stock_id">StockId</string>
-    <string name="update_success">Success! Your order is successfully placed</string>
+   <string name="update_success">Success! Your order is successfully placed</string>
     <string name="validate_fields">"Fill all fields "</string>
     <string name="added_to_watchlist">Successfully added to watchlist</string>
     <string name="removed_to_watchlist">Successfully removed from watchlist</string>
@@ -325,6 +330,7 @@
     <string name="logout_account_lbl">Logout Account</string>
     <string name="stock_code_api_code_format">%s(%1$s)</string>
     <string name="no_report_data_placeholder">No report data available</string>
+    <string name="dismiss_lbl">Dismiss</string>
 
 
 </resources>

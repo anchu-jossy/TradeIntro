@@ -107,7 +107,23 @@ class MarketDetailFragment :
 
 
         binding.setAlertPriceBtn.setOnClickListener {
-            alertPriceSetDialog()
+            //alertPriceSetDialog()
+            alertPriceSetDialog(watchListAlert,::posListener ,  ::negListener)
+        }
+    }
+
+    private fun negListener(id:Int) {
+        viewModel.deleteAlertPrice(
+            notificationId = id
+        )
+    }
+
+    private fun posListener(amount: Double) {
+        watchListId?.let {
+            viewModel.modifyWatchListAlertPrice(
+                it,
+                AlertPriceRequest(amount)
+            )
         }
     }
 

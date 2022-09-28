@@ -41,7 +41,7 @@ class EqualityPlaceOrderFragment :
     private var orderId: Int = 0
     private lateinit var isBuyOrSell: String
     private val myCalendar = Calendar.getInstance()
-    private var quantity: Int = 1
+    private var quantity: Int = 0
     lateinit var market: Stock
     private var userId by Delegates.notNull<Int>()
     private var screenType: Int = 0
@@ -91,7 +91,8 @@ class EqualityPlaceOrderFragment :
             isBuyOrSell = it as String
             binding.buttonBuy.text = isBuyOrSell
             if (isBuyOrSell == BUY) {
-                binding.titleTv.text = getString(R.string.order_stock)
+                binding.titleTv.text = getString(R.string.equity_place_order_lbl)
+                enableDisableFields(false)
             } else {
                 binding.titleTv.text = getString(R.string.sell_stock)
             }
@@ -114,10 +115,10 @@ class EqualityPlaceOrderFragment :
         binding.radioGrp.check(R.id.marketRb)
         setChargesAndBuyAmount()
         binding.quantityEt.addTextChangedListener {
-            if (it.toString() == "") {
-                quantity = 1
-                binding.quantityEt.setText("1")
-            } else quantity = it.toString().toInt()
+            quantity = if (it.toString() == "") {
+                0
+                //binding.quantityEt.setText("")
+            } else it.toString().toInt()
 
 
             orderPrice =
@@ -140,9 +141,9 @@ class EqualityPlaceOrderFragment :
         }
 
         binding.limitPrizeEt.addTextChangedListener {
-            if (it.toString() == "") {
-                binding.limitPrizeEt.setText("0")
-            }
+            /*if (it.toString() == "") {
+                binding.limitPrizeEt.setText("")
+            }*/
             setChargesAndBuyAmount()
         }
 
@@ -159,6 +160,20 @@ class EqualityPlaceOrderFragment :
 
     }
 
+    private fun enableDisableFields(isEnabled: Boolean = true) {
+        with(binding) {
+            chargesEt.isEnabled = isEnabled
+            buyAmountEt.isEnabled = isEnabled
+            balanceEt.isEnabled = isEnabled
+            usableBalanceEt.isEnabled = isEnabled
+        }
+    }
+
+    private fun getAfterMonthsTime(cal: Calendar): Long {
+        cal.time = Date()
+        cal.add(Calendar.MONTH, 3)
+        return cal.time.time
+    }
 
     private fun observer() {
         viewModel.portfolioErrorLiveData.observe(viewLifecycleOwner) {
@@ -193,7 +208,7 @@ class EqualityPlaceOrderFragment :
 
         }
         viewModel.sellStockLiveData.observe(viewLifecycleOwner) {
-            it.data.orderId?.let {
+            it.data.orderId.let {
                 requireContext().showShortToast(
                     getString(R.string.update_success),
                 )
@@ -208,10 +223,11 @@ class EqualityPlaceOrderFragment :
 
     private fun setChargesAndBuyAmount() {
         val totalCharge = getTotalCharge(orderPrice, quantity)
-        binding.chargesEt.text =
+        binding.chargesEt.text = if(totalCharge != "0.0".toBigDecimal())
             Utils.formatBigDecimalIntoTwoDecimal(totalCharge).toPlainString()
+        else ""
 
-        binding.buyAmountEt.text = if (binding.limitRb.isChecked) {
+        val buyAmount  = if (binding.limitRb.isChecked) {
             //here limit edited price is converting to float only to use common method
             val totalStockValue =
                 getTotalStockValue(binding.limitPrizeEt.text.toString().toFloat(), quantity)
@@ -220,6 +236,7 @@ class EqualityPlaceOrderFragment :
             val totalStockValue = getTotalStockValue(orderPrice, quantity)
             getOrderTotal(totalStockValue = totalStockValue, totalCharge = totalCharge)
         }
+        binding.buyAmountEt.text = if(buyAmount == "0.00") "" else buyAmount
     }
 
     /**
@@ -239,16 +256,18 @@ class EqualityPlaceOrderFragment :
             textName1.text = market.stockName
 
             binding.limitPrizeEt.setText(
-                Utils.formatBigDecimalIntoTwoDecimal(orderPrice.toBigDecimal()).toPlainString()
+                if (orderPrice != 0.0F)
+                    Utils.formatBigDecimalIntoTwoDecimal(orderPrice.toBigDecimal())
+                        .toPlainString() else ""
             )
 
             with(market.history[0]) {
                 textdate.text = Utils.formatDateTimeString(stockHistoryDate)
                 textCode.text = stockHistoryCode?.split(".")?.get(1) ?: ""
-                ("$stockHistoryOpen,$stockHistoryClose").also {
+                ("O$stockHistoryOpen,C$stockHistoryClose").also {
                     textopenClose.text = it
                 }
-                ("$stockHistoryHigh,$stockHistoryLow").also {
+                ("H$stockHistoryHigh,L$stockHistoryLow").also {
                     texthighLow.text = it
                 }
                 exchangeTv.text =

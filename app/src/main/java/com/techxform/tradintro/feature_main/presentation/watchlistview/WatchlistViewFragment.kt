@@ -1,12 +1,9 @@
 package com.techxform.tradintro.feature_main.presentation.watchlistview
 
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -62,7 +59,7 @@ class WatchlistViewFragment :
 
     private fun listeners() {
         binding.setAlertPriceBtn.setOnClickListener {
-            alertPriceSetDialog()
+            alertPriceSetDialog(watchList.alert,::posListener ,  ::negListener)
         }
         binding.removeWatchlistBtn.setOnClickListener {
             removeWatchListConformation()
@@ -76,13 +73,27 @@ class WatchlistViewFragment :
             }
         }
         binding.sellBtn.setOnClickListener {
-            if (watchList.market != null)
-                findNavController().navigate(R.id.equalityPlaceOrderFragment,
-                    EqualityPlaceOrderFragment.navBundle(watchList.market!!.stockId,
-                        EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST, watchList.market!!))
+            if (watchList != null && watchList.market!! != null)
+                findNavController().navigate(
+                    R.id.equalityPlaceOrderFragment, EqualityPlaceOrderFragment.navBundle(
+                        watchList.market!!.stockId,
+                        EqualityPlaceOrderFragment.SELL, ScreenType.WATCHLIST, watchList.market!!
+                    )
+                )
         }
     }
-
+    private fun posListener(amount: Double) {
+        viewModel.modifyWatchListAlertPrice(
+            watchlistId,
+            AlertPriceRequest(amount)
+        )
+    }
+    private fun negListener(id:Int){
+        viewModel.modifyWatchListAlertPrice(
+            watchlistId,
+            AlertPriceRequest(0.0)
+        )
+    }
     private fun removeWatchListConformation() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.delete_watch_list_ttl)
@@ -101,10 +112,12 @@ class WatchlistViewFragment :
         alertDialog.show()
     }
 
-
     private fun alertPriceSetDialog() {
 
-        val builder = AlertDialog.Builder(requireContext())
+
+        /*val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(R.string.alert_price_lbl)
+
         val amountEt = EditText(requireContext())
         amountEt.hint = getString(R.string.alert_price_lbl)
 
@@ -117,7 +130,6 @@ class WatchlistViewFragment :
         lp.setMargins(20, 0, 20, 0)
 
         amountEt.layoutParams = lp
-        //amountEt.gravity = Gravity.TOP or Gravity.LEFT
         amountEt.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER
         amountEt.setLines(1)
         amountEt.maxLines = 1
@@ -157,11 +169,11 @@ class WatchlistViewFragment :
             }
         }
         builder.show()
-
+*/
     }
 
     private fun setWatchListAlertPrice(alertPrice: Notifications? = null) {
-        this.watchList.alert = alertPrice;
+        this.watchList.alert = alertPrice
         alertPrice?.let {
             binding.setAlertPriceBtn.setCompoundDrawablesWithIntrinsicBounds(
                 resources.getDrawable(
@@ -285,6 +297,9 @@ class WatchlistViewFragment :
             watchList = it.data
             setWatchListAlertPrice(watchList.alert)
             setGainProfit(it.data)
+            if (watchList.alert != null && watchList.alert!!.notificationPrice != 0.0f) {
+                binding.setAlertPriceBtn.setText(R.string.edit_alert_price_lbl)
+            }
         }
 
         viewModel.watchlistViewErrorLiveData.observe(viewLifecycleOwner) {
