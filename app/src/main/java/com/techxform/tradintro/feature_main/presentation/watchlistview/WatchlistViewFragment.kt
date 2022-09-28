@@ -194,90 +194,93 @@ class WatchlistViewFragment :
 
         with(binding) {
             val per = watchList.gainLossDiffAmount()
-            alertPrice.titleTv.text =
-                Utils.formatStringToTwoDecimals(watchList.alert?.notificationPrice.toString()
-                    ?: "0")
+            binding.titleTv.text =
+                Utils.formatStringToTwoDecimals(watchList.alert?.notificationPrice.toString())
             gainLossPrice.titleTv.text =
                 Utils.formatStringToTwoDecimals(watchList.gainLossDiffAmount().toString())
             gainLossPerPrice.titleTv.text = watchList.asPercentageText()
             gainLossPrice.subTitleTv.text = getString(R.string.gain_loss_lbl)
             gainLossPerPrice.subTitleTv.text = getString(R.string.per_gain_loss_lbl)
 
-            if (per < 0) {
-                gainLossPerPrice.titleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.red
+            when {
+                per < 0 -> {
+                    gainLossPerPrice.titleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
                     )
-                )
-                gainLossPerPrice.subTitleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.red
+                    gainLossPerPrice.subTitleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
                     )
-                )
-                gainLossPrice.titleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.red
+                    gainLossPrice.titleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
                     )
-                )
-                gainLossPrice.subTitleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.red
+                    gainLossPrice.subTitleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
                     )
-                )
-            } else if (per > 0) {
-                gainLossPerPrice.titleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.green
+                }
+                per > 0 -> {
+                    gainLossPerPrice.titleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.green
+                        )
                     )
-                )
-                gainLossPerPrice.subTitleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.green
+                    gainLossPerPrice.subTitleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.green
+                        )
                     )
-                )
-                gainLossPrice.titleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.green
+                    gainLossPrice.titleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.green
+                        )
                     )
-                )
-                gainLossPrice.subTitleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.green
+                    gainLossPrice.subTitleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.green
+                        )
                     )
-                )
-            } else {
-                gainLossPerPrice.titleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.black
+                }
+                else -> {
+                    gainLossPerPrice.titleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.black
+                        )
                     )
-                )
-                gainLossPerPrice.subTitleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.black
+                    gainLossPerPrice.subTitleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.black
+                        )
                     )
-                )
-                gainLossPrice.titleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.black
+                    gainLossPrice.titleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.black
+                        )
                     )
-                )
-                gainLossPrice.subTitleTv.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.black
+                    gainLossPrice.subTitleTv.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.black
+                        )
                     )
-                )
+                }
             }
 
         }

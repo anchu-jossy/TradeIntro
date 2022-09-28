@@ -15,12 +15,14 @@ object Utils {
         var second = "0"
         val splittedNum = num.split(".")
         val first = splittedNum[0]
-        return if (splittedNum[1].length > 2) {
+        return   if(splittedNum.size>1)// this condition is added to remove null pointer exceptiom
+         if (splittedNum[1].length > 2) {
             second = splittedNum[1].trimSubstring(0, 2)
             "$first.$second"
         } else {
             num
         }
+        else "0"
     }
 
     fun formatPercentageWithoutDecimals(num: String): String {

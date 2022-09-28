@@ -73,6 +73,11 @@ data class StockHistory(
     @SerializedName("stock_history_low") val stockHistoryLow: Float,
 ) : Parcelable {
 
+    fun formatCode(): String {
+        val code = stockHistoryCode?.split('.')?.get(1).toString()
+        return code.replaceFirstChar { char -> char.lowercase() }
+    }
+
 }
 
 @Parcelize
