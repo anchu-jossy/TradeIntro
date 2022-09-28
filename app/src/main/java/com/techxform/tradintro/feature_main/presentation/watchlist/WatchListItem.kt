@@ -12,24 +12,25 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.techxform.tradintro.R
 import com.techxform.tradintro.databinding.RowItemBinding
+import com.techxform.tradintro.databinding.RowItemSwipeBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.StockHistory
 import com.techxform.tradintro.feature_main.data.remote.dto.WatchList
 import com.techxform.tradintro.feature_main.presentation.utils.BaseItem
 
 class WatchListItem(val selection: (action: Action, watchList: WatchList, position: Int) -> Unit) :
-    BaseItem<RowItemBinding, WatchList>() {
+    BaseItem<RowItemSwipeBinding, WatchList>() {
 
     enum class Action {
         SELECT, DELETE
     }
 
     private var context: Context? = null
-    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): RowItemBinding {
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup): RowItemSwipeBinding {
         context = parent.context
-        return RowItemBinding.inflate(inflater, parent, false)
+        return RowItemSwipeBinding.inflate(inflater, parent, false)
     }
 
-    override val bindFun = fun(binding: RowItemBinding, position: Int, item: WatchList) {
+    override val bindFun = fun(binding: RowItemSwipeBinding, position: Int, item: WatchList) {
         binding.rowType = -1
         binding.watchlist = item
         if (position % 2 == 0) {
@@ -48,7 +49,7 @@ class WatchListItem(val selection: (action: Action, watchList: WatchList, positi
             )
         }
         binding.constraintContainer.setOnClickListener {
-            Log.e("delete", position.toString())
+
             selection(Action.SELECT, item, position)
         }
 
@@ -79,7 +80,7 @@ class WatchListItem(val selection: (action: Action, watchList: WatchList, positi
     }
 
 
-    private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemBinding) {
+    private fun drawChart(@ColorInt color: Int, values: ArrayList<Entry>, binding: RowItemSwipeBinding) {
         var set1 = LineDataSet(values, "Sample Data")
         set1.color = color
         set1.setDrawIcons(false)
