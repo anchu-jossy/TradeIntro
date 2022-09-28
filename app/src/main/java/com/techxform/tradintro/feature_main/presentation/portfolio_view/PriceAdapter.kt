@@ -25,9 +25,9 @@ class PriceAdapter(val list: ArrayList<PriceType>) :
                    .toString()
             else if( list[absoluteAdapterPosition].text.isNullOrEmpty()) {
                 itemViewBinding.titleTv.text = itemViewBinding.root.context.getString(
-                    R.string.rs_format_string,
-                    Utils.formatStringToTwoDecimals(list[absoluteAdapterPosition].amount.toString())
-                )
+                    R.string.rs_format,
+                    list[absoluteAdapterPosition].amount)
+
             }else{
                 val text=list[absoluteAdapterPosition].text
                 itemViewBinding.titleTv.text=text

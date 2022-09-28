@@ -1,9 +1,7 @@
 package com.techxform.tradintro.feature_main.presentation.recharge_trade_money
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,6 @@ import com.techxform.tradintro.core.utils.UserDetailsSingleton
 import com.techxform.tradintro.databinding.RechargeTradeMoneyFragmentBinding
 import com.techxform.tradintro.feature_main.data.remote.dto.Failure
 import com.techxform.tradintro.feature_main.data.remote.dto.UpdateWalletRequest
-import com.techxform.tradintro.feature_main.domain.model.PaymentType
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisibiltyGone
 import com.techxform.tradintro.feature_main.domain.util.Utils.setVisible
 import com.techxform.tradintro.feature_main.domain.util.Utils.showShortToast
@@ -52,7 +49,7 @@ class RechargeTradeMoneyFragment :
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private var rechargeAmount: Int? = null;
+    private var rechargeAmount: Int? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val options = resources.getStringArray(R.array.recharge_amount_options)
@@ -66,8 +63,8 @@ class RechargeTradeMoneyFragment :
                         calculateNetAmount(0)
                         return
                     } else {
-                        val chosen = options[p2];
-                        val value = chosen.split(" ")[0];
+                        val chosen = options[p2]
+                        val value = chosen.split(" ")[0]
                         rechargeAmount = (userMargin?.let {
                             (value.toInt() * 100000).div(
                                 it
@@ -88,7 +85,7 @@ class RechargeTradeMoneyFragment :
 
         binding.tabLayout.addTab(
             binding.tabLayout.newTab().setText(getString(R.string.recharge_lbl))
-        );
+        )
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.redeem_lbl)))
         binding.redeemVoucherContainer.linearLayout.setVisibiltyGone()
         binding.rechargeTradeMoneyContainer.linearLayout.setVisible()
@@ -154,7 +151,7 @@ class RechargeTradeMoneyFragment :
             with(binding) {
                 val s =
                     getString(R.string.trade_money_balance_formatted).format(it.data.tradeMoneyBalance.toString())
-                binding.tvBalance.text = s
+                tvBalance.text = s
             }
         }
         //1 lakh to 10 as tradmoney ->
@@ -178,8 +175,8 @@ class RechargeTradeMoneyFragment :
                 alert.setMessage(
                     getString(R.string.voucher_redeemed_success_msg) +
                             getString(
-                                R.string.rs_format_string,
-                                it.data.voucherAmount.toString()
+                                R.string.rs_format,
+                                it.data.voucherAmount
                             )
                 )
                 alert.setPositiveButton(
@@ -208,7 +205,7 @@ class RechargeTradeMoneyFragment :
 
 
     private var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             viewModel.walletSummary(null)
             binding.rechargeTradeMoneyContainer.label1Et.setSelection(0)
         }
