@@ -144,6 +144,7 @@ class EqualityPlaceOrderFragment :
             /*if (it.toString() == "") {
                 binding.limitPrizeEt.setText("")
             }*/
+
             setChargesAndBuyAmount()
         }
 
